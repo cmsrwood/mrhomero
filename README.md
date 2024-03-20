@@ -1,5 +1,1 @@
-# mrhomero
-Mr Homero será un sistema de información centrado en gestion ventas, publicidad y fidelización de clientes 
-
-
-.
+Mr Homero será un sistema de información centrado en gestion ventas,  y fidelización de clientes 
