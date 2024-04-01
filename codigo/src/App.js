@@ -1,4 +1,3 @@
-
 function App() {
   return (
     <div className="container text-center bg-dark text-warning">
@@ -6,5 +5,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
