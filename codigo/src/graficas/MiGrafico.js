@@ -1,6 +1,5 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS } from 'chart.js/auto'; // Importante para Chart.js versión 3+
 
 const data = {
   labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
