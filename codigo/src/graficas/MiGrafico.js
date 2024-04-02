@@ -1,36 +1,32 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import { Chart } from 'chart.js/auto'; // Importante para Chart.js versión 3+
 
 const data = {
-  labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+  labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
   datasets: [
     {
-      label: 'Ventas',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      label: 'Ventas 2023',
+      data: [50, 60, 70, 80, 90],
+      backgroundColor: 'rgba(54, 162, 235, 0.8)',
       borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1
+    },
+    {
+      label: 'Ventas 2024',
+      data: [40, 50, 60, 70, 80],
+      backgroundColor: 'rgba(255, 206, 86, 0.8)',
+      borderColor: 'rgba(255, 206, 86, 1)',
       borderWidth: 1
     }
   ]
-};
+}
 
-const options = {
-  scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true
-        }
-      }
-    ]
-  }
-};
 export default function MiGrafico() {
   return (
     <div>
       <h2>Gráfico de Ventas</h2>
-      <Line data={data} options={options} />
+      <Bar className='text-warning' data={data}/>
     </div>
   );
 }
