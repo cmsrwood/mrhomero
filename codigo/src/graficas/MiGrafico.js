@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Chart } from 'chart.js/auto'; // Importante para Chart.js versión 3+
+import { Chart } from 'chart.js/auto';
 
 const data = {
   labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
@@ -26,7 +26,7 @@ export default function MiGrafico() {
   return (
     <div>
       <h2>Gráfico de Ventas</h2>
-      <Bar className='text-warning' data={data}/>
+      <Bar data={data}/>
     </div>
   );
 }
