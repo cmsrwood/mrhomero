@@ -1,14 +1,15 @@
 import React from 'react';
-import { Doughnut } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import { Chart } from 'chart.js/auto';
 
 const data = {
   labels: [
-    'Red',
-    'Blue',
-    'Yellow'
+    'Hamburguesas',
+    'Perros',
+    'Salchipapas'
   ],
-  datasets: [{
+  datasets: [
+    {
     label: 'My First Dataset',
     data: [300, 50, 100],
     backgroundColor: [
@@ -17,14 +18,16 @@ const data = {
       'rgb(255, 205, 86)'
     ],
     hoverOffset: 4
-  }]
+  }
+  
+]
 };
 
-export default function MiGrafico() {
+export default function MiGrafico2() {
   return (
     <div>
-      <h2>Gráfico de Ventas</h2>
-      <Doughnut data={data}/>
+      <h2>Gráfico de productos</h2>
+      <Bar data={data}/>
     </div>
   );
 }
