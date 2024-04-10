@@ -2,6 +2,7 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart } from 'chart.js/auto';
 
+export default function MiGrafico() {
 const data = {
   labels: [
     'Red',
@@ -20,7 +21,6 @@ const data = {
   }]
 };
 
-export default function MiGrafico() {
   return (
     <div>
       <h2>Gráfico de Ventas</h2>
