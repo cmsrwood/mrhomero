@@ -16,20 +16,21 @@ export default function NavegacionDefault() {
           icon.setAttribute("class","bi bi-sun-fill")
         }
       }
+      console.log(window.location)
     return (
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <Link class="navbar-brand" to="/">Mr.Homero</Link>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+            <Link className="navbar-brand" to="/">Mr.Homero</Link>
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <div className="collapse navbar-collapse" id="navbarText">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
-                <Link class="nav-link" to="/nosotros">Nosotros</Link>
-                <Link class="nav-link" to="/menu">Menú</Link>
-                <Link class="nav-link" to="/registrar">Crear mi cuenta</Link>
-                <Link class="nav-link" to="/ingresar">Ingresar</Link>
+                <Link className="nav-link mx-2" to="/nosotros"><i className="bi bi-people-fill me-1"></i>Nosotros</Link>
+                <Link className="nav-link mx-2" to="/menu"><i className="bi bi-list-ul me-1"></i>Menú</Link>
+                <Link className="nav-link mx-2" to="/registrar">Crear mi cuenta</Link>
+                <Link className="nav-link mx-2" to="/ingresar">Ingresar</Link>
                 <button  className='btn' onClick={tema}><i id="botont" className='bi bi-moon-fill'></i></button>
             </div>
         </div>
