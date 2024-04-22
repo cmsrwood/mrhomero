@@ -1,11 +1,10 @@
 import {  BrowserRouter,  Routes,  Route} from "react-router-dom";
-import Navegacion from './Plantilla/Navegacion';
-import MiGrafico from './graficas/MiGrafico';
+import NavegacionDefault from "./Plantilla/NavegacionDefault";
 function App() {
   return (
     <div className="text-center">
       <BrowserRouter>
-      <Navegacion/>
+      <NavegacionDefault/>
         <Routes>
           <Route path='/' element> </Route>
         </Routes>

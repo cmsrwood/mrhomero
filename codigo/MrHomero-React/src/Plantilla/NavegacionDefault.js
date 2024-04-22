@@ -1,13 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import logo from './img/logo.png';
+// import logo from './img/logo.png';
 
-export default function Navegacion() {
+export default function NavegacionDefault() {
 
     function tema(){
-    var index = document.getElementById('index');
+    var index = document.getElementById('html');
     var icon = document.getElementById('botont');
-        if (index.getAttribute("data-bs-theme") == "light") {
+        if (index.getAttribute("data-bs-theme") === "light") {
           index.setAttribute("data-bs-theme", "dark");
           icon.setAttribute("class","bi bi-moon-fill")
         }
