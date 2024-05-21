@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-05-2024 a las 00:41:15
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.1.25
+-- Tiempo de generación: 21-05-2024 a las 22:50:41
+-- Versión del servidor: 10.4.22-MariaDB
+-- Versión de PHP: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `categorias` (
   `id_categoria` int(12) NOT NULL,
   `cat_nom` varchar(255) NOT NULL,
   `cat_foto` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -47,7 +47,7 @@ CREATE TABLE `productos` (
   `pro_foto` varchar(255) NOT NULL,
   `pro_puntos` varchar(255) NOT NULL,
   `id_categoria` int(12) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -59,7 +59,7 @@ CREATE TABLE `recompensas` (
   `id_recomp` int(12) NOT NULL,
   `id_recomp_tipo` int(12) NOT NULL,
   `recomp_num_puntos` int(12) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -69,9 +69,8 @@ CREATE TABLE `recompensas` (
 
 CREATE TABLE `recompensas_obt` (
   `id_recomp_obt` int(12) NOT NULL,
-  `id_recomp` int(12) NOT NULL,
-  `id_user` int(12) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id_recomp` int(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -82,7 +81,7 @@ CREATE TABLE `recompensas_obt` (
 CREATE TABLE `roles` (
   `id_rol` int(12) NOT NULL,
   `rol` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -101,7 +100,7 @@ INSERT INTO `roles` (`id_rol`, `rol`) VALUES
 CREATE TABLE `tipo_documento` (
   `id_tip_doc` int(12) NOT NULL,
   `tip_doc` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `tipo_documento`
@@ -119,7 +118,7 @@ INSERT INTO `tipo_documento` (`id_tip_doc`, `tip_doc`) VALUES
 CREATE TABLE `tipo_recompensa` (
   `id_recomp_tipo` int(12) NOT NULL,
   `recomp_tipo` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -140,7 +139,7 @@ CREATE TABLE `usuarios` (
   `user_fecha_nac` date NOT NULL,
   `user_pass` varchar(255) NOT NULL,
   `id_rol` int(12) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -155,7 +154,7 @@ CREATE TABLE `ventas` (
   `venta_puntos` int(11) NOT NULL,
   `id_user` int(12) NOT NULL,
   `venta_total` int(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Índices para tablas volcadas
@@ -186,7 +185,6 @@ ALTER TABLE `recompensas`
 --
 ALTER TABLE `recompensas_obt`
   ADD PRIMARY KEY (`id_recomp_obt`),
-  ADD KEY `usuario que reclama recompesa` (`id_user`),
   ADD KEY `recompensa` (`id_recomp`);
 
 --
@@ -302,8 +300,7 @@ ALTER TABLE `recompensas`
 -- Filtros para la tabla `recompensas_obt`
 --
 ALTER TABLE `recompensas_obt`
-  ADD CONSTRAINT `recompensa` FOREIGN KEY (`id_recomp`) REFERENCES `recompensas` (`id_recomp`),
-  ADD CONSTRAINT `usuario que reclama recompesa` FOREIGN KEY (`id_user`) REFERENCES `usuarios` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `recompensa` FOREIGN KEY (`id_recomp`) REFERENCES `recompensas` (`id_recomp`);
 
 --
 -- Filtros para la tabla `usuarios`
