@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from './img/logo.png';
+import logo from './img/img.png';
 
 export default function IndexDefault() {
   return (
@@ -7,13 +7,13 @@ export default function IndexDefault() {
       <div id="carouselExample" class="carousel slide ">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src={logo} class="d-block w-50" alt="..."/>
+            <img src={logo} class="d-block w-100 h-50" alt="..."/>
           </div>
           <div class="carousel-item">
-            <img src={logo} class="d-block w-50" alt="..."/>
+            <img src={logo} class="d-block w-100" alt="..."/>
           </div>
           <div class="carousel-item">
-            <img src={logo} class="d-block w-50" alt="..."/>
+            <img src={logo} class="d-block w-100" alt="..."/>
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">

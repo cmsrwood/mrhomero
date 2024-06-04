@@ -1,7 +1,5 @@
 import {  BrowserRouter,  Routes,  Route} from "react-router-dom";
 import NavegacionDefault from "./Plantilla/NavegacionDefault";
-import MiGrafico from "./Graficas/MiGrafico"
-import Index from "./Pages/default/Index";
 import IndexDefault from "./Pages/default/Index";
 function App() {
   return (
