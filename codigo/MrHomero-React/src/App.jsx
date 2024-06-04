@@ -3,7 +3,7 @@ import NavegacionDefault from "./Plantilla/NavegacionDefault";
 import IndexDefault from "./Pages/default/Index";
 function App() {
   return (
-    <div className="text-center">
+    <div className="">
       <BrowserRouter>
       <NavegacionDefault/>
         <Routes>

@@ -25,6 +25,9 @@ export default function IndexDefault() {
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+      <div className="container">
+        <h1>Si lo que buscas es sabor <br /> Mr. Homero es el mejor</h1>
+      </div>
     </div>
   )
 }
