@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from './img/logo.png';
 
-export default function Index() {
+export default function IndexDefault() {
   return (
     <div className=''>
       <div id="carouselExample" class="carousel slide ">
