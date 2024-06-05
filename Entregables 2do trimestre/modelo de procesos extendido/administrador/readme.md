@@ -1,0 +1,1 @@
+Digramas de procesos para el administrador
