@@ -3,18 +3,19 @@ import React from 'react'
 import logo from './img/img.png';
 
 export default function IndexDefault() {
+  const heightCarrouselImg = 200
   return (
     <div className=''>
       <div id="carouselExample" className="carousel slide mb-5 ">
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <img height={200} src={logo} className="d-block w-100" alt="..."/>
+            <img height={heightCarrouselImg} src={logo} className="d-block w-100" alt="..."/>
           </div>
           <div className="carousel-item">
-            <img height={200} src={logo} className="d-block w-100" alt="..."/>
+            <img height={heightCarrouselImg} src={logo} className="d-block w-100" alt="..."/>
           </div>
           <div className="carousel-item">
-            <img height={200} src={logo} className="d-block w-100" alt="..."/>
+            <img height={heightCarrouselImg} src={logo} className="d-block w-100" alt="..."/>
           </div>
         </div>
         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
