@@ -6,7 +6,7 @@ import img from './img/img.png';
 export default function Nosotros() {
 
   return (
-    <div className='container p-5'>
+    <div className='container p-5'> 
         <h1 className='text-center '>Nosotros</h1>
         <div className="row justify-content-between align-items-center">
                 <div className="col-12 col-sm-8 order-last order-md-first">
