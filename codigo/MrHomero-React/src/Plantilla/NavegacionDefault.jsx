@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 export default function NavegacionDefault() {
     const location = useLocation();
     const ruta = location.pathname.split("/")[1];
+    
     function tema(){
     var index = document.getElementById('html');
     var icon = document.getElementById('botont');
