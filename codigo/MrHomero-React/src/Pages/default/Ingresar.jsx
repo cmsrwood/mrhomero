@@ -1,10 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 
-export default function Login() {
+export default function Ingresar() {
   return (
     <div>
-      
+      LOGIN
     </div>
   )
 }

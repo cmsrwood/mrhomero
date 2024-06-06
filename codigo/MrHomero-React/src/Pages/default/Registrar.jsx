@@ -3,38 +3,34 @@ import React from 'react'
 
 export default function Registrar() {
   return (
-    <div className='container p-5'>
+    <div className='container px-5'>
       <form action="">
-        <div className='text-center'>
-          <h1 className='text-warning'>Registrar</h1>
-          <p>Crear una cuenta</p>
-          <p>Inicia sesion con Google</p>
-          <button className='btn'><i className="bi bi-google"></i></button>
+        <div className='text-center my-3'>
+          <h2 className='text-warning'>Registro</h2>
+          <p>Crear una cuenta <br /> <small>Inicia sesion con Google</small></p>
+          <button className='btn btn-light rounded-5'><i className="bi bi-google"></i></button>
         </div>
         <div className="form-floating mb-3">
-          <input
-            type="text"
-            className="form-control"
-            id="floatingInput"
-            placeholder="nombre"
-          />
+          <input type="text" className="form-control "id="floatingInput" placeholder="nombre"/>
           <label htmlFor="floatingInput">Nombre</label>
-        </div>
-        <div className="form-floating mb-3">
-          <input
-            type="text"
-            className="form-control"
-            id="floatingInput"
-            placeholder="apellidos"
-          />
-          <label htmlFor="floatingInput">Apellidos</label>
         </div>
         <div className="form-floating mb-3">
           <input type="email" className="form-control"id="floatingInput"placeholder="email"/>
           <label htmlFor="floatingInput">Email</label>
         </div>
         <div className="form-floating mb-3">
-          <input type="password" className="form-control" id="floatingInput" placeholder="contraseña"/>
+          <input type="password" className="form-control"id="floatingInput"placeholder="Contraseña"/>
+          <label htmlFor="floatingInput">Contraseña</label>
+        </div>
+        <div className="form-floating mb-3">
+          <input type="password" className="form-control"id="floatingInput"placeholder="Confirmar contraseña"/>
+          <label htmlFor="floatingInput">Confirmar contraseña</label>
+        </div>
+        <div className="text-center">
+          <button className="btn btn-dark bg-black w-100 rounded-5 mb-2 py-2" type="submit">Registrarse</button>
+          <p><small> Al registrarte, aceptas nuestras <a href="">Condiciones de uso</a> y <a href="">Politica de privacidad</a> </small></p>
+          <p className="text-center text-secondary"><small> ¿Ya tienes una cuenta? <a href="/login">Inicia sesion</a> </small></p>  
+          <p className="text-center text-secondary"><small> ¿Olvidaste tu contraseña? <a href="/login">Recuperar contraseña</a> </small></p>
         </div>
       </form>
     </div>
