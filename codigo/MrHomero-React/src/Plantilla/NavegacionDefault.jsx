@@ -24,7 +24,6 @@ export default function NavegacionDefault() {
         if (ruta === link) {
             return "text-warning"
         }
-
       }
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary shadow">
