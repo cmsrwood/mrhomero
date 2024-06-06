@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Registrar() {
   return (
@@ -28,9 +28,8 @@ export default function Registrar() {
         </div>
         <div className="text-center">
           <button className="btn btn-dark bg-black w-100 rounded-5 mb-2 py-2" type="submit">Registrarse</button>
-          <p><small> Al registrarte, aceptas nuestras <a href="">Condiciones de uso</a> y <a href="">Politica de privacidad</a> </small></p>
-          <p className="text-center text-secondary"><small> ¿Ya tienes una cuenta? <a href="/login">Inicia sesion</a> </small></p>  
-          <p className="text-center text-secondary"><small> ¿Olvidaste tu contraseña? <a href="/login">Recuperar contraseña</a> </small></p>
+          <p><small> Al registrarte, aceptas nuestras <Link to='/condiciones-de-uso' >Condiciones de uso</Link> y <Link to='/politica-de-privacidad'>Politica de privacidad</Link> </small></p>
+          <p className="text-center text-secondary"><small> ¿Ya tienes una cuenta? <Link to="/ingresar">Inicia sesion</Link> </small></p>  
         </div>
       </form>
     </div>
