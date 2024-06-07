@@ -26,7 +26,7 @@ export default function Menu() {
                     <button className="col-1 btn btn-warning ">Ver todo</button>
                 </div>
             </div>
-            <div id="carouselExample" class="carousel slide">
+            <div id="carouselExample" className="carousel slide">
                 <div className="carousel-inner">
                     <div className="carousel-item active">
                         <div className="row">
