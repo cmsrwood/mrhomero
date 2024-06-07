@@ -1,3 +1,5 @@
+import React from 'react'
+
 export default function Menu() {
 
     function cards(times) {
