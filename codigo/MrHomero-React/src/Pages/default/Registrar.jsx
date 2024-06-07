@@ -1,10 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 export default function Registrar() {
+
+  const registrar = () => {
+    Swal.fire({
+      title: 'Cuenta creada',
+      text: 'Ya puedes iniciar sesion',
+      icon: 'success',
+      confirmButtonText: 'Iniciar sesion'
+    })
+  }
+
   return (
     <div className='container px-5'>
-      <form action="">
+      <form>
         <div className='text-center my-3'>
           <h2 className='text-warning'>Registro</h2>
           <p>Crear una cuenta <br /> <small>Inicia sesion con Google</small></p>
@@ -27,7 +38,7 @@ export default function Registrar() {
           <label htmlFor="floatingInput">Confirmar contraseña</label>
         </div>
         <div className="text-center">
-          <button className="btn btn-dark bg-black w-100 rounded-5 mb-2 py-2" type="submit">Registrarse</button>
+          <button className="btn btn-dark bg-black w-100 rounded-5 mb-2 py-2" onClick={registrar}>Registrarse</button>
           <p><small> Al registrarte, aceptas nuestras <Link to='/condiciones-de-uso' >Condiciones de uso</Link> y <Link to='/politica-de-privacidad'>Politica de privacidad</Link> </small></p>
           <p className="text-center text-secondary"><small> ¿Ya tienes una cuenta? <Link to="/ingresar">Inicia sesion</Link> </small></p>  
         </div>
