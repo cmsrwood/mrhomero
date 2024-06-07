@@ -1,4 +1,4 @@
-export default function menu() {
+export default function Menu() {
 
     function cards(times) {
         const cards = [];
