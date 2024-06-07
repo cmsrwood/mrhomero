@@ -1,0 +1,4 @@
+.scrollable-container {
+    overflow: auto; /* Or overflow: scroll for full-height scrolling */
+    height: 300px; /* Adjust height as needed */
+}
