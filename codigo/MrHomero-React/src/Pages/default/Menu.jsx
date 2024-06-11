@@ -6,7 +6,7 @@ import 'swiper/css/bundle';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/effect-creative';
-import img from './img/img.png';
+import img from '../../../public/img.png';
 
 export default function Menu() {
 
