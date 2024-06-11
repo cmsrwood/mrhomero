@@ -1,5 +1,6 @@
 import React from 'react'
-import img from '../../../public/img.png';
+import img from '/img.png';
+
 
 export default function Nosotros() {
   return (
