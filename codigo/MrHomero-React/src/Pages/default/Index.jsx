@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import logo from '../../../public/logo.png';
-import img from '../../../public/img.png';
+import logo from '/logo.png';
+import img from '/img.png';
 
 export default function IndexDefault() {
   const heightCarrouselImg = 200
