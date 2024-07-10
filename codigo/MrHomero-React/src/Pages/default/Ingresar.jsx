@@ -6,7 +6,7 @@ import NavegacionDefault from '../../Plantilla/NavegacionDefault'
 export default function Ingresar() {
   return (
     <div className="">
-        <NavegacionDefault/>
+      <NavegacionDefault/>
       <div className='container px-5'>
         <form >
           <div className='text-center my-3'>
