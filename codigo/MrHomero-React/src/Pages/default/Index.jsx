@@ -2,11 +2,13 @@
 import React from 'react'
 import logo from '/logo.png';
 import img from '/img.png';
+import NavegacionDefault from '../../Plantilla/NavegacionDefault';
 
 export default function IndexDefault() {
   const heightCarrouselImg = 200
   return (
     <div className=''>
+      <NavegacionDefault/>
       <div id="carouselExample" className="carousel slide mb-5 ">
         <div className="carousel-inner">
           <div className="carousel-item active">

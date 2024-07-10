@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import NavegacionDefault from '../../Plantilla/NavegacionDefault'
 
 export default function Ingresar() {
   return (
     <div className='container px-5'>
+      <NavegacionDefault/>
       <form >
         <div className='text-center my-3'>
           <h2 className='text-warning'>Ingresar</h2>

@@ -9,7 +9,6 @@ function App() {
   return (
     <div className="">
       <BrowserRouter>
-      <NavegacionDefault/>
         <Routes>
           <Route exact path='/' element={<IndexDefault/>}> </Route>
           <Route path ='/nosotros' element={<Nosotros/>}> </Route>
