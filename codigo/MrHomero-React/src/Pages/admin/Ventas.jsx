@@ -14,6 +14,7 @@ export default function Ventas() {
         <table className=" table table-striped mt-5">
           <thead>
             <tr>
+              
               <th scope="col">id</th>
               <th scope="col">First</th>
               <th scope="col">Last</th>
