@@ -44,7 +44,6 @@ export default function NavegacionAdmin() {
                 </div>
             </nav>
 
-
             <div class="alert alert-info d-none d-lg-block">Resize your browser to show the responsive offcanvas toggle.</div>
 
             <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
