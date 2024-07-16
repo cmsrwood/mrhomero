@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function NavegacionAdmin() {
+export default function SidebarAdmin() {
   return (
     <div>
-      
+        
     </div>
   )
 }
