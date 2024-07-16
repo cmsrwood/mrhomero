@@ -1,6 +1,7 @@
 import React from 'react'
 import img from '/img.png';
-import NavegacionDefault from '../../Plantilla/NavegacionDefault';
+import NavegacionDefault from './Plantilla/NavegacionDefault';
+
 
 
 export default function Nosotros() {
