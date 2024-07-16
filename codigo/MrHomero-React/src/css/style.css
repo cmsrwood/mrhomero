@@ -6,3 +6,6 @@
     overflow: scroll; 
     height: 300px;
 }
+.search-icon {
+    left: 15px;
+ }
