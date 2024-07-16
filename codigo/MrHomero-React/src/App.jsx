@@ -1,5 +1,4 @@
 import {  BrowserRouter,  Routes,  Route} from "react-router-dom";
-import NavegacionDefault from "./Plantilla/NavegacionDefault";
 import IndexDefault from "./Pages/default/Index";
 import Registrar from "./Pages/default/Registrar";
 import Ingresar from "./Pages/default/Ingresar";

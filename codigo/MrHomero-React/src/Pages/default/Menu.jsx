@@ -1,8 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import SwiperCarrousel from '../../Plantilla/SwiperCarrousel';
-import NavegacionDefault from './Plantilla/NavegacionDefault';
-
+import SwiperCarrousel from '../../Plantilla/SwiperCarrousel'
+import NavegacionDefault from './PlantillaDefault/NavegacionDefault'
 
 export default function Menu() {
 

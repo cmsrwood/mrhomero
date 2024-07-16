@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import NavegacionDefault from './Plantilla/NavegacionDefault'
+import NavegacionDefault from './PlantillaDefault/NavegacionDefault'
 
 export default function Ingresar() {
   return (

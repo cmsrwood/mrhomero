@@ -2,7 +2,7 @@
 import React from 'react'
 import logo from '/logo.png';
 import img from '/img.png';
-import NavegacionDefault from './Plantilla/NavegacionDefault';
+import NavegacionDefault from './PlantillaDefault/NavegacionDefault';
 
 export default function IndexDefault() {
   const heightCarrouselImg = 200
