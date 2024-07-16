@@ -44,14 +44,11 @@ export default function SwiperCarrousel() {
                 loop={true}
                 breakpoints={{
                     640: {
-                      slidesPerView: 1,
+                      slidesPerView: 1
                     },
                     768: {
-                      slidesPerView: 3,
-                    },
-                    1024: {
-                      slidesPerView: 5,
-                    },
+                      slidesPerView: 3
+                    }
                   }}
                 className="mySwiper2"
             >
