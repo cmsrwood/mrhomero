@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Pedidos() {
+export default function MenuAdmin() {
   return (
     <div>
       
