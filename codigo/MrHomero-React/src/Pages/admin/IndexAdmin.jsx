@@ -45,7 +45,7 @@ export default function IndexAdmin() {
           </div>
           <div className="col-12 col-sm border border-2 border-secondary text-center">
             <h3 className='pt-4'>Reseñas</h3>
-            <p className='pt-2'>⭐⭐⭐⭐⭐</p>
+            <h4 className='pt-2'>⭐⭐⭐⭐⭐</h4>
             <h4 className='pb-4'>Comentario de Google</h4>
           </div>
         </div>
