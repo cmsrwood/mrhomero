@@ -2,23 +2,27 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import Ventas from '../Ventas'
+import IndexAdmin from '../IndexAdmin'
 
 export default function NavegacionAdmin() {
     function tema() {
         var index = document.getElementById('html');
         var icon = document.getElementById('botont');
+        var sidebar = document.getElementById('sidebar');
         if (index.getAttribute("data-bs-theme") === "light") {
             index.setAttribute("data-bs-theme", "dark");
             icon.setAttribute("class", "bi bi-moon-fill text-white")
+            sidebar.setAttribute("class", "min-vh-100 pe-sm-auto pe-0 bg-dark text-white border-end")
         }
         else {
             index.setAttribute("data-bs-theme", "light");
             icon.setAttribute("class", "bi bi-sun-fill text-white")
+            sidebar.setAttribute("class", "min-vh-100 pe-sm-auto pe-0 bg-dark text-white")
         }
     }
     return (
         <div className="d-flex">
-            <div className='min-vh-100 pe-sm-auto pe-0 bg-dark text-white'>
+            <div className='min-vh-100 pe-sm-auto pe-0 bg-dark text-white border-end' id="sidebar">
                 <h1 className="fs-4 pt-3 pb-4 text-center d-none d-sm-block">Mr. Homero</h1>
                 <ul className="px-2">
                     <Link to="#" className="nav-link px-3 py-2 d-block submenu">
@@ -75,8 +79,8 @@ export default function NavegacionAdmin() {
                     </div>
                 </nav>
                 {/* Contenido */}
-                <div className="px-3 pt-4 border-start">
-                    <Ventas/>
+                <div className="px-3 pt-4">
+                    <IndexAdmin/>
                 </div>
             </div>
         </div>
