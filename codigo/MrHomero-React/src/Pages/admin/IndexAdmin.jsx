@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import MrHomero from '/logo.png'
 
 export default function IndexAdmin() {
   return (
@@ -9,42 +8,45 @@ export default function IndexAdmin() {
             <h1>Mr. Homero | Inicio</h1>
       </div>
       <div className='container border border-2 border-secondary p-3 mb-2'>
-        <h3>Bienvenido (usuario)</h3>
-        <p>Estas son algunas de las funcuiones más utilizadas por tí</p>
-        <div className='row aling items-center'>
+        <h3 className='m-3'>Bienvenido (usuario)</h3>
+        <p className='m-3'>Estas son algunas de las funcuiones más utilizadas por tí</p>
+        <div className='row aling items-center m-2'>
           <div className='col'>
             <h5>Ventas</h5> 
-            <Link className='row mx-2'>Prueba</Link>
-            <Link className='row mx-2'>Prueba</Link>
-            <Link className='row mx-2'>Prueba</Link>
+            <Link className='d-block mx-1'>Prueba</Link>
+            <Link className='d-block mx-1'>Prueba</Link>
+            <Link className='d-block mx-1'>Prueba</Link>
           </div>
           <div className='col'>
             <h5>Inventario</h5>
-            <Link className='row mx-2'>Prueba</Link>
-            <Link className='row mx-2'>Prueba</Link>
-            <Link className='row mx-2'>Prueba</Link>
+            <Link className='d-block mx-1'>Prueba</Link>
+            <Link className='d-block mx-1'>Prueba</Link>
+            <Link className='d-block mx-1'>Prueba</Link>
           </div>
           <div className='col'>
             <h5>Compras</h5>
-            <Link className='row mx-2'>Prueba</Link>
-            <Link className='row mx-2'>Prueba</Link>
-            <Link className='row mx-2'>Prueba</Link>
+            <Link className='d-block mx-1'>Prueba</Link>
+            <Link className='d-block mx-1'>Prueba</Link>
+            <Link className='d-block mx-1'>Prueba</Link>
           </div>
         </div>
       </div>
-      <div className='container'>
+      <div className='container pt-3'>
         <div className="row  g-4">
           <div className="col-12 col-sm border border-2 border-secondary  text-center">
             <h3>Visitas del aplicativo</h3>
-            <p>hola chiquito</p>
+            <p>999 Visitas recientes</p>
+            <h4>+ 8% este mes</h4>
           </div>
           <div className="col-12 col-sm border border-2 border-secondary text-center mx-0 mx-sm-3">
             <h3>Usuarios registrados</h3>
-            <p>hola chiquito¿</p>
+            <p>483 Uusarios registrados este mes</p>
+            <h4>+ 14% este mes</h4>
           </div>
           <div className="col-12 col-sm border border-2 border-secondary text-center">
             <h3>Reseñas</h3>
-            <p>hola chiquito</p>
+            <p>⭐⭐⭐⭐⭐</p>
+            <h4>Comentario de Google</h4>
           </div>
         </div>
       </div>
