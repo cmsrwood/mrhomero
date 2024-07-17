@@ -17,7 +17,7 @@ export default function NavegacionAdmin() {
         else {
             index.setAttribute("data-bs-theme", "light");
             icon.setAttribute("class", "bi bi-sun-fill text-white")
-            sidebar.setAttribute("class", "min-vh-100 pe-sm-auto pe-0 bg-dark text-white")
+            sidebar.setAttribute("class", "min-vh-100 pe-sm-auto pe-0 bg-dark text-white border-end border-dark") 
         }
     }
     return (
