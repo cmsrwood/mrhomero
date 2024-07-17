@@ -18,24 +18,32 @@ export default function NavegacionAdmin() {
     }
     return (
         <div className="d-flex">
-            <div className='border-end min-vh-100 pe-5'>
-                <h1 className="fs-4 pt-3 pb-4 text-center">Mr. Homero</h1>
+            <div className='border-end min-vh-100 pe-sm-auto pe-0 bg-dark text-white'>
+                <h1 className="fs-4 pt-3 pb-4 text-center d-none d-sm-block">Mr. Homero</h1>
                 <ul className="px-2">
-                    <a href="#" className="text-decoration-none px-3 py-2 d-block">
-                        <i className="bi bi-house"></i> Inicio
-                    </a>
-                    <a href="#" className="text-decoration-none px-3 py-2 d-block">
-                        <i className="bi bi-house"></i> Inicio
-                    </a>
-                    <a href="#" className="text-decoration-none px-3 py-2 d-block">
-                        <i className="bi bi-house"></i> Inicio
-                    </a>
+                    <Link to="#" className="nav-link px-3 py-2 d-block submenu">
+                        <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Ventas</span>
+                    </Link>
+                    <Link to="#" className="nav-link px-3 py-2 d-block submenu">
+                        <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Ventas</span>
+                    </Link>
+                    <Link to="#" className="nav-link px-3 py-2 d-block submenu">
+                        <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Ventas</span>
+                    </Link>
                 </ul>
-                <ul className="list-unstyled px-2">
-                    <li className=""><a href="#" className="text-decoration-none px-3 py-2 d-block"><i className="fal fa-bars"></i>
-                        Configuracion</a></li>
-                    <li className=""><a href="#" className="text-decoration-none px-3 py-2 d-block"><i className="fal fa-bell"></i>
-                        Perfil</a></li>
+                <ul className="px-2">
+                    <li className="">
+                        <Link to="#" className="nav-link px-3 py-2">
+                            <i className="bi bi-gear"></i>
+                            <span className='d-none d-sm-inline'>Configuracion</span>
+                        </Link>
+                    </li>
+                    <li className="">
+                        <Link to="#" className="nav-link d-block px-3 py-2">
+                            <i className="bi bi-person-square"></i>
+                            <span className='d-none d-sm-inline'>Perfil</span>
+                        </Link>
+                    </li>
                 </ul>
             </div>
             <div className="w-100">
@@ -57,9 +65,9 @@ export default function NavegacionAdmin() {
                                     <i className="bi bi-person-square"></i>
                                 </button>
                                 <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="#">Action</a></li>
-                                    <li><a className="dropdown-item" href="#">Another action</a></li>
-                                    <li><a className="dropdown-item" href="#">Something else here</a></li>
+                                    <li><Link className="dropdown-item" to="#">Action</Link></li>
+                                    <li><Link className="dropdown-item" to="#">Another action</Link></li>
+                                    <li><Link className="dropdown-item" to="#">Something else here</Link></li>
                                 </ul>
                             </div>
                             <button className='btn' onClick={tema}><i id="botont" className='bi bi-moon-fill'></i></button>
@@ -68,7 +76,7 @@ export default function NavegacionAdmin() {
                 </nav>
                 {/* Contenido */}
                 <div className="px-3 pt-4">
-                    <Ventas/>
+                    <Ventas />
                 </div>
             </div>
         </div>
