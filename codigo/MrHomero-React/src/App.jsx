@@ -5,7 +5,7 @@ import Ingresar from "./Pages/default/Ingresar";
 import Nosotros from "./Pages/default/Nosotros";
 import Menu from "./Pages/default/Menu";
 import NavegacionAdmin from "./Pages/admin/PlantillaAdmin/NavegacionAdmin";
-import IndexAdmin from "./Pages/admin/Index";
+import IndexAdmin from "./Pages/admin/IndexAdmin";
 import Ventas from "./Pages/admin/Ventas";
 function App() {
   return (
