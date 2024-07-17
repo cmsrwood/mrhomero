@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 export default function IndexAdmin() {
   return (
     <div className='container'>
-      <div className='text-center'>
+      <div className='text-center pb-3 pt-3'>
             <h1>Mr. Homero | Inicio</h1>
       </div>
       <div className='container border border-2 border-secondary p-3 mb-2'>
@@ -34,19 +34,19 @@ export default function IndexAdmin() {
       <div className='container pt-3'>
         <div className="row  g-4">
           <div className="col-12 col-sm border border-2 border-secondary  text-center">
-            <h3>Visitas del aplicativo</h3>
-            <p>999 Visitas recientes</p>
-            <h4>+ 8% este mes</h4>
+            <h3 className='pt-4'>Visitas del aplicativo</h3>
+            <p className='pt-2'>999 Visitas recientes</p>
+            <h4 className='pb-4'>+ 8% este mes</h4>
           </div>
           <div className="col-12 col-sm border border-2 border-secondary text-center mx-0 mx-sm-3">
-            <h3>Usuarios registrados</h3>
-            <p>483 Uusarios registrados este mes</p>
-            <h4>+ 14% este mes</h4>
+            <h3 className='pt-4'>Usuarios registrados</h3>
+            <p className='pt-2'>483 Uusarios registrados este mes</p>
+            <h4 className='pb-4'>+ 14% este mes</h4>
           </div>
           <div className="col-12 col-sm border border-2 border-secondary text-center">
-            <h3>Reseñas</h3>
-            <p>⭐⭐⭐⭐⭐</p>
-            <h4>Comentario de Google</h4>
+            <h3 className='pt-4'>Reseñas</h3>
+            <p className='pt-2'>⭐⭐⭐⭐⭐</p>
+            <h4 className='pb-4'>Comentario de Google</h4>
           </div>
         </div>
       </div>
