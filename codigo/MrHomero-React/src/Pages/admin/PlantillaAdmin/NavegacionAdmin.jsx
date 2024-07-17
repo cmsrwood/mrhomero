@@ -15,7 +15,40 @@ export default function NavegacionAdmin() {
         }
     }
     return (
-        <div>
+        <div class="d-flex">
+        <div class="sidebar" id="side_nav">
+            <div class="header-box px-2 pt-3 pb-4 d-flex justify-content-between">
+                <h1 class="fs-4"><span class="bg-white text-dark rounded shadow px-2 me-2">CL</span> <span
+                        class="text-white">Coding League</span></h1>
+                <button class="btn d-md-none d-block close-btn px-1 py-0 text-white"><i
+                        class="fal fa-stream"></i></button>
+            </div>
+
+            <ul class="list-unstyled px-2">
+                <li class="active"><a href="#" class="text-decoration-none px-3 py-2 d-block"><i
+                            class="fal fa-home"></i> Dashboard</a></li>
+                <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"><i class="fal fa-list"></i>
+                        Projects</a></li>
+                <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block d-flex justify-content-between">
+                        <span><i class="fal fa-comment"></i> Messages</span>
+                        <span class="bg-dark rounded-pill text-white py-0 px-2">02</span>
+                    </a>
+                </li>
+                <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"><i
+                            class="fal fa-envelope-open-text"></i> Services</a></li>
+                <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"><i class="fal fa-users"></i>
+                        Customers</a></li>
+            </ul>
+            <ul class="list-unstyled px-2">
+                <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"><i class="fal fa-bars"></i>
+                        Settings</a></li>
+                <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"><i class="fal fa-bell"></i>
+                        Notifications</a></li>
+
+            </ul>
+
+        </div>
+        <div class="w-100">
             <nav className="navbar navbar-expand-lg bg-body-tertiary px-5">
                 <div className="container-fluid">
                     <Link className="navbar-brand" to="/">Mr.Homero</Link>
@@ -44,17 +77,13 @@ export default function NavegacionAdmin() {
                 </div>
             </nav>
 
-            <div class="alert alert-info d-none d-lg-block">Resize your browser to show the responsive offcanvas toggle.</div>
-
-            <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Responsive offcanvas</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <p class="mb-0">This is content within an <code>.offcanvas-lg</code>.</p>
-                </div>
+            <div class="dashboard-content px-3 pt-4">
+                <h2 class="fs-5"> Dashboard</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, totam? Sequi alias eveniet ut quas
+                    ullam delectus et quasi incidunt rem deserunt asperiores reiciendis assumenda doloremque provident,
+                    dolores aspernatur neque.</p>
             </div>
         </div>
+    </div>
     )
 }
