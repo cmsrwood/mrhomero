@@ -34,15 +34,15 @@ export default function IndexAdmin() {
       </div>
       <div className='container'>
         <div className="row  g-4">
-          <div className="col-12 col-sm border border-2  text-center">
+          <div className="col-12 col-sm border border-2 border-secondary  text-center">
             <h3>Visitas del aplicativo</h3>
             <p>hola chiquito</p>
           </div>
-          <div className="col-12 col-sm border border-2 text-center mx-0 mx-sm-3">
+          <div className="col-12 col-sm border border-2 border-secondary text-center mx-0 mx-sm-3">
             <h3>Usuarios registrados</h3>
             <p>hola chiquito¿</p>
           </div>
-          <div className="col-12 col-sm border border-2 text-center">
+          <div className="col-12 col-sm border border-2 border-secondary text-center">
             <h3>Reseñas</h3>
             <p>hola chiquito</p>
           </div>
