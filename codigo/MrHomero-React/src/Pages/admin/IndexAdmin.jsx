@@ -13,22 +13,38 @@ export default function IndexAdmin() {
         <p>Estas son algunas de las funcuiones más utilizadas por tí</p>
         <div className='row aling items-center'>
           <div className='col'>
-            <h5>Ventas</h5>
-            <Link>Prueba</Link>
-            <Link>Prueba</Link>
-            <Link>Prueba</Link>
+            <h5>Ventas</h5> 
+            <Link className='row mx-2'>Prueba</Link>
+            <Link className='row mx-2'>Prueba</Link>
+            <Link className='row mx-2'>Prueba</Link>
           </div>
           <div className='col'>
             <h5>Inventario</h5>
-            <Link>Prueba</Link>
-            <Link>Prueba</Link>
-            <Link>Prueba</Link>
+            <Link className='row mx-2'>Prueba</Link>
+            <Link className='row mx-2'>Prueba</Link>
+            <Link className='row mx-2'>Prueba</Link>
           </div>
           <div className='col'>
             <h5>Compras</h5>
-            <Link>Prueba</Link>
-            <Link>Prueba</Link>
-            <Link>Prueba</Link>
+            <Link className='row mx-2'>Prueba</Link>
+            <Link className='row mx-2'>Prueba</Link>
+            <Link className='row mx-2'>Prueba</Link>
+          </div>
+        </div>
+      </div>
+      <div className='container'>
+        <div className="row  g-4">
+          <div className="col-12 col-sm border border-2  text-center">
+            <h3>Visitas del aplicativo</h3>
+            <p>hola chiquito</p>
+          </div>
+          <div className="col-12 col-sm border border-2 text-center mx-0 mx-sm-3">
+            <h3>Usuarios registrados</h3>
+            <p>hola chiquito¿</p>
+          </div>
+          <div className="col-12 col-sm border border-2 text-center">
+            <h3>Reseñas</h3>
+            <p>hola chiquito</p>
           </div>
         </div>
       </div>
