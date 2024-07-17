@@ -29,15 +29,24 @@ export default function NavegacionAdmin() {
                         <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Inicio</span>
                     </Link>
                     <Link class="nav-link px-3 py-2 d-block" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        <i className="bi bi-card-list"></i> <span className='d-none d-sm-inline'>Ventas</span>
+                        <i className="bi bi-wallet2"></i> <span className='d-none d-sm-inline'>Ventas</span>
                     </Link>
                     <div class="collapse" id="collapseExample">
                         <Link to="#" className="nav-link px-3 py-2 d-block submenu">
-                            <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Analisis de ventas</span>
+                            <i className="bi bi-graph-up"></i> <span className='d-none d-sm-inline'>Analisis de ventas</span>
+                        </Link>
+                        <Link to="#" className="nav-link px-3 py-2 d-block submenu">
+                            <i className="bi bi-card-checklist"></i> <span className='d-none d-sm-inline'>Pedidos</span>
+                        </Link>
+                        <Link to="#" className="nav-link px-3 py-2 d-block submenu">
+                            <i className="fa fa-burger"></i> <span className='d-none d-sm-inline'>Menú</span>
+                        </Link>
+                        <Link to="#" className="nav-link px-3 py-2 d-block submenu border-bottom">
+                            <i className="bi bi-trophy"></i> <span className='d-none d-sm-inline'>Recompensas</span>
                         </Link>
                     </div>
                 </ul>
-                <ul className="px-2">
+                <ul className="px-2 align-items-end">
                     <li className="">
                         <Link to="#" className="nav-link px-3 py-2">
                             <i className="bi bi-gear"></i>
@@ -60,9 +69,9 @@ export default function NavegacionAdmin() {
                                 <i className="bi bi-person-square "></i>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li><Link class="dropdown-item" to="#">Action</Link></li>
+                                <li><Link class="dropdown-item" to="#">Another action</Link></li>
+                                <li><Link class="dropdown-item" to="#">Something else here</Link></li>
                             </ul>
                         </div>
                         <small className='text-white d-none d-sm-block fw-bold'>Hola, Administrador</small>
