@@ -17,23 +17,25 @@ export default function NavegacionAdmin() {
         else {
             index.setAttribute("data-bs-theme", "light");
             icon.setAttribute("class", "bi bi-sun-fill text-white")
-            sidebar.setAttribute("class", "min-vh-100 pe-sm-auto pe-0 bg-dark text-white border-end border-dark") 
+            sidebar.setAttribute("class", "min-vh-100 pe-sm-auto pe-0 bg-dark text-white border-end border-dark")
         }
     }
     return (
         <div className="d-flex">
-            <div className='min-vh-100 pe-sm-auto pe-0 bg-dark text-white border-end' id="sidebar">
+            <div className='min-vh-100 pe-0 pe-sm-5 bg-dark text-white border-end' id="sidebar">
                 <h1 className="fs-4 pt-3 pb-4 text-center d-none d-sm-block">Mr. Homero</h1>
                 <ul className="px-2">
                     <Link to="#" className="nav-link px-3 py-2 d-block submenu">
                         <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Inicio</span>
                     </Link>
-                    <Link to="#" className="nav-link px-3 py-2 d-block submenu">
+                    <Link class="nav-link px-3 py-2 d-block" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                         <i className="bi bi-card-list"></i> <span className='d-none d-sm-inline'>Ventas</span>
                     </Link>
-                    <Link to="#" className="nav-link px-3 py-2 d-block submenu">
-                        <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Ventas</span>
-                    </Link>
+                    <div class="collapse" id="collapseExample">
+                        <Link to="#" className="nav-link px-3 py-2 d-block submenu">
+                            <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Analisis de ventas</span>
+                        </Link>
+                    </div>
                 </ul>
                 <ul className="px-2">
                     <li className="">
@@ -53,7 +55,6 @@ export default function NavegacionAdmin() {
             <div className="w-100">
                 <nav className=" bg-dark navbar navbar-expand-lg px-5 border-bottom">
                     <div className="container-fluid">
-                        <Link className="navbar-brand text-white" to="/">Mr.Homero</Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
@@ -80,7 +81,7 @@ export default function NavegacionAdmin() {
                 </nav>
                 {/* Contenido */}
                 <div className="px-3 pt-4">
-                    <IndexAdmin/>
+                    <Ventas />
                 </div>
             </div>
         </div>
