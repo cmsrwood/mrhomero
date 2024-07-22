@@ -28,10 +28,10 @@ export default function NavegacionAdmin() {
                     <Link to="#" className="nav-link px-3 py-2 d-block submenu">
                         <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Inicio</span>
                     </Link>
-                    <Link class="nav-link px-3 py-2 d-block" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <Link className="nav-link px-3 py-2 d-block rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                         <i className="bi bi-wallet2"></i> <span className='d-none d-sm-inline'>Ventas</span>
                     </Link>
-                    <div class="collapse" id="collapseExample">
+                    <div className="collapse" id="collapseExample">
                         <Link to="#" className="nav-link px-3 py-2 d-block submenu">
                             <i className="bi bi-graph-up"></i> <span className='d-none d-sm-inline'>Analisis de ventas</span>
                         </Link>
@@ -64,14 +64,14 @@ export default function NavegacionAdmin() {
             <div className="w-100">
                 <nav className=" bg-dark navbar navbar-expand-lg px-5 border-bottom">
                     <div className="container-fluid">
-                        <div class="dropdown">
+                        <div className="dropdown">
                             <button className="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i className="bi bi-person-square "></i>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><Link class="dropdown-item" to="#">Action</Link></li>
-                                <li><Link class="dropdown-item" to="#">Another action</Link></li>
-                                <li><Link class="dropdown-item" to="#">Something else here</Link></li>
+                                <li><Link className="dropdown-item" to="#">Action</Link></li>
+                                <li><Link className="dropdown-item" to="#">Another action</Link></li>
+                                <li><Link className="dropdown-item" to="#">Something else here</Link></li>
                             </ul>
                         </div>
                         <small className='text-white d-none d-sm-block fw-bold'>Hola, Administrador</small>
