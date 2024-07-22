@@ -45,6 +45,12 @@ export default function NavegacionAdmin() {
                             <i className="bi bi-trophy"></i> <span className='d-none d-sm-inline'>Recompensas</span>
                         </Link>
                     </div>
+                    <Link to="#" className="nav-link px-3 py-2 d-block submenu">
+                        <i class="bi bi-inboxes"></i> <span className='d-none d-sm-inline'>Inventario</span>
+                    </Link>
+                    <Link to="#" className="nav-link px-3 py-2 d-block submenu">
+                        <i class="bi bi-people"></i> <span className='d-none d-sm-inline'>Clientes</span>
+                    </Link>
                 </ul>
                 <ul className="px-2 align-items-end">
                     <li className="">
