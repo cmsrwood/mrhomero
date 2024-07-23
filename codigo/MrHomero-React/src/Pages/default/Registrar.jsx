@@ -5,7 +5,7 @@ import NavegacionDefault from './PlantillaDefault/NavegacionDefault'
 
 export default function Registrar() {
 
-  const registrar = () => {
+  function registrar() {
     Swal.fire({
       title: 'Cuenta creada',
       text: 'Ya puedes iniciar sesion',
