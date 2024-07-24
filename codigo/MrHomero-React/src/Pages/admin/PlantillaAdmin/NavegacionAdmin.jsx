@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import Ventas from '../Ventas'
 import IndexAdmin from '../IndexAdmin'
+import Dashboard from '../Dashboard'
 
 export default function NavegacionAdmin() {
     function tema() {
@@ -86,7 +87,7 @@ export default function NavegacionAdmin() {
                 </nav>
                 {/* Contenido */}
                 <div className="px-3 pt-4">
-                    <IndexAdmin />
+                    <Dashboard/>
                 </div>
             </div>
         </div>
