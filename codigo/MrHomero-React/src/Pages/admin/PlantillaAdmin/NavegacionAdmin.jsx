@@ -66,7 +66,7 @@ export default function NavegacionAdmin() {
                     </Link>
                 </ul>
             </div>
-            <div className="w-100 ">
+            <div className="w-100">
                 <nav className=" bg-dark navbar navbar-expand-lg px-5 border-bottom"></nav>
                 <nav className=" bg-dark navbar navbar-expand-lg px-5 border-bottom fixed-top">
                     <div className="container-fluid">
@@ -74,7 +74,7 @@ export default function NavegacionAdmin() {
 
                         <small className='text-white d-none d-sm-block fw-bold'>Hola, Administrador</small>
                         <div className="d-flex">
-                            <div className="dropdown pe-5">
+                            <div className="dropdown pe-4">
                                 <button className="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-person-square "></i>
                                 </button>

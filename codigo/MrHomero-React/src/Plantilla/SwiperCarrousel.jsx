@@ -8,9 +8,7 @@ import 'swiper/css/effect-creative';
 import img from '/img.png';
 
 export default function SwiperCarrousel() {
-
     const swiper = useSwiper();
-
     function card() {
         return (
             <div className="card text-center">
@@ -21,42 +19,40 @@ export default function SwiperCarrousel() {
                     <a href="#" className="btn btn-primary">Ver</a>
                 </div>
             </div>
-        );
+        )
     }
-
     return (
-            
-            <Swiper
-                grabCursor={true}
-                effect={'creative'}
-                creativeEffect={{
-                    prev: {
-                        translate: ['-100%', 0, -500],
-                    },
-                    next: {
-                        translate: ['100%', 0, -500],
-                    },
-                }}
-                centeredSlides={true}
-                modules={[Navigation, Pagination, EffectCreative]}
-                navigation={{ clickable: true }}
-                pagination={{ clickable: true }}
-                loop={true}
-                breakpoints={{
-                    640: {
-                      slidesPerView: 1
-                    },
-                    768: {
-                      slidesPerView: 3
-                    }
-                  }}
-                className="mySwiper2"
-            >
-                <SwiperSlide>{card()} </SwiperSlide>
-                <SwiperSlide>{card()} </SwiperSlide>
-                <SwiperSlide>{card()} </SwiperSlide>
-                <SwiperSlide>{card()} </SwiperSlide>
-                <SwiperSlide>{card()} </SwiperSlide>
-            </Swiper>
+        <Swiper
+            grabCursor={true}
+            effect={'creative'}
+            creativeEffect={{
+                prev: {
+                    translate: ['-100%', 0, -500],
+                },
+                next: {
+                    translate: ['100%', 0, -500],
+                },
+            }}
+            centeredSlides={true}
+            modules={[Navigation, Pagination, EffectCreative]}
+            navigation={{ clickable: true }}
+            pagination={{ clickable: true }}
+            loop={true}
+            breakpoints={{
+                640: {
+                    slidesPerView: 1
+                },
+                768: {
+                    slidesPerView: 3
+                }
+            }}
+            className="mySwiper2"
+        >
+            <SwiperSlide>{card()} </SwiperSlide>
+            <SwiperSlide>{card()} </SwiperSlide>
+            <SwiperSlide>{card()} </SwiperSlide>
+            <SwiperSlide>{card()} </SwiperSlide>
+            <SwiperSlide>{card()} </SwiperSlide>
+        </Swiper>
     )
 }
