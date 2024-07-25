@@ -8,6 +8,7 @@ import NavegacionAdmin from "./Pages/admin/PlantillaAdmin/NavegacionAdmin";
 import IndexAdmin from "./Pages/admin/IndexAdmin";
 import Ventas from "./Pages/admin/Ventas";
 import Pedidos from "./Pages/admin/Pedidos";
+import Clientes from "./Pages/admin/Clientes";
 function App() {
   return (
     <div className="">
@@ -22,6 +23,7 @@ function App() {
           <Route path="/indexadmin" element={<IndexAdmin/>}> </Route>
           <Route path="/ventas" element={<Ventas/>}> </Route>
           <Route path="/pedidos" element={<Pedidos/>}> </Route>
+          <Route path="/clientes" element={<Clientes/>}> </Route>
         </Routes>
       </BrowserRouter>
     </div>
