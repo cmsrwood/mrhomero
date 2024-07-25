@@ -7,6 +7,7 @@ import Menu from "./Pages/default/Menu";
 import NavegacionAdmin from "./Pages/admin/PlantillaAdmin/NavegacionAdmin";
 import IndexAdmin from "./Pages/admin/IndexAdmin";
 import Ventas from "./Pages/admin/Ventas";
+import Pedidos from "./Pages/admin/Pedidos";
 function App() {
   return (
     <div className="">
