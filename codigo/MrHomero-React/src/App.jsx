@@ -20,6 +20,7 @@ function App() {
           <Route path="/navegacionadmin" element={<NavegacionAdmin/>}> </Route>
           <Route path="/indexadmin" element={<IndexAdmin/>}> </Route>
           <Route path="/ventas" element={<Ventas/>}> </Route>
+          <Route path="/pedidos" element={<Pedidos/>}> </Route>
         </Routes>
       </BrowserRouter>
     </div>
