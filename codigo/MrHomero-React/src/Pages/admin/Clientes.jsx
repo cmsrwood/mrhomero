@@ -17,7 +17,7 @@ export default function Clientes() {
     return (
         <div className=" container p-5">
             <div className="row">
-                <h1 className="col-12 col-sm-6">Gestion de ventas</h1>
+                <h1 className="col-12 col-sm-6">Clientes</h1>
                 <div className="col-12 col-sm-6 position-relative">
                     <Buscador icon="search" placeholder="Buscar" />
                 </div>
