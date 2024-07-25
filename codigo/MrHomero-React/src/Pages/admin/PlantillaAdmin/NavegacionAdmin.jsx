@@ -101,9 +101,9 @@ export default function NavegacionAdmin() {
                 <div className="px-3 pt-5 container">
                     {componenteActual === 'IndexAdmin' && <IndexAdmin />}
                     {componenteActual === 'Dashboard' && <Dashboard />}
-                    {componenteActual === 'Ventas' && <Ventas/>}
+                    {componenteActual === 'Ventas' && <Ventas />}
                     {componenteActual === 'Pedidos' && <Pedidos />}
-                    {componenteActual === 'Clientes' && <Clientes/>}
+                    {componenteActual === 'Clientes' && <Clientes />}
 
 
                 </div>

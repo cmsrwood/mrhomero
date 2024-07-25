@@ -16,3 +16,6 @@
   text-align: center;
   background: #fff;
 }
+.swiper-scrollbar.swiper-scrollbar-horizontal{bottom: 0; height: 40px;}
+.swiper-scrollbar-drag{background: none;}
+.swiper-scrollbar-drag:after{content: ""; width: 40px; height: 40px; border-radius: 50%; background: blue; position: absolute; top: 0; left: 50%; margin: 0 0 0 -20px;}
