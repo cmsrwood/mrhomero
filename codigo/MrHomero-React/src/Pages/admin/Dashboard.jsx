@@ -4,11 +4,12 @@ import img from '/img.png';
 export default function Dashboard() {
   function card() {
     return (
-      <div className="card text-center">
-        <img src={img} height={150} className="card-img-top" alt="..." />
-        <div className="card-body">
-          <h5 className="card-title">Hamburguesa</h5>
-          <p className="card-text">$10.000</p>
+      <div className="col-6 col-sm">
+        <div className="card text-center my-2">
+          <img src={img} className="card-img-top" alt="..." />
+          <div className="card-body">
+            <h5 className="card-title">Producto</h5>
+          </div>
         </div>
       </div>
     )
@@ -32,13 +33,13 @@ export default function Dashboard() {
         beginAtZero: true,
       },
     },
-
+    maintainAspectRatio: false,
   };
   return (
     <div className='container pt-3'>
       <div className="row g-4">
         <div className="text-center justify-content-center">
-          <CustomChart data={data} tipo='line' options={options} />
+          <CustomChart data={data} tipo='line' options={options}/>
         </div>
         <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary  text-center">
           <h3 className='pt-4'>Prductos vendidos</h3>
@@ -51,23 +52,23 @@ export default function Dashboard() {
           <h4 className='pb-4 text-danger'>-5 % este mes</h4>
         </div>
       </div>
-      <div className="container border border-2 border-secondary my-5">
+      <div className="container border border-2 border-secondary my-5 p-3">
         <div className="d-flex w-100 justify-content-between">
           <h4>Productos más vendidos</h4>
-          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" varia-expanded="false">
-            Categoria
-          </button>
-          <div class="dropdown-menu" aria-labelledby="triggerId">
-            <button class="dropdown-item" href="#">Action</button>
-            <button class="dropdown-item disabled" href="#">
-              Disabled action
-            </button>
-          </div>
+          <select name="" id="" className="form-select w-25">
+            <option value="">Enero</option>
+            <option value="">Febrero</option>
+            <option value="">Marzo</option>
+            <option value="">Abril</option>
+          </select>
         </div>
-        <div className="row">
-          <div className="col-12 col-sm-6 col-lg-3">
-            {card()}
-          </div>
+        <div className="row px-2">
+          {card()}
+          {card()}
+          {card()}
+          {card()}
+          {card()}    
+          {card()}
         </div>
       </div>
     </div>
