@@ -1,6 +1,6 @@
 import React from 'react'
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
-import { Navigation, Pagination, Scrollbar, A11y, EffectCreative } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, EffectCreative } from 'swiper/modules';
 import 'swiper/css/bundle';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
@@ -8,7 +8,6 @@ import 'swiper/css/effect-creative';
 import img from '/img.png';
 
 export default function SwiperCarrousel() {
-    const swiper = useSwiper();
     function card() {
         return (
             <div className="card text-center">

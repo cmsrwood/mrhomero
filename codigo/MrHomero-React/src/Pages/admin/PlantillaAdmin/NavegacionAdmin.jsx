@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
 import Ventas from '../Ventas'
 import IndexAdmin from '../IndexAdmin'
 import Dashboard from '../Dashboard'
 import Pedidos from '../Pedidos'
+import Clientes from '../Clientes'
 
 export default function NavegacionAdmin() {
     function tema() {
@@ -58,10 +58,10 @@ export default function NavegacionAdmin() {
                         </Link>
                     </div>
                     <Link to="#" className="nav-link px-3 py-2 d-block ">
-                        <i class="bi bi-inboxes"></i> <span className='d-none d-sm-inline'>Inventario</span>
+                        <i className="bi bi-inboxes"></i> <span className='d-none d-sm-inline'>Inventario</span>
                     </Link>
-                    <Link to="#" className="nav-link px-3 py-2 d-block ">
-                        <i class="bi bi-people"></i> <span className='d-none d-sm-inline'>Clientes</span>
+                    <Link onClick={() => cambiarComponente('Clientes')} className="nav-link px-3 py-2 d-block ">
+                        <i className="bi bi-people"></i> <span className='d-none d-sm-inline'>Clientes</span>
                     </Link>
                 </ul>
                 <ul className="px-2 align-items-end ">
@@ -87,7 +87,7 @@ export default function NavegacionAdmin() {
                                 <button className="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-person-square "></i>
                                 </button>
-                                <ul class="dropdown-menu">
+                                <ul className="dropdown-menu">
                                     <li><Link className="dropdown-item" to="#">Action</Link></li>
                                     <li><Link className="dropdown-item" to="#">Another action</Link></li>
                                     <li><Link className="dropdown-item" to="#">Something else here</Link></li>
@@ -103,6 +103,7 @@ export default function NavegacionAdmin() {
                     {componenteActual === 'Dashboard' && <Dashboard />}
                     {componenteActual === 'Ventas' && <Ventas/>}
                     {componenteActual === 'Pedidos' && <Pedidos />}
+                    {componenteActual === 'Clientes' && <Clientes/>}
 
 
                 </div>
