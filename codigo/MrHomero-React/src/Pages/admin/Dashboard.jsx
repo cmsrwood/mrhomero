@@ -39,7 +39,7 @@ export default function Dashboard() {
     <div className='container pt-3'>
       <div className="row g-4">
         <div className="text-center justify-content-center">
-          <CustomChart data={data} tipo='line' options={options}/>
+          <CustomChart data={data} tipo='line' options={options} />
         </div>
         <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary  text-center">
           <h3 className='pt-4'>Prductos vendidos</h3>
@@ -53,9 +53,9 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="container border border-2 border-secondary my-5 p-3">
-        <div className="d-flex w-100 justify-content-between">
-          <h4>Productos más vendidos</h4>
-          <select name="" id="" className="form-select w-25">
+        <div className="row w-100 justify-content-between">
+          <h4 className="col-12 col-sm-10">Productos más vendidos</h4>
+          <select name="" id="" className="form-select col-12 col-sm mx-2">
             <option value="">Enero</option>
             <option value="">Febrero</option>
             <option value="">Marzo</option>
@@ -67,7 +67,7 @@ export default function Dashboard() {
           {card()}
           {card()}
           {card()}
-          {card()}    
+          {card()}
           {card()}
         </div>
       </div>
