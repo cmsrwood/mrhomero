@@ -12,8 +12,4 @@
  .sidebar {
     width: 14vw;
  }
- .swiper-slide {
-  text-align: center;
-  background: #fff;
-}
 .swiper-scrollbar-drag{background: orange;}
