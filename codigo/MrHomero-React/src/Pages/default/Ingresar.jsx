@@ -4,14 +4,6 @@ import Swal from 'sweetalert2'
 import NavegacionDefault from './PlantillaDefault/NavegacionDefault'
 
 export default function Ingresar() {
-  function ingresar() {
-    Swal.fire({
-      title: 'Cuenta creada',
-      text: 'Ya puedes iniciar sesion',
-      icon: 'success',
-      confirmButtonText: 'Iniciar sesion'
-    })
-  }
   return (
     <div className="">
       <NavegacionDefault />
@@ -31,7 +23,14 @@ export default function Ingresar() {
             <label htmlFor="floatingInput">Contraseña</label>
           </div>
           <div className="text-center">
-            <button className="btn btn-dark bg-black w-100 rounded-5 mb-2 py-2" onClick={ingresar}>Ingresar</button>
+            <button className="btn btn-dark bg-black w-100 rounded-5 mb-2 py-2" onClick={() => {
+              Swal.fire({
+                title: 'Iniciaste sesion',
+                text: 'Has iniciado sesion correctamente',
+                icon: 'success',
+                confirmButtonText: 'Continuar'
+              })
+            }}>Ingresar</button>
             <p className="text-center text-secondary"><small> ¿No tienes una cuenta? <Link to="/registrar">Registrarte</Link> </small></p>
           </div>
         </form>
