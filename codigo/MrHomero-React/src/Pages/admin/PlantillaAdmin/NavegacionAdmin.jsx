@@ -5,6 +5,7 @@ import IndexAdmin from '../IndexAdmin'
 import Dashboard from '../Dashboard'
 import Pedidos from '../Pedidos'
 import Clientes from '../Clientes'
+import MenuAdmin from '../MenuAdmin'
 
 export default function NavegacionAdmin() {
     function tema() {
@@ -50,7 +51,7 @@ export default function NavegacionAdmin() {
                         <Link onClick={() => cambiarComponente('Pedidos')} className="nav-link px-3 py-2 d-block ">
                             <i className="bi bi-card-checklist"></i> <span className='d-none d-sm-inline'>Pedidos</span>
                         </Link>
-                        <Link to="#" className="nav-link px-3 py-2 d-block ">
+                        <Link onClick={() => cambiarComponente('MenuAdmin')} className="nav-link px-3 py-2 d-block ">
                             <i className="fa fa-burger"></i> <span className='d-none d-sm-inline'>Menú</span>
                         </Link>
                         <Link to="#" className="nav-link px-3 py-2 d-block  border-bottom">
@@ -104,7 +105,7 @@ export default function NavegacionAdmin() {
                     {componenteActual === 'Ventas' && <Ventas />}
                     {componenteActual === 'Pedidos' && <Pedidos />}
                     {componenteActual === 'Clientes' && <Clientes />}
-
+                    {componenteActual === 'MenuAdmin' && <MenuAdmin />}
 
                 </div>
             </div>
