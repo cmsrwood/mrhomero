@@ -67,6 +67,10 @@ export default function Pedidos() {
               </div>
             </div>
           </div>
+          <div className="col">
+            <h1>Pedidos</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores necessitatibus totam repellat ab, quibusdam quasi quam pariatur magnam earum est consequatur nobis eius laborum in quod itaque. Culpa, eaque adipisci!</p>
+          </div>
         </div>
       </div>
     </div>
