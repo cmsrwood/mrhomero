@@ -52,7 +52,7 @@ export default function Pedidos() {
           <SwiperSlide>{card()}</SwiperSlide>
         </Swiper>
       </div>
-      <div className='container border border-2 border-secondary'>
+      <div className='container border border-2 border-secondary p-3'>
         <div className='row'>
           <div className='col'>
             <div className='row'>
