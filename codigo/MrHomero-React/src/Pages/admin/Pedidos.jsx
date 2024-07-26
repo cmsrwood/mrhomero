@@ -8,28 +8,67 @@ import '../../css/style.css'
 import img from '/img.png'
 
 export default function Pedidos() {
+  function card() {
+    return (
+      <div className="card text-center">
+        <img src={img} height={75} className="card-img-top border-bottom border-1" alt="..." />
+        <div className="card-body">
+          <h5 className="card-title fs-sm-6">Categoria</h5>
+        </div>
+      </div>
+    )
+  }
+
+  function card2() {
+    return (
+      <div className="card text-center">
+        <img src={img} height={80} width={80} className="card-img-top border-bottom border-1" alt="..." />
+        <div className="card-body">
+          <h5 className="card-title fs-sm-6">Categoria</h5>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className='container d-flex'>
-      <h1>Pedidos</h1>
-      <Swiper
-        slidesPerView={4}
-        spaceBetween={10}
-        pagination={{
-          clickable: true,
-        }}
-        scrollbar={{ hide: true }}
-        modules={[Scrollbar, Pagination]}
-        className="mySwiper p-2 w-100 ms-5"
-      >
-        <SwiperSlide><img className="card-img w-50 h-100"src={img}></img></SwiperSlide>
-        <SwiperSlide><img className="card-img w-50 h-100"src={img}></img></SwiperSlide>
-        <SwiperSlide><img className="card-img w-50 h-100"src={img}></img></SwiperSlide>
-        <SwiperSlide><img className="card-img w-50 h-100"src={img}></img></SwiperSlide>
-        <SwiperSlide><img className="card-img w-50 h-100"src={img}></img></SwiperSlide>
-        <SwiperSlide><img className="card-img w-50 h-100"src={img}></img></SwiperSlide>
-        <SwiperSlide><img className="card-img w-50 h-100"src={img}></img></SwiperSlide>
-        <SwiperSlide><img className="card-img w-50 h-100"src={img}></img></SwiperSlide>
-      </Swiper>
+    <div className='container'>
+      <div className='container d-flex'>
+        <h1 className="mt-3 mt-sm-5">Pedidos</h1>
+        <Swiper
+          slidesPerView={4}
+          spaceBetween={10}
+          pagination={{
+            clickable: true,
+          }}
+          scrollbar={{ hide: true }}
+          modules={[Scrollbar]}
+          className="mySwiper p-2 w-100 ms-5"
+        >
+          <SwiperSlide>{card()}</SwiperSlide>
+          <SwiperSlide>{card()}</SwiperSlide>
+          <SwiperSlide>{card()}</SwiperSlide>
+          <SwiperSlide>{card()}</SwiperSlide>
+          <SwiperSlide>{card()}</SwiperSlide>
+          <SwiperSlide>{card()}</SwiperSlide>
+        </Swiper>
+      </div>
+      <div className='container border border-2 border-secondary'>
+        <div className='row'>
+          <div className='col'>
+            <div className='row'>
+              <div className='col'>
+                {card2()}
+              </div>
+              <div className='col'>
+                {card2()}
+              </div>
+              <div className='col '>
+                {card2()}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
