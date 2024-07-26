@@ -1,22 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import img from '/img.png';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
-import Categoria from './Categoria';
-export default function MenuAdmin() {
-  const [showCategoria, setShowCategoria] = useState(false);
-  // carta
+
+export default function Categoria() {
   function card() {
     return (
       <div className="col-12 col-sm-6 col-md-4 mb-4">
-        <div className="card text-center">
+        <div className="card">
           <img src={img} height={200} className="card-img-top" alt="..." />
           <div className="card-body">
-            <h4 className="card-title py-3">Categoria</h4>
+            <h4 className="card-title py-3">Producto</h4>
             <div className="row">
-              <div className="col">
-                <Link onClick={() => setShowCategoria(true)} className="btn btn-success w-100">Ver</Link>
-              </div>
               <div className="col">
                 <button type="button" className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#ModalEditarCategoria">
                   Editar
@@ -25,7 +20,7 @@ export default function MenuAdmin() {
                   <div className="modal-dialog">
                     <div className="modal-content">
                       <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="ModalEditarCategoriaLabel">Editar categoria</h1>
+                        <h1 className="modal-title fs-5" id="ModalEditarCategoriaLabel">Editar producto</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div className="modal-body">
@@ -34,9 +29,19 @@ export default function MenuAdmin() {
                             <label htmlFor="floatingInput">Imagen</label>
                             <input className='form-control' type="file" accept='image/*' autoComplete='off' id='photo' name='photo' required />
                           </div>
-                          <div className="col-12 ">
+                          <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Nombre</label>
                             <input className='form-control' type="text" autoComplete='off' id='nom_cat' name='nom_cat' required />
+                          </div>
+                          <div className="col-12 mb-3">
+                            <label htmlFor="floatingInput">Precio</label>
+                            <input className='form-control' type="number" autoComplete='off' id='nom_cat' name='nom_cat' required min={0} step={50} />
+                          </div>
+                          <div className="col-12 mb-3">
+                            <select name="" className="form-select" id="" required>
+                              <option value="1">Activo</option>
+                              <option value="2">Inactivo</option>
+                            </select>
                           </div>
                         </div>
                       </div>
@@ -44,8 +49,8 @@ export default function MenuAdmin() {
                         <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                         <button type="button" className="btn btn-warning" onClick={() => {
                           Swal.fire({
-                            title: 'Categoria editada',
-                            text: 'La categoria fue editada correctamente',
+                            title: 'Producto editado',
+                            text: 'El producto fue editado correctamente',
                             icon: 'success',
                             confirmButtonText: 'Hecho'
                           })
@@ -69,8 +74,8 @@ export default function MenuAdmin() {
                   }).then((result) => {
                     if (result.isConfirmed) {
                       Swal.fire({
-                        title: 'Categoria eliminada',
-                        text: 'La categoria fue eliminada correctamente',
+                        title: 'Producto eliminado',
+                        text: 'El producto fue eliminado correctamente',
                         icon: 'success',
                         confirmButtonText: 'Hecho'
                       });
@@ -84,61 +89,55 @@ export default function MenuAdmin() {
       </div>
     )
   }
-  // menu
   return (
-    <div className=''>
-      {!showCategoria ?
-        <div className="">
-          <div className="container my-5 d-flex justify-content-between">
-            <h1>Menú</h1>
-            <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#MenuAdminModal">
-              <i className="bi bi-plus-circle"></i> Añadir categoria
-            </button>
-            <div className="modal fade" id="MenuAdminModal" tabIndex="-1" aria-labelledby="MenuModalLabel" aria-hidden="true">
-              <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h1 className="modal-title fs-5" id="MenuModalLabel">Agregar categoria</h1>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div>
+      <div className="container my-5 d-flex justify-content-between">
+        <h1>Nombre de la categoria</h1>
+        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#MenuAdminModal">
+          <i className="bi bi-plus-circle"></i> Añadir producto
+        </button>
+        <div className="modal fade" id="MenuAdminModal" tabIndex="-1" aria-labelledby="MenuModalLabel" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1 className="modal-title fs-5" id="MenuModalLabel">Agregar categoria</h1>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="row p-3">
+                  <div className="col-12 mb-3">
+                    <label htmlFor="floatingInput">Imagen</label>
+                    <input className='form-control' type="file" accept='image/*' autoComplete='off' id='photo' name='photo' required />
                   </div>
-                  <div className="modal-body">
-                    <div className="row p-3">
-                      <div className="col-12 mb-3">
-                        <label htmlFor="floatingInput">Imagen</label>
-                        <input className='form-control' type="file" accept='image/*' autoComplete='off' id='photo' name='photo' required />
-                      </div>
-                      <div className="col-12 ">
-                        <label htmlFor="floatingInput">Nombre</label>
-                        <input className='form-control' type="text" autoComplete='off' id='nom_cat' name='nom_cat' required />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" className="btn btn-success" onClick={() => {
-                      Swal.fire({
-                        title: 'Categoria creada',
-                        text: 'La categoria fue creada correctamente',
-                        icon: 'success',
-                        confirmButtonText: 'Hecho'
-                      })
-                    }}>Guardar</button>
+                  <div className="col-12 ">
+                    <label htmlFor="floatingInput">Nombre</label>
+                    <input className='form-control' type="text" autoComplete='off' id='nom_cat' name='nom_cat' required />
                   </div>
                 </div>
               </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" className="btn btn-success" onClick={() => {
+                  Swal.fire({
+                    title: 'Categoria creada',
+                    text: 'La categoria fue creada correctamente',
+                    icon: 'success',
+                    confirmButtonText: 'Hecho'
+                  })
+                }}>Guardar</button>
+              </div>
             </div>
           </div>
-          <div className="row">
-            {card()}
-            {card()}
-            {card()}
-            {card()}
-            {card()}
-            {card()}
-          </div>
         </div>
-        : <Categoria />
-      }
+      </div>
+      <div className="row">
+        {card()}
+        {card()}
+        {card()}
+        {card()}
+        {card()}
+        {card()}
+      </div>
     </div>
   )
 }

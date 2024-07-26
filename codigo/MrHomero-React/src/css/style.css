@@ -1,11 +1,6 @@
 :root {
     --swiper-theme-color: #ffc107 !important;
 }
-
-.scrollable-container {
-    overflow: scroll; 
-    height: 300px;
-}
 .search-icon {
     left: 15px;
  }
