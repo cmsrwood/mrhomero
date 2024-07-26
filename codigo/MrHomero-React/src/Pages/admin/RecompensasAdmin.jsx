@@ -12,8 +12,8 @@ export default function RecompensasAdmin() {
       <div className="card text-center">
       <img src={img} height={200} className="card-img-top" alt="..." />
       <div className="card-body">
-          <h5 className="card-title">Hamburguesa</h5>
-          <p className="card-text">$10.000</p>
+          <h5 className="card-title">Tipo de recompensa</h5>
+          <p className="card-text">Descripcion</p>
           <a href="#" className="btn btn-primary">Ver</a>
       </div>
   </div>
