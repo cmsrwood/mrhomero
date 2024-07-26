@@ -1,6 +1,6 @@
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination, Scrollbar } from 'swiper/modules'
+import { Scrollbar } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
@@ -23,12 +23,12 @@ export default function Pedidos() {
   function tr() {
     return (
       <tr>
-        <th scopr="row">1</th>
+        <th scope="row">1</th>
         <th scope="row">Bryam</th>
         <th scope="row">Castañeda Cuervo</th>
         <th scope="row">1016598745</th>
         <th scope="row">bryamccuervo2004@gmail.com</th>
-        <th scope="row"><i class="bi bi-plus-circle btn btn-success"></i></th>
+        <th scope="row"><i className="bi bi-plus-circle btn btn-success"></i></th>
       </tr>
     )
   }
@@ -103,21 +103,21 @@ export default function Pedidos() {
             <div className="row">
               <div className='d-flex justify-content-between align-items-center'>
                 <h5>Nombre del usuario</h5>
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                  <i class="bi bi-plus-circle">  Añadir cliente</i>
+                <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                  <i className="bi bi-plus-circle">  Añadir cliente</i>
                 </button>
                 {/* Modal[] */}
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-xl modal-dialog-scrollable">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Añadir cliente</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div className="modal-dialog modal-xl modal-dialog-scrollable">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h1 className="modal-title fs-5" id="staticBackdropLabel">Añadir cliente</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <div class="modal-body">
+                      <div className="modal-body">
                         <div className="d-flex justify-content-between align-items-center pb-2">
                           <h4>Clientes</h4>
-                          <Buscador placeholder={"Buscar Cliente"} icon="bi bi-search"/>
+                          <Buscador placeholder={"Buscar Cliente"} icon="bi bi-search" />
                         </div>
                         <div className='table-responsive border border-1'>
                           <table className='table table-dark table-striped table-hover'>
@@ -133,12 +133,12 @@ export default function Pedidos() {
                             </thead>
                             <tbody>
                               <tr>
-                                <th scopr="row">1</th>
+                                <th scope="row">1</th>
                                 <th scope="row">Bryam</th>
                                 <th scope="row">Castañeda Cuervo</th>
                                 <th scope="row">1016598745</th>
                                 <th scope="row">bryamccuervo2004@gmail.com</th>
-                                <th scope="row"><i class="bi bi-plus-circle btn btn-success"></i></th>
+                                <th scope="row"><i className="bi bi-plus-circle btn btn-success"></i></th>
                               </tr>
                               {tr()}
                               {tr()}
@@ -154,9 +154,9 @@ export default function Pedidos() {
                           </table>
                         </div>
                       </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Entendido</button>
+                      <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" className="btn btn-primary">Entendido</button>
                       </div>
                     </div>
                   </div>
