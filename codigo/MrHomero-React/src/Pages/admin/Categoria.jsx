@@ -39,8 +39,9 @@ export default function Categoria() {
                           </div>
                           <div className="col-12 mb-3">
                             <select name="" className="form-select" id="" required>
-                              <option value="1">Activo</option>
-                              <option value="2">Inactivo</option>
+                              <option value="1" selected disabled>Categoria...</option>
+                              <option value="2">Hamburguesas</option>
+                              <option value="3">Perros Calientes</option>
                             </select>
                           </div>
                         </div>
@@ -109,9 +110,20 @@ export default function Categoria() {
                     <label htmlFor="floatingInput">Imagen</label>
                     <input className='form-control' type="file" accept='image/*' autoComplete='off' id='photo' name='photo' required />
                   </div>
-                  <div className="col-12 ">
+                  <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Nombre</label>
                     <input className='form-control' type="text" autoComplete='off' id='nom_cat' name='nom_cat' required />
+                  </div>
+                  <div className="col-12 mb-3">
+                    <label htmlFor="floatingInput">Precio</label>
+                    <input className='form-control' type="number" autoComplete='off' id='nom_cat' name='nom_cat' required min={0} step={50} />
+                  </div>
+                  <div className="col-12 mb-3">
+                    <select name="" className="form-select" id="" required>
+                      <option value="1" selected disabled>Categoria...</option>
+                      <option value="2">Hamburguesas</option>
+                      <option value="3">Perros Calientes</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -119,8 +131,8 @@ export default function Categoria() {
                 <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" className="btn btn-success" onClick={() => {
                   Swal.fire({
-                    title: 'Categoria creada',
-                    text: 'La categoria fue creada correctamente',
+                    title: 'Producto añadido',
+                    text: 'El producto fue añadido correctamente',
                     icon: 'success',
                     confirmButtonText: 'Hecho'
                   })
