@@ -6,6 +6,7 @@ import Dashboard from '../Dashboard'
 import Pedidos from '../Pedidos'
 import Clientes from '../Clientes'
 import MenuAdmin from '../MenuAdmin'
+import Inventario from '../Inventario'
 
 export default function NavegacionAdmin() {
     function tema() {
@@ -58,7 +59,7 @@ export default function NavegacionAdmin() {
                             <i className="bi bi-trophy"></i> <span className='d-none d-sm-inline'>Recompensas</span>
                         </Link>
                     </div>
-                    <Link to="#" className="nav-link px-3 py-2 d-block ">
+                    <Link onClick={() => cambiarComponente('Inventario')} className="nav-link px-3 py-2 d-block ">
                         <i className="bi bi-inboxes"></i> <span className='d-none d-sm-inline'>Inventario</span>
                     </Link>
                     <Link onClick={() => cambiarComponente('Clientes')} className="nav-link px-3 py-2 d-block ">
@@ -106,7 +107,7 @@ export default function NavegacionAdmin() {
                     {componenteActual === 'Pedidos' && <Pedidos />}
                     {componenteActual === 'Clientes' && <Clientes />}
                     {componenteActual === 'MenuAdmin' && <MenuAdmin />}
-
+                    {componenteActual === 'Inventario' && <Inventario/>}
                 </div>
             </div>
         </div >

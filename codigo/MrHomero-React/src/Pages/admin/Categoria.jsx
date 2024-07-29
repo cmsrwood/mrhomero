@@ -8,7 +8,7 @@ export default function Categoria() {
     return (
       <div className="col-12 col-sm-6 col-md-4 mb-4">
         <div className="card">
-          <img src={img} height={200} className="card-img-top" alt="..." />
+          <img src={img} height={200} className="card-img-top border-bottom" alt="..." />
           <div className="card-body">
             <h4 className="card-title py-3">Producto</h4>
             <div className="row">
