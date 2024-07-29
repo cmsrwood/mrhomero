@@ -13,7 +13,7 @@ export default function Categoria() {
             <h4 className="card-title py-3">Producto</h4>
             <div className="row">
               <div className="col">
-                <button type="button" className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#ModalEditarCategoria">
+                <button type="button" className="btn btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#ModalEditarCategoria">
                   Editar
                 </button>
                 <div className="modal fade" id="ModalEditarCategoria" tabIndex="-1" aria-labelledby="ModalEditarCategoriaLabel" aria-hidden="true">
@@ -47,8 +47,8 @@ export default function Categoria() {
                         </div>
                       </div>
                       <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" className="btn btn-warning" onClick={() => {
+                        <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" className="btn btn-outline-warning" onClick={() => {
                           Swal.fire({
                             title: 'Producto editado',
                             text: 'El producto fue editado correctamente',
@@ -62,7 +62,7 @@ export default function Categoria() {
                 </div>
               </div>
               <div className="col">
-                <button type="button" className="btn btn-danger w-100" onClick={() => {
+                <button type="button" className="btn btn-outline-danger w-100" onClick={() => {
                   Swal.fire({
                     title: "¿Estas seguro?",
                     text: "¡No puedes revertir esta accion!",
@@ -94,7 +94,7 @@ export default function Categoria() {
     <div>
       <div className="container my-5 d-flex justify-content-between">
         <h1>Nombre de la categoria</h1>
-        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#MenuAdminModal">
+        <button type="button" className="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#MenuAdminModal">
           <i className="bi bi-plus-circle"></i> Añadir producto
         </button>
         <div className="modal fade" id="MenuAdminModal" tabIndex="-1" aria-labelledby="MenuModalLabel" aria-hidden="true">
@@ -128,8 +128,8 @@ export default function Categoria() {
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" className="btn btn-success" onClick={() => {
+                <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" className="btn btn-outline-success" onClick={() => {
                   Swal.fire({
                     title: 'Producto añadido',
                     text: 'El producto fue añadido correctamente',

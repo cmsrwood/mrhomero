@@ -7,6 +7,8 @@ import Pedidos from '../Pedidos'
 import Clientes from '../Clientes'
 import MenuAdmin from '../MenuAdmin'
 import Inventario from '../Inventario'
+import RecompensasAdmin from '../RecompensasAdmin'
+import Empleados from '../Empleados'
 
 export default function NavegacionAdmin() {
     function tema() {
@@ -35,51 +37,49 @@ export default function NavegacionAdmin() {
             </div>
             <div className='min-vh-100 bg-dark text-white border-end sidebar position-fixed' id="sidebar">
                 <h1 className="fs-4 pt-3 pb-4 text-center d-none d-sm-block">Mr. Homero</h1>
-                <ul className="px-2 pt-5 mt-4 pt-sm-0 mt-sm-0">
-                    <button onClick={() => cambiarComponente('IndexAdmin')} className="nav-link px-3 py-2 d-block">
+                <ul className=" pt-5 mt-4 pt-sm-0 mt-sm-0 list-unstyled">
+                    <Link onClick={() => cambiarComponente('IndexAdmin')} className={componenteActual === 'IndexAdmin' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Inicio</span>
-                    </button>
-                    <button className="nav-link px-3 py-2 d-block rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        <i className="bi bi-wallet2"></i> <span className='d-none d-sm-inline'>Ventas</span>
-                    </button>
+                    </Link>
+                    <Link className={componenteActual === 'Ventas' || componenteActual === 'Dashboard' || componenteActual === 'Pedidos' ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseExample">
+                        <div className="">
+                            <i className="bi bi-wallet2 me-1"></i>
+                            <span className='d-none d-sm-inline'>Ventas</span>
+                        </div>
+                        <i className={componenteActual === 'Ventas' || componenteActual === 'Dashboard' || componenteActual === 'Pedidos' ? `bi bi-chevron-up pe-3` : `bi bi-chevron-down pe-3`}></i>
+                    </Link>
                     <div className="collapse" id="collapseExample">
-                        <Link onClick={() => cambiarComponente('Dashboard')} className="nav-link px-3 py-2 d-block border-top">
+                        <Link onClick={() => cambiarComponente('Dashboard')} className={componenteActual === 'Dashboard' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-graph-up"></i> <span className='d-none d-sm-inline'>Analisis de ventas</span>
                         </Link>
-                        <Link onClick={() => cambiarComponente('Ventas')} className="nav-link px-3 py-2 d-block ">
+                        <Link onClick={() => cambiarComponente('Ventas')} className={componenteActual === 'Ventas' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-pencil-square"></i> <span className='d-none d-sm-inline'>Gestion de ventas</span>
                         </Link>
-                        <Link onClick={() => cambiarComponente('Pedidos')} className="nav-link px-3 py-2 d-block ">
+                        <Link onClick={() => cambiarComponente('Pedidos')} className={componenteActual === 'Pedidos' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-card-checklist"></i> <span className='d-none d-sm-inline'>Pedidos</span>
                         </Link>
-                        <Link onClick={() => cambiarComponente('MenuAdmin')} className="nav-link px-3 py-2 d-block ">
-                            <i className="fa fa-burger"></i> <span className='d-none d-sm-inline'>Menú</span>
-                        </Link>
-                        <Link to="#" className="nav-link px-3 py-2 d-block  border-bottom">
-                            <i className="bi bi-trophy"></i> <span className='d-none d-sm-inline'>Recompensas</span>
-                        </Link>
                     </div>
-                    <Link onClick={() => cambiarComponente('Inventario')} className="nav-link px-3 py-2 d-block ">
+                    <Link onClick={() => cambiarComponente('Inventario')} className={componenteActual === 'Inventario' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-inboxes"></i> <span className='d-none d-sm-inline'>Inventario</span>
                     </Link>
-                    <Link onClick={() => cambiarComponente('Clientes')} className="nav-link px-3 py-2 d-block ">
+
+                    <Link onClick={() => cambiarComponente('MenuAdmin')} className={componenteActual === 'MenuAdmin' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <i className="fa fa-burger"></i> <span className='d-none d-sm-inline'>Menú</span>
+                    </Link>
+                    <Link onClick={() => cambiarComponente('Recompensas')} className={componenteActual === 'Recompensas' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <i className="bi bi-trophy"></i> <span className='d-none d-sm-inline'>Recompensas</span>
+                    </Link>
+                    <Link onClick={() => cambiarComponente('Clientes')} className={componenteActual === 'Clientes' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-people"></i> <span className='d-none d-sm-inline'>Clientes</span>
                     </Link>
-                </ul>
-                <ul className="px-2 align-items-end ">
-                    <Link to="#" className="nav-link px-3 py-2">
-                        <i className="bi bi-gear"></i>
-                        <span className='d-none d-sm-inline'>Configuracion</span>
-                    </Link>
-                    <Link to="#" className="nav-link d-block px-3 py-2">
-                        <i className="bi bi-person-square"></i>
-                        <span className='d-none d-sm-inline'>Perfil</span>
+                    <Link onClick={() => cambiarComponente('Empleados')} className={componenteActual === 'Empleados' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <i className="bi bi-person-vcard"></i> <span className='d-none d-sm-inline'>Empleados</span>
                     </Link>
                 </ul>
             </div>
             <div className="w-100">
-                <nav className=" bg-dark navbar navbar-expand-lg px-5 border-bottom"></nav>
-                <nav className=" bg-dark navbar navbar-expand-lg px-5 border-bottom fixed-top">
+                <nav className=" bg-dark navbar navbar-expand-lg border-bottom"></nav>
+                <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top">
                     <div className="container-fluid">
                         <Link className="navbar-brand text-white" to="#">Mr. Homero</Link>
 
@@ -100,14 +100,16 @@ export default function NavegacionAdmin() {
                     </div>
                 </nav>
                 {/* Contenido */}
-                <div className="px-3 pt-5 container">
+                <div className="pt-5 container">
                     {componenteActual === 'IndexAdmin' && <IndexAdmin />}
                     {componenteActual === 'Dashboard' && <Dashboard />}
                     {componenteActual === 'Ventas' && <Ventas />}
                     {componenteActual === 'Pedidos' && <Pedidos />}
-                    {componenteActual === 'Clientes' && <Clientes />}
+                    {componenteActual === 'Inventario' && <Inventario />}
                     {componenteActual === 'MenuAdmin' && <MenuAdmin />}
-                    {componenteActual === 'Inventario' && <Inventario/>}
+                    {componenteActual === 'Recompensas' && <RecompensasAdmin />}
+                    {componenteActual === 'Clientes' && <Clientes />}
+                    {componenteActual === 'Empleados' && <Empleados />}
                 </div>
             </div>
         </div >
