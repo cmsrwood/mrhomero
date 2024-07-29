@@ -81,28 +81,30 @@ export default function Ventas() {
             <Buscador icon="search" placeholder="Buscar" />
           </div>
         </div>
-        <table className=" table table-striped mt-5">
-          <thead>
-            <tr>
+        <div className="table-responsive">
+          <table className=" table table-striped mt-5">
+            <thead>
+              <tr>
 
-              <th scope="col">id</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Productos</th>
-              <th scope="col">Cliente</th>
-              <th scope="col">Descuento</th>
-              <th scope="col">Valor</th>
-              <th scope="col">Editar</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Fila()}
-            {Fila()}
-            {Fila()}
-            {Fila()}
-            {Fila()}
-            {Fila()}
-          </tbody>
-        </table>
+                <th scope="col">id</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Productos</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Descuento</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Editar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Fila()}
+              {Fila()}
+              {Fila()}
+              {Fila()}
+              {Fila()}
+              {Fila()}
+            </tbody>
+          </table>
+        </div>
         <nav aria-label="Page navigation example">
           <ul className="pagination">
             <li className="page-item">
