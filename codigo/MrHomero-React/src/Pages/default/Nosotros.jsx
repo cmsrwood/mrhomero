@@ -5,25 +5,15 @@ import NavegacionDefault from './PlantillaDefault/NavegacionDefault'
 export default function Nosotros() {
     return (
         <div className="">
-            <NavegacionDefault/>
-            <div className='container p-5'>
-                <h1 className='text-center '>Nosotros</h1>
-                <div className="row justify-content-between align-items-center">
-                    <div className="col-12 col-sm-8 order-last order-md-first">
-                        <p className='pe-5'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit facere praesentium laboriosam, cumque voluptatem distinctio similique reiciendis doloribus sapiente adipisci laudantium nulla porro assumenda, aliquam ratione minus, amet quam reprehenderit? Voluptate corporis blanditiis quidem sapiente consequatur voluptatem eveniet facilis error at, inventore maxime dolorum vero ullam tenetur assumenda reprehenderit iure laboriosam dolor illo, sunt corrupti modi, quos quas. Accusamus aliquid corporis deleniti corrupti cumque modi, beatae veniam non minus consequatur error minima ipsa autem amet voluptate delectus sunt consectetur. Totam eum ducimus dolorem modi, cumque sit ut impedit quae dicta et sed eveniet saepe nostrum deserunt voluptatibus consequatur a possimus.</p>
-                    </div>
-                    <div className="col-12 col-sm-4 bg-light rounded border border-5 border-warning">
-                        <img src={img} className="img-fluid" alt="" />
-                    </div>
-                </div>
-                <div className="row justify-content-between align-items-center">
-                    <div className="col-12 col-sm-4 bg-light rounded border border-5 border-warning">
-                        <img src={img} className="img-fluid" alt="" />
-                    </div>
-                    <div className="col-12 col-sm-8">
-                        <p className='pe-5'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit facere praesentium laboriosam, cumque voluptatem distinctio similique reiciendis doloribus sapiente adipisci laudantium nulla porro assumenda, aliquam ratione minus, amet quam reprehenderit? Voluptate corporis blanditiis quidem sapiente consequatur voluptatem eveniet facilis error at, inventore maxime dolorum vero ullam tenetur assumenda reprehenderit iure laboriosam dolor illo, sunt corrupti modi, quos quas. Accusamus aliquid corporis deleniti corrupti cumque modi, beatae veniam non minus consequatur error minima ipsa autem amet voluptate delectus sunt consectetur. Totam eum ducimus dolorem modi, cumque sit ut impedit quae dicta et sed eveniet saepe nostrum deserunt voluptatibus consequatur a possimus.</p>
-                    </div>
-                </div>
+            <NavegacionDefault />
+            <h1 className="centro">Nosotros</h1>
+            <div className="container-flex">
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis tenetur doloremque pariatur sed modi repellat cumque vel perferendis accusantium, fuga maiores iusto veritatis voluptas magni placeat minima unde ullam temporibus quidem nemo dolorum numquam maxime. Amet tempora nam rerum inventore? Incidunt, cupiditate. Laboriosam, animi asperiores illum, earum soluta quod labore aperiam voluptatibus perspiciatis at ducimus dicta, neque beatae doloribus eligendi quis corrupti deserunt excepturi? Mollitia modi odit quo enim maiores deserunt, cupiditate nisi animi, ipsum amet dignissimos provident incidunt minima qui? Deserunt, dolorem mollitia deleniti alias nobis ipsa exercitationem quam dolores quasi temporibus sint, delectus quia ullam. Fugiat, earum reprehenderit.</p>
+                <img src={img} className="foto-nosotros" alt="..." />
+            </div>
+            <div className="container-flex">
+                <img src={img} className="foto-nosotros" alt="..." />
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis tenetur doloremque pariatur sed modi repellat cumque vel perferendis accusantium, fuga maiores iusto veritatis voluptas magni placeat minima unde ullam temporibus quidem nemo dolorum numquam maxime. Amet tempora nam rerum inventore? Incidunt, cupiditate. Laboriosam, animi asperiores illum, earum soluta quod labore aperiam voluptatibus perspiciatis at ducimus dicta, neque beatae doloribus eligendi quis corrupti deserunt excepturi? Mollitia modi odit quo enim maiores deserunt, cupiditate nisi animi, ipsum amet dignissimos provident incidunt minima qui? Deserunt, dolorem mollitia deleniti alias nobis ipsa exercitationem quam dolores quasi temporibus sint, delectus quia ullam. Fugiat, earum reprehenderit.</p>
             </div>
         </div>
     )
