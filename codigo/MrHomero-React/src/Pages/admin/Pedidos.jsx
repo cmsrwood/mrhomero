@@ -6,8 +6,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import '../../css/style.css'
 import img from '/img.png'
-import Buscador from '../../Plantilla/Buscador'
-
+import Dropdown from '../../Plantilla/Dropdown'
 export default function Pedidos() {
   function card() {
     return (
@@ -23,12 +22,11 @@ export default function Pedidos() {
   function tr() {
     return (
       <tr>
-        <th scope="row">1</th>
+        <th scope="row">#</th>
         <th scope="row">Bryam</th>
         <th scope="row">Castañeda Cuervo</th>
-        <th scope="row">1016598745</th>
         <th scope="row">bryamccuervo2004@gmail.com</th>
-        <th scope="row"><i className="bi bi-plus-circle btn btn-success"></i></th>
+        <th scope="row"><i className="bi bi-plus-circle btn btn-outline-success"></i></th>
       </tr>
     )
   }
@@ -117,7 +115,7 @@ export default function Pedidos() {
                       <div className="modal-body">
                         <div className="d-flex justify-content-between align-items-center pb-2">
                           <h4>Clientes</h4>
-                          <Buscador placeholder={"Buscar Cliente"} icon="bi bi-search" />
+                          <Dropdown placeholder={"Buscar..."} icon={"bi bi-search"} title={"Atributo cliente"} actions={"Buscar por email"} actions2={"Buscar por letra"} actions3={"Buscar por puntos"} actions4={"Buscar por documento"} />
                         </div>
                         <div className='table-responsive border border-1'>
                           <table className='table table-dark table-striped table-hover'>
@@ -126,20 +124,11 @@ export default function Pedidos() {
                                 <th scope="col">ID</th>
                                 <th scope="col">Nombres</th>
                                 <th scope="col">Apellidos</th>
-                                <th scope="col">N° de documento</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Añadir</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <th scope="row">1</th>
-                                <th scope="row">Bryam</th>
-                                <th scope="row">Castañeda Cuervo</th>
-                                <th scope="row">1016598745</th>
-                                <th scope="row">bryamccuervo2004@gmail.com</th>
-                                <th scope="row"><i className="bi bi-plus-circle btn btn-success"></i></th>
-                              </tr>
                               {tr()}
                               {tr()}
                               {tr()}
@@ -155,8 +144,8 @@ export default function Pedidos() {
                         </div>
                       </div>
                       <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" className="btn btn-primary">Entendido</button>
+                        <button type="button" className="btn btn-outline- danger" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" className="btn btn-outline-success">Entendido</button>
                       </div>
                     </div>
                   </div>
