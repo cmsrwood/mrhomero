@@ -19,6 +19,20 @@ export default function Pedidos() {
     )
   }
 
+  function cardProduct() {
+    return (
+      <tbody>
+        <tr>
+          <td>#</td>
+          <td>Hamburguesa</td>
+          <td>30.000</td>
+          <td>-25%</td>
+          <td><i className='bi bi-trash btn btn-outline-danger '></i></td>
+        </tr>
+      </tbody>
+    )
+  }
+
   function tr() {
     return (
       <tr>
@@ -100,10 +114,41 @@ export default function Pedidos() {
           <div className="col">
             <div className="row">
               <div className='d-flex justify-content-between align-items-center'>
-                <h5>Nombre del usuario</h5>
+                <h5>(Nombre del usuario)</h5>
                 <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                   <i className="bi bi-plus-circle">  Añadir cliente</i>
                 </button>
+              </div>
+              <div className="container">
+                <div className="row">
+                  <div className="col">
+                    <div className="table-responsive">
+                      <table className="table table-dark table-striped  table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Descuento</th>
+                            <th scope="col">Eliminar</th>
+                          </tr>
+                        </thead>
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div className="row">
                 {/* Modal[] */}
                 <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div className="modal-dialog modal-xl modal-dialog-scrollable">
@@ -139,12 +184,19 @@ export default function Pedidos() {
                               {tr()}
                               {tr()}
                               {tr()}
+                              {tr()}
+                              {tr()}
+                              {tr()}
+                              {tr()}
+                              {tr()}
+                              {tr()}
+                              {tr()}
                             </tbody>
                           </table>
                         </div>
                       </div>
                       <div className="modal-footer">
-                        <button type="button" className="btn btn-outline- danger" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Cerrar</button>
                         <button type="button" className="btn btn-outline-success">Entendido</button>
                       </div>
                     </div>
