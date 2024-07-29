@@ -1,5 +1,6 @@
 import React from 'react'
 import Buscador from '../../Plantilla/Buscador'
+import Swal from 'sweetalert2'
 
 export default function Clientes() {
     function Usuario() {
@@ -10,6 +11,29 @@ export default function Clientes() {
                 <td>User_apel</td>
                 <td>user@gmail.com</td>
                 <td>3000000000</td>
+                <td><button type="button" className="btn btn-outline-danger" onClick={() => {
+                    Swal.fire({
+                        title: "¿Eliminar Cliente?",
+                        text: "¡Se eliminara el cliente!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "¡Si, eliminar!",
+                        cancelButtonText: "Cancelar"
+                    }).then(
+                        (result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: 'Cliente eliminado',
+                                    text: 'El cliente fue eliminado correctamente.',
+                                    icon: 'success',
+                                    confirmButtonText: 'Hecho'
+                                })
+                            }
+                        }
+                    )
+                }}><i className="bi bi-trash"></i></button></td>
             </tr>
         )
     }
@@ -22,26 +46,27 @@ export default function Clientes() {
                     <Buscador icon="search" placeholder="Buscar" />
                 </div>
             </div>
-            <table className=" table table-striped mt-5">
-                <thead>
-                    <tr>
-
-                        <th scope="col">id</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellidos</th>
-                        <th scope="col">Correo</th>
-                        <th scope="col">Telefono</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    {Usuario()}
-                    {Usuario()}
-                    {Usuario()}
-                    {Usuario()}
-                    {Usuario()}
-                </tbody>
-            </table>
+            <div className="table-responsive">
+                <table className=" table table-striped mt-5">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Telefono</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Usuario()}
+                        {Usuario()}
+                        {Usuario()}
+                        {Usuario()}
+                        {Usuario()}
+                    </tbody>
+                </table>
+            </div>
             <nav aria-label="Page navigation example">
                 <ul className="pagination">
                     <li className="page-item">
