@@ -1,10 +1,36 @@
 :root {
     --swiper-theme-color: #ffc107 !important;
 }
+
 .search-icon {
     left: 15px;
- }
- .sidebar {
+}
+
+.sidebar {
     width: 14vw;
- }
-.swiper-scrollbar-drag{background: orange;}
+}
+
+.swiper-scrollbar-drag {
+    background: orange;
+}
+
+.centro {
+    text-align: center;
+    margin: 30px;
+}
+
+.container-flex {
+    display: flex;
+    padding: 10px 200px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap : 100px;
+}
+
+.foto-nosotros {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border : 1px solid black;
+}
