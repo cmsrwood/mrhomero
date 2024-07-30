@@ -72,7 +72,7 @@ export default function Pedidos() {
       <div className="card text-center">
         <img src={img} height={80} width={80} className="card-img-top border-bottom border-1" alt="..." />
         <div className="card-body">
-          <h5 className="card-title fs-sm-6">Categoria</h5>
+          <h5 className="card-title fs-sm-6">Producto</h5>
         </div>
       </div>
     )
@@ -100,10 +100,10 @@ export default function Pedidos() {
           <SwiperSlide>{card()}</SwiperSlide>
         </Swiper>
       </div>
-      <div className='container border border-2 border-secondary p-3'>
+      <div className='container border border-2 border-secondary p-3 mt-4'>
         <div className='row'>
           <div className='col'>
-            <div className='row'>
+            <div className='row row-cols-auto'>
               <div className='col mt-2'>
                 {card2()}
               </div>
