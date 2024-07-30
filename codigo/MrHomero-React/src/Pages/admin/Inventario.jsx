@@ -68,7 +68,7 @@ export default function Inventario() {
               Swal.fire({
                 title: "¿Estas seguro?",
                 text: "¡No puedes revertir esta accion!",
-                icon: "warning",
+                icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",

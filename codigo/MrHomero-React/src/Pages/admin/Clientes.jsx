@@ -15,7 +15,7 @@ export default function Clientes() {
                     Swal.fire({
                         title: "¿Eliminar Cliente?",
                         text: "¡Se eliminara el cliente!",
-                        icon: "warning",
+                        icon: 'question',
                         showCancelButton: true,
                         confirmButtonColor: "#3085d6",
                         cancelButtonColor: "#d33",
