@@ -9,8 +9,17 @@ import MenuAdmin from '../MenuAdmin'
 import Inventario from '../Inventario'
 import RecompensasAdmin from '../RecompensasAdmin'
 import Empleados from '../Empleados'
+import Swal from 'sweetalert2'
 
 export default function NavegacionAdmin() {
+    const ToastLuna = Swal.mixin({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 1500,
+    })
+
+
     function tema() {
         var index = document.getElementById('html');
         var icon = document.getElementById('botont');
@@ -19,11 +28,18 @@ export default function NavegacionAdmin() {
             index.setAttribute("data-bs-theme", "dark");
             icon.setAttribute("class", "bi bi-moon-fill text-white")
             sidebar.setAttribute("class", "min-vh-100 bg-dark text-white border-end sidebar border-end")
+            ToastLuna.fire({
+                title: "<i class='bi bi-moon'> Has cambiado al modo oscuro</i> "
+            })
         }
         else {
             index.setAttribute("data-bs-theme", "light");
             icon.setAttribute("class", "bi bi-sun-fill text-white")
             sidebar.setAttribute("class", "min-vh-100 bg-dark text-white border-end sidebar border-end border-dark")
+            ToastLuna.fire({
+                title: "<i class='bi bi-sun text-white'> Has cambiado al modo claro</i> ",
+                background: "#212529",
+            })
         }
     }
     const [componenteActual, setComponenteActual] = useState('IndexAdmin');
@@ -82,10 +98,9 @@ export default function NavegacionAdmin() {
                 <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top">
                     <div className="container-fluid">
                         <Link className="navbar-brand text-white" to="#">Mr. Homero</Link>
-
                         <small className='text-white d-none d-sm-block fw-bold'>Hola, Administrador</small>
                         <div className="d-flex">
-                            <div className="dropdown pe-4">
+                            <div className="dropdown pe-5 me-5">
                                 <button className="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-person-square "></i>
                                 </button>
@@ -95,7 +110,7 @@ export default function NavegacionAdmin() {
                                     <li><Link className="dropdown-item" to="#">Something else here</Link></li>
                                 </ul>
                             </div>
-                            <button className='btn' onClick={tema}><i id="botont" className='bi bi-moon-fill'></i></button>
+                            <button className='btn' onClick={tema} ><i id="botont" className='bi bi-moon-fill'></i></button>
                         </div>
                     </div>
                 </nav>
