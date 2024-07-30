@@ -18,24 +18,25 @@ export default function NavegacionAdmin() {
         showConfirmButton: false,
         timer: 1500,
     })
-
-
+    var collapse = document.getElementById('collapseVentas');
     function tema() {
         var index = document.getElementById('html');
         var icon = document.getElementById('botont');
         var sidebar = document.getElementById('sidebar');
         if (index.getAttribute("data-bs-theme") === "light") {
             index.setAttribute("data-bs-theme", "dark");
-            icon.setAttribute("class", "bi bi-moon-fill text-white")
-            sidebar.setAttribute("class", "min-vh-100 bg-dark text-white border-end sidebar border-end")
+            icon.classList.remove("bi-sun-fill")
+            icon.classList.add("bi-moon-fill")
+            sidebar.classList.add("border-end")
             ToastLuna.fire({
                 title: "<i class='bi bi-moon'> Has cambiado al modo oscuro</i> "
             })
         }
         else {
             index.setAttribute("data-bs-theme", "light");
-            icon.setAttribute("class", "bi bi-sun-fill text-white")
-            sidebar.setAttribute("class", "min-vh-100 bg-dark text-white border-end sidebar border-end border-dark")
+            icon.classList.remove("bi-moon-fill")
+            icon.classList.add("bi-sun-fill")
+            sidebar.classList.remove("border-end")
             ToastLuna.fire({
                 title: "<i class='bi bi-sun text-white'> Has cambiado al modo claro</i> ",
                 background: "#212529",
@@ -45,26 +46,27 @@ export default function NavegacionAdmin() {
     const [componenteActual, setComponenteActual] = useState('IndexAdmin');
 
     function cambiarComponente(componente) {
-        setComponenteActual(componente);
+        setComponenteActual(componente)
     }
+
     return (
         <div className="d-flex position-relative">
-            <div className='min-vh-100 bg-dark text-white border-end sidebar' id="sidebar">
+            <div className='min-vh-100 bg-dark text-white border-end sidebar ' id="sidebar">
             </div>
-            <div className='min-vh-100 bg-dark text-white border-end sidebar position-fixed' id="sidebar">
+            <div className='min-vh-100 bg-dark text-white border-end sidebar position-fixed shadow' id="sidebar">
                 <h1 className="fs-4 pt-3 pb-4 text-center d-none d-sm-block">Mr. Homero</h1>
                 <ul className=" pt-5 mt-4 pt-sm-0 mt-sm-0 list-unstyled">
                     <Link onClick={() => cambiarComponente('IndexAdmin')} className={componenteActual === 'IndexAdmin' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Inicio</span>
                     </Link>
-                    <Link className={componenteActual === 'Ventas' || componenteActual === 'Dashboard' || componenteActual === 'Pedidos' ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseExample">
+                    <Link className={componenteActual === 'Ventas' || componenteActual === 'Dashboard' || componenteActual === 'Pedidos' ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseVentas">
                         <div className="">
                             <i className="bi bi-wallet2 me-1"></i>
                             <span className='d-none d-sm-inline'>Ventas</span>
                         </div>
-                        <i className={componenteActual === 'Ventas' || componenteActual === 'Dashboard' || componenteActual === 'Pedidos' ? `bi bi-chevron-up pe-3` : `bi bi-chevron-down pe-3`}></i>
+                        <i className={collapse?.classList?.contains("show") ? "bi bi-chevron-up pe-3" : "bi bi-chevron-down pe-3"}></i>
                     </Link>
-                    <div className="collapse" id="collapseExample">
+                    <div className="collapse" id="collapseVentas">
                         <Link onClick={() => cambiarComponente('Dashboard')} className={componenteActual === 'Dashboard' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-graph-up"></i> <span className='d-none d-sm-inline'>Analisis de ventas</span>
                         </Link>
@@ -95,7 +97,7 @@ export default function NavegacionAdmin() {
             </div>
             <div className="w-100">
                 <nav className=" bg-dark navbar navbar-expand-lg border-bottom"></nav>
-                <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top">
+                <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top shadow">
                     <div className="container-fluid">
                         <Link className="navbar-brand text-white" to="#">Mr. Homero</Link>
                         <small className='text-white d-none d-sm-block fw-bold'>Hola, Administrador</small>
@@ -127,6 +129,6 @@ export default function NavegacionAdmin() {
                     {componenteActual === 'Empleados' && <Empleados />}
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
