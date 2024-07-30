@@ -119,11 +119,11 @@ export default function Pedidos() {
                   <i className="bi bi-plus-circle">  Añadir cliente</i>
                 </button>
               </div>
-              <div className="container">
+              <div className="container pt-3">
                 <div className="row">
                   <div className="col">
-                    <div className="table-responsive">
-                      <table className="table table-dark table-striped  table-hover">
+                    <div className="table-responsive" style={{ maxHeight: '350px', overflowY: 'auto' }}>
+                      <table className="table table-hover border">
                         <thead>
                           <tr>
                             <th scope="col">Cantidad</th>
@@ -133,8 +133,6 @@ export default function Pedidos() {
                             <th scope="col">Eliminar</th>
                           </tr>
                         </thead>
-                        {cardProduct()}
-                        {cardProduct()}
                         {cardProduct()}
                         {cardProduct()}
                         {cardProduct()}
