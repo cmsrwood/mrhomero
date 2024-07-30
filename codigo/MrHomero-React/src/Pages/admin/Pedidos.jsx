@@ -135,15 +135,15 @@ export default function Pedidos() {
             <div className="row">
               <div className='d-flex justify-content-between align-items-center'>
                 <h5>(Nombre del usuario)</h5>
-                <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <button type="button" className="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                   <i className="bi bi-plus-circle">  Añadir cliente</i>
                 </button>
               </div>
               <div className="container pt-3">
                 <div className="row">
                   <div className="col">
-                    <div className="table-responsive" style={{ maxHeight: '350px', overflowY: 'auto' }}>
-                      <table className="table table-hover border">
+                    <div className="table-responsive" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                      <table className="table table-hover border border-1">
                         <thead>
                           <tr>
                             <th scope="col">Cantidad</th>
@@ -159,10 +159,21 @@ export default function Pedidos() {
                         {cardProduct()}
                         {cardProduct()}
                         {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
                       </table>
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="container text-center">
+                <h3 className='text-end'>Total: $ 99999</h3>
+                <button type='button' className='btn btn-success w-50 ms-auto pt-2'><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
               </div>
 
 
@@ -181,7 +192,7 @@ export default function Pedidos() {
                           <Dropdown placeholder={"Buscar..."} icon={"bi bi-search"} title={"Atributo cliente"} actions={"Buscar por email"} actions2={"Buscar por letra"} actions3={"Buscar por puntos"} actions4={"Buscar por documento"} />
                         </div>
                         <div className='table-responsive border border-1'>
-                          <table className='table table-dark table-striped table-hover'>
+                          <table className='table table-striped table-hover'>
                             <thead>
                               <tr>
                                 <th scope="col">ID</th>
