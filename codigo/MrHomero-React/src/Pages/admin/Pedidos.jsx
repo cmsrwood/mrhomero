@@ -7,6 +7,7 @@ import 'swiper/css/scrollbar'
 import '../../css/style.css'
 import img from '/img.png'
 import Dropdown from '../../Plantilla/Dropdown'
+import Swal from 'sweetalert2'
 export default function Pedidos() {
   function card() {
     return (
@@ -27,7 +28,26 @@ export default function Pedidos() {
           <td>Hamburguesa</td>
           <td>30.000</td>
           <td>-25%</td>
-          <td><i className='bi bi-trash btn btn-outline-danger '></i></td>
+          <td><button type="button" className='btn btn-outline-danger' onClick={() => {
+            Swal.fire({
+              title: '¿Eliminar pedido?',
+              text: '¡Se eliminara el pedido!',
+              icon: 'question',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: '¡Si, eliminar!',
+              cancelButtonText: 'Cancelar'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                Swal.fire(
+                  '¡Eliminado!',
+                  'El pedido fue eliminado correctamente.',
+                  'success'
+                )
+              }
+            })
+          }}><i className='bi bi-trash '></i></button></td>
         </tr>
       </tbody>
     )
