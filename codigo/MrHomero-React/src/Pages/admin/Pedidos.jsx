@@ -40,11 +40,13 @@ export default function Pedidos() {
               cancelButtonText: 'Cancelar'
             }).then((result) => {
               if (result.isConfirmed) {
-                Swal.fire(
-                  '¡Eliminado!',
-                  'El pedido fue eliminado correctamente.',
-                  'success'
-                )
+                Swal.fire({
+                  title: '¡Eliminado!',
+                  text:'El pedido fue eliminado correctamente.',
+                  icon: 'success',
+                  confirmButtonText: "Hecho",
+                  confirmButtonColor: '#FFC107'
+              })
               }
             })
           }}><i className='bi bi-trash '></i></button></td>
@@ -159,21 +161,14 @@ export default function Pedidos() {
                         {cardProduct()}
                         {cardProduct()}
                         {cardProduct()}
-                        {cardProduct()}
-                        {cardProduct()}
-                        {cardProduct()}
-                        {cardProduct()}
-                        {cardProduct()}
-                        {cardProduct()}
-                        {cardProduct()}
                       </table>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="container text-center">
-                <h3 className='text-end'>Total: $ 99999</h3>
-                <button type='button' className='btn btn-success w-50 ms-auto pt-2'><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
+                <h3 className='text-end p-3'>Total: $ 99999</h3>
+                <button type='button' className='btn btn-success w-50 ms-auto p-2'><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
               </div>
 
 
