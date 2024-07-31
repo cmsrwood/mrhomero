@@ -9,6 +9,7 @@ import MenuAdmin from '../MenuAdmin'
 import Inventario from '../Inventario'
 import RecompensasAdmin from '../RecompensasAdmin'
 import Empleados from '../Empleados'
+import HorasEmpleados from '../HorasEmpleados'
 import Swal from 'sweetalert2'
 
 export default function NavegacionAdmin() {
@@ -43,11 +44,8 @@ export default function NavegacionAdmin() {
             })
         }
     }
-    const [componenteActual, setComponenteActual] = useState('IndexAdmin');
 
-    function cambiarComponente(componente) {
-        setComponenteActual(componente)
-    }
+    const [componenteActual, setComponenteActual] = useState('IndexAdmin');
 
     return (
         <div className="d-flex position-relative">
@@ -56,7 +54,7 @@ export default function NavegacionAdmin() {
             <div className='min-vh-100 bg-dark text-white border-end sidebar position-fixed shadow' id="sidebar">
                 <h1 className="fs-4 pt-3 pb-4 text-center d-none d-sm-block">Mr. Homero</h1>
                 <ul className=" pt-5 mt-4 pt-sm-0 mt-sm-0 list-unstyled">
-                    <Link onClick={() => cambiarComponente('IndexAdmin')} className={componenteActual === 'IndexAdmin' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <Link onClick={() => setComponenteActual('IndexAdmin')} className={componenteActual === 'IndexAdmin' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Inicio</span>
                     </Link>
                     <Link className={componenteActual === 'Ventas' || componenteActual === 'Dashboard' || componenteActual === 'Pedidos' ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseVentas">
@@ -67,32 +65,44 @@ export default function NavegacionAdmin() {
                         <i className={collapse?.classList?.contains("show") ? "bi bi-chevron-up pe-3" : "bi bi-chevron-down pe-3"}></i>
                     </Link>
                     <div className="collapse" id="collapseVentas">
-                        <Link onClick={() => cambiarComponente('Dashboard')} className={componenteActual === 'Dashboard' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <Link onClick={() => setComponenteActual('Dashboard')} className={componenteActual === 'Dashboard' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-graph-up"></i> <span className='d-none d-sm-inline'>Analisis de ventas</span>
                         </Link>
-                        <Link onClick={() => cambiarComponente('Ventas')} className={componenteActual === 'Ventas' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <Link onClick={() => setComponenteActual('Ventas')} className={componenteActual === 'Ventas' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-pencil-square"></i> <span className='d-none d-sm-inline'>Gestion de ventas</span>
                         </Link>
-                        <Link onClick={() => cambiarComponente('Pedidos')} className={componenteActual === 'Pedidos' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <Link onClick={() => setComponenteActual('Pedidos')} className={componenteActual === 'Pedidos' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-card-checklist"></i> <span className='d-none d-sm-inline'>Pedidos</span>
                         </Link>
                     </div>
-                    <Link onClick={() => cambiarComponente('Inventario')} className={componenteActual === 'Inventario' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <Link onClick={() => setComponenteActual('Inventario')} className={componenteActual === 'Inventario' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-inboxes"></i> <span className='d-none d-sm-inline'>Inventario</span>
                     </Link>
 
-                    <Link onClick={() => cambiarComponente('MenuAdmin')} className={componenteActual === 'MenuAdmin' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <Link onClick={() => setComponenteActual('MenuAdmin')} className={componenteActual === 'MenuAdmin' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="fa fa-burger"></i> <span className='d-none d-sm-inline'>Menú</span>
                     </Link>
-                    <Link onClick={() => cambiarComponente('Recompensas')} className={componenteActual === 'Recompensas' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <Link onClick={() => setComponenteActual('Recompensas')} className={componenteActual === 'Recompensas' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-trophy"></i> <span className='d-none d-sm-inline'>Recompensas</span>
                     </Link>
-                    <Link onClick={() => cambiarComponente('Clientes')} className={componenteActual === 'Clientes' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <Link onClick={() => setComponenteActual('Clientes')} className={componenteActual === 'Clientes' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-people"></i> <span className='d-none d-sm-inline'>Clientes</span>
                     </Link>
-                    <Link onClick={() => cambiarComponente('Empleados')} className={componenteActual === 'Empleados' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
-                        <i className="bi bi-person-vcard"></i> <span className='d-none d-sm-inline'>Empleados</span>
+                    <Link className={componenteActual === 'Empleados' || componenteActual === 'HorasEmpleados' ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseEmpleados">
+                        <div className="">
+                            <i className="bi bi-wallet2 me-1"></i>
+                            <span className='d-none d-sm-inline'>Empleados</span>
+                        </div>
+                        <i className={collapse?.classList?.contains("show") ? "bi bi-chevron-up pe-3" : "bi bi-chevron-down pe-3"}></i>
                     </Link>
+                    <div className="collapse" id="collapseEmpleados">
+                        <Link onClick={() => setComponenteActual('Empleados')} className={componenteActual === 'Empleados' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                            <i className="bi bi-graph-up"></i> <span className='d-none d-sm-inline'>Empleados</span>
+                        </Link>
+                        <Link onClick={() => setComponenteActual('HorasEmpleados')} className={componenteActual === 'HorasEmpleados' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                            <i className="bi bi-pencil-square"></i> <span className='d-none d-sm-inline'>Horas de empleados</span>
+                        </Link>
+                    </div>
                 </ul>
             </div>
             <div className="w-100">
@@ -127,6 +137,7 @@ export default function NavegacionAdmin() {
                     {componenteActual === 'Recompensas' && <RecompensasAdmin />}
                     {componenteActual === 'Clientes' && <Clientes />}
                     {componenteActual === 'Empleados' && <Empleados />}
+                    {componenteActual === 'HorasEmpleados' && <HorasEmpleados />}
                 </div>
             </div>
         </div>
