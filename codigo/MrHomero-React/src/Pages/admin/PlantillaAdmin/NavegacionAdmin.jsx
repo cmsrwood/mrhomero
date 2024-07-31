@@ -112,7 +112,7 @@ export default function NavegacionAdmin() {
                                     <li><Link className="dropdown-item" to="#">Something else here</Link></li>
                                 </ul>
                             </div>
-                            <button className='btn' onClick={tema} ><i id="botont" className='bi bi-moon-fill'></i></button>
+                            <button className='btn' onClick={tema} ><i id="botont" className='bi bi-moon-fill text-white'></i></button>
                         </div>
                     </div>
                 </nav>
