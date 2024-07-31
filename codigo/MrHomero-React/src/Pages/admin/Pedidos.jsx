@@ -42,11 +42,11 @@ export default function Pedidos() {
               if (result.isConfirmed) {
                 Swal.fire({
                   title: '¡Eliminado!',
-                  text:'El pedido fue eliminado correctamente.',
+                  text: 'El pedido fue eliminado correctamente.',
                   icon: 'success',
                   confirmButtonText: "Hecho",
                   confirmButtonColor: '#FFC107'
-              })
+                })
               }
             })
           }}><i className='bi bi-trash '></i></button></td>
@@ -137,44 +137,11 @@ export default function Pedidos() {
             <div className="row">
               <div className='d-flex justify-content-between align-items-center'>
                 <h5>(Nombre del usuario)</h5>
-                <button type="button" className="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <button type="button" className="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalAddClient">
                   <i className="bi bi-plus-circle">  Añadir cliente</i>
                 </button>
-              </div>
-              <div className="container pt-3">
-                <div className="row">
-                  <div className="col">
-                    <div className="table-responsive" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                      <table className="table table-hover border border-1">
-                        <thead>
-                          <tr>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Producto</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Descuento</th>
-                            <th scope="col">Eliminar</th>
-                          </tr>
-                        </thead>
-                        {cardProduct()}
-                        {cardProduct()}
-                        {cardProduct()}
-                        {cardProduct()}
-                        {cardProduct()}
-                        {cardProduct()}
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="container text-center">
-                <h3 className='text-end p-3'>Total: $ 99999</h3>
-                <button type='button' className='btn btn-success w-50 ms-auto p-2'><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
-              </div>
-
-
-              <div className="row">
-                {/* Modal[] */}
-                <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                {/* Modal añadir cliente*/}
+                <div className="modal fade" id="modalAddClient" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div className="modal-dialog modal-xl modal-dialog-scrollable">
                     <div className="modal-content">
                       <div className="modal-header">
@@ -222,6 +189,53 @@ export default function Pedidos() {
                       <div className="modal-footer">
                         <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Cerrar</button>
                         <button type="button" className="btn btn-outline-success">Entendido</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="container pt-3">
+                <div className="row">
+                  <div className="col">
+                    <div className="table-responsive" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                      <table className="table table-hover border border-1">
+                        <thead>
+                          <tr>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Descuento</th>
+                            <th scope="col">Eliminar</th>
+                          </tr>
+                        </thead>
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="container text-center">
+                <h3 className='text-end p-3'>Total: $ 99999</h3>
+                <button type='button' className='btn btn-success w-50 ms-auto p-2' data-bs-toggle="modal" data-bs-target="#modalSale"><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
+                {/*Modal ralizar venta*/}
+                <div className="modal fade" id="modalSale" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h1 className="modal-title fs-5" id="staticBackdropLabel">Pedidos</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div className="modal-body">
+                        ...
+                      </div>
+                      <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" className="btn btn-primary">Pedidos</button>
                       </div>
                     </div>
                   </div>
