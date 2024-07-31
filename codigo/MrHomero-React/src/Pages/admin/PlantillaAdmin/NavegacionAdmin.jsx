@@ -13,7 +13,7 @@ import HorasEmpleados from '../HorasEmpleados'
 import Swal from 'sweetalert2'
 
 export default function NavegacionAdmin() {
-    const ToastLuna = Swal.mixin({
+    const ToastTema = Swal.mixin({
         toast: true,
         position: "bottom-end",
         showConfirmButton: false,
@@ -29,7 +29,7 @@ export default function NavegacionAdmin() {
             icon.classList.remove("bi-sun-fill")
             icon.classList.add("bi-moon-fill")
             sidebar.classList.add("border-end")
-            ToastLuna.fire({
+            ToastTema.fire({
                 title: "<i class='bi bi-moon'> Has cambiado al modo oscuro</i> "
             })
         }
@@ -38,7 +38,7 @@ export default function NavegacionAdmin() {
             icon.classList.remove("bi-moon-fill")
             icon.classList.add("bi-sun-fill")
             sidebar.classList.remove("border-end")
-            ToastLuna.fire({
+            ToastTema.fire({
                 title: "<i class='bi bi-sun text-white'> Has cambiado al modo claro</i> ",
                 background: "#212529",
             })
