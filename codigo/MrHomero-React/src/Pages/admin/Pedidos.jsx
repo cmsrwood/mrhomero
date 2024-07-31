@@ -214,6 +214,9 @@ export default function Pedidos() {
                         {cardProduct()}
                         {cardProduct()}
                         {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
+                        {cardProduct()}
                       </table>
                     </div>
                   </div>
@@ -224,18 +227,65 @@ export default function Pedidos() {
                 <button type='button' className='btn btn-success w-50 ms-auto p-2' data-bs-toggle="modal" data-bs-target="#modalSale"><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
                 {/*Modal ralizar venta*/}
                 <div className="modal fade" id="modalSale" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                  <div className="modal-dialog">
+                  <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                       <div className="modal-header">
                         <h1 className="modal-title fs-5" id="staticBackdropLabel">Pedidos</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div className="modal-body">
-                        ...
-                      </div>
-                      <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" className="btn btn-primary">Pedidos</button>
+                        <div className="container">
+                          <h3>Pedido #999</h3>
+                          <div className="row">
+                            <div className="col">
+                              {/*Select sobre el tipo de pago*/}
+                              <h3 className='text-start pb-2'>Método de pago</h3>
+                              <select className='form-select form-select-sm w-75 fs-5' aria-label='Small'>
+                                <option selected>Efectivo</option>
+                                <option value='1'>Tarjeta</option>
+                                <option value='2'>Credito</option>
+                                <option value='3'>Debito</option>
+                              </select>
+                            </div>
+                            <div className="col pt-5">
+                              {/*Input de cantidad a pagar*/}
+                              <div className="input-group mb-3 pb-2">
+                                <span className="input-group-text">Cantidad a pagar</span>
+                                <input type="number" className="form-control" aria-label='Amount' step={50} min={0} />
+                                <span className="input-group-text">$</span>
+                                {/*Input de cantidad a recibir*/}
+                              </div> <div className="input-group mb-3">
+                                <span className="input-group-text">Cantidad a recibir </span>
+                                <input type="text" className="form-control" aria-label='Amount (to the nearest dollar)' />
+                                <span className="input-group-text">$</span>
+                              </div>
+                            </div>
+                            {/*Botones de Cantidad de precio*/}
+                            <div className='container'>
+                              <div className='row text-start ps-3'>
+                                <div className='col-12 p-2'> 
+                                  <button className='btn btn-primary w-25 p-2 fs-4'><i className="bi bi-currency-dollar"></i> 10.000</button>
+                                </div>
+                                <div className='col-12 p-2'>
+                                  <button className='btn btn-primary w-25 p-2 fs-4'><i className="bi bi-currency-dollar"></i> 20.000</button>
+                                </div>
+                                <div className='col-12 p-2'>
+                                  <button className='btn btn-primary w-25 p-2 fs-4'><i className="bi bi-currency-dollar"></i> 30.000</button>
+                                </div>
+                                <div className='col-12 p-2'>
+                                  <button className='btn btn-primary w-25 p-2 fs-4'><i className="bi bi-currency-dollar"></i> 50.000</button>
+                                </div>
+                                <div className='col-12 p-2'>
+                                  <button className='btn btn-primary w-25 p-2 fs-4'><i className="bi bi-currency-dollar"></i> 100.000</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="modal-footer">
+                          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                          <button type="button" className="btn btn-primary">Pedidos</button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -245,6 +295,6 @@ export default function Pedidos() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
