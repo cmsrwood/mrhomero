@@ -80,7 +80,7 @@ export default function NavegacionAdmin() {
                     </Link>
 
                     <Link onClick={() => setComponenteActual('MenuAdmin')} className={componenteActual === 'MenuAdmin' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
-                        <i className="fa fa-burger"></i> <span className='d-none d-sm-inline'>Menú</span>
+                        <i className="fa fa-utensils"></i> <span className='d-none d-sm-inline'>Menú</span>
                     </Link>
                     <Link onClick={() => setComponenteActual('Recompensas')} className={componenteActual === 'Recompensas' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-trophy"></i> <span className='d-none d-sm-inline'>Recompensas</span>
