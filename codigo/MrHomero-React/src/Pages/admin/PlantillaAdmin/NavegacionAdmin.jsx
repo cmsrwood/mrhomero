@@ -72,7 +72,7 @@ export default function NavegacionAdmin() {
                             <i className="bi bi-pencil-square"></i> <span className='d-none d-sm-inline'>Gestion de ventas</span>
                         </Link>
                         <Link onClick={() => setComponenteActual('Pedidos')} className={componenteActual === 'Pedidos' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
-                            <i className="bi bi-card-checklist"></i> <span className='d-none d-sm-inline'>Pedidos</span>
+                            <i className="bi bi-check2-circle"></i> <span className='d-none d-sm-inline'>Pedidos</span>
                         </Link>
                     </div>
                     <Link onClick={() => setComponenteActual('Inventario')} className={componenteActual === 'Inventario' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
