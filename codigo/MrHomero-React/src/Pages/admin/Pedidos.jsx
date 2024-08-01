@@ -237,15 +237,34 @@ export default function Pedidos() {
                         <div className="container">
                           <h3>Pedido #999</h3>
                           <div className="row">
-                            <div className="col">
+                            <div className="col pt-3">
                               {/*Select sobre el tipo de pago*/}
-                              <h3 className='text-start pb-2'>Método de pago</h3>
-                              <select className='form-select form-select-sm w-75 fs-5' aria-label='Small'>
+                              <h3 className='text-start pb-2 ms-3'>Método de pago</h3>
+                              <select className='form-select form-select-sm w-75 fs-5 ms-3' aria-label='Small'>
                                 <option selected>Efectivo</option>
                                 <option value='1'>Tarjeta</option>
                                 <option value='2'>Credito</option>
                                 <option value='3'>Debito</option>
                               </select>
+
+                              {/*Botones de Cantidad de precio*/}
+                              <div className='col pt-3 justify-content-start text-start'>
+                                <div className='pt-3 ms-3'>
+                                  <button className='btn btn-primary w-75 fs-4'><i className="bi bi-currency-dollar"></i> 10.000</button>
+                                </div>
+                                <div className='pt-3 ms-3'>
+                                  <button className='btn btn-primary w-75 fs-4'><i className="bi bi-currency-dollar"></i> 20.000</button>
+                                </div>
+                                <div className='pt-3 ms-3'>
+                                  <button className='btn btn-primary w-75 fs-4'><i className="bi bi-currency-dollar"></i> 30.000</button>
+                                </div>
+                                <div className='pt-3 ms-3'>
+                                  <button className='btn btn-primary w-75 fs-4'><i className="bi bi-currency-dollar"></i> 50.000</button>
+                                </div>
+                                <div className='pt-3 ms-3'>
+                                  <button className='btn btn-primary w-75 fs-4'><i className="bi bi-currency-dollar"></i> 100.000</button>
+                                </div>
+                              </div>
                             </div>
                             <div className="col pt-5">
                               {/*Input de cantidad a pagar*/}
@@ -256,28 +275,8 @@ export default function Pedidos() {
                                 {/*Input de cantidad a recibir*/}
                               </div> <div className="input-group mb-3">
                                 <span className="input-group-text">Cantidad a recibir </span>
-                                <input type="text" className="form-control" aria-label='Amount (to the nearest dollar)' />
+                                <input type="number" className="form-control" aria-label='Amount' />
                                 <span className="input-group-text">$</span>
-                              </div>
-                            </div>
-                            {/*Botones de Cantidad de precio*/}
-                            <div className='container'>
-                              <div className='row text-start ps-3'>
-                                <div className='col-12 p-2'> 
-                                  <button className='btn btn-primary w-25 p-2 fs-4'><i className="bi bi-currency-dollar"></i> 10.000</button>
-                                </div>
-                                <div className='col-12 p-2'>
-                                  <button className='btn btn-primary w-25 p-2 fs-4'><i className="bi bi-currency-dollar"></i> 20.000</button>
-                                </div>
-                                <div className='col-12 p-2'>
-                                  <button className='btn btn-primary w-25 p-2 fs-4'><i className="bi bi-currency-dollar"></i> 30.000</button>
-                                </div>
-                                <div className='col-12 p-2'>
-                                  <button className='btn btn-primary w-25 p-2 fs-4'><i className="bi bi-currency-dollar"></i> 50.000</button>
-                                </div>
-                                <div className='col-12 p-2'>
-                                  <button className='btn btn-primary w-25 p-2 fs-4'><i className="bi bi-currency-dollar"></i> 100.000</button>
-                                </div>
                               </div>
                             </div>
                           </div>
