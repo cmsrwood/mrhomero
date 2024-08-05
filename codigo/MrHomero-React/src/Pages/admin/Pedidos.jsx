@@ -137,7 +137,6 @@ export default function Pedidos() {
               <div className='col mt-2'>
                 {card2()}
               </div>
-              
             </div>
           </div>
           <div className="col">
