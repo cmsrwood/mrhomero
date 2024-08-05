@@ -203,7 +203,7 @@ export default function Pedidos() {
               <div className="container pt-3">
                 <div className="row">
                   <div className="col">
-                    <div className="table-responsive" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                    <div className="table-responsive table-scrollbar">
                       <table className="table table-hover border border-1">
                         <thead>
                           <tr>

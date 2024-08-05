@@ -34,6 +34,28 @@
     border-radius: 50%;
     border: 1px solid black;
 }
+
 .btn-logout:hover {
     background-color: red;
+}
+
+.table-scrollbar {
+    max-height: 400px;
+    overflow-y: auto;
+}
+.table-scrollbar table thead {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+.scrollbar {
+    overflow-y: auto;
+    max-height: 700px;
+}
+.scrollbar table thead {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    left: 0;
 }
