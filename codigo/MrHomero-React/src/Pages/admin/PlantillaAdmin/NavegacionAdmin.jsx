@@ -117,9 +117,9 @@ export default function NavegacionAdmin() {
                                     <i className="bi bi-person-square "></i>
                                 </button>
                                 <ul className="dropdown-menu">
-                                    <li><Link className="dropdown-item" to="#">Action</Link></li>
-                                    <li><Link className="dropdown-item" to="#">Another action</Link></li>
-                                    <li><Link className="dropdown-item" to="#">Something else here</Link></li>
+                                    <li><Link className="dropdown-item" to="#">Mi perfil</Link></li>
+                                    <li><Link className="dropdown-item" to="#">Configuración</Link></li>
+                                    <li><Link className="dropdown-item text-danger" to="#"><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
                                 </ul>
                             </div>
                             <button className='btn' onClick={tema} ><i id="botont" className='bi bi-moon-fill text-white'></i></button>

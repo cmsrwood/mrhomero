@@ -34,3 +34,6 @@
     border-radius: 50%;
     border: 1px solid black;
 }
+.btn-logout:hover {
+    background-color: red;
+}
