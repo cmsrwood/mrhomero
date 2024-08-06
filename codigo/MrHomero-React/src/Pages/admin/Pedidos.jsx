@@ -231,7 +231,7 @@ export default function Pedidos() {
               <div className="container text-center">
                 <h3 className='text-end p-3'>Total: $ 99999</h3>
                 <button type='button' className='btn btn-success w-50 ms-auto p-2' data-bs-toggle="modal" data-bs-target="#modalSale"><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
-                {/*Modal ralizar venta*/}
+                {/* Modal ralizar venta */}
                 <div className="modal fade" id="modalSale" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div className="modal-dialog modal-lg">
                     <div className="modal-content">
@@ -254,42 +254,62 @@ export default function Pedidos() {
                               </select>
 
                               {/*Botones de Cantidad de precio*/}
-                              <div className='col pt-3 justify-content-start text-start'>
+                              <div className='col pt-5 pb-3 justify-content-start text-start'>
                                 <div className='pt-3 ms-3'>
-                                  <button className='btn btn-primary w-75 fs-4'><i className="bi bi-currency-dollar"></i> 10.000</button>
+                                  <button className='btn btn-success w-75 fs-4'><i className="bi bi-currency-dollar"></i> 10.000</button>
                                 </div>
                                 <div className='pt-3 ms-3'>
-                                  <button className='btn btn-primary w-75 fs-4'><i className="bi bi-currency-dollar"></i> 20.000</button>
+                                  <button className='btn btn-success w-75 fs-4'><i className="bi bi-currency-dollar"></i> 20.000</button>
                                 </div>
                                 <div className='pt-3 ms-3'>
-                                  <button className='btn btn-primary w-75 fs-4'><i className="bi bi-currency-dollar"></i> 30.000</button>
+                                  <button className='btn btn-success w-75 fs-4'><i className="bi bi-currency-dollar"></i> 30.000</button>
                                 </div>
                                 <div className='pt-3 ms-3'>
-                                  <button className='btn btn-primary w-75 fs-4'><i className="bi bi-currency-dollar"></i> 50.000</button>
+                                  <button className='btn btn-success w-75 fs-4'><i className="bi bi-currency-dollar"></i> 50.000</button>
                                 </div>
                                 <div className='pt-3 ms-3'>
-                                  <button className='btn btn-primary w-75 fs-4'><i className="bi bi-currency-dollar"></i> 100.000</button>
+                                  <button className='btn btn-success w-75 fs-4'><i className="bi bi-currency-dollar"></i> 100.000</button>
                                 </div>
                               </div>
                             </div>
-                            <div className="col pt-5">
+                            <div className="col pt-3">
                               {/*Input de cantidad a pagar*/}
                               <div className="input-group mb-3 pb-2">
                                 <span className="input-group-text">Cantidad a pagar</span>
                                 <input type="number" className="form-control" aria-label='Amount' step={50} min={0} />
                                 <span className="input-group-text">$</span>
+                              </div>
+                              <div className="input-group mb-3">
                                 {/*Input de cantidad a recibir*/}
-                              </div> <div className="input-group mb-3">
                                 <span className="input-group-text">Cantidad a recibir </span>
                                 <input type="number" className="form-control" aria-label='Amount' />
                                 <span className="input-group-text">$</span>
+                              </div>
+                              <div className="d-flex justify-content-between">
+                                {/* Boton de eliminar cantidad de precio */}
+                                <button className="btn btn-danger w-25" data-bs-dismiss="modal"> Borrar</button>
+                                <button className="btn btn-primary w-25" data-bs-dismiss="modal"><i className="fa-solid fa-delete-left"></i></button>
+                              </div>
+                              {/* Botones de Cantidad de precio */}
+                              <div className="row">
+                                <div className="col pt-4">
+                                  <button className="btn btn-success col-3 m-1 h-50 fs-4">7</button>
+                                  <button className="btn btn-success col-3 m-1 h-50 fs-4">8</button>
+                                  <button className="btn btn-success col-3 m-1 h-50 fs-4">9</button>
+                                  <button className="btn btn-success col-3 m-1 h-50 fs-4">4</button>
+                                  <button className="btn btn-success col-3 m-1 h-50 fs-4">5</button>
+                                  <button className="btn btn-success col-3 m-1 h-50 fs-4">6</button>
+                                  <button className="btn btn-success col-3 m-1 h-50 fs-4">1</button>
+                                  <button className="btn btn-success col-3 m-1 h-50 fs-4">2</button>
+                                  <button className="btn btn-success col-3 m-1 h-50 fs-4">3</button>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div className="modal-footer">
-                          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                          <button type="button" className="btn btn-primary">Pedidos</button>
+                          <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Cerrar</button>
+                          <button type="button" className="btn btn-outline-success">Realizar pedido</button>
                         </div>
                       </div>
                     </div>
