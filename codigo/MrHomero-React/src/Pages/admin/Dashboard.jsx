@@ -44,12 +44,12 @@ export default function Dashboard() {
         <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary  text-center">
           <h3 className='pt-4'>Prductos vendidos</h3>
           <h4 className='pt-2'>1234 unidades</h4>
-          <h4 className='pb-4 text-success'>+ 8% este mes</h4>
+          <h4 className='pb-4 text-success'>+8% este mes</h4>
         </div>
         <div className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center">
           <h3 className='pt-4'>Total ganancias</h3>
           <h4 className='pt-2'>COP 10.000.000</h4>
-          <h4 className='pb-4 text-danger'>-5 % este mes</h4>
+          <h4 className='pb-4 text-danger'>-5% este mes</h4>
         </div>
       </div>
       <div className="container border border-2 border-secondary my-5 p-3">
