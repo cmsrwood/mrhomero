@@ -250,7 +250,7 @@ export default function Pedidos() {
                 {/* Modal realizar venta */}
                 {showModalSale && (
                   <div className="modal show d-block" id="modalSale" tabindex="-1" role="dialog">
-                    <div className="modal-dialog modal-lg" role="document">
+                    <div className="modal-dialog modal-lg" role="document" onClick={e => e.stopPropagation()}>
                       <div className="modal-content">
                         <div className="modal-header">
                           <h1 className="modal-title fs-5">Pedidos</h1>
@@ -335,8 +335,8 @@ export default function Pedidos() {
                 )}
                 {/* Segundo Modal el pedido se a realizado */}
                 {showModalConfirm && (
-                  <div className="modal show d-block" id="ModalConfirm" tabIndex="-1" onClick={() => setShowModalConfirm(false)}>
-                    <div className="modal-dialog modal-lg">
+                  <div className="modal show d-block" id="ModalConfirm" tabIndex="-1">
+                    <div className="modal-dialog modal-lg" onClick={e => e.stopPropagation()}>
                       <div className="modal-content" >
                         <div className="modal-header">
                           <h1 className="modal-title fs-5" id="ModalConfirmLabel">Pedido #999 realizado <i className="bi bi-bag-check text-success"></i></h1>
