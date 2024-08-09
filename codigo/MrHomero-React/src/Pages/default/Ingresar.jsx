@@ -10,24 +10,29 @@ export default function Ingresar() {
   return (
     <div className="">
       <NavegacionDefault />
-      <div className='container px-5 text-center my-3'>
+      <div className='container-fluid p-5 my-5 text-center'>
         <div className="row">
-          <div className="col-12 col-sm-6 border align-content-center align-items-center p-3">
-            <h2 className='text-warning'>Ingresar</h2>
-            <div className="my-3">
-              <p><small>Inicia sesion con Google</small></p>
-              <button className='btn btn-light rounded-5'><i className="bi bi-google"></i></button>
-            </div>
-            <div className="form-floating mb-3">
+          <div className="col-12 col-sm-5 align-content-center align-items-center p-5 border-end border-1">
+            <i className='display-1 bi bi-person-circle text-warning'></i>
+            <div className="form-floating my-5">
               <input type="email" className="form-control" id="floatingInput" placeholder="email" />
               <label htmlFor="floatingInput">Email</label>
             </div>
-            <div className="form-floating mb-3">
+            <div className="form-floating my-5">
               <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" />
               <label htmlFor="floatingInput">Contraseña</label>
             </div>
             <div className="text-center">
-              <button className="btn btn-dark bg-black w-100 rounded-5 mb-2 py-2" onClick={() => {
+              <div className="d-flex justify-content-between my-4">
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                  <label className="form-check-label" htmlFor="flexCheckDefault">
+                    Recordar
+                  </label>
+                </div>
+                <Link to="/recuperar">¿Olvidaste tu contraseña?</Link>
+              </div>
+              <button className="btn btn-warning w-100 rounded-5 mb-2 py-2" onClick={() => {
                 Swal.fire({
                   title: 'Iniciaste sesion',
                   text: 'Has iniciado sesion correctamente',
@@ -38,14 +43,14 @@ export default function Ingresar() {
               <p className="text-center text-secondary"><small> ¿No tienes una cuenta? <Link to="/registrar">Registrarte</Link> </small></p>
             </div>
           </div>
-          <div className="d-sm-flex col-sm-6 border">
+          <div className="d-sm-flex col-sm-7">
             <div className="my-auto text-center w-100">
               <Spline />
             </div>
           </div>
         </div>
       </div>
-      
+
     </div>
   )
 }
