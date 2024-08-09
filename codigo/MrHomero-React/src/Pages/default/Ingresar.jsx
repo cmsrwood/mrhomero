@@ -38,7 +38,7 @@ export default function Ingresar() {
               <p className="text-center text-secondary"><small> ¿No tienes una cuenta? <Link to="/registrar">Registrarte</Link> </small></p>
             </div>
           </div>
-          <div className="d-none d-sm-flex col-sm-6 border">
+          <div className="d-sm-flex col-sm-6 border">
             <div className="my-auto text-center w-100">
               <Spline />
             </div>
@@ -47,6 +47,5 @@ export default function Ingresar() {
       </div>
       
     </div>
-
   )
 }
