@@ -6,6 +6,7 @@ export default function Ventas() {
   function Fila() {
     return (
       <tr>
+        {/*Funcion para cada fila */}
         <th scope="row">1</th>
         <td>13/05/2024</td>
         <td>Productos</td>
@@ -15,6 +16,7 @@ export default function Ventas() {
         <td>
           <div className="d-flex ">
             <button type="button" className="btn btn-outline-warning me-3" data-bs-toggle="modal" data-bs-target="#Modal"><i className="bi bi-pencil-square"></i> </button>
+            {/* Modal para editar venta */}
             <div className="modal fade" id="Modal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div className="modal-dialog">
                 <div className="modal-content">
@@ -44,6 +46,7 @@ export default function Ventas() {
                 </div>
               </div>
             </div>
+            {/* Alerta para eliminar venta */}
             <button type="button" className="btn btn-outline-danger" onClick={() => {
               Swal.fire({
                 title: "¿Eliminar venta?",
@@ -74,6 +77,7 @@ export default function Ventas() {
   }
   return (
     <div className=''>
+      {/* Cuerpo de la pagina */}
       <div className=" container p-5">
         <div className="row">
           <h1 className="col-12 col-sm-6">Gestion de ventas</h1>
@@ -81,6 +85,7 @@ export default function Ventas() {
             <Buscador icon="search" placeholder="Buscar" />
           </div>
         </div>
+        {/* Tabla  de ventas*/}
         <div className="table-responsive">
           <table className=" table table-striped mt-5">
             <thead>
@@ -105,6 +110,7 @@ export default function Ventas() {
             </tbody>
           </table>
         </div>
+        {/* Paginador */}
         <nav aria-label="Page navigation example">
           <ul className="pagination">
             <li className="page-item">
