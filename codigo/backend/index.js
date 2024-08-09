@@ -33,22 +33,6 @@ db.connect(err => {
     console.log('Conectado a la base de datos MySQL');
 });
 
-db.on('error', function (err) {
-    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-        // Reconectar a la base de datos si se pierde la conexión
-        db.connect(function (err) {
-            if (err) {
-                console.error('Error reconectando a la base de datos:', err);
-            } else {
-                console.log('Reconectado a la base de datos MySQL');
-            }
-        });
-    } else {
-        console.error('Error en la base de datos:', err);
-    }
-});
-
-
 app.get('/usuarios', (req, res) => {
     const sql = 'SELECT * FROM usuarios';
     db.query(sql, (err, results) => {
@@ -60,33 +44,30 @@ app.get('/usuarios', (req, res) => {
     });
 });
 
-
-
-
-
 app.post('/login', (req, res) => {
-    const { username, password } = req.body;
+    const email = req.body.email;
+    const password = req.body.password;
 
-    if (!username || !password) {
-        return res.status(400).send('Por favor, ingrese nombre de usuario y contraseña');
+    if (!email || !password) {
+        return res.status(400).send('Por favor, ingrese email y contraseña');
     }
 
     // Buscar el usuario en la base de datos
-    db.query('SELECT * FROM usuarios WHERE username = ?', [username], (err, results) => {
+    db.query('SELECT * FROM usuarios WHERE user_email = ?', [email], (err, results) => {
         if (err) {
             console.error('Error en la consulta:', err);
             return res.status(500).send('Error en el servidor');
         }
 
         if (results.length === 0) {
-            return res.status(400).send('Nombre de usuario incorrecto');
+            return res.status(400).send('Email incorrecto');
         }
 
         const user = results[0];
 
         // Comparar la contraseña
-        if (user.password === password) {
-            return res.send(`Inicio de sesión exitoso. Bienvenido, ${username}`);
+        if (user.user_pass === password) {
+            return res.send(`Inicio de sesión exitoso. Bienvenido, ${user.user_nom} ${user.user_apels}`);
         } else {
             return res.status(400).send('Contraseña incorrecta');
         }
