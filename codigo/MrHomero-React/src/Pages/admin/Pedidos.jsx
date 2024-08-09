@@ -339,7 +339,7 @@ export default function Pedidos() {
                     <div className="modal-dialog modal-lg" onClick={e => e.stopPropagation()}>
                       <div className="modal-content" >
                         <div className="modal-header">
-                          <h1 className="modal-title fs-5" id="ModalConfirmLabel">Pedido #999 realizado <i className="bi bi-bag-check text-success"></i></h1>
+                          <h1 className="modal-title fs-4 text-success" id="ModalConfirmLabel">Pedido #999 realizado <i className="bi bi-bag-check text-success"></i></h1>
                           <button type="button" className="btn-close" onClick={() => setShowModalConfirm(false)}></button>
                         </div>
                         <div className="modal-body">
@@ -381,7 +381,7 @@ export default function Pedidos() {
                           </div>
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
-                          <button type="button" className="btn btn-outline-success" onClick={() => { setShowModalConfirm(false); setShowModalSale(true); }}>Realizar otro pedido</button>
+                          <button type="button" className="btn btn-outline-success fs-5" onClick={() => { setShowModalConfirm(false); setShowModalSale(true); }}><i className="bi bi-plus">Realizar otro pedido</i></button>
                         </div>
                       </div>
                     </div>
