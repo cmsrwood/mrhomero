@@ -40,30 +40,10 @@ export default function Ingresar() {
           </div>
           <div className="d-none d-sm-flex col-sm-6 border">
             <div className="my-auto text-center w-100">
-              <img src="/logo.png" alt="" className="w-100" />
+              <Spline />
             </div>
           </div>
-<<<<<<< HEAD
-          <div className="form-floating mb-3">
-            <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" />
-            <label htmlFor="floatingInput">Contraseña</label>
-
-          </div>
-          <div className="text-center">
-            <button className="btn btn-dark bg-black w-100 rounded-5 mb-2 py-2" onClick={() => {
-              Swal.fire({
-                title: 'Iniciaste sesion',
-                text: 'Has iniciado sesion correctamente',
-                icon: 'success',
-                confirmButtonText: 'Continuar'
-              })
-            }}>Ingresar</button>
-            <p className="text-center text-secondary"><small> ¿No tienes una cuenta? <Link to="/registrar">Registrarte</Link> </small></p>
-          </div>
-        </form>
-=======
         </div>
->>>>>>> 14203e1c17bfc8e2b8c6e0e0d54d827de2f2087c
       </div>
       
     </div>
