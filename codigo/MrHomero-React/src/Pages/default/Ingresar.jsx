@@ -2,8 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import NavegacionDefault from './PlantillaDefault/NavegacionDefault'
+import Spline from '../default/PlantillaDefault/prueba'
+
 
 export default function Ingresar() {
+
   return (
     <div className="">
       <NavegacionDefault />
@@ -21,6 +24,7 @@ export default function Ingresar() {
           <div className="form-floating mb-3">
             <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" />
             <label htmlFor="floatingInput">Contraseña</label>
+
           </div>
           <div className="text-center">
             <button className="btn btn-dark bg-black w-100 rounded-5 mb-2 py-2" onClick={() => {
@@ -35,6 +39,8 @@ export default function Ingresar() {
           </div>
         </form>
       </div>
+      
     </div>
+
   )
 }
