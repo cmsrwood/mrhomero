@@ -381,7 +381,7 @@ export default function Pedidos() {
                           </div>
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
-                          <button type="button" className="btn btn-outline-success fs-5" onClick={() => { setShowModalConfirm(false); setShowModalSale(true); }}><i className="bi bi-plus">Realizar otro pedido</i></button>
+                          <button type="button" className="btn btn-outline-success fs-5" onClick={() => { setShowModalConfirm(false); setShowModalSale(false); }}><i className="bi bi-plus">Realizar otro pedido</i></button>
                         </div>
                       </div>
                     </div>
