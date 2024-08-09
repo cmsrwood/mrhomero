@@ -32,7 +32,7 @@ CREATE TABLE `categorias` (
   `id_categoria` int NOT NULL,
   `cat_nom` varchar(255) NOT NULL,
   `cat_foto` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `categorias`
@@ -57,7 +57,7 @@ CREATE TABLE `productos` (
   `pro_foto` varchar(255) NOT NULL,
   `pro_puntos` varchar(255) NOT NULL,
   `id_categoria` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `productos`
@@ -77,10 +77,10 @@ INSERT INTO `productos` (`id_producto`, `pro_nom`, `pro_desp`, `pro_precio`, `pr
 
 CREATE TABLE `recompensas` (
   `id_recomp` int NOT NULL,
-  `recompensa` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `recompensa` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `recomp_num_puntos` int NOT NULL,
   `recomp_foto` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `recompensas`
@@ -101,7 +101,7 @@ CREATE TABLE `recompensas_obt` (
   `id_recomp_obt` int NOT NULL,
   `id_recomp` int NOT NULL,
   `id_user` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `recompensas_obt`
@@ -122,7 +122,7 @@ INSERT INTO `recompensas_obt` (`id_recomp_obt`, `id_recomp`, `id_user`) VALUES
 CREATE TABLE `roles` (
   `id_rol` int NOT NULL,
   `rol` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -144,12 +144,12 @@ CREATE TABLE `usuarios` (
   `user_nom` varchar(255) NOT NULL,
   `user_apels` varchar(255) NOT NULL,
   `user_email` varchar(255) NOT NULL,
-  `user_tel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `user_tel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `user_puntos` int NOT NULL,
   `user_foto` varchar(255) DEFAULT NULL,
   `user_pass` varchar(255) NOT NULL,
   `id_rol` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -172,7 +172,7 @@ CREATE TABLE `ventas` (
   `venta_fecha` datetime NOT NULL,
   `id_user` int NOT NULL,
   `venta_total` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `ventas`
