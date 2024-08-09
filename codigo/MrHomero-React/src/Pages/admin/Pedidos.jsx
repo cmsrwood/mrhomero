@@ -336,7 +336,7 @@ export default function Pedidos() {
                 {/* Segundo Modal el pedido se a realizado */}
                 {showModalConfirm && (
                   <div className="modal show d-block" id="ModalConfirm" tabIndex="-1">
-                    <div className="modal-dialog modal-lg" onClick={e => e.stopPropagation()}>
+                    <div className="modal-dialog modal-xl" onClick={e => e.stopPropagation()}>
                       <div className="modal-content" >
                         <div className="modal-header">
                           <h1 className="modal-title fs-4 text-success" id="ModalConfirmLabel">Pedido #999 realizado <i className="bi bi-bag-check text-success"></i></h1>
@@ -373,7 +373,7 @@ export default function Pedidos() {
                                 </div>
                                 <div className="col align-self-center">
                                   <h1 className='pb-4'>Total: $ 15.000</h1>
-                                  <h2 className='pb-4'>Recibido: $ 100.000</h2>
+                                  <h1 className='pb-4'>Recibido: $ 100.000</h1>
                                   <h1 className=''>Cambio: $ 85.000</h1>
                                 </div>
                               </div>
