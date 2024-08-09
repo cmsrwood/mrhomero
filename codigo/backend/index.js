@@ -15,16 +15,15 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-
 // Configuración de la conexión a la base de datos
 const db = mysql.createConnection({
     host: 'mrhomero.cp84e8ay06n5.us-east-2.rds.amazonaws.com',
     user: 'homero',
     password: 'Awsmrhomero',
     database: 'mrhomero',
-    connectTimeout: 10000
+    connectTimeout: 10000,
+    ssl: true
 });
-
 
 // Conectar a la base de datos
 db.connect(err => {
@@ -62,7 +61,7 @@ app.post('/login', (req, res) => {
         }
 
         if (results.length === 0) {
-            return res.status(400).send('Email incorrecto');
+            return res.status(400).send('Usuario no encontrado');
         }
 
         const user = results[0];
@@ -71,6 +70,7 @@ app.post('/login', (req, res) => {
         if (user.user_pass === password) {
             return res.send(`Inicio de sesión exitoso. Bienvenido, ${user.user_nom} ${user.user_apels}`);
         } else {
+            // El usuario y la contraseña no coinciden
             return res.status(400).send('Contraseña incorrecta');
         }
     });
