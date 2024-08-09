@@ -45,9 +45,9 @@ export default function Ingresar() {
           </div>
           <div className="d-none d-sm-flex col-sm-7">
             <div className="my-auto text-center w-100">
-              <h1>Mr. Homero</h1>
-              <p>Si lo que buscas es sabor Mr. Homero es el mejor</p>
-              <Spline />
+            <Spline />
+              <h1 className='text-end'>Mr. Homero</h1>
+              <p className='text-end'>Si lo que buscas es sabor Mr. Homero es el mejor</p>
             </div>
           </div>
         </div>
