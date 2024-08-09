@@ -10,10 +10,10 @@ export default function Ingresar() {
   return (
     <div className="">
       <NavegacionDefault />
-      <div className='container-fluid p-5 my-5 text-center'>
+      <div className='container-fluid p-5 my-5 text-center '>
         <div className="row">
           <div className="col-12 col-sm-5 align-content-center align-items-center p-5 border-end border-1">
-            <i className='display-1 bi bi-person-circle text-warning'></i>
+            <i className='display-1 bi bi-person-circle'></i>
             <div className="form-floating my-5">
               <input type="email" className="form-control" id="floatingInput" placeholder="email" />
               <label htmlFor="floatingInput">Email</label>
@@ -27,7 +27,7 @@ export default function Ingresar() {
                 <div className="form-check">
                   <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
                   <label className="form-check-label" htmlFor="flexCheckDefault">
-                    Recordar
+                    Recordarme
                   </label>
                 </div>
                 <Link to="/recuperar">¿Olvidaste tu contraseña?</Link>
@@ -43,8 +43,10 @@ export default function Ingresar() {
               <p className="text-center text-secondary"><small> ¿No tienes una cuenta? <Link to="/registrar">Registrarte</Link> </small></p>
             </div>
           </div>
-          <div className="d-sm-flex col-sm-7">
+          <div className="d-none d-sm-flex col-sm-7">
             <div className="my-auto text-center w-100">
+              <h1>Mr. Homero</h1>
+              <p>Si lo que buscas es sabor Mr. Homero es el mejor</p>
               <Spline />
             </div>
           </div>
