@@ -16,15 +16,19 @@ export default function Registrar() {
             <button className='btn btn-light rounded-5'><i className="bi bi-google"></i></button>
           </div>
           <div className="form-floating mb-3">
-            <input type="text" className="form-control " id="floatingInput" placeholder="nombre" />
-            <label htmlFor="floatingInput">Nombre</label>
+            <input type="text" className="form-control " id="floatingInput" placeholder="nombres" name='nombres'/>
+            <label htmlFor="floatingInput">Nombres</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="email" className="form-control" id="floatingInput" placeholder="email" />
+            <input type="text" className="form-control " id="floatingInput" placeholder="apellidos" name="apellidos"/>
+            <label htmlFor="floatingInput">Apellidos</label>
+          </div>
+          <div className="form-floating mb-3">
+            <input type="email" className="form-control" id="floatingInput" placeholder="email" name='email'/>
             <label htmlFor="floatingInput">Email</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" />
+            <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password'/>
             <label htmlFor="floatingInput">Contraseña</label>
           </div>
           <div className="form-floating mb-3">
