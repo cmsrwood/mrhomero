@@ -2,6 +2,10 @@
     --swiper-theme-color: #ffc107 !important;
 }
 
+.homero-font {
+    font-family: 'Homer Simpson Revised', sans-serif;
+}
+
 .search-icon {
     left: 15px;
 }

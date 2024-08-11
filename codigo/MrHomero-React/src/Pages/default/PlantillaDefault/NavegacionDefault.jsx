@@ -26,20 +26,20 @@ export default function NavegacionDefault() {
     }
   }
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary shadow">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary shadow homero-font">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/navegacionadmin">Mr.Homero</Link>
+        <Link className="navbar-brand  text-warning fs-3 ps-2" to="/navegacionadmin">Mr. Homero</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarText">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           </ul>
-          <Link className={`nav-link mx-2 ${rutaActiva('nosotros')}`} to="/nosotros"><i className="bi bi-people-fill me-1 "></i>Nosotros</Link>
-          <Link className={`nav-link mx-2 ${rutaActiva('menu')}`} to="/menu"><i className="bi bi-list-ul me-1"></i>Menú</Link>
-          <Link className={`nav-link mx-2 ${rutaActiva('registrar')}`} to="/registrar">Crear mi cuenta</Link>
-          <Link className={`nav-link mx-2 ${rutaActiva('ingresar')}`} to="/ingresar">Ingresar</Link>
-          <button className='btn' onClick={tema}><i id="botont" className='bi bi-moon-fill'></i></button>
+            <Link className={`nav-link mx-2 ${rutaActiva('nosotros')} fs-5`} to="/nosotros"><i className="bi bi-people-fill me-1 "></i>Nosotros</Link>
+            <Link className={`nav-link mx-2 ${rutaActiva('menu')} fs-5`} to="/menu"><i className="bi bi-list-ul me-1"></i>Menú</Link>
+            <Link className={`nav-link mx-2 ${rutaActiva('registrar')} fs-5`} to="/registrar">Crear mi cuenta</Link>
+            <Link className={`nav-link mx-2 ${rutaActiva('ingresar')} fs-5`} to="/ingresar">Ingresar</Link>
+            <button className='btn' onClick={tema}><i id="botont" className='bi bi-moon-fill'></i></button>
         </div>
       </div>
     </nav>
