@@ -5,3 +5,4 @@ export default function App() {
         <Spline scene="https://prod.spline.design/hLbXzmKOd-8IiukC/scene.splinecode" />
     );
 }
+
