@@ -10,11 +10,13 @@ export default function Empleados() {
         <div className="card-body">
           <h3 className="card-title">Empleado</h3>
         </div>
+        {/* boton de gestionar empleado*/}
+        <button type="button" className="btn btn-outline-warning ms-2" data-bs-toggle="modal" data-bs-target="#Añadir"><i className="bi bi-plus-circle"></i> Gestionar</button>
       </div>
     )
   }
   return (
-    <div className="container">
+    <div className="container ps-2">
       <div className="row mt-3 ">
         <h2 className="col mt-2 ms-5 ">Empleados
           <i className="bi bi-person-vcard ms-2"></i>
@@ -61,8 +63,8 @@ export default function Empleados() {
                     <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" className="btn btn-outline-warning" onClick={() => {
                       Swal.fire({
-                        title: 'Venta editada',
-                        text: 'La venta fue editada correctamente.',
+                        title: 'Empleado añadido',
+                        text: 'El empleado fue añadido correctamente.',
                         icon: 'success',
                         confirmButtonText: 'Hecho'
                       })
@@ -73,7 +75,7 @@ export default function Empleados() {
             </div>
           </div>
         </div>
-        <div className="row cols-2 mt-5">
+        <div className="row cols-2 mt-5 ms-2">
           <div className="col-4 my-2">
             {Empleado()}
           </div>
