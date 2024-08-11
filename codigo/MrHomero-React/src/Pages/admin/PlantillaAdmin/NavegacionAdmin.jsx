@@ -26,6 +26,9 @@ export default function NavegacionAdmin() {
         var sidebar = document.getElementById('sidebar');
         if (index.getAttribute("data-bs-theme") === "light") {
             index.setAttribute("data-bs-theme", "dark");
+            index.removeAttribute("transition-style");
+            void index.offsetWidth; 
+            index.setAttribute("transition-style", "in:circle:center");
             icon.classList.remove("bi-sun-fill")
             icon.classList.add("bi-moon-fill")
             sidebar.classList.add("border-end")
@@ -35,6 +38,9 @@ export default function NavegacionAdmin() {
         }
         else {
             index.setAttribute("data-bs-theme", "light");
+            index.removeAttribute("transition-style");
+            void index.offsetWidth; 
+            index.setAttribute("transition-style", "in:circle:center");
             icon.classList.remove("bi-moon-fill")
             icon.classList.add("bi-sun-fill")
             sidebar.classList.remove("border-end")
