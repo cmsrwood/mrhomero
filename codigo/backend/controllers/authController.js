@@ -9,7 +9,6 @@ exports.ingresar = (req, res) => {
         return res.status(400).send('Por favor, ingrese email y contraseña');
     }
 
-
     // Buscar el usuario en la base de datos
     db.query('SELECT * FROM usuarios WHERE user_email = ?', [email], (err, results) => {
         if (err) {
@@ -36,25 +35,32 @@ exports.ingresar = (req, res) => {
 };
 
 exports.registrar = (req, res) => {
-    
+
     const nombres = req.body.nombres
     const apellidos = req.body.apellidos
     const email = req.body.email
     const password = req.body.password
+    const confirmPassword = req.body.confirmPassword
 
     db.query("SELECT * FROM usuarios WHERE user_email = ?", [email], (err, result) => {
 
         if (err) {
-            res.send(err)
-        }
-        
-        if (password.length < 8) {
-            return res.status(400).send('La contraseña debe tener al menos 6 caracteres');
+            return res.status(500).send(err)
         }
 
-        if (result.length > 0) {
-            res.send("El usuario ya existe")
-        } else {
+        else if (result.length > 0) {
+            return res.status(400).send("El usuario ya existe")
+        }
+
+        else if (password !== confirmPassword) {
+            return res.status(400).send('Las contraseñas no coinciden');
+        }
+
+        else if (password.length < 8) {
+            return res.status(400).send('La contraseña debe tener al menos 8 caracteres');
+        }
+
+        else {
             const hashpassword = bcrypt.hashSync(password, 10)
             const q = "INSERT INTO usuarios (user_nom, user_apels, user_email, user_pass , id_rol) VALUES (?,?,?,?,3)"
             const values = [
@@ -65,9 +71,9 @@ exports.registrar = (req, res) => {
             ]
             db.query(q, values, (err) => {
                 if (err) {
-                    res.send(err)
+                    return res.status(500).send(err)
                 }
-                res.send("Usuario registrado con exito")
+                return res.status(200).send("Usuario creado con exito")
             })
         }
     })
