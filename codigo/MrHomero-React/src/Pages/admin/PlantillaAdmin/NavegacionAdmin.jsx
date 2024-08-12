@@ -27,7 +27,7 @@ export default function NavegacionAdmin() {
         if (index.getAttribute("data-bs-theme") === "light") {
             index.setAttribute("data-bs-theme", "dark");
             index.removeAttribute("transition-style");
-            void index.offsetWidth; 
+            void index.offsetWidth;
             index.setAttribute("transition-style", "in:circle:center");
             icon.classList.remove("bi-sun-fill")
             icon.classList.add("bi-moon-fill")
@@ -39,7 +39,7 @@ export default function NavegacionAdmin() {
         else {
             index.setAttribute("data-bs-theme", "light");
             index.removeAttribute("transition-style");
-            void index.offsetWidth; 
+            void index.offsetWidth;
             index.setAttribute("transition-style", "in:circle:center");
             icon.classList.remove("bi-moon-fill")
             icon.classList.add("bi-sun-fill")
@@ -58,8 +58,7 @@ export default function NavegacionAdmin() {
             <div className='min-vh-100 bg-dark text-white border-end sidebar ' id="sidebar">
             </div>
             <div className='min-vh-100 bg-dark text-white border-end sidebar position-fixed shadow' id="sidebar">
-                <h1 className="fs-4 pt-3 pb-4 text-center d-none d-sm-block">Mr. Homero</h1>
-                <ul className=" pt-5 mt-4 pt-sm-0 mt-sm-0 list-unstyled">
+                <ul className=" pt-5 mt-4 pt-sm-5 mt-sm-5 list-unstyled">
                     <Link onClick={() => setComponenteActual('IndexAdmin')} className={componenteActual === 'IndexAdmin' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Inicio</span>
                     </Link>
@@ -115,7 +114,7 @@ export default function NavegacionAdmin() {
                 <nav className=" bg-dark navbar navbar-expand-lg border-bottom"></nav>
                 <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top shadow">
                     <div className="container-fluid">
-                        <Link className="navbar-brand text-white" to="#">Mr. Homero</Link>
+                        <Link className="navbar-brand text-warning homero-font fs-3" to="#">Mr. Homero</Link>
                         <small className='text-white d-none d-sm-block fw-bold'>Hola, Administrador</small>
                         <div className="d-flex">
                             <div className="dropdown pe-5 me-5">
