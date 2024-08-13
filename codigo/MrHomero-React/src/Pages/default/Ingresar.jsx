@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import NavegacionDefault from './PlantillaDefault/NavegacionDefault'
-import Spline from '../default/PlantillaDefault/prueba'
+import Spline from '../default/PlantillaDefault/Hamburguesa'
 
 
 export default function Ingresar() {
