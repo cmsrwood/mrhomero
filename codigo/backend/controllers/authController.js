@@ -24,6 +24,9 @@ exports.ingresar = (req, res) => {
 
         // Verificar la contraseña
         if (bcrypt.compareSync(password, user.user_pass)) {
+
+            console.log ('El usuario es:', user);
+            // inicio de sesion correcto
             return res.status(200).send('Iniciaste sesion');
         }
 
