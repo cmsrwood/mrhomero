@@ -17,31 +17,32 @@ export default function Ingresar() {
   });
 
   const handleChange = (event) => {
-    setUser(prev=>({...prev, [event.target.name]: event.target.value}));
+    setUser(prev => ({ ...prev, [event.target.name]: event.target.value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      axios.post("http://localhost:8080/auth/ingresar", user)
-      .then((res) => {
-        if (res.data === "Iniciaste sesion") {
-          Swal.fire({
-            title: 'Iniciaste sesion',
-            text: 'Has iniciado sesion correctamente',
-            icon: 'success',
-            confirmButtonText: 'Continuar'
-          })
-          navigate("/menu")
-        } else {
-          Swal.fire({
-            title: 'Error',
-            text: 'Credenciales incorrectas',
-            icon: 'error',
-            confirmButtonText: 'Continuar'
-          })
-        }
-      })
+      await axios.post("http://localhost:8080/auth/ingresar", user)
+        .then((res) => {
+          if (res.status === 200) {
+            Swal.fire({
+              title: 'Iniciaste sesion',
+              text: 'Has iniciado sesion correctamente',
+              icon: 'success',
+              confirmButtonText: 'Continuar'
+            })
+            navigate("/menu")
+          } else if (res.status === 400) {
+            console.log(res.data)
+            Swal.fire({
+              title: 'Error',
+              text: 'Credenciales incorrectas',
+              icon: 'error',
+              confirmButtonText: 'Continuar'
+            })
+          }
+        })
     } catch (error) {
       console.log(error)
     }
@@ -61,7 +62,7 @@ export default function Ingresar() {
                 <label htmlFor="floatingInput">Email</label>
               </div>
               <div className="form-floating my-5">
-                <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password' onChange={handleChange}/>
+                <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password' onChange={handleChange} />
                 <label htmlFor="floatingInput">Contraseña</label>
               </div>
               <div className="text-center">
