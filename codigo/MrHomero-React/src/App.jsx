@@ -5,6 +5,7 @@ import Ingresar from "./Pages/default/Ingresar";
 import Nosotros from "./Pages/default/Nosotros";
 import Menu from "./Pages/default/Menu";
 import NavegacionAdmin from "./Pages/admin/PlantillaAdmin/NavegacionAdmin";
+import Recuperar from "./Pages/default/Recuperar";
 function App() {
   return (
     <div className="">
@@ -16,6 +17,7 @@ function App() {
           <Route path='/ingresar' element={<Ingresar />}> </Route>
           <Route path='/menu' element={<Menu />}> </Route>
           <Route path="/navegacionadmin" element={<NavegacionAdmin />}> </Route>
+          <Route path="/recuperar" element={<Recuperar />} ></Route>
         </Routes>
       </BrowserRouter>
     </div>
