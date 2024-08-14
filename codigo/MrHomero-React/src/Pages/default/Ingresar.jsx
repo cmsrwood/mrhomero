@@ -38,10 +38,9 @@ export default function Ingresar() {
       if (error.response) {
         // Credenciales incorrectas
         Swal.fire({
-          title: 'Error',
-          text: error.response.data || 'Credenciales incorrectas',
+          title: error.response.data || 'Credenciales incorrectas',
           icon: 'error',
-          confirmButtonText: 'Continuar'
+          confirmButtonText: 'Intentar de nuevo'
         });
       } else if (error.request) {
         // La solicitud fue hecha pero no se recibió respuesta, error del lado del cliente
@@ -49,7 +48,7 @@ export default function Ingresar() {
           title: 'Error',
           text: 'No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.',
           icon: 'error',
-          confirmButtonText: 'Continuar'
+          confirmButtonText: 'Intentar de nuevo'
         });
       } else {
         // Algo ocurrió al configurar la solicitud que desencadenó un error
@@ -57,7 +56,7 @@ export default function Ingresar() {
           title: 'Error',
           text: 'Ocurrió un error al procesar tu solicitud.',
           icon: 'error',
-          confirmButtonText: 'Continuar'
+          confirmButtonText: 'Intentar de nuevo'
         });
       }
       console.error('Error:', error.message);
@@ -73,11 +72,11 @@ export default function Ingresar() {
             <form onSubmit={handleSubmit}>
               <i className='display-1 bi bi-person-circle'></i>
               <div className="form-floating my-5">
-                <input type="email" className="form-control" id="floatingInput" placeholder="email" name='email' onChange={handleChange} />
+                <input type="email" className="form-control" placeholder="email" name='email' onChange={handleChange} />
                 <label htmlFor="floatingInput">Email</label>
               </div>
               <div className="form-floating my-5">
-                <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password' onChange={handleChange} />
+                <input type="password" className="form-control" placeholder="Contraseña" name='password' onChange={handleChange} />
                 <label htmlFor="floatingInput">Contraseña</label>
               </div>
               <div className="text-center">

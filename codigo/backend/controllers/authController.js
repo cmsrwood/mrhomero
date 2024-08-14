@@ -31,7 +31,7 @@ exports.ingresar = (req, res) => {
         }
 
         else {
-            //inicio de sesion correcto
+            //inicio de sesion incorrecto
             return res.status(400).send('Contraseña incorrecta');
         }
     });
