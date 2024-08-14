@@ -79,14 +79,7 @@ export default function Registrar() {
             <label htmlFor="floatingInput">Confirmar contraseña</label>
           </div>
           <div className="text-center">
-            <button className="btn btn-dark bg-black w-100 rounded-5 mb-2 py-2" onClick={() => {
-              Swal.fire({
-                title: 'Registrado',
-                text: 'Te has registrado correctamente',
-                icon: 'success',
-                confirmButtonText: 'Iniciar sesion'
-              })
-            }}>Registrarse</button>
+            <button className="btn btn-dark bg-black w-100 rounded-5 mb-2 py-2" type='submit'>Registrarse</button>
             <p><small> Al registrarte, aceptas nuestras <Link to='/condiciones-de-uso' >Condiciones de uso</Link> y <Link to='/politica-de-privacidad'>Politica de privacidad</Link> </small></p>
             <p className="text-center text-secondary"><small> ¿Ya tienes una cuenta? <Link to="/ingresar">Inicia sesion</Link> </small></p>
           </div>
