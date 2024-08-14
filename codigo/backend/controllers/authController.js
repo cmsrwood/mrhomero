@@ -81,5 +81,10 @@ exports.registrar = (req, res) => {
         }
     })
 };
+exports.recuperar =(req,res)=>{
+
+    const email = req.body.email
+    
+};
 
 module.exports = exports;
