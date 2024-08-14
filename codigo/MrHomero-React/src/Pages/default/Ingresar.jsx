@@ -35,6 +35,7 @@ export default function Ingresar() {
         navigate("/menu");
       }
     } catch (error) {
+      console.log(error);
       if (error.response) {
         // Credenciales incorrectas
         Swal.fire({
@@ -59,7 +60,6 @@ export default function Ingresar() {
           confirmButtonText: 'Intentar de nuevo'
         });
       }
-      console.error('Error:', error.message);
     }
   };
 
