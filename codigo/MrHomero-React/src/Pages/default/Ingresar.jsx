@@ -23,31 +23,46 @@ export default function Ingresar() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/auth/ingresar", user)
-        .then((res) => {
-          if (res.status === 200) {
-            Swal.fire({
-              title: 'Iniciaste sesion',
-              text: 'Has iniciado sesion correctamente',
-              icon: 'success',
-              confirmButtonText: 'Continuar'
-            })
-            navigate("/menu")
-          } else if (res.status === 400) {
-            console.log(res.data)
-            Swal.fire({
-              title: 'Error',
-              text: 'Credenciales incorrectas',
-              icon: 'error',
-              confirmButtonText: 'Continuar'
-            })
-          }
-        })
+      const res = await axios.post("http://localhost:8080/auth/ingresar", user);
+      // Credenciales correctas  
+      if (res.status === 200) {
+        Swal.fire({
+          title: 'Iniciaste sesión',
+          text: 'Has iniciado sesión correctamente',
+          icon: 'success',
+          confirmButtonText: 'Continuar'
+        });
+        navigate("/menu");
+      }
     } catch (error) {
-      console.log(error)
+      if (error.response) {
+        // Credenciales incorrectas
+        Swal.fire({
+          title: 'Error',
+          text: error.response.data || 'Credenciales incorrectas',
+          icon: 'error',
+          confirmButtonText: 'Continuar'
+        });
+      } else if (error.request) {
+        // La solicitud fue hecha pero no se recibió respuesta, error del lado del cliente
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.',
+          icon: 'error',
+          confirmButtonText: 'Continuar'
+        });
+      } else {
+        // Algo ocurrió al configurar la solicitud que desencadenó un error
+        Swal.fire({
+          title: 'Error',
+          text: 'Ocurrió un error al procesar tu solicitud.',
+          icon: 'error',
+          confirmButtonText: 'Continuar'
+        });
+      }
+      console.error('Error:', error.message);
     }
-  }
-
+  };
 
   return (
     <div className="">
@@ -89,7 +104,6 @@ export default function Ingresar() {
           </div>
         </div>
       </div>
-
     </div>
   )
 }
