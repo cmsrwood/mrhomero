@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const nodemailer = require('nodemailer');
 
 /* Conectar a la base de datos */
 const db = mysql.createPool({
@@ -19,4 +20,15 @@ db.getConnection((err) => {
     }
 });
 
-module.exports = db
+// Configuración de transporte de nodemailer para enviar correos electrónicos
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'dilanfantas@gmail.com',
+        pass: 'jegc hedq jngv tyyg'
+    }
+});
+
+module.exports = db, transporter
