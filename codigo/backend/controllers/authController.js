@@ -99,6 +99,10 @@ exports.recuperar = (req, res) => {
 
     const email = req.body.email
 
+    function generateVerificationCode() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
     // Buscar el usuario en la base de datos
     db.query('SELECT * FROM usuarios WHERE user_email = ?', [email], (err, results) => {
         if (err) {
@@ -111,23 +115,32 @@ exports.recuperar = (req, res) => {
         }
 
         const user = results[0];
-        const token = jwt.sign({ id: user.id_user }, secret, { expiresIn: '1h' })
+        const verificationCode = generateVerificationCode();
 
-        const resetLink = `http://localhost:5173/recuperar/${token}`;
-        const mailOptions = {
-            from: 'dilanfantas@gmail',
-            to: email,
-            subject: 'Recuperar contraseña',
-            text: `Haga clic en el siguiente enlace para restablecer su contraseña: ${resetLink}`
-        };
+        // Guardar el código en la base de datos (puedes usar una tabla separada o agregar un campo temporal)
+        db.query('UPDATE usuarios SET user_reset_code = ? WHERE id_user = ?', [verificationCode, user.id_user], (err, results) => {
+            if (err) return res.status(500).json({ message: 'Error al guardar el código de verificación' });
+            const mailOptions = {
+                from: 'dilanfantas@gmail.com',
+                to: email,
+                subject: 'Código de verificación para restablecer contraseña || Mr. Homero',
+                html: `
+                    <h1>Recuperación de Contraseña</h1>
+                    <p>Tu código de verificación es:</p>
+                    <h2 style="font-size: 24px; font-weight: bold;">${verificationCode}</h2>
+                    <p>Por favor, ingrésalo en el formulario de recuperación de contraseña.</p>
+                    <p>Si no solicitaste este cambio, ignora este mensaje.</p>
+                    <p>Gracias,</p>
+                    <p>El equipo de soporte</p>
+                `,
+            };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error('Error al enviar el correo:', error);
-                return res.status(500).send('Error al enviar el correo');
-            }
-            console.log('Correo enviado:', info.response);
-            return res.status(200).send('Correo enviado');
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return res.status(500).json({ message: 'Error al enviar el correo electrónico' });
+                }
+                res.status(200).json({ message: 'Código de verificación enviado por correo electrónico' });
+            });
         });
     })
 };
