@@ -1,0 +1,37 @@
+Algoritmo RecuperarContraseña
+    Definir email, codigoIngresado, codigoVerificacion, nuevaContraseña Como Cadena
+    Definir emailRegistrado Como Cadena
+	
+    emailRegistrado <- "usuario@ejemplo.com"
+	
+    Escribir "Ingrese su email registrado: "
+    Leer email
+	
+    Si email = emailRegistrado Entonces
+
+        codigoVerificacion <- "123456"  
+		
+        Escribir "Se ha enviado un código de verificación a su email."
+        
+        Repetir
+            Escribir "Ingrese el código de verificación: "
+            Leer codigoIngresado
+            
+            
+            Si codigoIngresado = codigoVerificacion Entonces
+                Escribir "Código verificado correctamente."
+				
+
+                Escribir "Ingrese su nueva contraseña: "
+                Leer nuevaContraseña
+				
+                Escribir "La contraseña ha sido cambiada con éxito."
+            SiNo
+                Escribir "Código incorrecto, intente nuevamente."
+            FinSi
+        Hasta Que intentoCodigo = maxIntentos O codigoIngresado = codigoVerificacion
+		
+    SiNo
+        Escribir "Email no registrado."
+    FinSi
+FinAlgoritmo
