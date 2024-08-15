@@ -132,7 +132,7 @@ exports.recuperar = (req, res) => {
                     </div>
                     <h1>Recuperación de Contraseña</h1>
                     <p>Tu código de verificación es:</p>
-                    <h2 style="font-size: 24px; font-weight: bold; color: #FFC107;">${verificationCode}</h2>
+                    <h2 style="font-size: 40px; font-weight: bold; color: #FFC107;">${verificationCode}</h2>
                     <p>Por favor, ingrésalo en el formulario de recuperación de contraseña.</p>
                     <p>Si no solicitaste este cambio, ignora este mensaje.</p>
                     <p>Gracias,</p>
