@@ -119,9 +119,10 @@ exports.recuperar = (req, res) => {
         const expirationDate = moment().add(1, 'hour').format('YYYY-MM-DD HH:mm:ss'); // Fecha de expiración en 1 hora
 
         // Guardar el código y la fecha de expiración en la base de datos
-        db.query('UPDATE usuarios SET user_reset_code = ?, reset_code_expiration = ? WHERE id_user = ?', [verificationCode, expirationDate, user.id_user], (err) => {
-            if (err) return res.status(500).json({ message: 'Error al guardar el código de verificación' });
+        db.query('UPDATE usuarios SET user_reset_code = ?, user_reset_code_expiration = ? WHERE id_user = ?', [verificationCode, expirationDate, user.id_user], (err) => {
+            if (err) return res.status(500).json({ message: 'Error al guardar el código de verificación' + err });
 
+            // Enviar el código de verificación por correo
             const mailOptions = {
                 from: 'dilanfantas@gmail.com',
                 to: email,
@@ -158,8 +159,9 @@ exports.resetPassword = (req, res) => {
     const verificationCode = req.body.verificationCode;
     const newPassword = req.body.newPassword
     const confirmPassword = req.body.confirmPassword
+    const fechaActual = moment().format('YYYY-MM-DD HH:mm:ss');
 
-    db.query('SELECT * FROM usuarios WHERE user_reset_code = ? AND user_reset_code_expiration < NOW()', [verificationCode], (err, results) => {
+    db.query('SELECT * FROM usuarios WHERE user_reset_code = ? AND user_reset_code_expiration > ?', [verificationCode, fechaActual], (err, results) => {
         if (err) {
             console.error('Error en la consulta:', err);
             return res.status(500).send('Error en el servidor');
