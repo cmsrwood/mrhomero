@@ -8,7 +8,7 @@ export default function Recuperar() {
     axios.defaults.withCredentials = true
 
     const navigate = useNavigate();
-    const [user, setUser] = useState({
+    const [userEmailRecuperar, setUser] = useState({
         email: ""
     });
 
@@ -19,14 +19,14 @@ export default function Recuperar() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:8080/auth/emailRecuperar", user);
+            const res = await axios.post("http://localhost:8080/auth/recuperar", userEmailRecuperar);
             if (res.status === 200) {
                 Swal.fire({
                     title: 'Email enviado',
                     icon: 'success',
                     confirmButtonText: 'Continuar'
                 });
-                navigate("/ingresar");
+                navigate("/recuperar");
             }
         } catch (error) {
             console.log(error);

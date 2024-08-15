@@ -11,9 +11,9 @@ export default function Ingresar() {
     const navigate = useNavigate();
 
     const [user, setUser] = useState({
-        email: "",
-        password: "",
-        codigo: ""
+        newPassword: "",
+        confirmPassword: "",
+        verificationCode: ""
     });
 
     const handleChange = (event) => {
@@ -23,7 +23,7 @@ export default function Ingresar() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:8080/auth/recuperar", user);
+            const res = await axios.post("http://localhost:8080/auth/resetPassword", user);
             if (res.status === 200) {
                 Swal.fire({
                     title: 'Contraseña restaurada',
@@ -53,15 +53,15 @@ export default function Ingresar() {
                         <form onSubmit={handleSubmit}>
                             <i className='display-1 bi bi-person-circle'></i>
                             <div className="form-floating my-5">
-                                <input type="email" className="form-control" placeholder="email" name='email' onChange={handleChange} />
+                                <input type="password" className="form-control" placeholder="email" name='newPassword' onChange={handleChange} />
                                 <label htmlFor="floatingInput">Contraseña</label>
                             </div>
                             <div className="form-floating my-5">
-                                <input type="password" className="form-control" placeholder="Contraseña" name='password' onChange={handleChange} />
+                                <input type="password" className="form-control" placeholder="Contraseña" name='confirmPassword' onChange={handleChange} />
                                 <label htmlFor="floatingInput">Confirmar contraseña</label>
                             </div>
                             <div className="form-floating my-5">
-                                <input type="text" className="form-control" placeholder="Contraseña" name='password' onChange={handleChange} />
+                                <input type="text" className="form-control" placeholder="Contraseña" name='verificationCode' onChange={handleChange} />
                                 <label htmlFor="floatingInput">Ingresa el codigo</label>
                             </div>
                             <button className="btn btn-warning w-100 rounded-5 mb-2 py-2" type="submit">Recuperar contraseña</button>

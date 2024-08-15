@@ -87,7 +87,7 @@ export default function Ingresar() {
                       Recordarme
                     </label>
                   </div>
-                  <Link to="/recuperar">¿Olvidaste tu contraseña?</Link>
+                  <Link to="/EmailRecuperar">¿Olvidaste tu contraseña?</Link>
                 </div>
                 <button type="submit" className="btn btn-warning w-100 rounded-5 mb-2 py-2">Ingresar</button>
                 <p className="text-center text-secondary"><small> ¿No tienes una cuenta? <Link to="/registrar">Registrarte</Link> </small></p>
@@ -99,7 +99,7 @@ export default function Ingresar() {
               <Spline />
               <h1 className='text-end homero-font fs-1 text-warning'>Mr. Homero</h1>
               <p className='text-end homero-font fs-5'>Si lo que buscas es sabor Mr. Homero es el mejor</p>
-            </div>
+            </div>  
           </div>
         </div>
       </div>
