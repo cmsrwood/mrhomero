@@ -1,32 +1,28 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import NavegacionDefault from './PlantillaDefault/NavegacionDefault'
-import axios from 'axios'
+import React, {useState} from 'react';
+import NavegacionDefault from './PlantillaDefault/NavegacionDefault';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
-export default function Ingresar() {
-
+export default function Recuperar() {
     axios.defaults.withCredentials = true
 
     const navigate = useNavigate();
-
     const [user, setUser] = useState({
-        email: "",
-        password: "",
-        codigo: ""
+        email: ""
     });
 
-    const handleChange = (event) => {
-        setUser(prev => ({ ...prev, [event.target.name]: event.target.value }));
-    };
+    const handleChange = (e) => {
+        setUser(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:8080/auth/recuperar", user);
+            const res = await axios.post("http://localhost:8080/auth/emailRecuperar", user);
             if (res.status === 200) {
                 Swal.fire({
-                    title: 'Contraseña restaurada',
+                    title: 'Email enviado',
                     icon: 'success',
                     confirmButtonText: 'Continuar'
                 });
@@ -36,16 +32,16 @@ export default function Ingresar() {
             console.log(error);
             if (error.response) {
                 Swal.fire({
-                    title: error.response.data || 'Algo salió mal',
+                    title: error.response.data || 'Algo salio mal',
                     icon: 'error',
                     confirmButtonText: 'Intentar de nuevo'
                 });
             }
         }
-    }
+    };
 
     return (
-        <div className="">
+        <div className=''>
             <NavegacionDefault />
             <div className='container-fluid p-5 my-5 text-center border wipe-in-down' transition-style="in:wipe:up" style={{ borderRadius: '20px', width: '85%', boxShadow: '0 0 15px 0 rgba(0, 0, 0, 0.3)' }}>
                 <div className="row d-flex justify-content-center">
@@ -54,21 +50,15 @@ export default function Ingresar() {
                             <i className='display-1 bi bi-person-circle'></i>
                             <div className="form-floating my-5">
                                 <input type="email" className="form-control" placeholder="email" name='email' onChange={handleChange} />
-                                <label htmlFor="floatingInput">Contraseña</label>
+                                <label htmlFor="floatingInput">Email</label>
                             </div>
-                            <div className="form-floating my-5">
-                                <input type="password" className="form-control" placeholder="Contraseña" name='password' onChange={handleChange} />
-                                <label htmlFor="floatingInput">Confirmar contraseña</label>
+                            <div className="text-center">
+                                <button type="submit" className="btn btn-warning w-100 rounded-5 mb-2 py-2">Enviar Codigo</button>
                             </div>
-                            <div className="form-floating my-5">
-                                <input type="text" className="form-control" placeholder="Contraseña" name='password' onChange={handleChange} />
-                                <label htmlFor="floatingInput">Ingresa el codigo</label>
-                            </div>
-                            <button className="btn btn-warning w-100 rounded-5 mb-2 py-2" type="submit">Recuperar contraseña</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
