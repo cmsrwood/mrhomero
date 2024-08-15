@@ -20,15 +20,4 @@ db.getConnection((err) => {
     }
 });
 
-// Configuración de transporte de nodemailer para enviar correos electrónicos
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        user: 'dilanfantas@gmail.com',
-        pass: 'jegc hedq jngv tyyg'
-    }
-});
-
-module.exports = db, transporter
+module.exports = db

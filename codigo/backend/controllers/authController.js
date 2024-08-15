@@ -1,8 +1,19 @@
 const db = require('../config/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
-const transporter = require('../config/db');
 const secret = 'mysecretkey';
+const nodemailer = require('nodemailer');
+
+// Configuración de transporte de nodemailer para enviar correos electrónicos
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'dilanfantas@gmail.com',
+        pass: 'jegc hedq jngv tyyg'
+    }
+});
 
 exports.ingresar = (req, res) => {
     const email = req.body.email;
@@ -100,8 +111,8 @@ exports.recuperar = (req, res) => {
         }
 
         const user = results[0];
-        const token = jwt.sign({id:user.id_user},secret,{expiresIn :'1h'})
-        
+        const token = jwt.sign({ id: user.id_user }, secret, { expiresIn: '1h' })
+
         const resetLink = `http://localhost:5173/recuperar/${token}`;
         const mailOptions = {
             from: 'dilanfantas@gmail',
