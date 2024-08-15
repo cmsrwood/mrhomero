@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const secret = 'mysecretkey';
 const nodemailer = require('nodemailer');
+const moment = require('moment');
 
 // Configuración de transporte de nodemailer para enviar correos electrónicos
 const transporter = nodemailer.createTransport({
@@ -96,8 +97,7 @@ exports.registrar = (req, res) => {
     })
 };
 exports.recuperar = (req, res) => {
-
-    const email = req.body.email
+    const email = req.body.email;
 
     function generateVerificationCode() {
         return Math.floor(100000 + Math.random() * 900000).toString();
@@ -116,10 +116,12 @@ exports.recuperar = (req, res) => {
 
         const user = results[0];
         const verificationCode = generateVerificationCode();
+        const expirationDate = moment().add(1, 'hour').format('YYYY-MM-DD HH:mm:ss'); // Fecha de expiración en 1 hora
 
-        // Guardar el código en la base de datos (puedes usar una tabla separada o agregar un campo temporal)
-        db.query('UPDATE usuarios SET user_reset_code = ? WHERE id_user = ?', [verificationCode, user.id_user], (err, results) => {
+        // Guardar el código y la fecha de expiración en la base de datos
+        db.query('UPDATE usuarios SET user_reset_code = ?, reset_code_expiration = ? WHERE id_user = ?', [verificationCode, expirationDate, user.id_user], (err) => {
             if (err) return res.status(500).json({ message: 'Error al guardar el código de verificación' });
+
             const mailOptions = {
                 from: 'dilanfantas@gmail.com',
                 to: email,
@@ -134,6 +136,7 @@ exports.recuperar = (req, res) => {
                     <p style="font-size: 25px;">Tu código de verificación es:</p>
                     <h2 style="font-size: 40px; font-weight: bold; color: #FFC107;">${verificationCode}</h2>
                     <p>Por favor, ingrésalo en el formulario de recuperación de contraseña.</p>
+                    <p>Este código caducará en 1 hora.</p>
                     <p>Si no solicitaste este cambio, ignora este mensaje.</p>
                     <p>Gracias,</p>
                     <p>El equipo de soporte</p>
@@ -141,14 +144,44 @@ exports.recuperar = (req, res) => {
                 `,
             };
 
-            transporter.sendMail(mailOptions, (error, info) => {
+            transporter.sendMail(mailOptions, (error) => {
                 if (error) {
                     return res.status(500).json({ message: 'Error al enviar el correo electrónico' });
                 }
                 res.status(200).json({ message: 'Código de verificación enviado por correo electrónico' });
             });
         });
-    })
+    });
+};
+
+exports.resetPassword = (req, res) => {
+    const verificationCode = req.body.verificationCode;
+    const newPassword = req.body.newPassword
+    const confirmPassword = req.body.confirmPassword
+
+    db.query('SELECT * FROM usuarios WHERE user_reset_code = ? AND user_reset_code_expiration < NOW()', [verificationCode], (err, results) => {
+        if (err) {
+            console.error('Error en la consulta:', err);
+            return res.status(500).send('Error en el servidor');
+        }
+
+        else if (newPassword !== confirmPassword) {
+            return res.status(400).send('Las contraseñas no coinciden');
+        }
+
+        else if (results.length === 0) {
+            return res.status(400).send('Código de verificación inválido, expirado o usuario no encontrado');
+        }
+
+        const user = results[0];
+        const hashPassword = bcrypt.hashSync(newPassword, 10)
+
+        // Actualizar la contraseña y eliminar el código de verificación
+        db.query('UPDATE usuarios SET user_pass = ?, user_reset_code = NULL, user_reset_code_expiration = NULL WHERE id_user = ?', [hashPassword, user.id_user], (err) => {
+            if (err) return res.status(500).send('Error al actualizar la contraseña');
+            res.status(200).send('Contraseña restablecida con éxito');
+        });
+    });
 };
 
 module.exports = exports;
