@@ -1,0 +1,22 @@
+Algoritmo Login
+	// Variables
+	Definir usuario, CONTRASENA, usuarioValido, CONTRASENAVALIDA Como Cadena
+	Definir intentos Como Entero
+	// Inicialización
+	usuarioValido <- 'admin'
+	CONTRASENAVALIDA <- '1234'
+	Escribir 'Ingrese su usuario:'
+	Leer usuario
+	Escribir 'Ingrese su contraseña:'
+	Leer CONTRASENA
+	// Validación de credenciales
+	Si usuario=usuarioValido Y CONTRASENA=CONTRASENAVALIDA Entonces
+		Escribir 'Bienvenido al sistema!'
+	FinSi
+	Si CONTRASENA<>CONTRASENAVALIDA Entonces
+		Escribir 'Contraseña invalida'
+	FinSi
+	Si usuario<>usuarioValido Entonces
+		Escribir 'Usuario no registrado'
+	FinSi
+FinAlgoritmo
