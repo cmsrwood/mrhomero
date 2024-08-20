@@ -36,9 +36,9 @@ export default function Registrar() {
         });
         navigate("/ingresar");
       }
-    } catch(error){
+    } catch (error) {
       console.log(error);
-      if(error.response){
+      if (error.response) {
         Swal.fire({
           title: error.response.data || 'Credenciales incorrectas',
           icon: 'error',
@@ -46,7 +46,7 @@ export default function Registrar() {
         });
       }
     }
-  } 
+  }
 
   return (
     <div className="">
@@ -54,7 +54,7 @@ export default function Registrar() {
       <div className='container px-5'>
         <form onSubmit={handleSubmit}>
           <div className='text-center my-3'>
-            <h2 className='text-warning'>Registro</h2>
+            <h1 className='text-warning'>Registro</h1>
             <p>Crear una cuenta <br /> <small>Inicia sesion con Google</small></p>
             <button className='btn btn-light rounded-5'><i className="bi bi-google"></i></button>
           </div>
@@ -63,19 +63,19 @@ export default function Registrar() {
             <label htmlFor="floatingInput">Nombres</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="text" className="form-control " id="floatingInput" placeholder="apellidos" name="apellidos"  onChange={handleChange}/>
+            <input type="text" className="form-control " id="floatingInput" placeholder="apellidos" name="apellidos" onChange={handleChange} />
             <label htmlFor="floatingInput">Apellidos</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="email" className="form-control" id="floatingInput" placeholder="email" name='email' onChange={handleChange}/>
+            <input type="email" className="form-control" id="floatingInput" placeholder="email" name='email' onChange={handleChange} />
             <label htmlFor="floatingInput">Email</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password' onChange={handleChange}/>
+            <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password' onChange={handleChange} />
             <label htmlFor="floatingInput">Contraseña</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="password" className="form-control" id="floatingInput" placeholder="Confirmar contraseña" name='confirmPassword' onChange={handleChange}/>
+            <input type="password" className="form-control" id="floatingInput" placeholder="Confirmar contraseña" name='confirmPassword' onChange={handleChange} />
             <label htmlFor="floatingInput">Confirmar contraseña</label>
           </div>
           <div className="text-center">
