@@ -2,6 +2,7 @@ import React from 'react'
 import Buscador from '../../Plantilla/Buscador'
 import img from '/img.png';
 import Swal from 'sweetalert2'
+
 export default function Empleados() {
   function Empleado() {
     return (
