@@ -7,6 +7,7 @@ import Menu from "./Pages/default/Menu";
 import NavegacionAdmin from "./Pages/admin/PlantillaAdmin/NavegacionAdmin";
 import Recuperar from "./Pages/default/Recuperar";
 import EmailRecuperar from "./Pages/default/EmailRecuperar";
+import IndexCliente from "./Pages/cliente/IndexCliente";
 function App() {
   return (
     <div className="">
@@ -19,7 +20,8 @@ function App() {
           <Route path='/menu' element={<Menu />}> </Route>
           <Route path="/navegacionadmin" element={<NavegacionAdmin />}> </Route>
           <Route path="/recuperar" element={<Recuperar />} ></Route>
-          <Route path="emailRecuperar" element ={<EmailRecuperar />}> </Route>
+          <Route path="emailRecuperar" element={<EmailRecuperar />}> </Route>
+          <Route path="/inicio" element={<IndexCliente />}> </Route>
         </Routes>
       </BrowserRouter>
     </div>
