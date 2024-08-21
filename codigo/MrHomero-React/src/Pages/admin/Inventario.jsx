@@ -13,7 +13,7 @@ export default function Inventario() {
         <td>###</td>
         <td>
           <div className="d-flex">
-            <button type="button" className="btn btn-outline-warning me-3" data-bs-toggle="modal" data-bs-target="#ModalEditarCategoria">
+            <button type="button" className="btn btn-warning me-3" data-bs-toggle="modal" data-bs-target="#ModalEditarCategoria">
               <i className="bi bi-pencil-square"></i>
             </button>
             <div className="modal fade" id="ModalEditarCategoria" tabIndex="-1" aria-labelledby="ModalEditarCategoriaLabel" aria-hidden="true">
@@ -64,7 +64,7 @@ export default function Inventario() {
                 </div>
               </div>
             </div>
-            <button type="button" className="btn btn-outline-danger" onClick={() => {
+            <button type="button" className="btn btn-danger" onClick={() => {
               Swal.fire({
                 title: "¿Estas seguro?",
                 text: "¡No puedes revertir esta accion!",

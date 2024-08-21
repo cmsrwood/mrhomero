@@ -15,7 +15,7 @@ export default function Ventas() {
         <td>30.000</td>
         <td>
           <div className="d-flex ">
-            <button type="button" className="btn btn-outline-warning me-3" data-bs-toggle="modal" data-bs-target="#Modal"><i className="bi bi-pencil-square"></i> </button>
+            <button type="button" className="btn btn-warning me-3" data-bs-toggle="modal" data-bs-target="#Modal"><i className="bi bi-pencil-square"></i> </button>
             {/* Modal para editar venta */}
             <div className="modal fade" id="Modal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div className="modal-dialog">
@@ -33,8 +33,8 @@ export default function Ventas() {
                     <input type="text" className="form-control my-2" placeholder="Valor" aria-label="Username" aria-describedby="basic-addon1"></input>
                   </div>
                   <div className="modal-footer">
-                    <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" className="btn btn-outline-warning" onClick={() => {
+                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" className="btn btn-warning" onClick={() => {
                       Swal.fire({
                         title: 'Venta editada',
                         text: 'La venta fue editada correctamente.',
@@ -47,7 +47,7 @@ export default function Ventas() {
               </div>
             </div>
             {/* Alerta para eliminar venta */}
-            <button type="button" className="btn btn-outline-danger" onClick={() => {
+            <button type="button" className="btn btn-danger" onClick={() => {
               Swal.fire({
                 title: "¿Eliminar venta?",
                 text: "¡Se eliminara la venta!",

@@ -33,7 +33,7 @@ export default function Pedidos() {
           <td>Hamburguesa</td>
           <td>30.000</td>
           <td>-25%</td>
-          <td><button type="button" className='btn btn-outline-danger' onClick={() => {
+          <td><button type="button" className='btn btn-danger' onClick={() => {
             Swal.fire({
               title: '¿Eliminar pedido?',
               text: '¡Se eliminara el pedido!',
@@ -67,7 +67,7 @@ export default function Pedidos() {
         <th scope="row">Bryam</th>
         <th scope="row">Castañeda Cuervo</th>
         <th scope="row">bryamccuervo2004@gmail.com</th>
-        <th scope="row"><i className="bi bi-plus-circle btn btn-outline-success"></i></th>
+        <th scope="row"><i className="bi bi-plus-circle btn btn-success"></i></th>
       </tr>
     )
   }
@@ -159,7 +159,7 @@ export default function Pedidos() {
             <div className="row">
               <div className='d-flex justify-content-between align-items-center'>
                 <h5>(Nombre del usuario)</h5>
-                <button type="button" className="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalAddClient">
+                <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddClient">
                   <i className="bi bi-plus-circle">  Añadir cliente</i>
                 </button>
                 {/* Modal añadir cliente*/}
@@ -209,8 +209,8 @@ export default function Pedidos() {
                         </div>
                       </div>
                       <div className="modal-footer">
-                        <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" className="btn btn-outline-success">Entendido</button>
+                        <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" className="btn btn-success">Entendido</button>
                       </div>
                     </div>
                   </div>
@@ -325,8 +325,8 @@ export default function Pedidos() {
                             </div>
                           </div>
                           <div className="modal-footer">
-                            <button type="button" className="btn btn-outline-danger" onClick={() => setShowModalSale(false)}>Cerrar</button>
-                            <button type="button" className="btn btn-outline-success" onClick={() => { setShowModalConfirm(true); setShowModalSale(false) }}>Realizar venta</button>
+                            <button type="button" className="btn btn-danger" onClick={() => setShowModalSale(false)}>Cerrar</button>
+                            <button type="button" className="btn btn-success" onClick={() => { setShowModalConfirm(true); setShowModalSale(false) }}>Realizar venta</button>
                           </div>
                         </div>
                       </div>
@@ -381,7 +381,7 @@ export default function Pedidos() {
                           </div>
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
-                          <button type="button" className="btn btn-outline-success fs-5" onClick={() => { setShowModalConfirm(false); setShowModalSale(false); }}><i className="bi bi-plus">Realizar otro pedido</i></button>
+                          <button type="button" className="btn btn-success fs-5" onClick={() => { setShowModalConfirm(false); setShowModalSale(false); }}><i className="bi bi-plus">Realizar otro pedido</i></button>
                         </div>
                       </div>
                     </div>

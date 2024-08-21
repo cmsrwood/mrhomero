@@ -19,7 +19,7 @@ export default function RecompensasAdmin() {
           </button>
         </div>
       </div>
-      
+
     )
   }
   return (

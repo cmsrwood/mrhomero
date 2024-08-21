@@ -15,10 +15,10 @@ export default function MenuAdmin() {
             <h4 className="card-title py-3">Categoria</h4>
             <div className="row">
               <div className="col">
-                <Link onClick={() => setShowCategoria(true)} className="btn btn-outline-success w-100">Ver</Link>
+                <Link onClick={() => setShowCategoria(true)} className="btn btn-success w-100">Ver</Link>
               </div>
               <div className="col">
-                <button type="button" className="btn btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#ModalEditarCategoria">
+                <button type="button" className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#ModalEditarCategoria">
                   Editar
                 </button>
                 <div className="modal fade" id="ModalEditarCategoria" tabIndex="-1" aria-labelledby="ModalEditarCategoriaLabel" aria-hidden="true">
@@ -41,8 +41,8 @@ export default function MenuAdmin() {
                         </div>
                       </div>
                       <div className="modal-footer">
-                        <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" className="btn btn-outline-warning" onClick={() => {
+                        <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" className="btn btn-warning" onClick={() => {
                           Swal.fire({
                             title: 'Categoria editada',
                             text: 'La categoria fue editada correctamente',
@@ -56,7 +56,7 @@ export default function MenuAdmin() {
                 </div>
               </div>
               <div className="col">
-                <button type="button" className="btn btn-outline-danger w-100" onClick={() => {
+                <button type="button" className="btn btn-danger w-100" onClick={() => {
                   Swal.fire({
                     title: "¿Estas seguro?",
                     text: "¡No puedes revertir esta accion!",
@@ -91,7 +91,7 @@ export default function MenuAdmin() {
         <div className="">
           <div className="container my-5 d-flex justify-content-between">
             <h1>Menú</h1>
-            <button type="button" className="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#MenuAdminModal">
+            <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#MenuAdminModal">
               <i className="bi bi-plus-circle"></i> Añadir categoria
             </button>
             <div className="modal fade" id="MenuAdminModal" tabIndex="-1" aria-labelledby="MenuModalLabel" aria-hidden="true">
@@ -114,8 +114,8 @@ export default function MenuAdmin() {
                     </div>
                   </div>
                   <div className="modal-footer">
-                    <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" className="btn btn-outline-success" onClick={() => {
+                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" className="btn btn-success" onClick={() => {
                       Swal.fire({
                         title: 'Categoria creada',
                         text: 'La categoria fue creada correctamente',

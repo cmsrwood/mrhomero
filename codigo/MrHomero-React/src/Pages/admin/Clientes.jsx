@@ -11,7 +11,7 @@ export default function Clientes() {
                 <td>User_apel</td>
                 <td>user@gmail.com</td>
                 <td>3000000000</td>
-                <td><button type="button" className="btn btn-outline-danger" onClick={() => {
+                <td><button type="button" className="btn btn-danger" onClick={() => {
                     Swal.fire({
                         title: "¿Eliminar Cliente?",
                         text: "¡Se eliminara el cliente!",

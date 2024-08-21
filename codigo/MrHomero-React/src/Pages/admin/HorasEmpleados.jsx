@@ -16,7 +16,7 @@ export default function HorasEmpleados() {
           <h3 className="card-title col" >Empleado</h3>
           <p className="card-text col mt-2">Horario de trabajo</p>
         </div>
-        <Link onClick={() => setShowGestionhoras(true)} type="button" className="btn btn-outline-warning ms-2"><i className="bi bi-info-circle"></i> Información</Link>
+        <Link onClick={() => setShowGestionhoras(true)} type="button" className="btn btn-warning ms-2"><i className="bi bi-info-circle"></i> Información</Link>
       </div>
     )
   }
@@ -45,8 +45,8 @@ export default function HorasEmpleados() {
               <Horas />
             </div>
           </div>
-          </div>
-          :<Gestionhoras />}
         </div>
+        : <Gestionhoras />}
+    </div>
   )
 }
