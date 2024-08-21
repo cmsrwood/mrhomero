@@ -14,9 +14,9 @@ export default function RecompensasAdmin() {
         <div className="card-body">
           <h5 className="card-title">Tipo de recompensa</h5>
           <p className="card-text">Descripcion</p>
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Ver
-          </button>
+          <button type="button" className="btn btn-success" ><i class="bi bi-eye"></i></button>
+          <button type="button" className="btn btn-warning mx-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-pencil-square"></i></button>
+          <button type="button" className="btn btn-danger"><i class="bi bi-trash"></i></button>
         </div>
       </div>
 
@@ -83,9 +83,8 @@ export default function RecompensasAdmin() {
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
-              <button type="button" class="btn btn-success">Guardar cambios</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-circle"></i></button>
+              <button type="button" class="btn btn-success"><i className="bi bi-check2-square"></i></button>
             </div>
           </div>
         </div>
