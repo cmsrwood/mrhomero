@@ -66,9 +66,8 @@ export default function Empleados() {
   return (
     <div className="container ps-2">
       <div className="row mt-3 ">
-        <h2 className="col mt-2 ms-5 ">Empleados
-          <i className="bi bi-person-vcard ms-2"></i>
-        </h2>
+        <h1 className="col mt-2 ms-5 ">Empleados
+        </h1>
         <div className="col d-flex justify-content-end align-items-center">
           <Buscador icon="bi bi-search" placeholder="Buscar" />
           <button type="button" className="btn btn-outline-success ms-2" data-bs-toggle="modal" data-bs-target="#Añadir"><i className="bi bi-plus-circle"></i> Añadir</button>
