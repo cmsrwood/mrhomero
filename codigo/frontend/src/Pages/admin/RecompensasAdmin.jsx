@@ -5,6 +5,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import '../../css/style.css'
+import Swal from 'sweetalert2'
 import img from '/img.png';
 export default function RecompensasAdmin() {
   function rcard() {
@@ -14,9 +15,27 @@ export default function RecompensasAdmin() {
         <div className="card-body">
           <h5 className="card-title">Tipo de recompensa</h5>
           <p className="card-text">Descripcion</p>
-          <button type="button" className="btn btn-success" ><i class="bi bi-eye"></i></button>
           <button type="button" className="btn btn-warning mx-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-pencil-square"></i></button>
-          <button type="button" className="btn btn-danger"><i class="bi bi-trash"></i></button>
+          <button type="button" className="btn btn-danger mx-4" onClick={() => {
+            Swal.fire({
+              icon: 'question',
+              title: '¿Estas seguro de eliminar esta recompensa?',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Eliminar',
+              cancelButtonColor: '#d33',
+              cancelButtonText: 'Cancelar',
+            }).then((result =>{
+              if (result.isConfirmed){
+                Swal.fire({
+                  title: '¡Eliminado!',
+                  text: 'La recompensa fue eliminada correctamente',
+                  icon: 'success',
+                  confirmButtonText: 'Hecho'
+                })
+              }
+            }))
+          }}><i class="bi bi-trash"></i></button>
         </div>
       </div>
 
@@ -40,6 +59,9 @@ export default function RecompensasAdmin() {
           modules={[Scrollbar]}
         >
 
+          <SwiperSlide>{rcard()}</SwiperSlide>
+          <SwiperSlide>{rcard()}</SwiperSlide>
+          <SwiperSlide>{rcard()}</SwiperSlide>
           <SwiperSlide>{rcard()}</SwiperSlide>
           <SwiperSlide>{rcard()}</SwiperSlide>
           <SwiperSlide>{rcard()}</SwiperSlide>
@@ -84,7 +106,25 @@ export default function RecompensasAdmin() {
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-circle"></i></button>
-              <button type="button" class="btn btn-success"><i className="bi bi-check2-square"></i></button>
+              <button type="button" class="btn btn-success" onClick={() => {
+                Swal.fire({
+                  icon: 'question',
+                  title: '¿Desea guardar los cambios?',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Si, acepto',
+                  cancelButtonText: 'Cancelar',
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    Swal.fire(
+                      '¡Guardado!',
+                      'Los cambios fueron guardados correctamente.',
+                      'success'
+                    )
+                  }
+                })
+              }}><i className="bi bi-check2-square"></i></button>
             </div>
           </div>
         </div>
