@@ -15,7 +15,7 @@ export default function RecompensasAdmin() {
         <div className="card-body">
           <h5 className="card-title">Tipo de recompensa</h5>
           <p className="card-text">Descripcion</p>
-          <button type="button" className="btn btn-warning mx-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-pencil-square"></i></button>
+          <button type="button" className="btn btn-warning mx-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i className="bi bi-pencil-square"></i></button>
           <button type="button" className="btn btn-danger mx-4" onClick={() => {
             Swal.fire({
               icon: 'question',
@@ -25,8 +25,8 @@ export default function RecompensasAdmin() {
               confirmButtonText: 'Eliminar',
               cancelButtonColor: '#d33',
               cancelButtonText: 'Cancelar',
-            }).then((result =>{
-              if (result.isConfirmed){
+            }).then((result => {
+              if (result.isConfirmed) {
                 Swal.fire({
                   title: '¡Eliminado!',
                   text: 'La recompensa fue eliminada correctamente',
@@ -35,7 +35,7 @@ export default function RecompensasAdmin() {
                 })
               }
             }))
-          }}><i class="bi bi-trash"></i></button>
+          }}><i className="bi bi-trash"></i></button>
         </div>
       </div>
 
@@ -46,7 +46,65 @@ export default function RecompensasAdmin() {
       <h1>Recompensas Admin</h1>
       <div className="d-flex justify-content-between mt-5">
         <h2>Recompensas</h2>
-        <button type="button" className="btn btn-success"><i className="bi bi-plus"></i>Añadir</button>
+        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#client_add"><i className="bi bi-plus"></i>Añadir</button>
+
+        <div className="modal fade" id="client_add" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1 className="modal-title fs-5" id="staticBackdropLabel">Añadir recompensa</h1>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="container">
+                  <div className="row">
+                    <div className="col-3 m-3 ps-3 pt-2">
+                      <img src={img} height={250} className='card-img-center border' alt="..." />
+                      <input type="file" className='form-control mt-5' accept='image/*'></input>
+                    </div>
+                    <div className="col">
+                      <label htmlFor="floatingInput">Nombre</label>
+                      <input type="text" className="form-control my-2" placeholder="Nombre" />
+                      <label htmlFor="floatingInput">Tipo</label>
+                      <select type="text" className="form-select my-2" placeholder="Tipo">
+                        <option disabled selected>Tipo</option>
+                        <option>Tipo</option>
+                        <option>Tipo</option>
+                        <option>Tipo</option>
+                        <option>Tipo</option>
+                      </select>
+                      <label htmlFor="floatingInput">Puntos</label>
+                      <input type="text" className="form-control my-2" placeholder="Puntos" />
+                      <label htmlFor="floatingInput">Descripcion</label>
+                      <textarea className="form-control my-2" placeholder="Descripción" id="floatingTextarea"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-circle"></i></button>
+                  <button type="button" className="btn btn-success" onClick={() => {
+                    Swal.fire({
+                      icon: 'question',
+                      title: '¿Desea crear una nueva recompensa?',
+                      showCancelButton: true,
+                      confirmButtonText: 'Si, confirmar',
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonText: 'Cancelar',
+                      cancelButtonColor: '#d33'
+                    }).then((result) =>{
+                      if(result.isConfirmed){
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'Se ha creado una nueva recompensa'
+                        })
+                      }
+                    })
+                  }}><i className="bi bi-check-circle"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="mt-3">
         <Swiper
@@ -71,14 +129,14 @@ export default function RecompensasAdmin() {
           <SwiperSlide>{rcard()}</SwiperSlide>
         </Swiper>
       </div>
-      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar información</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="staticBackdropLabel">Editar información</h1>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <div className="conatiner">
                 <div className="row">
                   <div className="col-3 m-3 ps-3 pt-2">
@@ -104,9 +162,9 @@ export default function RecompensasAdmin() {
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-circle"></i></button>
-              <button type="button" class="btn btn-success" onClick={() => {
+            <div className="modal-footer">
+              <button type="button" className="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-circle"></i></button>
+              <button type="button" className="btn btn-success" onClick={() => {
                 Swal.fire({
                   icon: 'question',
                   title: '¿Desea guardar los cambios?',
