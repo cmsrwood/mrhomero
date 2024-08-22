@@ -95,7 +95,7 @@ export default function RecompensasAdmin() {
                       if(result.isConfirmed){
                         Swal.fire({
                           icon: 'success',
-                          title: 'Se ha creado una nueva recompensa'
+                          title: '¡Se ha creado una nueva recompensa!'
                         })
                       }
                     })
