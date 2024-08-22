@@ -49,8 +49,7 @@ export default function Pedidos() {
                   title: '¡Eliminado!',
                   text: 'El pedido fue eliminado correctamente.',
                   icon: 'success',
-                  confirmButtonText: "Hecho",
-                  confirmButtonColor: '#FFC107'
+                  confirmButtonText: "Hecho"
                 })
               }
             })
