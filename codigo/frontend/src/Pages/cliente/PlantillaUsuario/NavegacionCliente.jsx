@@ -38,8 +38,8 @@ export default function NavegacionCliente() {
           <Link className={`nav-link mx-2 homero-font ${rutaActiva('nosotros')} fs-5`} to="/nosotros"><i className="bi bi-people-fill me-1 "></i>Nosotros</Link>
           <Link className={`nav-link mx-2 homero-font ${rutaActiva('menu')} fs-5`} to="/menu"><i className="bi bi-list-ul me-1"></i>Menú</Link>
           <Link className={`nav-link mx-2 homero-font ${rutaActiva('recompensas')} fs-5`} to="/recompensas"><i className="bi bi-gift me-1"></i>Recompensas</Link>
-          <Link className={`nav-link mx-2 homero-font ${rutaActiva('miscompras')} fs-5`} to="/miscompras"><i className="bi bi-envelope me-1"></i>Mis compras</Link>
-          <div className="dropdown me-5 pe-5">
+          <Link className={`nav-link mx-2 homero-font ${rutaActiva('miscompras')} fs-5`} to="/miscompras"><i className="bi bi-clock-history me-1"></i>Mis compras</Link>
+          <div className="dropdown me-1 pe-5">
             <button className="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i className="bi bi-person-square "></i>
             </button>
