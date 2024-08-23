@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import NavegacionDefault from './PlantillaDefault/NavegacionDefault'
-import Spline from '../default/PlantillaDefault/Hamburguesa'
+import Spline from './Hamburguesa'
 import axios from 'axios'
 
 export default function Ingresar() {
