@@ -32,7 +32,7 @@ export default function Ingresar() {
           icon: 'success',
           confirmButtonText: 'Continuar'
         });
-        navigate("/menu");
+        navigate("/inicio");
       }
     } catch (error) {
       console.log(error);
@@ -99,7 +99,7 @@ export default function Ingresar() {
               <Spline />
               <h1 className='text-end homero-font fs-1 text-warning'>Mr. Homero</h1>
               <p className='text-end homero-font fs-5'>Si lo que buscas es sabor Mr. Homero es el mejor</p>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
