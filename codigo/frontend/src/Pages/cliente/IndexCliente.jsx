@@ -1,5 +1,5 @@
 import React from 'react'
-import NavegacionCliente from './PlantillaUsuario/NavegacionCliente'
+import NavegacionCliente from '../../navigation/NavegacionCliente'
 
 export default function IndexCliente() {
   return (

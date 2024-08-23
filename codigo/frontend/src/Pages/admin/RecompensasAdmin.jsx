@@ -4,9 +4,10 @@ import { Scrollbar } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
-import '../../css/style.css'
+import '../../styles/style.css'
 import Swal from 'sweetalert2'
-import img from '/img.png';
+import img from '../../assets/img/img.png'
+
 export default function RecompensasAdmin() {
   function rcard() {
     return (
@@ -90,8 +91,8 @@ export default function RecompensasAdmin() {
                       confirmButtonColor: '#3085d6',
                       cancelButtonText: 'Cancelar',
                       cancelButtonColor: '#d33'
-                    }).then((result) =>{
-                      if(result.isConfirmed){
+                    }).then((result) => {
+                      if (result.isConfirmed) {
                         Swal.fire({
                           icon: 'success',
                           title: '¡Se ha creado una nueva recompensa!'

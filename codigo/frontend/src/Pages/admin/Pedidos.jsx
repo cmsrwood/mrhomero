@@ -4,10 +4,11 @@ import { Scrollbar } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
-import '../../css/style.css'
-import img from '/img.png'
-import Dropdown from '../../Plantilla/Dropdown'
+import '../../styles/style.css'
+import Dropdown from '../../components/Dropdown'
 import Swal from 'sweetalert2'
+import img from '../../assets/img/img.png'
+
 export default function Pedidos() {
   // Uso de useState para los modales
   const [showModalSale, setShowModalSale] = useState(false);

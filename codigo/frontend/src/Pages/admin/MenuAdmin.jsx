@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import img from '/img.png';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
-import Categoria from './Categoria';
+import Categoria from '../admin/Categoria';
+import img from '../../assets/img/img.png'
+
 export default function MenuAdmin() {
   const [showCategoria, setShowCategoria] = useState(false);
   // carta
