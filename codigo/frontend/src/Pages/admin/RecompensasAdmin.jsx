@@ -43,9 +43,8 @@ export default function RecompensasAdmin() {
   }
   return (
     <div className="container p-5">
-      <h1>Recompensas Admin</h1>
       <div className="d-flex justify-content-between mt-5">
-        <h2>Recompensas</h2>
+        <h1>Recompensas</h1>
         <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#client_add"><i className="bi bi-plus"></i>Añadir</button>
 
         <div className="modal fade" id="client_add" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
