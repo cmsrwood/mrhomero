@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import NavegacionDefault from './PlantillaDefault/NavegacionDefault'
+import NavegacionDefault from '../../navigation/NavegacionDefault'
 import axios from 'axios'
 
 export default function Registrar() {

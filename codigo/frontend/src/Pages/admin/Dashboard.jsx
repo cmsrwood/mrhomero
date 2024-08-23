@@ -1,6 +1,7 @@
 import React from 'react'
-import CustomChart from '../../Plantilla/CustomChart';
-import img from '/img.png';
+import CustomChart from '../../components/CustomChart';
+import img from '../../assets/img/img.png'
+
 export default function Dashboard() {
   function card() {
     return (

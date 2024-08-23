@@ -1,7 +1,8 @@
 import React from 'react'
-import img from '/img.png';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import img from '../../assets/img/img.png'
+
 
 export default function Categoria() {
   function card() {

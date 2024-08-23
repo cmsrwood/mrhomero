@@ -1,7 +1,8 @@
 import React from 'react'
-import Buscador from '../../Plantilla/Buscador'
-import img from '/img.png';
+import Buscador from '../../components/Buscador'
 import Swal from 'sweetalert2'
+import img from '../../assets/img/img.png'
+
 
 export default function Empleados() {
   function Empleado() {

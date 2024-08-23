@@ -1,5 +1,7 @@
 import React from 'react'
 import Swal from 'sweetalert2';
+import img from '../../assets/img/img.png'
+  
 
 export default function Inventario() {
   function Fila() {
@@ -95,7 +97,7 @@ export default function Inventario() {
       <div className={`card bg-${color} col-6 col-sm-12 bg-opacity-75 text-dark`}>
         <div className="row g-0">
           <div className="col-md-4 p-2">
-            <img src="/img.png" className="img-fluid bg-white border" alt="..." />
+            <img src={img} className="img-fluid bg-white border" alt="..." />
           </div>
           <div className="col-md-8">
             <div className="card-body">

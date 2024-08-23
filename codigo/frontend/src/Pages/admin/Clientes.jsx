@@ -1,5 +1,5 @@
 import React from 'react'
-import Buscador from '../../Plantilla/Buscador'
+import Buscador from '../../components/Buscador'
 import Swal from 'sweetalert2'
 
 export default function Clientes() {

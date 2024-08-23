@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import img from '/img.png';
 import { Link } from 'react-router-dom';
-import Gestionhoras from './Gestionhoras';
+import Gestionhoras from '../admin/Gestionhoras';
+import img from '../../assets/img/img.png'
+
 
 
 export default function HorasEmpleados() {

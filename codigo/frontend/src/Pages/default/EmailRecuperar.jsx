@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import NavegacionDefault from './PlantillaDefault/NavegacionDefault';
+import NavegacionDefault from '../../navigation/NavegacionDefault'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';

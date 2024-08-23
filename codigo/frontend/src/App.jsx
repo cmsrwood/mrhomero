@@ -4,7 +4,7 @@ import Registrar from "./Pages/default/Registrar";
 import Ingresar from "./Pages/default/Ingresar";
 import Nosotros from "./Pages/default/Nosotros";
 import Menu from "./Pages/default/Menu";
-import NavegacionAdmin from "./Pages/admin/PlantillaAdmin/NavegacionAdmin";
+import NavegacionAdmin from "./navigation/NavegacionAdmin";
 import Recuperar from "./Pages/default/Recuperar";
 import EmailRecuperar from "./Pages/default/EmailRecuperar";
 import IndexCliente from "./Pages/cliente/IndexCliente";
