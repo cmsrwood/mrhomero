@@ -4,6 +4,8 @@ import Swal from 'sweetalert2'
 import NavegacionDefault from '../../navigation/NavegacionDefault'
 import axios from 'axios'
 
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
+
 export default function Registrar() {
 
   axios.defaults.withCredentials = true
@@ -26,7 +28,7 @@ export default function Registrar() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/resetPassword`, user);
+      const res = await axios.post(`${BACKEND_URL}/auth/resetPassword`, user);
       if (res.status === 200) {
         Swal.fire({
           title: 'Cuenta creada',
