@@ -5,7 +5,6 @@ import NavegacionDefault from '../../navigation/NavegacionDefault'
 import axios from 'axios'
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
-
 export default function Registrar() {
 
   axios.defaults.withCredentials = true
