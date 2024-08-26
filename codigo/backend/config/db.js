@@ -3,10 +3,10 @@ const nodemailer = require('nodemailer');
 
 /* Conectar a la base de datos */
 const db = mysql.createPool({
-    host: 'mrhomero.cp84e8ay06n5.us-east-2.rds.amazonaws.com',
-    user: 'homero',
-    password: 'Awsmrhomero',
-    database: 'mrhomero',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASS || '',
+    database: process.env.DB_NAME || 'mrhomero',
     connectTimeout: 10000,
     ssl: true
 });
