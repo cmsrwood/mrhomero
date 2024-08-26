@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
+
 export default function Recuperar() {
     axios.defaults.withCredentials = true
 
@@ -19,7 +21,7 @@ export default function Recuperar() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:8080/auth/recuperar", userEmailRecuperar);
+            const res = await axios.post(`${BACKEND_URL}/auth/recuperarw`, userEmailRecuperar);
             if (res.status === 200) {
                 Swal.fire({
                     title: 'Email enviado',

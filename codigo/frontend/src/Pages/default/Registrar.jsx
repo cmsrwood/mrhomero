@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 import NavegacionDefault from '../../navigation/NavegacionDefault'
 import axios from 'axios'
 
-const BACKEND_URL = "https://mrhomero-backend.onrender.com";
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
 
 export default function Registrar() {
 

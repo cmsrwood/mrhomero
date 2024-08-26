@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 import NavegacionDefault from '../../navigation/NavegacionDefault'
 import Spline from './Hamburguesa'
 import axios from 'axios'
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
 
 export default function Ingresar() {
 
@@ -23,7 +24,7 @@ export default function Ingresar() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8080/auth/ingresar", user);
+      const res = await axios.post(`${BACKEND_URL}/auth/ingresar`, user);
       // Credenciales correctas  
       if (res.status === 200) {
         Swal.fire({
