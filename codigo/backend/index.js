@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 const secret = 'mysecretkey';
 
 app.use(cors({
-    origin: '*',
+    origin: 'https://mrhomero.onrender.com',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
