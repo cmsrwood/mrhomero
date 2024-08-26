@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import NavegacionDefault from '../../navigation/NavegacionDefault'
 import axios from 'axios'
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
 
 export default function Registrar() {
 
@@ -26,7 +27,7 @@ export default function Registrar() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8080/auth/registrar", user);
+      const res = await axios.post(`${BACKEND_URL}/auth/registrar`, user);
       if (res.status === 200) {
         Swal.fire({
           title: 'Cuenta creada',
