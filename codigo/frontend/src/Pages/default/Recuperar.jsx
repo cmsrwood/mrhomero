@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import NavegacionDefault from '../../navigation/NavegacionDefault'
 import axios from 'axios'
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080"; // Suponiendo que usas React
 
 export default function Ingresar() {
 
@@ -23,7 +24,7 @@ export default function Ingresar() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:8080/auth/resetPassword", user);
+            const res = await axios.post(`${BACKEND_URL}/auth/recuperar`, user);
             if (res.status === 200) {
                 Swal.fire({
                     title: 'Contraseña restaurada',
