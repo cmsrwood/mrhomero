@@ -16,7 +16,8 @@ const secret = 'mysecretkey';
 app.use(cors({
     origin: 'https://mrhomero.onrender.com',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // Rutas
