@@ -5,7 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 const secret = 'mysecretkey';
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
