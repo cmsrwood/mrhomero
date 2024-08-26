@@ -28,7 +28,7 @@ export default function Registrar() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${BACKEND_URL}/auth/resetPassword`, user);
+      const res = await axios.post(`${BACKEND_URL}/auth/registrar`, user);
       if (res.status === 200) {
         Swal.fire({
           title: 'Cuenta creada',
