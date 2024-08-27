@@ -3,6 +3,8 @@ import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import img from '../../assets/img/img.png'
 
+{/*Carta de categorias*/}
+
 
 export default function Categoria() {
   function card() {
