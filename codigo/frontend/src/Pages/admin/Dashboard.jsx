@@ -1,6 +1,7 @@
 import React from 'react'
 import CustomChart from '../../components/CustomChart';
 import img from '../../assets/img/img.png'
+import NavegacionAdmin from '../../navigation/NavegacionAdmin'
 
 export default function Dashboard() {
   function card() {
@@ -37,39 +38,42 @@ export default function Dashboard() {
     maintainAspectRatio: false,
   };
   return (
-    <div className='container pt-3'>
-      <div className="row g-4">
-        <div className="text-center justify-content-center">
-          <CustomChart data={data} tipo='line' options={options} />
+    <div className="">
+      <NavegacionAdmin/>
+      <div className='container pt-3'>
+        <div className="row g-4">
+          <div className="text-center justify-content-center">
+            <CustomChart data={data} tipo='line' options={options} />
+          </div>
+          <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary  text-center">
+            <h3 className='pt-4'>Prductos vendidos</h3>
+            <h4 className='pt-2'>1234 unidades</h4>
+            <h4 className='pb-4 text-success'>+8% este mes</h4>
+          </div>
+          <div className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center">
+            <h3 className='pt-4'>Total ganancias</h3>
+            <h4 className='pt-2'>COP 10.000.000</h4>
+            <h4 className='pb-4 text-danger'>-5% este mes</h4>
+          </div>
         </div>
-        <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary  text-center">
-          <h3 className='pt-4'>Prductos vendidos</h3>
-          <h4 className='pt-2'>1234 unidades</h4>
-          <h4 className='pb-4 text-success'>+8% este mes</h4>
-        </div>
-        <div className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center">
-          <h3 className='pt-4'>Total ganancias</h3>
-          <h4 className='pt-2'>COP 10.000.000</h4>
-          <h4 className='pb-4 text-danger'>-5% este mes</h4>
-        </div>
-      </div>
-      <div className="container border border-2 border-secondary my-5 p-3">
-        <div className="row w-100 justify-content-between">
-          <h4 className="col-12 col-sm-10">Productos más vendidos</h4>
-          <select name="" id="" className="form-select col-12 col-sm mx-2">
-            <option value="">Enero</option>
-            <option value="">Febrero</option>
-            <option value="">Marzo</option>
-            <option value="">Abril</option>
-          </select>
-        </div>
-        <div className="row px-2">
-          {card()}
-          {card()}
-          {card()}
-          {card()}
-          {card()}
-          {card()}
+        <div className="container border border-2 border-secondary my-5 p-3">
+          <div className="row w-100 justify-content-between">
+            <h4 className="col-12 col-sm-10">Productos más vendidos</h4>
+            <select name="" id="" className="form-select col-12 col-sm mx-2">
+              <option value="">Enero</option>
+              <option value="">Febrero</option>
+              <option value="">Marzo</option>
+              <option value="">Abril</option>
+            </select>
+          </div>
+          <div className="row px-2">
+            {card()}
+            {card()}
+            {card()}
+            {card()}
+            {card()}
+            {card()}
+          </div>
         </div>
       </div>
     </div>

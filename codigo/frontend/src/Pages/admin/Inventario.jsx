@@ -1,7 +1,8 @@
 import React from 'react'
 import Swal from 'sweetalert2';
 import img from '../../assets/img/img.png'
-  
+import NavegacionAdmin from '../../navigation/NavegacionAdmin'
+
 
 export default function Inventario() {
   function Fila() {
@@ -111,74 +112,77 @@ export default function Inventario() {
     )
   }
   return (
-    <div className='container p-5'>
-      <div className="row g-5 justify-content-center">
-        <div className="col-12 col-sm-8 ">
-          <div className="d-flex justify-content-between">
-            <h1>Inventario</h1>
-            <button type="button" className="btn btn-success"><i className="bi bi-plus"></i>Añadir</button>
+    <div>
+      <NavegacionAdmin/>
+      <div className='container p-5'>
+        <div className="row g-5 justify-content-center">
+          <div className="col-12 col-sm-8 ">
+            <div className="d-flex justify-content-between">
+              <h1>Inventario</h1>
+              <button type="button" className="btn btn-success"><i className="bi bi-plus"></i>Añadir</button>
+            </div>
+            <div className="table-responsive scrollbar">
+              <table className=" table table-striped mt-5 table-scrollbar">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Fecha de ingreso</th>
+                    <th scope="col">Fecha de caducidad</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Editar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                  {Fila()}
+                </tbody>
+              </table>
+            </div>
+            <nav aria-label="Page navigation example">
+              <ul className="pagination">
+                <li className="page-item">
+                  <a className="page-link text-warning" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li className="page-item"><a className="page-link text-warning" href="#">1</a></li>
+                <li className="page-item"><a className="page-link text-warning" href="#">2</a></li>
+                <li className="page-item"><a className="page-link text-warning" href="#">3</a></li>
+                <li className="page-item">
+                  <a className="page-link text-warning" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
-          <div className="table-responsive scrollbar">
-            <table className=" table table-striped mt-5 table-scrollbar">
-              <thead>
-                <tr>
-                  <th scope="col">id</th>
-                  <th scope="col">Producto</th>
-                  <th scope="col">Categoria</th>
-                  <th scope="col">Fecha de ingreso</th>
-                  <th scope="col">Fecha de caducidad</th>
-                  <th scope="col">Cantidad</th>
-                  <th scope="col">Editar</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-                {Fila()}
-              </tbody>
-            </table>
-          </div>
-          <nav aria-label="Page navigation example">
-            <ul className="pagination">
-              <li className="page-item">
-                <a className="page-link text-warning" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li className="page-item"><a className="page-link text-warning" href="#">1</a></li>
-              <li className="page-item"><a className="page-link text-warning" href="#">2</a></li>
-              <li className="page-item"><a className="page-link text-warning" href="#">3</a></li>
-              <li className="page-item">
-                <a className="page-link text-warning" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div className="col-10 col-sm-4 scrollbar">
-          <h2 className='pb-5'>Bajo stock</h2>
-          <div className="row g-3">
-            {card('Tomate', '10', 'danger')}
-            {card('Lechuga', '13', 'danger')}
-            {card('Cebolla', '16', 'danger')}
-            {card('Papas fritas', '20', 'warning')}
-            {card('Papas fritas', '20', 'warning')}
+          <div className="col-10 col-sm-4 scrollbar">
+            <h2 className='pb-5'>Bajo stock</h2>
+            <div className="row g-3">
+              {card('Tomate', '10', 'danger')}
+              {card('Lechuga', '13', 'danger')}
+              {card('Cebolla', '16', 'danger')}
+              {card('Papas fritas', '20', 'warning')}
+              {card('Papas fritas', '20', 'warning')}
+            </div>
           </div>
         </div>
       </div>

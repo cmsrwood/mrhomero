@@ -1,25 +1,25 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import Ventas from '../Pages/admin/Ventas'
-import IndexAdmin from '../Pages/admin/IndexAdmin'
-import Dashboard from '../Pages/admin/Dashboard'
-import Pedidos from '../Pages/admin/Pedidos'
-import Clientes from '../Pages/admin/Clientes'
-import MenuAdmin from '../Pages/admin/MenuAdmin'
-import Inventario from '../Pages/admin/Inventario'
-import RecompensasAdmin from '../Pages/admin/RecompensasAdmin'
-import Empleados from '../Pages/admin/Empleados'
-import HorasEmpleados from '../Pages/admin/HorasEmpleados'
+import React from 'react'
+import { useLocation, Link } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
 export default function NavegacionAdmin() {
+
+    const location = useLocation();
+    const ruta = location.pathname.split("/")[2];
+    function rutaActiva(link) {
+        if (ruta === link) {
+            return "text-warning"
+        }
+    }
+
     const ToastTema = Swal.mixin({
         toast: true,
         position: "bottom-end",
         showConfirmButton: false,
         timer: 1500,
     })
-    var collapse = document.getElementById('collapseVentas');
+    var collapseVentas = document.getElementById('collapseVentas');
+    var collapseEmpleados = document.getElementById('collapseEmpleados');
     function tema() {
         var index = document.getElementById('html');
         var icon = document.getElementById('botont');
@@ -51,67 +51,63 @@ export default function NavegacionAdmin() {
         }
     }
 
-    const [componenteActual, setComponenteActual] = useState('IndexAdmin');
-
     return (
         <div className="d-flex position-relative">
-            <div className='min-vh-100 bg-dark text-white border-end sidebar ' id="sidebar">
-            </div>
             <div className='min-vh-100 bg-dark text-white border-end sidebar position-fixed shadow' id="sidebar">
                 <ul className=" pt-5 mt-4 pt-sm-5 mt-sm-5 list-unstyled">
-                    <Link onClick={() => setComponenteActual('IndexAdmin')} className={componenteActual === 'IndexAdmin' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <Link to="/admin/" className={rutaActiva('') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-house "></i> <span className='d-none d-sm-inline'>Inicio</span>
                     </Link>
-                    <Link className={componenteActual === 'Ventas' || componenteActual === 'Dashboard' || componenteActual === 'Pedidos' ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseVentas">
+                    <Link className={rutaActiva('ventas') || rutaActiva('pedidos') || rutaActiva('dashboard') ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseVentas">
                         <div className="">
                             <i className="bi bi-wallet2 me-1"></i>
                             <span className='d-none d-sm-inline'>Ventas</span>
                         </div>
-                        <i className={collapse?.classList?.contains("show") ? "bi bi-chevron-up pe-3" : "bi bi-chevron-down pe-3"}></i>
+                        <i className={collapseVentas?.classList?.contains("show") ? "bi bi-chevron-up pe-3" : "bi bi-chevron-down pe-3"}></i>
                     </Link>
-                    <div className="collapse" id="collapseVentas">
-                        <Link onClick={() => setComponenteActual('Dashboard')} className={componenteActual === 'Dashboard' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <div className={rutaActiva('dashboard') || rutaActiva('ventas') || rutaActiva('pedidos') ? `collapse show` : `collapse`} id="collapseVentas">
+                        <Link to='/admin/dashboard' className={rutaActiva('dashboard') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-graph-up"></i> <span className='d-none d-sm-inline'>Analisis de ventas</span>
                         </Link>
-                        <Link onClick={() => setComponenteActual('Ventas')} className={componenteActual === 'Ventas' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <Link to='/admin/ventas' className={rutaActiva('ventas') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-pencil-square"></i> <span className='d-none d-sm-inline'>Gestion de ventas</span>
                         </Link>
-                        <Link onClick={() => setComponenteActual('Pedidos')} className={componenteActual === 'Pedidos' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <Link to='/admin/pedidos' className={rutaActiva('pedidos') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-check2-circle"></i> <span className='d-none d-sm-inline'>Pedidos</span>
                         </Link>
                     </div>
-                    <Link onClick={() => setComponenteActual('Inventario')} className={componenteActual === 'Inventario' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <Link to='/admin/inventario' className={rutaActiva('inventario') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-inboxes"></i> <span className='d-none d-sm-inline'>Inventario</span>
                     </Link>
 
-                    <Link onClick={() => setComponenteActual('MenuAdmin')} className={componenteActual === 'MenuAdmin' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <Link to='/admin/menu' className={rutaActiva('menu') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="fa fa-utensils"></i> <span className='d-none d-sm-inline'>Menú</span>
                     </Link>
-                    <Link onClick={() => setComponenteActual('Recompensas')} className={componenteActual === 'Recompensas' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <Link to='/admin/recompensas' className={rutaActiva('recompensas') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-trophy"></i> <span className='d-none d-sm-inline'>Recompensas</span>
                     </Link>
-                    <Link onClick={() => setComponenteActual('Clientes')} className={componenteActual === 'Clientes' ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <Link to='/admin/clientes' className={rutaActiva('clientes') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-people"></i> <span className='d-none d-sm-inline'>Clientes</span>
                     </Link>
-                    <Link className={componenteActual === 'Empleados' || componenteActual === 'HorasEmpleados' ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseEmpleados">
+                    <Link className={rutaActiva('empleados') || rutaActiva('HorasEmpleados') ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseEmpleados">
                         <div className="">
                             <i className="bi bi-wallet2 me-1"></i>
                             <span className='d-none d-sm-inline'>Empleados</span>
                         </div>
-                        <i className={collapse?.classList?.contains("show") ? "bi bi-chevron-up pe-3" : "bi bi-chevron-down pe-3"}></i>
+                        <i className={collapseEmpleados?.classList?.contains("show") ? "bi bi-chevron-up pe-3" : "bi bi-chevron-down pe-3"}></i>
                     </Link>
-                    <div className="collapse" id="collapseEmpleados">
-                        <Link onClick={() => setComponenteActual('Empleados')} className={componenteActual === 'Empleados' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                    <div id="collapseEmpleados">
+                        <Link to='/empleados' className={rutaActiva('empleados') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-graph-up"></i> <span className='d-none d-sm-inline'>Empleados</span>
                         </Link>
-                        <Link onClick={() => setComponenteActual('HorasEmpleados')} className={componenteActual === 'HorasEmpleados' ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <Link to='/horasempleados' className={rutaActiva('horasEmpleados') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-pencil-square"></i> <span className='d-none d-sm-inline'>Horas de empleados</span>
                         </Link>
                     </div>
                 </ul>
             </div>
             <div className="w-100">
-                <nav className=" bg-dark navbar navbar-expand-lg border-bottom"></nav>
+                <nav className=" bg-dark navbar navbar-expand-lg border-bottom mb-5 pb-5"></nav>
                 <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top shadow">
                     <div className="container-fluid">
                         <Link className="navbar-brand text-warning homero-font fs-3" to="#">Mr. Homero</Link>
@@ -133,16 +129,6 @@ export default function NavegacionAdmin() {
                 </nav>
                 {/* Contenido */}
                 <div className="pt-5 container">
-                    {componenteActual === 'IndexAdmin' && <IndexAdmin />}
-                    {componenteActual === 'Dashboard' && <Dashboard />}
-                    {componenteActual === 'Ventas' && <Ventas />}
-                    {componenteActual === 'Pedidos' && <Pedidos />}
-                    {componenteActual === 'Inventario' && <Inventario />}
-                    {componenteActual === 'MenuAdmin' && <MenuAdmin />}
-                    {componenteActual === 'Recompensas' && <RecompensasAdmin />}
-                    {componenteActual === 'Clientes' && <Clientes />}
-                    {componenteActual === 'Empleados' && <Empleados />}
-                    {componenteActual === 'HorasEmpleados' && <HorasEmpleados />}
                 </div>
             </div>
         </div>

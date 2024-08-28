@@ -1,6 +1,7 @@
 import React from 'react'
 import Buscador from '../../components/Buscador'
 import Swal from 'sweetalert2'
+import NavegacionAdmin from '../../navigation/NavegacionAdmin'
 
 export default function Clientes() {
     function Usuario() {
@@ -39,51 +40,54 @@ export default function Clientes() {
     }
 
     return (
-        <div className=" container p-5">
-            <div className="row">
-                <h1 className="col-12 col-sm-6">Clientes</h1>
-                <div className="col-12 col-sm-6 position-relative">
-                    <Buscador icon="search" placeholder="Buscar" />
+        <div className="">
+            <NavegacionAdmin />
+            <div className="container p-5">
+                <div className="row">
+                    <h1 className="col-12 col-sm-6">Clientes</h1>
+                    <div className="col-12 col-sm-6 position-relative">
+                        <Buscador icon="search" placeholder="Buscar" />
+                    </div>
                 </div>
+                <div className="table-responsive">
+                    <table className=" table table-striped mt-5">
+                        <thead>
+                            <tr>
+                                <th scope="col">id</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Telefono</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Usuario()}
+                            {Usuario()}
+                            {Usuario()}
+                            {Usuario()}
+                            {Usuario()}
+                        </tbody>
+                    </table>
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul className="pagination">
+                        <li className="page-item">
+                            <a className="page-link text-warning" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li className="page-item"><a className="page-link text-warning" href="#">1</a></li>
+                        <li className="page-item"><a className="page-link text-warning" href="#">2</a></li>
+                        <li className="page-item"><a className="page-link text-warning" href="#">3</a></li>
+                        <li className="page-item">
+                            <a className="page-link text-warning" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-            <div className="table-responsive">
-                <table className=" table table-striped mt-5">
-                    <thead>
-                        <tr>
-                            <th scope="col">id</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellidos</th>
-                            <th scope="col">Correo</th>
-                            <th scope="col">Telefono</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {Usuario()}
-                        {Usuario()}
-                        {Usuario()}
-                        {Usuario()}
-                        {Usuario()}
-                    </tbody>
-                </table>
-            </div>
-            <nav aria-label="Page navigation example">
-                <ul className="pagination">
-                    <li className="page-item">
-                        <a className="page-link text-warning" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li className="page-item"><a className="page-link text-warning" href="#">1</a></li>
-                    <li className="page-item"><a className="page-link text-warning" href="#">2</a></li>
-                    <li className="page-item"><a className="page-link text-warning" href="#">3</a></li>
-                    <li className="page-item">
-                        <a className="page-link text-warning" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     )
 }

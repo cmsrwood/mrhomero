@@ -1,6 +1,7 @@
 import React from 'react'
 import Buscador from '../../components/Buscador'
 import Swal from 'sweetalert2'
+import NavegacionAdmin from '../../navigation/NavegacionAdmin'
 
 export default function Ventas() {
   function Fila() {
@@ -77,8 +78,9 @@ export default function Ventas() {
   }
   return (
     <div className=''>
+      <NavegacionAdmin />
       {/* Cuerpo de la pagina */}
-      <div className=" container p-5">
+      <div className=" container p-5 just">
         <div className="row">
           <h1 className="col-12 col-sm-6">Gestion de ventas</h1>
           <div className="col-12 col-sm-6 position-relative">
