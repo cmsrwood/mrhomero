@@ -8,7 +8,7 @@ const db = mysql.createPool({
     password: process.env.DB_PASS || '',
     database: process.env.DB_NAME || 'mrhomero',
     connectTimeout: 10000,
-    ssl: true
+    ssl: process.env.DB_SSL ? true : false
 });
 
 /* Verificar la conección */
