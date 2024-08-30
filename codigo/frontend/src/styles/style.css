@@ -9,7 +9,7 @@
 h1 {
     font-family: 'Homer Simpson Revised', sans-serif;
     font-size: 50px;
-    color :#ffc107 ;
+    color: #ffc107;
 }
 
 .search-icon {
@@ -77,10 +77,29 @@ h1 {
 .loader {
     width: 50px;
     aspect-ratio: 1;
+    display: grid;
     border-radius: 50%;
-    background: repeating-conic-gradient(#000 0 90deg,#ccc 0 180deg);
-    animation: l21 1s infinite linear;
-  }
-  @keyframes l21 {
-    100% {transform: rotate(.5turn)}
-  }
+    background: conic-gradient(#25b09b 25%, #f03355 0 50%, #514b82 0 75%, #ffa516 0);
+    animation: l22 2s infinite linear;
+}
+
+.loader::before,
+.loader::after {
+    content: "";
+    grid-area: 1/1;
+    margin: 15%;
+    border-radius: 50%;
+    background: inherit;
+    animation: inherit;
+}
+
+.loader::after {
+    margin: 25%;
+    animation-duration: 3s;
+}
+
+@keyframes l22 {
+    100% {
+        transform: rotate(1turn)
+    }
+}
