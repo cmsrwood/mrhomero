@@ -44,6 +44,8 @@ function App() {
             <Route path="/recuperar" element={<Recuperar />} ></Route>
             <Route path="/emailRecuperar" element={<EmailRecuperar />}> </Route>
 
+            <Route path="/loader" element={<Loader />}> </Route>
+
             {/* Rutas para el admin */}
             <Route path="/admin/" element={<IndexAdmin />}></Route>
             <Route path="/admin/dashboard" element={<Dashboard />}></Route>
