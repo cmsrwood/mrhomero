@@ -23,33 +23,35 @@ export default function HorasEmpleados() {
     )
   }
   return (
-    <div>
+    <div className='d-flex'>
       <NavegacionAdmin />
-      {!showGestionhoras ?
-        <div className="p-5">
-          <h1>Horas Empleados</h1>
-          <div className="row cols-3">
-            <div className="col-12 col-sm-6 col-md-4 mb-4">
-              <Horas />
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 mb-4">
-              <Horas />
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 mb-4">
-              <Horas />
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 mb-4">
-              <Horas />
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 mb-4">
-              <Horas />
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 mb-4">
-              <Horas />
+      <div className="container content">
+        {!showGestionhoras ?
+          <div className="">
+            <h1>Horas Empleados</h1>
+            <div className="row cols-3">
+              <div className="col-12 col-sm-6 col-md-4 mb-4">
+                <Horas />
+              </div>
+              <div className="col-12 col-sm-6 col-md-4 mb-4">
+                <Horas />
+              </div>
+              <div className="col-12 col-sm-6 col-md-4 mb-4">
+                <Horas />
+              </div>
+              <div className="col-12 col-sm-6 col-md-4 mb-4">
+                <Horas />
+              </div>
+              <div className="col-12 col-sm-6 col-md-4 mb-4">
+                <Horas />
+              </div>
+              <div className="col-12 col-sm-6 col-md-4 mb-4">
+                <Horas />
+              </div>
             </div>
           </div>
-        </div>
-        : <Gestionhoras />}
+          : <Gestionhoras />}
+      </div>
     </div>
   )
 }

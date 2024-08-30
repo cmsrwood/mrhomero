@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Gestionhoras() {
     return (
-        <div className="p-5">
+        <div className="">
             <h1>Gestion de Horas</h1>
             <div className="container">
                 

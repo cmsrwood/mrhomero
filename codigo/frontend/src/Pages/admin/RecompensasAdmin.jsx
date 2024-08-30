@@ -44,9 +44,9 @@ export default function RecompensasAdmin() {
     )
   }
   return (
-    <div>
+    <div className='d-flex'>
       <NavegacionAdmin/>
-      <div className="container">
+      <div className="container content">
         <div className="d-flex justify-content-between mt-5">
           <h1>Recompensas</h1>
           <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#client_add"><i className="bi bi-plus"></i>Añadir</button>

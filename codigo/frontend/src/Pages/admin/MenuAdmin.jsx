@@ -87,10 +87,10 @@ export default function MenuAdmin() {
   }
   // menu
   return (
-    <div>
+    <div className='d-flex'>
       <NavegacionAdmin />
-      <div className="container p-5">
-        <div className="d-flex justify-content-between">
+      <div className="container content">
+        <div className="d-flex justify-content-between mb-5">
           <h1>Menú</h1>
           <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#MenuAdminModal">
             <i className="bi bi-plus-circle"></i> Añadir categoria

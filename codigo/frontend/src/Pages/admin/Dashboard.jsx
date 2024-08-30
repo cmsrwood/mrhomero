@@ -38,9 +38,9 @@ export default function Dashboard() {
     maintainAspectRatio: false,
   };
   return (
-    <div className="">
+    <div className="d-flex">
       <NavegacionAdmin/>
-      <div className='container pt-3'>
+      <div className='container content'>
         <div className="row g-4">
           <div className="text-center justify-content-center">
             <CustomChart data={data} tipo='line' options={options} />

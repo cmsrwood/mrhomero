@@ -77,10 +77,10 @@ export default function Ventas() {
     )
   }
   return (
-    <div className=''>
+    <div className='d-flex'>
       <NavegacionAdmin />
       {/* Cuerpo de la pagina */}
-      <div className=" container p-5 just">
+      <div className=" container content">
         <div className="row">
           <h1 className="col-12 col-sm-6">Gestion de ventas</h1>
           <div className="col-12 col-sm-6 position-relative">

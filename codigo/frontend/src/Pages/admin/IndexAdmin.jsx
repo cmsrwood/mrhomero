@@ -4,9 +4,9 @@ import NavegacionAdmin from '../../navigation/NavegacionAdmin'
 
 export default function IndexAdmin() {
   return (
-    <div className="">
+    <div className="d-flex">
       <NavegacionAdmin />
-      <div className='container'>
+      <div className='container content'>
         <div className='text-center pb-3 pt-3'>
           <h1>Mr. Homero | Inicio</h1>
         </div>

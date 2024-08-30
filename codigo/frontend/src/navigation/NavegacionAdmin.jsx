@@ -53,6 +53,7 @@ export default function NavegacionAdmin() {
 
     return (
         <div className="d-flex position-relative">
+            <div className='min-vh-100 bg-dark text-white border-end sidebar shadow' id="sidebar"></div>
             <div className='min-vh-100 bg-dark text-white border-end sidebar position-fixed shadow' id="sidebar">
                 <ul className=" pt-5 mt-4 pt-sm-5 mt-sm-5 list-unstyled">
                     <Link to="/admin/" className={rutaActiva('') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
@@ -106,31 +107,25 @@ export default function NavegacionAdmin() {
                     </div>
                 </ul>
             </div>
-            <div className="w-100">
-                <nav className=" bg-dark navbar navbar-expand-lg border-bottom mb-5 pb-5"></nav>
-                <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top shadow">
-                    <div className="container-fluid">
-                        <Link className="navbar-brand text-warning homero-font fs-3" to="#">Mr. Homero</Link>
-                        <small className='text-white d-none d-sm-block fw-bold'>Hola, Administrador</small>
-                        <div className="d-flex">
-                            <div className="dropdown pe-5 me-5">
-                                <button className="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i className="bi bi-person-square "></i>
-                                </button>
-                                <ul className="dropdown-menu">
-                                    <li><Link className="dropdown-item" to="#">Mi perfil</Link></li>
-                                    <li><Link className="dropdown-item" to="#">Configuración</Link></li>
-                                    <li><Link className="dropdown-item text-danger" to="#"><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
-                                </ul>
-                            </div>
-                            <button className='btn' onClick={tema} ><i id="botont" className='bi bi-moon-fill text-white'></i></button>
+            <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top shadow">
+                <div className="container-fluid">
+                    <Link className="navbar-brand text-warning homero-font fs-3" to="#">Mr. Homero</Link>
+                    <small className='text-white d-none d-sm-block fw-bold'>Hola, Administrador</small>
+                    <div className="d-flex">
+                        <div className="dropdown pe-5 me-5">
+                            <button className="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i className="bi bi-person-square "></i>
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to="#">Mi perfil</Link></li>
+                                <li><Link className="dropdown-item" to="#">Configuración</Link></li>
+                                <li><Link className="dropdown-item text-danger" to="#"><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
+                            </ul>
                         </div>
+                        <button className='btn' onClick={tema} ><i id="botont" className='bi bi-moon-fill text-white'></i></button>
                     </div>
-                </nav>
-                {/* Contenido */}
-                <div className="pt-5 container">
                 </div>
-            </div>
+            </nav>
         </div>
     )
 }

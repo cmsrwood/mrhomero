@@ -66,9 +66,9 @@ export default function Empleados() {
     )
   }
   return (
-    <div>
+    <div className='d-flex'>
       <NavegacionAdmin />
-      <div className="container ps-2">
+      <div className="container content">
         <div className="row mt-3 ">
           <h1 className="col mt-2 ms-5 ">Empleados
           </h1>
@@ -126,23 +126,23 @@ export default function Empleados() {
               </div>
             </div>
           </div>
-          <div className="row cols-2 mt-5 ms-2">
-            <div className="col-4 my-2">
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row mt-5 ms-2">
+            <div className="col my-2">
               {Empleado()}
             </div>
-            <div className="col-4 my-2">
+            <div className="col my-2">
               {Empleado()}
             </div>
-            <div className="col-4 my-2">
+            <div className="col my-2">
               {Empleado()}
             </div>
-            <div className="col-4 my-2">
+            <div className="col my-2">
               {Empleado()}
             </div>
-            <div className="col-4 my-2">
+            <div className="col my-2">
               {Empleado()}
             </div>
-            <div className="col-4 my-2">
+            <div className="col my-2">
               {Empleado()}
             </div>
           </div>

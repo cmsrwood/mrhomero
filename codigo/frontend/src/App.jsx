@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Loader from "./components/Loader";
+import Categoria from "./Pages/admin/Categoria";
 
 {/* Importar las rutas para el default*/ }
 const IndexDefault = lazy(() => import("./Pages/default/Index"));
@@ -55,6 +56,7 @@ function App() {
             <Route path="/admin/pedidos" element={<Pedidos />}></Route>
             <Route path="/admin/inventario" element={<Inventario />}></Route>
             <Route path="/admin/menu" element={<MenuAdmin />}></Route>
+            <Route path ="/admin/categoria" element={<Categoria />}></Route>
             <Route path="/admin/recompensas" element={<RecompensasAdmin />}></Route>
             <Route path="/admin/clientes" element={<Clientes />}></Route>
             <Route path="/admin/empleados" element={<Empleados />}></Route>

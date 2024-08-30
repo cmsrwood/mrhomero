@@ -112,17 +112,17 @@ export default function Inventario() {
     )
   }
   return (
-    <div>
+    <div className='d-flex'>
       <NavegacionAdmin/>
-      <div className='container p-5'>
+      <div className='container content'>
         <div className="row g-5 justify-content-center">
           <div className="col-12 col-sm-8 ">
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between mb-5">
               <h1>Inventario</h1>
               <button type="button" className="btn btn-success"><i className="bi bi-plus"></i>Añadir</button>
             </div>
             <div className="table-responsive scrollbar">
-              <table className=" table table-striped mt-5 table-scrollbar">
+              <table className=" table table-striped table-scrollbar">
                 <thead>
                   <tr>
                     <th scope="col">id</th>

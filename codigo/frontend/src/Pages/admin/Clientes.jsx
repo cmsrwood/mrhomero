@@ -40,9 +40,9 @@ export default function Clientes() {
     }
 
     return (
-        <div className="">
+        <div className="d-flex">
             <NavegacionAdmin />
-            <div className="container p-5">
+            <div className="container content">
                 <div className="row">
                     <h1 className="col-12 col-sm-6">Clientes</h1>
                     <div className="col-12 col-sm-6 position-relative">

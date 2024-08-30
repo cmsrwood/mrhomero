@@ -96,9 +96,9 @@ export default function Pedidos() {
   }
 
   return (
-    <div>
+    <div className='d-flex'>
       <NavegacionAdmin />
-      <div className='container'>
+      <div className='container content'>
         <div className='container d-block d-sm-flex d-md-flex'>
           <h1 className="mt-3 mt-sm-5">Pedidos</h1>
           <Swiper
