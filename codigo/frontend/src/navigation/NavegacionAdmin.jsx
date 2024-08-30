@@ -89,7 +89,7 @@ export default function NavegacionAdmin() {
                     <Link to='/admin/clientes' className={rutaActiva('clientes') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-people"></i> <span className='d-none d-sm-inline'>Clientes</span>
                     </Link>
-                    <Link className={rutaActiva('empleados') || rutaActiva('HorasEmpleados') ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseEmpleados">
+                    <Link className={rutaActiva('empleados') || rutaActiva('horasempleados') ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseEmpleados">
                         <div className="">
                             <i className="bi bi-wallet2 me-1"></i>
                             <span className='d-none d-sm-inline'>Empleados</span>
@@ -100,7 +100,7 @@ export default function NavegacionAdmin() {
                         <Link to='/admin/empleados' className={rutaActiva('empleados') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-graph-up"></i> <span className='d-none d-sm-inline'>Empleados</span>
                         </Link>
-                        <Link to='/admin/horasempleados' className={rutaActiva('horasEmpleados') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <Link to='/admin/horasempleados' className={rutaActiva('horasempleados') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-pencil-square"></i> <span className='d-none d-sm-inline'>Horas de empleados</span>
                         </Link>
                     </div>
