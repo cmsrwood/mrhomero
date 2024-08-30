@@ -97,10 +97,10 @@ export default function NavegacionAdmin() {
                         <i className={collapseEmpleados?.classList?.contains("show") ? "bi bi-chevron-up pe-3" : "bi bi-chevron-down pe-3"}></i>
                     </Link>
                     <div id="collapseEmpleados">
-                        <Link to='/empleados' className={rutaActiva('empleados') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <Link to='/admin/empleados' className={rutaActiva('empleados') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-graph-up"></i> <span className='d-none d-sm-inline'>Empleados</span>
                         </Link>
-                        <Link to='/horasempleados' className={rutaActiva('horasEmpleados') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <Link to='/admin/horasempleados' className={rutaActiva('horasEmpleados') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                             <i className="bi bi-pencil-square"></i> <span className='d-none d-sm-inline'>Horas de empleados</span>
                         </Link>
                     </div>
