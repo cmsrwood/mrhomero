@@ -43,7 +43,6 @@ function App() {
             <Route path='/menu' element={<MenuDefault />}> </Route>
             <Route path="/recuperar" element={<Recuperar />} ></Route>
             <Route path="/emailRecuperar" element={<EmailRecuperar />}> </Route>
-
             <Route path="/loader" element={<Loader />}> </Route>
 
             {/* Rutas para el admin */}
@@ -59,7 +58,7 @@ function App() {
 
             {/* Rutas para el cliente */}
             <Route path="/cliente/inicio" element={<IndexCliente />}> </Route>
-            <Route path="/cliente/historial" element={<HistorialCompras />}></Route>
+            <Route path="/cliente/miscompras" element={<HistorialCompras />}></Route>
             <Route path="/cliente/menu" element={<MenuCliente />}></Route>
             <Route path="/cliente/perfil" element={<PerfilCliente />}></Route>
             <Route path="/cliente/recompensas" element={<RecompensasCliente />}></Route>

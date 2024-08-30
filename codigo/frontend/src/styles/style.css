@@ -17,7 +17,7 @@ h1 {
 }
 
 .sidebar {
-    width: 14vw;
+    width: 13vw;
 }
 
 .swiper-scrollbar-drag {
@@ -71,4 +71,7 @@ h1 {
     position: sticky;
     top: 0;
     left: 0;
+}
+.content {
+    margin-left: 250px;
 }
