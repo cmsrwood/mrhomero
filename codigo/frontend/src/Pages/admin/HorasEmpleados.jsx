@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import Gestionhoras from '../admin/Gestionhoras';
 import img from '../../assets/img/img.png'
+import NavegacionAdmin from '../../navigation/NavegacionAdmin'
 
 
 
@@ -23,6 +24,7 @@ export default function HorasEmpleados() {
   }
   return (
     <div>
+      <NavegacionAdmin />
       {!showGestionhoras ?
         <div className="p-5">
           <h1>Horas Empleados</h1>
