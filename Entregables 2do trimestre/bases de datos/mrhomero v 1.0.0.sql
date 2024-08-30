@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mrhomero.cp84e8ay06n5.us-east-2.rds.amazonaws.com
--- Tiempo de generación: 02-08-2024 a las 16:12:11
+-- Tiempo de generación: 30-08-2024 a las 01:47:37
 -- Versión del servidor: 8.0.35
 -- Versión de PHP: 7.0.33-0ubuntu0.16.04.16
 
@@ -30,8 +30,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `categorias` (
   `id_categoria` int NOT NULL,
-  `cat_nom` varchar(255) NOT NULL,
-  `cat_foto` varchar(255) NOT NULL
+  `cat_nom` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `cat_foto` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -51,11 +51,11 @@ INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`) VALUES
 
 CREATE TABLE `productos` (
   `id_producto` int NOT NULL,
-  `pro_nom` varchar(255) NOT NULL,
-  `pro_desp` varchar(255) NOT NULL,
-  `pro_precio` varchar(255) NOT NULL,
-  `pro_foto` varchar(255) NOT NULL,
-  `pro_puntos` varchar(255) NOT NULL,
+  `pro_nom` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `pro_desp` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `pro_precio` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `pro_foto` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `pro_puntos` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `id_categoria` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -79,7 +79,7 @@ CREATE TABLE `recompensas` (
   `id_recomp` int NOT NULL,
   `recompensa` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `recomp_num_puntos` int NOT NULL,
-  `recomp_foto` varchar(255) NOT NULL
+  `recomp_foto` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -103,16 +103,6 @@ CREATE TABLE `recompensas_obt` (
   `id_user` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `recompensas_obt`
---
-
-INSERT INTO `recompensas_obt` (`id_recomp_obt`, `id_recomp`, `id_user`) VALUES
-(1, 1, 2),
-(2, 2, 3),
-(3, 3, 1),
-(4, 2, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -121,7 +111,7 @@ INSERT INTO `recompensas_obt` (`id_recomp_obt`, `id_recomp`, `id_user`) VALUES
 
 CREATE TABLE `roles` (
   `id_rol` int NOT NULL,
-  `rol` varchar(255) NOT NULL
+  `rol` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -141,13 +131,15 @@ INSERT INTO `roles` (`id_rol`, `rol`) VALUES
 
 CREATE TABLE `usuarios` (
   `id_user` int NOT NULL,
-  `user_nom` varchar(255) NOT NULL,
-  `user_apels` varchar(255) NOT NULL,
-  `user_email` varchar(255) NOT NULL,
+  `user_nom` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_apels` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `user_tel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `user_puntos` int NOT NULL,
-  `user_foto` varchar(255) DEFAULT NULL,
-  `user_pass` varchar(255) NOT NULL,
+  `user_foto` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `user_pass` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_reset_code` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `user_reset_code_expiration` datetime DEFAULT NULL,
   `id_rol` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -155,10 +147,10 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `id_rol`) VALUES
-(1, 'Bryam', 'Castañeda Cuervo', 'bryamccuervo2004@gmail.com', '3182626850', 150, 'foto.png', 'IHASDBA9029nmJJnjsdb09', 3),
-(2, 'Dilan Santiago', 'Lopez Romero', 'dilanfantas@gmail.com', '182365782', 500, 'jett.png', '90582jJUBKSD29nmJJnjsdb09', 1),
-(3, 'Johan Sebastian', 'Muñoz Contreras', 'johanminecraft@gmail.com', '3204781236', 800, 'mc.png', 'jnaHGSBHbjhsd45451', 3);
+INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `id_rol`) VALUES
+(1, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$m0KXVb3vaFPSni77YzOBxeAdGw82ISHT830HPgIV379M.b4tvqMk6', NULL, NULL, 3),
+(2, 'DILAN', 'LOPEZ', 'dilanfantas1101@gmail.com', NULL, 0, NULL, '$2a$10$T68OAPXrGVLEuLEuDP6ERONYJAVju8e.iuWJttpJfOtH.Ob3kqMmK', '663073', '2024-08-27 16:22:45', 3),
+(3, 'Martin', 'Moya', 'misterlee272006@gmail.com', NULL, 0, NULL, '$2a$10$0Q7ZZdveYuPc0Xp.heyL1OZ/NtPetmVP.o970xFxVmhpVFZrz3ZkS', '920317', '2024-08-26 19:59:35', 3);
 
 -- --------------------------------------------------------
 
@@ -179,11 +171,9 @@ CREATE TABLE `ventas` (
 --
 
 INSERT INTO `ventas` (`id_venta`, `id_producto`, `venta_fecha`, `id_user`, `venta_total`) VALUES
-(1, 4, '2024-07-12 00:00:00', 1, 6000),
 (2, 6, '2024-07-03 04:23:12', 3, 6900),
 (3, 5, '2024-07-12 05:31:13', 2, 6900),
-(4, 5, '2024-07-17 00:00:00', 2, 6900),
-(1, 6, '2024-07-04 00:00:00', 1, 3000);
+(4, 5, '2024-07-17 00:00:00', 2, 6900);
 
 --
 -- Índices para tablas volcadas
@@ -259,7 +249,7 @@ ALTER TABLE `recompensas`
 -- AUTO_INCREMENT de la tabla `recompensas_obt`
 --
 ALTER TABLE `recompensas_obt`
-  MODIFY `id_recomp_obt` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_recomp_obt` int NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
