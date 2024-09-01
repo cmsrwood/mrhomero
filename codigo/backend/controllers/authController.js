@@ -40,7 +40,14 @@ exports.ingresar = (req, res) => {
         // Verificar la contraseña
         if (bcrypt.compareSync(password, user.user_pass)) {
             // inicio de sesion correcto
-            return res.status(200).send('Iniciaste sesion');
+            switch (user.id_rol) {
+                case 1:
+                    return res.status(200).send('administrador');
+                case 2:
+                    return res.status(200).send('empleado');
+                case 3:
+                    return res.status(200).send('cliente');
+            }
         }
 
         else {

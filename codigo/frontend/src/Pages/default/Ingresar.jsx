@@ -28,13 +28,35 @@ export default function Ingresar() {
     try {
       const res = await axios.post(`${BACKEND_URL}/auth/ingresar`, user);
       if (res.status === 200) {
-        Swal.fire({
-          title: 'Iniciaste sesión',
-          text: 'Has iniciado sesión correctamente',
-          icon: 'success',
-          confirmButtonText: 'Continuar'
-        });
-        navigate("/inicio");
+        switch (res.data) {
+          case 'administrador':
+            Swal.fire({
+              title: 'Bienvenido administrador',
+              text: 'Has iniciado sesión correctamente',
+              icon: 'success',
+              confirmButtonText: 'Continuar'
+            })
+            navigate('/admin/');
+            break;
+          case 'empleado':
+            Swal.fire({
+              title: 'Bienvenido',
+              text: 'Has iniciado sesión correctamente',
+              icon: 'success',
+              confirmButtonText: 'Continuar'
+            })
+            navigate('/empleado/');
+            break;
+          case 'cliente':
+            Swal.fire({
+              title: 'Has iniciado sesión correctamente',
+              text: 'Has iniciado sesión correctamente',
+              icon: 'success',
+              confirmButtonText: 'Continuar'
+            })
+            navigate('/cliente/');
+            break;
+        }
       }
     } catch (error) {
       console.log(error);
