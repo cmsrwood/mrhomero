@@ -44,7 +44,7 @@ export default function NavegacionCliente() {
               <i className="bi bi-person-square "></i>
             </button>
             <ul className="dropdown-menu">
-              <li><Link className="dropdown-item" to="#">Mi perfil</Link></li>
+              <li><Link className="dropdown-item" to="/cliente/perfil">Mi perfil</Link></li>
               <li><Link className="dropdown-item" to="#">Configuración</Link></li>
               <li><Link className="dropdown-item text-danger" to="#"><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
             </ul>

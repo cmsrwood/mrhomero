@@ -6,7 +6,7 @@ export default function PerfilCliente() {
   return (
     <div>
       <NavegacionCliente />
-      <div className="container p-5 ">
+      <div className="container px-5 ">
         <div className='align-items-center text-center pb-3 pt-3'>
             <img src={img} height={300} alt="" className='rounded rounded-circle border border-3 px-3' />
             <input type="file" className="form-control my-3" id="inputGroupFile01"></input>
