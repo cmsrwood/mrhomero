@@ -18,8 +18,6 @@ export default function NavegacionAdmin() {
         showConfirmButton: false,
         timer: 1500,
     })
-    var collapseVentas = document.getElementById('collapseVentas');
-    var collapseEmpleados = document.getElementById('collapseEmpleados');
     function tema() {
         var index = document.getElementById('html');
         var icon = document.getElementById('botont');
@@ -64,7 +62,6 @@ export default function NavegacionAdmin() {
                             <i className="bi bi-wallet2 me-1"></i>
                             <span className='d-none d-sm-inline'>Ventas</span>
                         </div>
-                        <i className={collapseVentas?.classList?.contains("show") ? "bi bi-chevron-up pe-3" : "bi bi-chevron-down pe-3"}></i>
                     </Link>
                     <div className={rutaActiva('dashboard') || rutaActiva('ventas') || rutaActiva('pedidos') ? `collapse show` : `collapse`} id="collapseVentas">
                         <Link to='/admin/dashboard' className={rutaActiva('dashboard') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
@@ -95,7 +92,6 @@ export default function NavegacionAdmin() {
                             <i className="bi bi-wallet2 me-1"></i>
                             <span className='d-none d-sm-inline'>Empleados</span>
                         </div>
-                        <i className={collapseEmpleados?.classList?.contains("show") ? "bi bi-chevron-up pe-3" : "bi bi-chevron-down pe-3"}></i>
                     </Link>
                     <div id="collapseEmpleados">
                         <Link to='/admin/empleados' className={rutaActiva('empleados') ? `nav-link ps-3 py-2 d-block bg-light opacity-75 fw w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
