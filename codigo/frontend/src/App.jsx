@@ -64,7 +64,7 @@ function App() {
 
 
             {/* Rutas para el cliente */}
-            <Route path="/cliente/inicio" element={<IndexCliente />}> </Route>
+            <Route path="/cliente/" element={<IndexCliente />}> </Route>
             <Route path="/cliente/miscompras" element={<HistorialCompras />}></Route>
             <Route path="/cliente/menu" element={<MenuCliente />}></Route>
             <Route path="/cliente/perfil" element={<PerfilCliente />}></Route>
