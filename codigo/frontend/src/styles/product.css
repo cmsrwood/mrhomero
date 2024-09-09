@@ -9,9 +9,14 @@
 .img-product {
     grid-column: span 3 / span 3;
     grid-row: span 5 / span 5;
-    margin-left: 80px;
+    margin-left: 60px;
     padding-top: 100px;
     height: 100%;
+    background: rgb(68, 73, 79);
+    background: radial-gradient(circle, rgba(68, 73, 79, 1) 0%, rgba(33, 37, 41, 1) 60%);   
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .img-product img {
@@ -20,27 +25,46 @@
 }
 
 .content-product {
+    display: flex;
+    flex-direction: column;
     grid-column: span 2 / span 2;
     grid-row: span 5 / span 5;
-    grid-column-start: 4;
     margin-top: 80px;
-    border-radius: 8% 0 0 8%;
-    background: #0f0c29;
-    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
-    background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
-    height: 100%;
-    width: 100%;
+    padding-top: 40px;
+    border-radius: 4% 0 0 4%;
+    background-image: linear-gradient(to left, #19191b, #252427, #313035, #3e3c42, #4b4950);
 }
 
 .content-product h1 {
-    font-size: 120px;
-    font-weight: bold;
-    padding-bottom: 50px;
+    font-size: 95px;
+    padding-bottom: 15px;
     padding-left: 40px;
 }
 
 .content-product h2 {
-    font-size: 30px;
-    padding-bottom: 30px;
+    font-size: 20px;
+    padding-bottom: 20px;
     padding-left: 40px;
+}
+
+.title-suggestion{
+    font-size: 30px;
+    padding-left: 60px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.suggestion-card {
+    width: 90%;
+    height: 65%;
+    padding: 10px;
+    display: flex;
+    margin-left: 40px;
+}
+
+.content-suggestion {
+    display: flex;
+    flex-direction: column;
+    justify-content : center;
+    padding-left: 12px;
 }
