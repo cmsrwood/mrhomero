@@ -39,7 +39,7 @@ export default function Dashboard() {
   };
   return (
     <div className="d-flex">
-      <NavegacionAdmin/>
+      <NavegacionAdmin />
       <div className='container content'>
         <div className="row g-4">
           <div className="text-center justify-content-center">

@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Loader from "./components/Loader";
 import Categoria from "./Pages/admin/Categoria";
+import Producto from "./components/Producto";
 
 {/* Importar las rutas para el default*/ }
 const IndexDefault = lazy(() => import("./Pages/default/Index"));
@@ -70,6 +71,7 @@ function App() {
             <Route path="/cliente/perfil" element={<PerfilCliente />}></Route>
             <Route path="/cliente/recompensas" element={<RecompensasCliente />}></Route>
             <Route path="/cliente/nosotros" element={<NosotrosCliente />}></Route>
+            <Route path="/producto" element={<Producto/>}></Route>
           </Routes>
         </Suspense>
       </BrowserRouter>
