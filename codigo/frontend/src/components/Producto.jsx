@@ -1,5 +1,5 @@
 import React from "react";
-import img from "../assets/img/img.png";
+import img from "../assets/img/hamburguesa.png";
 import "../styles/product.css";
 
 export default function Producto() {
@@ -11,9 +11,9 @@ export default function Producto() {
                 </div>
                 <div class="content-product">
                     <h1>Hamburguesa</h1>
-                    <p>Categoria: Hamburguesa</p>
-                    <p>descripcion</p>
-                    <p>Precio: $10.000</p>
+                    <h2>Categoria: Hamburguesa</h2>
+                    <h2>descripcion: Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis illum dignissimos reiciendis, quae quas eligendi alias, ab consequatur amet recusandae reprehenderit! Officiis deserunt, est reiciendis porro magni enim quod dolorem.</h2>
+                    <h2>Precio: $10.000</h2>
                 </div>
             </div>
         </>
