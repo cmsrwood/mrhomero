@@ -4,6 +4,9 @@ import Loader from "./components/Loader";
 import Categoria from "./Pages/admin/Categoria";
 import Producto from "./components/Producto";
 
+
+const Error = lazy(() => import("./components/Error"));
+
 {/* Importar las rutas para el default*/ }
 const IndexDefault = lazy(() => import("./Pages/default/Index"));
 const Registrar = lazy(() => import("./Pages/default/Registrar"));
@@ -57,7 +60,7 @@ function App() {
             <Route path="/admin/pedidos" element={<Pedidos />}></Route>
             <Route path="/admin/inventario" element={<Inventario />}></Route>
             <Route path="/admin/menu" element={<MenuAdmin />}></Route>
-            <Route path ="/admin/categoria" element={<Categoria />}></Route>
+            <Route path="/admin/categoria" element={<Categoria />}></Route>
             <Route path="/admin/recompensas" element={<RecompensasAdmin />}></Route>
             <Route path="/admin/clientes" element={<Clientes />}></Route>
             <Route path="/admin/empleados" element={<Empleados />}></Route>
@@ -71,7 +74,8 @@ function App() {
             <Route path="/cliente/perfil" element={<PerfilCliente />}></Route>
             <Route path="/cliente/recompensas" element={<RecompensasCliente />}></Route>
             <Route path="/cliente/nosotros" element={<NosotrosCliente />}></Route>
-            <Route path="/producto" element={<Producto/>}></Route>
+            <Route path="/producto" element={<Producto />}></Route>
+            <Route path="*" element={<Error />}></Route>
           </Routes>
         </Suspense>
       </BrowserRouter>
