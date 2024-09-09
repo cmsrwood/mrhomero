@@ -90,7 +90,7 @@ export default function Ingresar() {
   return (
     <div className="">
       <NavegacionDefault />
-      <div className='container-fluid p-5 my-5 text-center border wipe-in-down' transition-style="in:wipe:up" style={{ borderRadius: '20px', width: '85%', boxShadow: '0 0 15px 0 rgba(0, 0, 0, 0.3)' }}>
+      <div className='container-fluid p-5 my-5 text-center  wipe-in-down' transition-style="in:wipe:up" style={{ width: '85%'}}>
         {loading ? (
           <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
             <div className="spinner-border text-warning" role="status">

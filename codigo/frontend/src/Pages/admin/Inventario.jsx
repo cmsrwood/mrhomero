@@ -113,13 +113,55 @@ export default function Inventario() {
   }
   return (
     <div className='d-flex'>
-      <NavegacionAdmin/>
+      <NavegacionAdmin />
       <div className='container content'>
         <div className="row g-5 justify-content-center">
           <div className="col-12 col-sm-8 ">
             <div className="d-flex justify-content-between mb-5">
               <h1>Inventario</h1>
-              <button type="button" className="btn btn-success"><i className="bi bi-plus"></i>Añadir</button>
+              <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalCrearProducto"><i className="bi bi-plus"></i>Añadir</button>
+              <div className="modal fade" id="ModalCrearProducto" tabIndex="-1" aria-labelledby="ModalEditarCategoriaLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h1 className="modal-title fs-5" id="ModalEditarCategoriaLabel">Añadir producto</h1>
+                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div className="modal-body">
+                      <div className="row p-3">
+                        <form className="">
+                          <div className="col-12 mb-3">
+                            <label htmlFor="floatingInput" className='form-label'>Nombre</label>
+                            <input className='form-control' type="text" autoComplete='off' id='inv_nombre' name='inv_nombre' placeholder='Ej. Tomate' required />
+                          </div>
+                          <div className="col-12 mb-3">
+                            <label htmlFor="floatingInput">Categoría</label>
+                            <select name="" className="form-select" id="" required>
+                              <option value="x" selected disabled>Categoría...</option>
+                            </select>
+                          </div>
+                          <div className="col-12 mb-3">
+                            <label htmlFor="floatingInput">Fecha de ingreso</label>
+                            <input className='form-control' type="date" autoComplete='off' id='inv_fecha_ing' name='inv_fecha_ing' required />
+                          </div>
+                          <div className="col-12 mb-3">
+                            <label htmlFor="floatingInput">Fecha de caducidad</label>
+                            <input className='form-control' type="date" autoComplete='off' id='inv_fecha_cad' name='inv_fecha_cad' required />
+                          </div>
+                          <div className="col-12 mb-3">
+                            <label htmlFor="floatingInput">Cantidad</label>
+                            <input className='form-control' type="number" autoComplete='off' id='inv_cantidad' name='inv_cantidad' required />
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                      <button type="submit" className="btn btn-warning">Guardar cambios</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="table-responsive scrollbar">
               <table className=" table table-striped table-scrollbar">
