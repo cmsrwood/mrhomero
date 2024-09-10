@@ -5,7 +5,7 @@ import "../styles/product.css";
 export default function Producto() {
     return (
         <>
-            <div className="content">
+            <div className="card-product-content">
                 <div className="img-product">
                     <img src={img} alt="" />
                 </div>
