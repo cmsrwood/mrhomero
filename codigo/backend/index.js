@@ -3,9 +3,11 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
+const empRoutes = require('./routes/empleados');
+const invRoutes = require('./routes/inventario');
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 4400;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,9 +21,15 @@ app.use(cors({
 }));
 
 // Rutas
+
 /* Ruta login */
 app.use('/auth', authRoutes);
-app.use('/empleados',)
+
+/* Ruta empleados */
+app.use('/empleados', empRoutes);
+
+/* Ruta inventario */
+app.use('/inventario', invRoutes);
 
 /* Hola mundo para probar */
 app.get('/', (req, res) => {

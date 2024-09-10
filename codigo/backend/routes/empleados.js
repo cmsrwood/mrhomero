@@ -3,6 +3,6 @@ const router = express.Router();
 const empController = require('../controllers/empController');
 
 // Controladores de autenticación
-router.post('/ingresar', empController.ingresar);
+router.get('/empleados', empController.mostrarEmpleados);
 
 module.exports = router

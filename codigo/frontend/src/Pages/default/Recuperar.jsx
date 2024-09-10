@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import NavegacionDefault from '../../navigation/NavegacionDefault'
 import axios from 'axios'
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Ingresar() {
 
