@@ -13,7 +13,7 @@
     padding-top: 100px;
     height: 100%;
     background: rgb(68, 73, 79);
-    background: radial-gradient(circle, rgba(68, 73, 79, 1) 0%, rgba(33, 37, 41, 1) 60%);   
+    background: radial-gradient(circle, rgba(68, 73, 79, 1) 0%, rgba(33, 37, 41, 1) 60%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,12 +46,18 @@
     padding-bottom: 20px;
     padding-left: 40px;
 }
+.content-product .price{
+    font-size: 35px;
+    color: #FFC107;
+    padding-left: 40px;
+}
 
-.title-suggestion{
+.title-suggestion {
     font-size: 30px;
     padding-left: 60px;
     padding-top: 40px;
     padding-bottom: 40px;
+    color: #FFC107;
 }
 
 .suggestion-card {
@@ -60,11 +66,23 @@
     padding: 10px;
     display: flex;
     margin-left: 40px;
+    align-items: center;
 }
+
+.suggestion-card .price {
+    font-size: 20px;
+    color: #FFC107;
+}
+
+.suggestion-card img {
+    width: 70%;
+    height: 110%;
+    padding-right: 20px;
+    }
 
 .content-suggestion {
     display: flex;
     flex-direction: column;
-    justify-content : center;
+    justify-content: center;
     padding-left: 12px;
 }
