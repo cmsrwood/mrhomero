@@ -1,23 +1,11 @@
-<<<<<<< HEAD
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import NavegacionDefault from '../../navigation/NavegacionDefault';
 import axios from 'axios';
 import '../../styles/recuperar.css';
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
-=======
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import NavegacionDefault from '../../navigation/NavegacionDefault'
-import axios from 'axios'
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
-<<<<<<< Updated upstream
-=======
->>>>>>> 3ff6dced25e212a77da1c8746102689f2019ca99
->>>>>>> Stashed changes
+
 
 export default function Ingresar() {
     axios.defaults.withCredentials = true;
