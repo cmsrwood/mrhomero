@@ -13,8 +13,23 @@ export default function Empleados() {
         <div className="card-body">
           <h3 className="card-title">Empleado</h3>
         </div>
+        <div className="d-flex">
         {/* boton de gestionar empleado*/}
-        <button type="button" className="btn btn-warning ms-2" data-bs-toggle="modal" data-bs-target="#Gestionar"><i className="bi bi-plus-circle"></i> Gestionar</button>
+        <button type="button" className="btn btn-warning ms-2 w-50" data-bs-toggle="modal" data-bs-target="#Gestionar"><i className="bi bi-plus-circle"></i> Gestionar</button>
+        {/* boton de eliminar empleado*/}
+          <button type="button" className="btn btn-danger ms-2 w-50" onClick={() => {
+            Swal.fire({
+              title: '¿Estas seguro de eliminar este Empleado?',
+              text: "No podras revertir esta accion",
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Eliminar',
+              cancelButtonColor: '#d33',
+              cancelButtonText: 'Cancelar',
+              icon: 'question',
+            })
+          }}> <i className="bi bi-trash"></i> Eliminar </button>
+        </div>
         {/* Modal para gestionar Empleados */}
         <div className="modal fade" id="Gestionar" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog  modal-xl">

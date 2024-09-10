@@ -21,6 +21,7 @@ app.use(cors({
 // Rutas
 /* Ruta login */
 app.use('/auth', authRoutes);
+app.use('/empleados',)
 
 /* Hola mundo para probar */
 app.get('/', (req, res) => {
