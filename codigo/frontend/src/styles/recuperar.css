@@ -1,0 +1,32 @@
+.container-recuperar{
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border-radius: 15px;
+    padding-bottom: 40px;
+}
+
+.inp{
+    width: 60px;
+    height: 60px;
+    margin: 8px 3px;
+    font-size: 25px;
+    text-align: center;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+input:hover{
+    border: 2px solid #ffc107;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+input:focus{
+    border: 2px solid #ffc107;
+    border-radius: 15px;
+    transition: 0.3s;
+    outline: none;
+}

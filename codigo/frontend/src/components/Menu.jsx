@@ -15,6 +15,5 @@ export default function Menu() {
                 <SwiperCarrousel />
             </div>
         </div>
-
     )
 }
