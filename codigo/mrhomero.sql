@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mrhomero.cp84e8ay06n5.us-east-2.rds.amazonaws.com
--- Tiempo de generación: 09-09-2024 a las 15:35:17
+-- Tiempo de generación: 11-09-2024 a las 00:38:06
 -- Versión del servidor: 8.0.35
 -- Versión de PHP: 7.0.33-0ubuntu0.16.04.16
 
@@ -164,7 +164,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `id_rol`) VALUES
 (1, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$m0KXVb3vaFPSni77YzOBxeAdGw82ISHT830HPgIV379M.b4tvqMk6', NULL, NULL, 3),
-(2, 'DILAN', 'LOPEZ', 'dilanfantas1101@gmail.com', NULL, 0, NULL, '$2a$10$T68OAPXrGVLEuLEuDP6ERONYJAVju8e.iuWJttpJfOtH.Ob3kqMmK', '663073', '2024-08-27 16:22:45', 3),
+(2, 'DILAN', 'LOPEZ', 'dilanfantas1101@gmail.com', NULL, 0, NULL, '$2a$10$T68OAPXrGVLEuLEuDP6ERONYJAVju8e.iuWJttpJfOtH.Ob3kqMmK', '663073', '2024-08-27 16:22:45', 2),
 (3, 'Martin', 'Moya', 'misterlee272006@gmail.com', NULL, 0, NULL, '$2a$10$0Q7ZZdveYuPc0Xp.heyL1OZ/NtPetmVP.o970xFxVmhpVFZrz3ZkS', '920317', '2024-08-26 19:59:35', 3);
 
 -- --------------------------------------------------------
