@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const invController = require('../controllers/invController');
+const invController = require('../controllers/admin/invController');
 
 router.get('/mostrar', invController.mostrarInventario);
 
