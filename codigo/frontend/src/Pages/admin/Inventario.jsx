@@ -23,6 +23,19 @@ export default function Inventario() {
   const handleChange = (e) => {
     setIngrediente(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
+  const[ingredienteEditar,setIngredienteEditar]=useState({
+    inv_id:'',
+    inv_nombre_edit: '',
+    inv_categoria_edit: '',
+    inv_fecha_ing_edit: '',
+    inv_fecha_cad_edit: '',
+    inv_cantidad_edit: '',
+    inv_cantidad_min_edit: '',
+  })
+
+  const handleEdit = (e) => {
+    setIngredienteEditar(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  }
 
   const handleClick = async (e) => {
     e.preventDefault()
@@ -117,7 +130,32 @@ export default function Inventario() {
       fetchData();
     }
   }, [isDataUpdated]);
-
+  const editarInventario = (id) => {
+    try{
+      Swal.fire({
+        title: '¿Estas seguro de editar este ingrediente?',
+        text: "No podras revertir esta accion",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, editar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const res = axios.put(`${BACKEND_URL}/inventario/actualizar/${id}`, ingredienteEditar);
+          if (res.status === 200) {
+            Swal.fire({
+              icon: 'success',
+              title: res.data
+            });
+            setIsDataUpdated(true);
+          }
+        }
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className='d-flex'>
       <NavegacionAdmin />
@@ -203,10 +241,10 @@ export default function Inventario() {
                       <td>{ingrediente.inv_cantidad_min}</td>
                       <td>
                         <div className="d-flex">
-                          <button type="button" className="btn btn-warning me-3" data-bs-toggle="modal" data-bs-target="#ModalEditarCategoria">
+                          <button type="button" className="btn btn-warning me-3" data-bs-toggle="modal" data-bs-target={`#ModalEditar${ingrediente.id_producto_inv}`}>
                             <i className="bi bi-pencil-square"></i>
                           </button>
-                          <div className="modal fade" id="ModalEditarCategoria" tabIndex="-1" aria-labelledby="ModalEditarCategoriaLabel" aria-hidden="true">
+                          <div className="modal fade" id={`ModalEditar${ingrediente.id_producto_inv}`} tabIndex="-1" aria-labelledby="ModalEditarCategoriaLabel" aria-hidden="true">
                             <div className="modal-dialog">
                               <div className="modal-content">
                                 <div className="modal-header">
@@ -217,11 +255,12 @@ export default function Inventario() {
                                   <form className="">
                                     <div className="col-12 mb-3">
                                       <label htmlFor="floatingInput" className='form-label'>Nombre</label>
-                                      <input className='form-control' type="text" autoComplete='off' id='inv_nombre' name='inv_nombre' placeholder='Ej. Tomate' required onChange={handleChange} />
+                                      <input className='form-control' type="text" autoComplete='off' id='inv_nombre_edit' name='inv_nombre_edit' placeholder='Ej. Tomate' required onChange={handleEdit} value={ingrediente.inv_nombre} />
                                     </div>
                                     <div className="col-12 mb-3">
                                       <label htmlFor="floatingInput">Categoría</label>
-                                      <select name="inv_categoria" className="form-select" id="" required onChange={handleChange}>
+                                      <select name="inv_categoria_edit" className="form-select" id="" required onChange={handleEdit}
+                                        value={ingrediente.inv_categoria}>
                                         <option value="x" selected disabled>Categoría...</option>
                                         <option value="1" >Hamburguesas</option>
                                         <option value="2" >Choriperro</option>
@@ -230,25 +269,25 @@ export default function Inventario() {
                                     </div>
                                     <div className="col-12 mb-3">
                                       <label htmlFor="floatingInput">Fecha de ingreso</label>
-                                      <input className='form-control' type="date" autoComplete='off' id='inv_fecha_ing' name='inv_fecha_ing' required onChange={handleChange} />
+                                      <input className='form-control' type="date" autoComplete='off' id='inv_fecha_ing_edit' name='inv_fecha_ing_edit' required onChange={handleEdit} />
                                     </div>
                                     <div className="col-12 mb-3">
                                       <label htmlFor="floatingInput">Fecha de caducidad</label>
-                                      <input className='form-control' type="date" autoComplete='off' id='inv_fecha_cad' name='inv_fecha_cad' required onChange={handleChange} />
+                                      <input className='form-control' type="date" autoComplete='off' id='inv_fecha_cad_edit' name='inv_fecha_cad_edit' required onChange={handleEdit} value={ingrediente.inv_fecha_cad}/>
                                     </div>
                                     <div className="col-12 mb-3">
                                       <label htmlFor="floatingInput">Cantidad</label>
-                                      <input className='form-control' type="number" autoComplete='off' id='inv_cantidad' name='inv_cantidad' required onChange={handleChange} />
+                                      <input className='form-control' type="number" autoComplete='off' id='inv_cantidad_edit' name='inv_cantidad_edit' required onChange={handleEdit} value={ingrediente.inv_cantidad}/>
                                     </div>
                                     <div className="col-12 mb-3">
                                       <label htmlFor="floatingInput">Cantidad min</label>
-                                      <input className='form-control' type="number" autoComplete='off' id='inv_cantidad_min' name='inv_cantidad_min' required onChange={handleChange} />
+                                      <input className='form-control' type="number" autoComplete='off' id='inv_cantidad_min_edit' name='inv_cantidad_min_edit' required onChange={handleEdit}  value={ingrediente.inv_cantidad_min}/>
                                     </div>
                                   </form>
                                 </div>
                                 <div className="modal-footer">
                                   <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                  <button type="button" className="btn btn-warning">Guardar cambios</button>
+                                  <button type="button" className="btn btn-warning" onClick={() => editarInventario(ingrediente.id_producto_inv)}>Guardar cambios</button>
                                 </div>
                               </div>
                             </div>

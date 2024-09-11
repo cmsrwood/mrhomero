@@ -64,3 +64,24 @@ exports.borrarInventario = (req, res) => {
         }
     });
 }
+exports.actualizarInventario = (req, res) => {
+    const id = req.params.id;
+    const nombre = req.body.inv_nombre;
+    const categoria = req.body.inv_categoria;
+    const fechaIngreso = req.body.inv_fecha_ing;
+    const fechaVencimiento = req.body.inv_fecha_cad;
+    const cantidad = req.body.inv_cantidad;
+    const cantidadMinima = req.body.inv_cantidad_min;
+    if (!nombre || !categoria || !fechaIngreso || !fechaVencimiento || !cantidad || !cantidadMinima) {
+        return res.status(400).send('Todos los campos son obligatorios');
+    }
+    const q = "UPDATE inventario SET inv_nombre = ?, inv_categoria = ?, inv_cantidad = ?, inv_fecha_ing = ?, inv_fecha_cad = ?, inv_cantidad_min = ? WHERE id_producto_inv = ?";
+    db.query(q, [nombre, categoria, cantidad, fechaIngreso, fechaVencimiento, cantidadMinima, id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        }
+        else {
+            return res.status(200).send('Ingrediente actualizado exitosamente');
+        }   
+    });}

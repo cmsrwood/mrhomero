@@ -8,4 +8,6 @@ router.post('/crear', invController.crearInventario);
 
 router.delete('/borrar/:id', invController.borrarInventario);
 
+router.put('/actualizar/:id', invController.actualizarInventario);
+
 module.exports = router
