@@ -14,7 +14,7 @@ exports.mostrarClientes = (req, res) => {
 exports.borrarCliente = (req, res) => {
     const id = req.params.id;
 
-    db.query('DELETE FROM usuarios WHERE id = ?', [id], (err, results) => {
+    db.query('DELETE FROM usuarios WHERE id_user = ?', [id], (err, results) => {
         if (err) {
             console.log(err);
             return res.status(500).send('Error en el servidor');

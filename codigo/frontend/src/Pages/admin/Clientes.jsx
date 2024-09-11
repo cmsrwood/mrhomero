@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Buscador from '../../components/Buscador'
 import Swal from 'sweetalert2'
 import NavegacionAdmin from '../../navigation/NavegacionAdmin'
@@ -54,19 +55,19 @@ export default function Clientes() {
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Apellidos</th>
                                 <th scope="col">Correo</th>
-                                <th scope="col">Telefono</th>
                                 <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row" >1</th>
-                                <td>User_nom</td>
-                                <td>User_apel</td>
-                                <td>user@gmail.com</td>
-                                <td>3000000000</td>
-                                <td><button type="button" className="btn btn-danger" ><i className="bi bi-trash"></i></button></td>
-                            </tr>
+                            {clientes.map(cliente => (
+                                <tr key={cliente.id}>
+                                    <th scope="row">{cliente.id_user}</th>
+                                    <td>{cliente.user_nom}</td>
+                                    <td>{cliente.user_apels}</td>
+                                    <td>{cliente.user_email}</td>
+                                    <td><button type="button" className="btn btn-danger" onClick={() => borrarCliente(cliente.id_user)} ><i className="bi bi-trash"></i></button></td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: mrhomero.cp84e8ay06n5.us-east-2.rds.amazonaws.com
--- Tiempo de generación: 11-09-2024 a las 00:38:06
--- Versión del servidor: 8.0.35
--- Versión de PHP: 7.0.33-0ubuntu0.16.04.16
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 11-09-2024 a las 03:41:04
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -29,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categorias` (
-  `id_categoria` int NOT NULL,
-  `cat_nom` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `cat_foto` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+  `id_categoria` int(11) NOT NULL,
+  `cat_nom` varchar(255) NOT NULL,
+  `cat_foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -50,13 +49,22 @@ INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`) VALUES
 --
 
 CREATE TABLE `inventario` (
-  `id_producto_inv` int NOT NULL,
-  `inv_nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `inv_categoria` int NOT NULL,
-  `inv_fecha_ing` date NOT NULL,
-  `inv_fecha_cad` date NOT NULL,
-  `inv_cantidad` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `id_producto_inv` int(11) NOT NULL,
+  `inv_nombre` varchar(255) NOT NULL,
+  `inv_categoria` int(11) NOT NULL,
+  `inv_fecha_ing` varchar(255) NOT NULL,
+  `inv_fecha_cad` varchar(255) NOT NULL,
+  `inv_cantidad` varchar(255) NOT NULL,
+  `inv_cantidad_min` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `inventario`
+--
+
+INSERT INTO `inventario` (`id_producto_inv`, `inv_nombre`, `inv_categoria`, `inv_fecha_ing`, `inv_fecha_cad`, `inv_cantidad`, `inv_cantidad_min`) VALUES
+(1, 'Tomate', 1, ' 2024-09-10', ' 2024-09-11', '31', '30'),
+(2, 'Lechuga', 2, ' 2024-09-02', '2024-09-01', '14', '15');
 
 -- --------------------------------------------------------
 
@@ -65,13 +73,13 @@ CREATE TABLE `inventario` (
 --
 
 CREATE TABLE `productos` (
-  `id_producto` int NOT NULL,
-  `pro_nom` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `pro_desp` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `pro_precio` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `pro_foto` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `pro_puntos` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `id_categoria` int NOT NULL
+  `id_producto` int(11) NOT NULL,
+  `pro_nom` varchar(255) NOT NULL,
+  `pro_desp` varchar(255) NOT NULL,
+  `pro_precio` varchar(255) NOT NULL,
+  `pro_foto` varchar(255) NOT NULL,
+  `pro_puntos` varchar(255) NOT NULL,
+  `id_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -91,10 +99,10 @@ INSERT INTO `productos` (`id_producto`, `pro_nom`, `pro_desp`, `pro_precio`, `pr
 --
 
 CREATE TABLE `recompensas` (
-  `id_recomp` int NOT NULL,
-  `recompensa` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `recomp_num_puntos` int NOT NULL,
-  `recomp_foto` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+  `id_recomp` int(11) NOT NULL,
+  `recompensa` varchar(255) NOT NULL,
+  `recomp_num_puntos` int(11) NOT NULL,
+  `recomp_foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -113,9 +121,9 @@ INSERT INTO `recompensas` (`id_recomp`, `recompensa`, `recomp_num_puntos`, `reco
 --
 
 CREATE TABLE `recompensas_obt` (
-  `id_recomp_obt` int NOT NULL,
-  `id_recomp` int NOT NULL,
-  `id_user` int NOT NULL
+  `id_recomp_obt` int(11) NOT NULL,
+  `id_recomp` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -125,8 +133,8 @@ CREATE TABLE `recompensas_obt` (
 --
 
 CREATE TABLE `roles` (
-  `id_rol` int NOT NULL,
-  `rol` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+  `id_rol` int(11) NOT NULL,
+  `rol` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -145,27 +153,18 @@ INSERT INTO `roles` (`id_rol`, `rol`) VALUES
 --
 
 CREATE TABLE `usuarios` (
-  `id_user` int NOT NULL,
-  `user_nom` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `user_apels` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `user_email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `user_tel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `user_puntos` int NOT NULL,
-  `user_foto` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `user_pass` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `user_reset_code` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `id_user` int(11) NOT NULL,
+  `user_nom` varchar(255) NOT NULL,
+  `user_apels` varchar(255) NOT NULL,
+  `user_email` varchar(255) NOT NULL,
+  `user_tel` varchar(255) DEFAULT NULL,
+  `user_puntos` int(11) NOT NULL,
+  `user_foto` varchar(255) DEFAULT NULL,
+  `user_pass` varchar(255) NOT NULL,
+  `user_reset_code` varchar(7) DEFAULT NULL,
   `user_reset_code_expiration` datetime DEFAULT NULL,
-  `id_rol` int NOT NULL
+  `id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `id_rol`) VALUES
-(1, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$m0KXVb3vaFPSni77YzOBxeAdGw82ISHT830HPgIV379M.b4tvqMk6', NULL, NULL, 3),
-(2, 'DILAN', 'LOPEZ', 'dilanfantas1101@gmail.com', NULL, 0, NULL, '$2a$10$T68OAPXrGVLEuLEuDP6ERONYJAVju8e.iuWJttpJfOtH.Ob3kqMmK', '663073', '2024-08-27 16:22:45', 2),
-(3, 'Martin', 'Moya', 'misterlee272006@gmail.com', NULL, 0, NULL, '$2a$10$0Q7ZZdveYuPc0Xp.heyL1OZ/NtPetmVP.o970xFxVmhpVFZrz3ZkS', '920317', '2024-08-26 19:59:35', 3);
 
 -- --------------------------------------------------------
 
@@ -174,21 +173,12 @@ INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user
 --
 
 CREATE TABLE `ventas` (
-  `id_venta` int NOT NULL,
-  `id_producto` int NOT NULL,
+  `id_venta` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
   `venta_fecha` datetime NOT NULL,
-  `id_user` int NOT NULL,
-  `venta_total` int NOT NULL
+  `id_user` int(11) NOT NULL,
+  `venta_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `ventas`
---
-
-INSERT INTO `ventas` (`id_venta`, `id_producto`, `venta_fecha`, `id_user`, `venta_total`) VALUES
-(2, 6, '2024-07-03 04:23:12', 3, 6900),
-(3, 5, '2024-07-12 05:31:13', 2, 6900),
-(4, 5, '2024-07-17 00:00:00', 2, 6900);
 
 --
 -- Índices para tablas volcadas
@@ -256,37 +246,44 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  MODIFY `id_producto_inv` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT de la tabla `recompensas`
 --
 ALTER TABLE `recompensas`
-  MODIFY `id_recomp` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_recomp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT de la tabla `recompensas_obt`
 --
 ALTER TABLE `recompensas_obt`
-  MODIFY `id_recomp_obt` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_recomp_obt` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id_rol` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- Restricciones para tablas volcadas
 --
