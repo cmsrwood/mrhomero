@@ -65,6 +65,38 @@ export default function Inventario() {
     filterBajoStock();
   }, [inventario]);
 
+  const borrarInventario = async (id) => {
+    try {
+      const confirm = await Swal.fire({
+        title: '¿Estas seguro de borrar este ingrediente?',
+        text: "No podras revertir esta accion",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, borrar'
+      });
+      if (!confirm.isConfirmed) {
+        return;
+      }
+      const res = await axios.delete(`${BACKEND_URL}/inventario/borrar/${id}`);
+      if (res.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: res.data 
+        });
+        Navigate(0);
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire ({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data
+      })
+    }
+  }
+
   return (
     <div className='d-flex'>
       <NavegacionAdmin />
@@ -74,11 +106,11 @@ export default function Inventario() {
             <div className="d-flex justify-content-between mb-5">
               <h1>Inventario</h1>
               <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalCrearProducto"><i className="bi bi-plus"></i>Añadir</button>
-              <div className="modal fade" id="ModalCrearProducto" tabIndex="-1" aria-labelledby="ModalEditarCategoriaLabel" aria-hidden="true">
+              <div className="modal fade" id="ModalCrearProducto" tabIndex="-1" aria-hidden="true">
                 <div className="modal-dialog">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h1 className="modal-title fs-5" id="ModalEditarCategoriaLabel">Añadir producto</h1>
+                      <h1 className="modal-title fs-5" >Añadir producto</h1>
                       <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
@@ -161,31 +193,37 @@ export default function Inventario() {
                                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div className="modal-body">
-                                  <div className="row p-3">
+                                  <form className="">
                                     <div className="col-12 mb-3">
-                                      <label htmlFor="floatingInput">Imagen</label>
-                                      <input className='form-control' type="file" accept='image/*' autoComplete='off' id='photo' name='photo' required />
+                                      <label htmlFor="floatingInput" className='form-label'>Nombre</label>
+                                      <input className='form-control' type="text" autoComplete='off' id='inv_nombre' name='inv_nombre' placeholder='Ej. Tomate' required onChange={handleChange} />
                                     </div>
                                     <div className="col-12 mb-3">
-                                      <label htmlFor="floatingInput">Producto</label>
-                                      <select name="" className="form-select" id="">
-                                        <option value="1" selected disabled>Producto...</option>
-                                        <option value="2">Hamburguesa Clasica</option>
-                                        <option value="3">Perros Calientes XL </option>
+                                      <label htmlFor="floatingInput">Categoría</label>
+                                      <select name="inv_categoria" className="form-select" id="" required onChange={handleChange}>
+                                        <option value="x" selected disabled>Categoría...</option>
+                                        <option value="1" >Hamburguesas</option>
+                                        <option value="2" >Choriperro</option>
+                                        <option value="3" >Salchipapa</option>
                                       </select>
                                     </div>
                                     <div className="col-12 mb-3">
-                                      <label htmlFor="floatingInput">Precio</label>
-                                      <input className='form-control' type="number" autoComplete='off' id='nom_cat' name='nom_cat' required min={0} step={50} />
+                                      <label htmlFor="floatingInput">Fecha de ingreso</label>
+                                      <input className='form-control' type="date" autoComplete='off' id='inv_fecha_ing' name='inv_fecha_ing' required onChange={handleChange} />
                                     </div>
                                     <div className="col-12 mb-3">
-                                      <select name="" className="form-select" id="" required>
-                                        <option value="1" selected disabled>Categoria...</option>
-                                        <option value="2">Hamburguesas</option>
-                                        <option value="3">Perros Calientes</option>
-                                      </select>
+                                      <label htmlFor="floatingInput">Fecha de caducidad</label>
+                                      <input className='form-control' type="date" autoComplete='off' id='inv_fecha_cad' name='inv_fecha_cad' required onChange={handleChange} />
                                     </div>
-                                  </div>
+                                    <div className="col-12 mb-3">
+                                      <label htmlFor="floatingInput">Cantidad</label>
+                                      <input className='form-control' type="number" autoComplete='off' id='inv_cantidad' name='inv_cantidad' required onChange={handleChange} />
+                                    </div>
+                                    <div className="col-12 mb-3">
+                                      <label htmlFor="floatingInput">Cantidad min</label>
+                                      <input className='form-control' type="number" autoComplete='off' id='inv_cantidad_min' name='inv_cantidad_min' required onChange={handleChange} />
+                                    </div>
+                                  </form>
                                 </div>
                                 <div className="modal-footer">
                                   <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
@@ -194,7 +232,7 @@ export default function Inventario() {
                               </div>
                             </div>
                           </div>
-                          <button type="button" className="btn btn-danger"><i className="bi bi-trash"></i></button>
+                          <button type="button" className="btn btn-danger" onClick={() => borrarInventario(ingrediente.id_producto_inv)}><i className="bi bi-trash"></i></button>
                         </div>
                       </td>
                     </tr>

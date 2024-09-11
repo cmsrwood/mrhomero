@@ -6,4 +6,6 @@ router.get('/mostrar', invController.mostrarInventario);
 
 router.post('/crear', invController.crearInventario);
 
+router.delete('/borrar/:id', invController.borrarInventario);
+
 module.exports = router

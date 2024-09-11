@@ -49,3 +49,18 @@ exports.crearInventario = (req, res) => {
 
 
 }
+
+exports.borrarInventario = (req, res) => {
+
+    const id = req.params.id;
+
+    db.query('DELETE FROM inventario WHERE id_producto_inv = ?', [id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        }
+        else {
+            return res.status(200).send('Ingrediente eliminado exitosamente');
+        }
+    });
+}
