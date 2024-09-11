@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const empRoutes = require('./routes/empleados');
 const invRoutes = require('./routes/inventario');
+const clientesRoutes = require('./routes/clientes');
 
 const app = express();
 const port = process.env.PORT || 4400;
@@ -30,6 +31,9 @@ app.use('/empleados', empRoutes);
 
 /* Ruta inventario */
 app.use('/inventario', invRoutes);
+
+// Ruta clientes
+app.use ('/clientes', clientesRoutes);
 
 /* Hola mundo para probar */
 app.get('/', (req, res) => {

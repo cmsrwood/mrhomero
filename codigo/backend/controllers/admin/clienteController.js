@@ -1,4 +1,4 @@
-const db = require('../../../config/db');
+const db = require('../../config/db');
 
 exports.mostrarClientes = (req, res) => {
     db.query('SELECT * FROM usuarios WHERE id_rol = 3', (err, results) => {

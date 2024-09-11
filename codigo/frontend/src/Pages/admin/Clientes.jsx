@@ -1,42 +1,39 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Buscador from '../../components/Buscador'
 import Swal from 'sweetalert2'
 import NavegacionAdmin from '../../navigation/NavegacionAdmin'
+import axios from 'axios';
+
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Clientes() {
-    function Usuario() {
-        return (
-            <tr>
-                <th scope="row" >1</th>
-                <td>User_nom</td>
-                <td>User_apel</td>
-                <td>user@gmail.com</td>
-                <td>3000000000</td>
-                <td><button type="button" className="btn btn-danger" onClick={() => {
-                    Swal.fire({
-                        title: "¿Eliminar Cliente?",
-                        text: "¡Se eliminara el cliente!",
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "¡Si, eliminar!",
-                        cancelButtonText: "Cancelar"
-                    }).then(
-                        (result) => {
-                            if (result.isConfirmed) {
-                                Swal.fire({
-                                    title: 'Cliente eliminado',
-                                    text: 'El cliente fue eliminado correctamente.',
-                                    icon: 'success',
-                                    confirmButtonText: 'Hecho'
-                                })
-                            }
-                        }
-                    )
-                }}><i className="bi bi-trash"></i></button></td>
-            </tr>
-        )
+
+    const Navigate = useNavigate();
+
+    const [clientes, setClientes] = useState([]);
+
+    useEffect(() => {
+        async function getClientes() {
+            const res = await axios.get(`${BACKEND_URL}/clientes/mostrar`);
+            setClientes(res.data);
+        }
+        getClientes();
+    }, []);
+
+
+    const borrarCliente = async (id) => {
+        try {
+            const res = await axios.delete(`${BACKEND_URL}/clientes/borrar/${id}`);
+            if (res.status === 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cliente eliminado exitosamente'
+                });
+                Navigate(0);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -62,11 +59,14 @@ export default function Clientes() {
                             </tr>
                         </thead>
                         <tbody>
-                            {Usuario()}
-                            {Usuario()}
-                            {Usuario()}
-                            {Usuario()}
-                            {Usuario()}
+                            <tr>
+                                <th scope="row" >1</th>
+                                <td>User_nom</td>
+                                <td>User_apel</td>
+                                <td>user@gmail.com</td>
+                                <td>3000000000</td>
+                                <td><button type="button" className="btn btn-danger" ><i className="bi bi-trash"></i></button></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
