@@ -16,7 +16,7 @@ export default function Pedidos() {
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [inputs, setInputs] = useState({
     payment: '',
-    received: ''
+    received: ''  
   })
   const [activeInput, setActiveInput] = useState('');
 
@@ -24,7 +24,7 @@ export default function Pedidos() {
     // Convertir el valor a cadena y eliminar caracteres no numéricos
     const formattedValue = value.toString().replace(/\D/g, '');
     // Añadir puntos como separadores de miles
-    return formattedValue.replace(  );
+    return formattedValue.replace( /\B(?=(\d{3})+(?!\d))/g, '.');    
   };
 
 
