@@ -2,12 +2,13 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2';
-import img from '../../assets/img/img.png'
 import NavegacionAdmin from '../../navigation/NavegacionAdmin'
 import axios from 'axios';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Inventario() {
+
+  const navigate = useNavigate();
 
   const [ingrediente, setIngrediente] = useState({
     inv_nombre: '',
@@ -18,6 +19,7 @@ export default function Inventario() {
     inv_cantidad_min: '',
   })
 
+
   const handleChange = (e) => {
     setIngrediente(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
@@ -26,7 +28,11 @@ export default function Inventario() {
     e.preventDefault()
     try {
       await axios.post(`${BACKEND_URL}/inventario/crear`, ingrediente)
-      Navigate(0)
+      Swal.fire({
+        icon: 'success',
+        title: 'Ingrediente creado exitosamente',
+      })
+      setIsDataUpdated(true)
     } catch (err) {
       console.log(err)
       Swal.fire({
@@ -38,7 +44,7 @@ export default function Inventario() {
   }
 
   const [inventario, setInventario] = useState([])
-  const Navigate = useNavigate()
+  const [isDataUpdated, setIsDataUpdated] = useState(false);
 
   useEffect(() => {
     const traerInventario = async () => {
@@ -83,19 +89,34 @@ export default function Inventario() {
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',
-          title: res.data 
+          title: res.data
         });
-        Navigate(0);
+        setIsDataUpdated(true);
       }
     } catch (error) {
       console.log(error);
-      Swal.fire ({
+      Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: error.response.data
       })
     }
   }
+
+  useEffect(() => {
+    if (isDataUpdated) {
+      const fetchData = async () => {
+        try {
+          const res = await axios.get(`${BACKEND_URL}/inventario/mostrar`);
+          setInventario(res.data);
+          setIsDataUpdated(false);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }
+  }, [isDataUpdated]);
 
   return (
     <div className='d-flex'>

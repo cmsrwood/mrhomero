@@ -1,53 +1,76 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import Buscador from '../../components/Buscador'
-import Swal from 'sweetalert2'
-import NavegacionAdmin from '../../navigation/NavegacionAdmin'
+import React, { useState, useEffect } from 'react';
+import Buscador from '../../components/Buscador';
+import Swal from 'sweetalert2';
+import NavegacionAdmin from '../../navigation/NavegacionAdmin';
 import axios from 'axios';
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Clientes() {
 
-    const Navigate = useNavigate();
-
     const [clientes, setClientes] = useState([]);
+    const [isDataUpdated, setIsDataUpdated] = useState(false);
 
     useEffect(() => {
-        async function getClientes() {
-            const res = await axios.get(`${BACKEND_URL}/clientes/mostrar`);
-            setClientes(res.data);
-        }
-        getClientes();
-    }, []);
+        const fetchData = async () => {
+            try {
+                const res = await axios.get(`${BACKEND_URL}/clientes/mostrar`);
+                setClientes(res.data);
+            } catch (error) {
+                console.error('Error al obtener clientes:', error);
+            }
+        };
 
+        fetchData();
+    }, []);
 
     const borrarCliente = async (id) => {
         try {
             const confirm = await Swal.fire({
-                title: '¿Estas seguro de borrar este cliente?',
-                text: "No podras revertir esta accion",
+                title: '¿Estás seguro de borrar este cliente?',
+                text: "No podrás revertir esta acción",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, borrar'
+                cancelButtonColor:
+                    '#d33',
+                confirmButtonText:
+                    'Sí, borrar'
             });
+
             if (!confirm.isConfirmed) {
                 return;
             }
+
             const res = await axios.delete(`${BACKEND_URL}/clientes/borrar/${id}`);
+
             if (res.status === 200) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Cliente eliminado exitosamente'
                 });
-                Navigate(0);
+                setIsDataUpdated(true);
             }
         } catch (error) {
-            console.log(error);
+            console.error('Error al eliminar cliente:', error);
         }
-    }
+    };
+
+    useEffect(() => {
+        if (isDataUpdated) {
+            const fetchData = async () => {
+                try {
+                    const res = await axios.get(`${BACKEND_URL}/clientes/mostrar`);
+                    setClientes(res.data);
+                    setIsDataUpdated(false);
+                } catch (error) {
+                    console.error('Error al obtener clientes actualizados:', error);
+                }
+            };
+
+            fetchData();
+        }
+    }, [isDataUpdated]);
 
     return (
         <div className="d-flex">

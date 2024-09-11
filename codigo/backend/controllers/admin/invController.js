@@ -34,8 +34,8 @@ exports.crearInventario = (req, res) => {
             return res.status(400).send('El nombre ya existe');
         }
         else {
-            const q = "INSERT INTO inventario (inv_nombre, inv_categoria, inv_cantidad, inv_fecha_ing, inv_fecha_cad, inv_cantidad_min) VALUES (?, ?, ?, ?, ? , ?)";
-            db.query(q, [nombre, categoria, cantidad, fechaIngreso, fechaVencimiento], (err, results) => {
+            const q = "INSERT INTO inventario (inv_nombre, inv_categoria, inv_cantidad, inv_fecha_ing, inv_fecha_cad, inv_cantidad_min) VALUES (?, ?, ?, ?, ? ,?)";
+            db.query(q, [nombre, categoria, cantidad, fechaIngreso, fechaVencimiento, cantidadMinima], (err, results) => {
                 if (err) {
                     console.log(err);
                     return res.status(500).send('Error en el servidor');
