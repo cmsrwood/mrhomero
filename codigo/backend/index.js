@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth');
 const empRoutes = require('./routes/empleados');
 const invRoutes = require('./routes/inventario');
 const clientesRoutes = require('./routes/clientes');
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173 ';
 
 const app = express();
 const port = process.env.PORT || 4400;
@@ -15,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: FRONTEND_URL,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
