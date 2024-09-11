@@ -18,20 +18,28 @@ export default function Ingresar() {
         verificationCode: ""
     });
 
+    const handleChange = (event) => {
+        setUser(prev => ({ ...prev, [event.target.name]: event.target.value }));
+    };
+
     const inputRefs = useRef([]);
 
-    const handleChange = (event, index) => {
+    const codeInput = (event, index) => {
         const { name, value } = event.target;
 
         if (name === 'verificationCode' && value.length === 1) {
-            // Move focus to the next input
             if (inputRefs.current[index + 1]) {
                 inputRefs.current[index + 1].focus();
+            }
+        }else if(value.length === 0){
+            if (inputRefs.current[index - 1]) {
+                inputRefs.current[index - 1].focus();
             }
         }
 
         setUser(prev => ({ ...prev, [name]: value }));
     };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -94,7 +102,7 @@ export default function Ingresar() {
                                         maxLength={1}
                                         name='verificationCode'
                                         ref={(el) => (inputRefs.current[index] = el)}
-                                        onChange={(e) => handleChange(e, index)}
+                                        onChange={(e) => codeInput(e, index)}
                                     />
                                 ))}
                             </div>
