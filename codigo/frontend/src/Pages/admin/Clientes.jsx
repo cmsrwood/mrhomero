@@ -24,6 +24,18 @@ export default function Clientes() {
 
     const borrarCliente = async (id) => {
         try {
+            const confirm = await Swal.fire({
+                title: '¿Estas seguro de borrar este cliente?',
+                text: "No podras revertir esta accion",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, borrar'
+            });
+            if (!confirm.isConfirmed) {
+                return;
+            }
             const res = await axios.delete(`${BACKEND_URL}/clientes/borrar/${id}`);
             if (res.status === 200) {
                 Swal.fire({
