@@ -1,14 +1,10 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import NavegacionAdmin from '../../navigation/NavegacionAdmin'
+import NavegacionAdmin from '../../navigation/NavegacionAdmin';
 import axios from 'axios';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Inventario() {
-
-  const navigate = useNavigate();
 
   const [ingrediente, setIngrediente] = useState({
     inv_nombre: '',
@@ -17,59 +13,58 @@ export default function Inventario() {
     inv_fecha_cad: '',
     inv_cantidad: '',
     inv_cantidad_min: '',
-  })
+  });
 
+  const [ingredienteEditar, setIngredienteEditar] = useState({
+    inv_nombre: '',
+    inv_categoria: '',
+    inv_fecha_ing: '',
+    inv_fecha_cad: '',
+    inv_cantidad: '',
+    inv_cantidad_min: '',
+  });
 
   const handleChange = (e) => {
-    setIngrediente(prev => ({ ...prev, [e.target.name]: e.target.value }))
-  }
-  const[ingredienteEditar,setIngredienteEditar]=useState({
-    inv_id:'',
-    inv_nombre_edit: '',
-    inv_categoria_edit: '',
-    inv_fecha_ing_edit: '',
-    inv_fecha_cad_edit: '',
-    inv_cantidad_edit: '',
-    inv_cantidad_min_edit: '',
-  })
+    setIngrediente(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-  const handleEdit = (e) => {
+  const handleEditChange = (e) => {
     setIngredienteEditar(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  }
+  };
 
   const handleClick = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      await axios.post(`${BACKEND_URL}/inventario/crear`, ingrediente)
+      await axios.post(`${BACKEND_URL}/inventario/crear`, ingrediente);
       Swal.fire({
         icon: 'success',
         title: 'Ingrediente creado exitosamente',
-      })
-      setIsDataUpdated(true)
+      });
+      setIsDataUpdated(true);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: err.response.data,
-      })
+      });
     }
-  }
+  };
 
-  const [inventario, setInventario] = useState([])
+  const [inventario, setInventario] = useState([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
 
   useEffect(() => {
     const traerInventario = async () => {
       try {
-        const res = await axios.get(`${BACKEND_URL}/inventario/mostrar`)
-        setInventario(res.data)
+        const res = await axios.get(`${BACKEND_URL}/inventario/mostrar`);
+        setInventario(res.data);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
-    }
-    traerInventario()
-  }, [])
+    };
+    traerInventario();
+  }, []);
 
   const [bajoStockIngredientes, setBajoStockIngredientes] = useState([]);
 
@@ -88,12 +83,12 @@ export default function Inventario() {
     try {
       const confirm = await Swal.fire({
         title: '¿Estas seguro de borrar este ingrediente?',
-        text: "No podras revertir esta accion",
+        text: "No podrás revertir esta acción",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, borrar'
+        confirmButtonText: 'Sí, borrar'
       });
       if (!confirm.isConfirmed) {
         return;
@@ -112,9 +107,9 @@ export default function Inventario() {
         icon: 'error',
         title: 'Oops...',
         text: error.response.data
-      })
+      });
     }
-  }
+  };
 
   useEffect(() => {
     if (isDataUpdated) {
@@ -130,32 +125,42 @@ export default function Inventario() {
       fetchData();
     }
   }, [isDataUpdated]);
-  const editarInventario = (id) => {
-    try{
-      Swal.fire({
-        title: '¿Estas seguro de editar este ingrediente?',
-        text: "No podras revertir esta accion",
+
+  const editarInventario = async (id) => {
+    try {
+      const confirm = await Swal.fire({
+        title: '¿Estás seguro de editar este ingrediente?',
+        text: "No podrás revertir esta acción",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, editar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const res = axios.put(`${BACKEND_URL}/inventario/actualizar/${id}`, ingredienteEditar);
-          if (res.status === 200) {
-            Swal.fire({
-              icon: 'success',
-              title: res.data
-            });
-            setIsDataUpdated(true);
-          }
+        confirmButtonText: 'Sí, editar'
+      });
+      if (confirm.isConfirmed) {
+        const res = await axios.put(`${BACKEND_URL}/inventario/actualizar/${id}`, ingredienteEditar);
+        if (res.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: res.data
+          });
+          setIsDataUpdated(true);
         }
-      })
+      }
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data
+      });
     }
+  };
+
+  function openEditModal(ingrediente) {
+    setIngredienteEditar(ingrediente);
   }
+
   return (
     <div className='d-flex'>
       <NavegacionAdmin />
@@ -169,12 +174,12 @@ export default function Inventario() {
                 <div className="modal-dialog">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h1 className="modal-title fs-5" >Añadir producto</h1>
+                      <h1 className="modal-title fs-5">Añadir producto</h1>
                       <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
                       <div className="row p-3">
-                        <form className="">
+                        <form>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput" className='form-label'>Nombre</label>
                             <input className='form-control' type="text" autoComplete='off' id='inv_nombre' name='inv_nombre' placeholder='Ej. Tomate' required onChange={handleChange} />
@@ -183,9 +188,9 @@ export default function Inventario() {
                             <label htmlFor="floatingInput">Categoría</label>
                             <select name="inv_categoria" className="form-select" id="" required onChange={handleChange}>
                               <option value="x" selected disabled>Categoría...</option>
-                              <option value="1" >Hamburguesas</option>
-                              <option value="2" >Choriperro</option>
-                              <option value="3" >Salchipapa</option>
+                              <option value="1">Hamburguesas</option>
+                              <option value="2">Choriperro</option>
+                              <option value="3">Salchipapa</option>
                             </select>
                           </div>
                           <div className="col-12 mb-3">
@@ -216,82 +221,30 @@ export default function Inventario() {
               </div>
             </div>
             <div className="table-responsive scrollbar">
-              <table className=" table table-striped table-scrollbar">
+              <table className="table table-striped table-scrollbar">
                 <thead>
                   <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Categoria</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Categoría</th>
                     <th scope="col">Fecha de ingreso</th>
                     <th scope="col">Fecha de caducidad</th>
                     <th scope="col">Cantidad</th>
-                    <th scope="col">Cantidad min</th>
-                    <th scope="col">Editar</th>
+                    <th scope="col">Cantidad mínima</th>
+                    <th scope="col">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {inventario.map((ingrediente) => (
-                    <tr key={ingrediente.id_producto_inv}>
-                      <th scope="row">{ingrediente.id_producto_inv}</th>
+                  {inventario.map((ingrediente, i) => (
+                    <tr key={i}>
                       <td>{ingrediente.inv_nombre}</td>
                       <td>{ingrediente.inv_categoria}</td>
                       <td>{ingrediente.inv_fecha_ing}</td>
                       <td>{ingrediente.inv_fecha_cad}</td>
                       <td>{ingrediente.inv_cantidad}</td>
                       <td>{ingrediente.inv_cantidad_min}</td>
-                      <td>
-                        <div className="d-flex">
-                          <button type="button" className="btn btn-warning me-3" data-bs-toggle="modal" data-bs-target={`#ModalEditar${ingrediente.id_producto_inv}`}>
-                            <i className="bi bi-pencil-square"></i>
-                          </button>
-                          <div className="modal fade" id={`ModalEditar${ingrediente.id_producto_inv}`} tabIndex="-1" aria-labelledby="ModalEditarCategoriaLabel" aria-hidden="true">
-                            <div className="modal-dialog">
-                              <div className="modal-content">
-                                <div className="modal-header">
-                                  <h1 className="modal-title fs-5" id="ModalEditarCategoriaLabel">Editar producto</h1>
-                                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div className="modal-body">
-                                  <form className="">
-                                    <div className="col-12 mb-3">
-                                      <label htmlFor="floatingInput" className='form-label'>Nombre</label>
-                                      <input className='form-control' type="text" autoComplete='off' id='inv_nombre_edit' name='inv_nombre_edit' placeholder='Ej. Tomate' required onChange={handleEdit} value={ingrediente.inv_nombre} />
-                                    </div>
-                                    <div className="col-12 mb-3">
-                                      <label htmlFor="floatingInput">Categoría</label>
-                                      <select name="inv_categoria_edit" className="form-select" id="" required onChange={handleEdit}
-                                        value={ingrediente.inv_categoria}>
-                                        <option value="x" selected disabled>Categoría...</option>
-                                        <option value="1" >Hamburguesas</option>
-                                        <option value="2" >Choriperro</option>
-                                        <option value="3" >Salchipapa</option>
-                                      </select>
-                                    </div>
-                                    <div className="col-12 mb-3">
-                                      <label htmlFor="floatingInput">Fecha de ingreso</label>
-                                      <input className='form-control' type="date" autoComplete='off' id='inv_fecha_ing_edit' name='inv_fecha_ing_edit' required onChange={handleEdit} />
-                                    </div>
-                                    <div className="col-12 mb-3">
-                                      <label htmlFor="floatingInput">Fecha de caducidad</label>
-                                      <input className='form-control' type="date" autoComplete='off' id='inv_fecha_cad_edit' name='inv_fecha_cad_edit' required onChange={handleEdit} value={ingrediente.inv_fecha_cad}/>
-                                    </div>
-                                    <div className="col-12 mb-3">
-                                      <label htmlFor="floatingInput">Cantidad</label>
-                                      <input className='form-control' type="number" autoComplete='off' id='inv_cantidad_edit' name='inv_cantidad_edit' required onChange={handleEdit} value={ingrediente.inv_cantidad}/>
-                                    </div>
-                                    <div className="col-12 mb-3">
-                                      <label htmlFor="floatingInput">Cantidad min</label>
-                                      <input className='form-control' type="number" autoComplete='off' id='inv_cantidad_min_edit' name='inv_cantidad_min_edit' required onChange={handleEdit}  value={ingrediente.inv_cantidad_min}/>
-                                    </div>
-                                  </form>
-                                </div>
-                                <div className="modal-footer">
-                                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                  <button type="button" className="btn btn-warning" onClick={() => editarInventario(ingrediente.id_producto_inv)}>Guardar cambios</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                      <td className=''>
+                        <div className="d-flex justify-content-between">
+                          <button type="button" className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditProducto" onClick={() => openEditModal(ingrediente)}><i className="bi bi-pencil"></i></button>
                           <button type="button" className="btn btn-danger" onClick={() => borrarInventario(ingrediente.id_producto_inv)}><i className="bi bi-trash"></i></button>
                         </div>
                       </td>
@@ -300,24 +253,6 @@ export default function Inventario() {
                 </tbody>
               </table>
             </div>
-            <p>Total de registros: {inventario.length}</p>
-            <nav aria-label="Page navigation example">
-              <ul className="pagination">
-                <li className="page-item">
-                  <a className="page-link text-warning" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li className="page-item"><a className="page-link text-warning" href="#">1</a></li>
-                <li className="page-item"><a className="page-link text-warning" href="#">2</a></li>
-                <li className="page-item"><a className="page-link text-warning" href="#">3</a></li>
-                <li className="page-item">
-                  <a className="page-link text-warning" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
           </div>
           <div className="col-10 col-sm-4 scrollbar">
             <h2 className='pb-5'>Bajo stock ({bajoStockIngredientes.length})</h2>
@@ -337,7 +272,56 @@ export default function Inventario() {
             </div>
           </div>
         </div>
+        <div className="modal fade" id="ModalEditProducto" tabIndex="-1" aria-labelledby="ModalEditProductoLabel" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1 className="modal-title fs-5" id="ModalEditProductoLabel">Editar producto</h1>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="row p-3">
+                  <form>
+                    <div className="col-12 mb-3">
+                      <label htmlFor="floatingInput" className='form-label'>Nombre</label>
+                      <input className='form-control' type="text" autoComplete='off' id='inv_nombre' name='inv_nombre' value={ingredienteEditar.inv_nombre} required onChange={handleEditChange} />
+                    </div>
+                    <div className="col-12 mb-3">
+                      <label htmlFor="floatingInput">Categoría</label>
+                      <select name="inv_categoria" className="form-select" id="" value={ingredienteEditar.inv_categoria} required onChange={handleEditChange}>
+                        <option value="x" disabled>Categoría...</option>
+                        <option value="1">Hamburguesas</option>
+                        <option value="2">Choriperro</option>
+                        <option value="3">Salchipapa</option>
+                      </select>
+                    </div>
+                    <div className="col-12 mb-3">
+                      <label htmlFor="floatingInput">Fecha de ingreso</label>
+                      <input className='form-control' type="date" autoComplete='off' id='inv_fecha_ing' name='inv_fecha_ing' value={ingredienteEditar.inv_fecha_ing} required onChange={handleEditChange} />
+                    </div>
+                    <div className="col-12 mb-3">
+                      <label htmlFor="floatingInput">Fecha de caducidad</label>
+                      <input className='form-control' type="date" autoComplete='off' id='inv_fecha_cad' name='inv_fecha_cad' value={ingredienteEditar.inv_fecha_cad} required onChange={handleEditChange} />
+                    </div>
+                    <div className="col-12 mb-3">
+                      <label htmlFor="floatingInput">Cantidad</label>
+                      <input className='form-control' type="number" autoComplete='off' id='inv_cantidad' name='inv_cantidad' value={ingredienteEditar.inv_cantidad} required onChange={handleEditChange} />
+                    </div>
+                    <div className="col-12 mb-3">
+                      <label htmlFor="floatingInput">Cantidad min</label>
+                      <input className='form-control' type="number" autoComplete='off' id='inv_cantidad_min' name='inv_cantidad_min' value={ingredienteEditar.inv_cantidad_min} required onChange={handleEditChange} />
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" className="btn btn-warning" onClick={() => editarInventario(ingredienteEditar.id_producto_inv)}>Guardar cambios</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }
