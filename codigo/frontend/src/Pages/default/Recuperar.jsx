@@ -6,10 +6,8 @@ import axios from 'axios';
 import '../../styles/recuperar.css';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
-
 export default function Ingresar() {
     axios.defaults.withCredentials = true;
-
     const navigate = useNavigate();
 
     const [user, setUser] = useState({
@@ -18,33 +16,37 @@ export default function Ingresar() {
         verificationCode: ""
     });
 
+    const [code, setCode] = useState(new Array(6).fill(''));
+    const inputRefs = useRef([]);
+
     const handleChange = (event) => {
         setUser(prev => ({ ...prev, [event.target.name]: event.target.value }));
     };
 
-    const inputRefs = useRef([]);
-
     const codeInput = (event, index) => {
-        const { name, value } = event.target;
-
-        if (name === 'verificationCode' && value.length === 1) {
-            if (inputRefs.current[index + 1]) {
+        const { value } = event.target;
+        if (/^[0-9]$/.test(value)) {
+            const newCode = [...code];
+            newCode[index] = value;
+            setCode(newCode);
+            if (inputRefs.current[index + 1] && value !== "") {
                 inputRefs.current[index + 1].focus();
             }
-        }else if(value.length === 0){
+        } else if (value === "") {
             if (inputRefs.current[index - 1]) {
                 inputRefs.current[index - 1].focus();
             }
         }
-
-        setUser(prev => ({ ...prev, [name]: value }));
     };
-    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const verificationCode = code.join('');
         try {
-            const res = await axios.post(`${BACKEND_URL}/auth/resetPassword`, user);
+            const res = await axios.post(`${BACKEND_URL}/auth/resetPassword`, {
+                ...user,
+                verificationCode
+            });
             if (res.status === 200) {
                 Swal.fire({
                     title: 'Contraseña restaurada',
@@ -68,7 +70,7 @@ export default function Ingresar() {
     return (
         <div>
             <NavegacionDefault />
-            <div className='container-fluid p-5 my-5 text-center wipe-in-down' transition-style="in:wipe:up" style={{width: '85%', boxShadow: '0 0 15px 0 rgba(0, 0, 0, 0.3)' }}>
+            <div className='container-fluid p-5 my-5 text-center wipe-in-down' transition-style="in:wipe:up" style={{ width: '85%', boxShadow: '0 0 15px 0 rgba(0, 0, 0, 0.3)' }}>
                 <div className="row d-flex justify-content-center">
                     <div className="col-12 col-sm-5 align-content-center align-items-center p-5" style={{ boxShadow: '0 0 10px 0 rgb(0, 0, 0, 0.2)' }}>
                         <form onSubmit={handleSubmit}>
@@ -100,7 +102,7 @@ export default function Ingresar() {
                                         type="text"
                                         className="inp"
                                         maxLength={1}
-                                        name='verificationCode'
+                                        value={code[index]}
                                         ref={(el) => (inputRefs.current[index] = el)}
                                         onChange={(e) => codeInput(e, index)}
                                     />
