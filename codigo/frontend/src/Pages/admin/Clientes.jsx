@@ -72,7 +72,7 @@ export default function Clientes() {
                         </thead>
                         <tbody>
                             {clientes.map(cliente => (
-                                <tr key={cliente.id}>
+                                <tr key={cliente.id_user}>
                                     <th scope="row">{cliente.id_user}</th>
                                     <td>{cliente.user_nom}</td>
                                     <td>{cliente.user_apels}</td>
