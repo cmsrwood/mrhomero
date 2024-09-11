@@ -18,8 +18,9 @@ exports.crearInventario = (req, res) => {
     const fechaIngreso = req.body.inv_fecha_ing;
     const fechaVencimiento = req.body.inv_fecha_cad;
     const cantidad = req.body.inv_cantidad;
+    const cantidadMinima = req.body.inv_cantidad_min;
 
-    if (!nombre || !categoria || !fechaIngreso || !fechaVencimiento || !cantidad) {
+    if (!nombre || !categoria || !fechaIngreso || !fechaVencimiento || !cantidad || !cantidadMinima) {
         return res.status(400).send('Todos los campos son obligatorios');
     }
 
@@ -33,7 +34,7 @@ exports.crearInventario = (req, res) => {
             return res.status(400).send('El nombre ya existe');
         }
         else {
-            const q = "INSERT INTO inventario (inv_nombre, inv_categoria, inv_cantidad, inv_fecha_ing, inv_fecha_cad) VALUES (?, ?, ?, ?, ?)";
+            const q = "INSERT INTO inventario (inv_nombre, inv_categoria, inv_cantidad, inv_fecha_ing, inv_fecha_cad, inv_cantidad_min) VALUES (?, ?, ?, ?, ? , ?)";
             db.query(q, [nombre, categoria, cantidad, fechaIngreso, fechaVencimiento], (err, results) => {
                 if (err) {
                     console.log(err);
@@ -46,5 +47,5 @@ exports.crearInventario = (req, res) => {
         }
     });
 
-    
+
 }

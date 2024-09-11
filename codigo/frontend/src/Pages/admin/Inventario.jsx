@@ -12,9 +12,10 @@ export default function Inventario() {
   const [ingrediente, setIngrediente] = useState({
     inv_nombre: '',
     inv_categoria: '',
-    inv_cantidad: '',
     inv_fecha_ing: '',
     inv_fecha_cad: '',
+    inv_cantidad: '',
+    inv_cantidad_min: '',
   })
 
   const handleChange = (e) => {
@@ -31,13 +32,12 @@ export default function Inventario() {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Algo salio mal',
+        text: err.response.data,
       })
     }
   }
 
   const [inventario, setInventario] = useState([])
-
   const Navigate = useNavigate()
 
   useEffect(() => {
@@ -51,24 +51,20 @@ export default function Inventario() {
     }
     traerInventario()
   }, [])
-  function card(producto, cantidad, color) {
-    return (
-      <div className={`card bg-${color} col-6 col-sm-12 bg-opacity-75 text-dark`}>
-        <div className="row g-0">
-          <div className="col-md-4 p-2">
-            <img src={img} className="img-fluid bg-white border" alt="..." />
-          </div>
-          <div className="col-md-8">
-            <div className="card-body">
-              <h3 className="card-title">{producto}</h3>
-              <h4 className="card-text">{cantidad}</h4>
-              <p className="card-text"><small className="">Última reposición: 10 de junio</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+
+  const [bajoStockIngredientes, setBajoStockIngredientes] = useState([]);
+
+  useEffect(() => {
+    const filterBajoStock = () => {
+      const filtered = inventario.filter(
+        (ingrediente) => ingrediente.inv_cantidad < ingrediente.inv_cantidad_min
+      );
+      setBajoStockIngredientes(filtered);
+    };
+
+    filterBajoStock();
+  }, [inventario]);
+
   return (
     <div className='d-flex'>
       <NavegacionAdmin />
@@ -94,8 +90,11 @@ export default function Inventario() {
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Categoría</label>
-                            <select name="inv_categoria" className="form-select" id="" required>
+                            <select name="inv_categoria" className="form-select" id="" required onChange={handleChange}>
                               <option value="x" selected disabled>Categoría...</option>
+                              <option value="1" >Hamburguesas</option>
+                              <option value="2" >Choriperro</option>
+                              <option value="3" >Salchipapa</option>
                             </select>
                           </div>
                           <div className="col-12 mb-3">
@@ -109,6 +108,10 @@ export default function Inventario() {
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Cantidad</label>
                             <input className='form-control' type="number" autoComplete='off' id='inv_cantidad' name='inv_cantidad' required onChange={handleChange} />
+                          </div>
+                          <div className="col-12 mb-3">
+                            <label htmlFor="floatingInput">Cantidad min</label>
+                            <input className='form-control' type="number" autoComplete='off' id='inv_cantidad_min' name='inv_cantidad_min' required onChange={handleChange} />
                           </div>
                         </form>
                       </div>
@@ -131,6 +134,7 @@ export default function Inventario() {
                     <th scope="col">Fecha de ingreso</th>
                     <th scope="col">Fecha de caducidad</th>
                     <th scope="col">Cantidad</th>
+                    <th scope="col">Cantidad min</th>
                     <th scope="col">Editar</th>
                   </tr>
                 </thead>
@@ -143,6 +147,7 @@ export default function Inventario() {
                       <td>{ingrediente.inv_fecha_ing}</td>
                       <td>{ingrediente.inv_fecha_cad}</td>
                       <td>{ingrediente.inv_cantidad}</td>
+                      <td>{ingrediente.inv_cantidad_min}</td>
                       <td>
                         <div className="d-flex">
                           <button type="button" className="btn btn-warning me-3" data-bs-toggle="modal" data-bs-target="#ModalEditarCategoria">
@@ -197,6 +202,7 @@ export default function Inventario() {
                 </tbody>
               </table>
             </div>
+            <p>Total de registros: {inventario.length}</p>
             <nav aria-label="Page navigation example">
               <ul className="pagination">
                 <li className="page-item">
@@ -216,13 +222,20 @@ export default function Inventario() {
             </nav>
           </div>
           <div className="col-10 col-sm-4 scrollbar">
-            <h2 className='pb-5'>Bajo stock</h2>
+            <h2 className='pb-5'>Bajo stock ({bajoStockIngredientes.length})</h2>
             <div className="row g-3">
-              {card('Tomate', '10', 'danger')}
-              {card('Lechuga', '13', 'danger')}
-              {card('Cebolla', '16', 'danger')}
-              {card('Papas fritas', '20', 'warning')}
-              {card('Papas fritas', '20', 'warning')}
+              {bajoStockIngredientes.map((ingrediente) => (
+                <div className={`card bg-warning col-6 col-sm-12 bg-opacity-75 text-dark`} key={ingrediente.id_producto_inv}>
+                  <div className="row g-0">
+                    <div className="col-md-8">
+                      <div className="card-body">
+                        <h3 className="card-title">{ingrediente.inv_nombre}</h3>
+                        <h4 className="card-text">{ingrediente.inv_cantidad}</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
