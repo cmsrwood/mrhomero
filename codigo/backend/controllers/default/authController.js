@@ -11,8 +11,8 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: "notificadormrhomero@gmail.com",
+        pass: "exwr frwt rvbm kkgb"
     }
 });
 
@@ -129,7 +129,7 @@ exports.recuperar = (req, res) => {
 
             // Enviar el código de verificación por correo
             const mailOptions = {
-                from: 'dilanfantas@gmail.com',
+                from: 'notificadormrhomero@gmail.com',
                 to: email,
                 subject: 'Código de verificación para restablecer contraseña || Mr. Homero',
                 html: `
