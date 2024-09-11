@@ -14,7 +14,48 @@ export default function Pedidos() {
   // Uso de useState para los modales
   const [showModalSale, setShowModalSale] = useState(false);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [inputs, setInputs] = useState({
+    payment: '',
+    received: ''
+  })
+  const [activeInput, setActiveInput] = useState('');
 
+  const formatNumber = (value) => {
+    // Convertir el valor a cadena y eliminar caracteres no numéricos
+    const formattedValue = value.toString().replace(/\D/g, '');
+    // Añadir puntos como separadores de miles
+    return formattedValue.replace(  );
+  };
+
+
+
+  const parseNumber = (value) => {
+    // Elimina puntos y convierte la cadena a número
+    return parseFloat(value.replace(/\./g, '')) || 0;
+  }
+
+  const handleButtonClick = (number) => {
+    // Agregar el número al valor actual del input
+    setInputs(prevInputs => ({
+      ...prevInputs,
+      [activeInput]: formatNumber(prevInputs[activeInput] + number)
+    }));
+  };
+
+
+  const handleDeleteLastDigit = () => {
+    setInputs(prevInputs => ({
+      ...prevInputs,
+      [activeInput]: formatNumber(prevInputs[activeInput].slice(0, -1))
+    }));
+  };
+
+  const handleClearInput = () => {
+    setInputs(prevInputs => ({
+      ...prevInputs,
+      [activeInput]: ''
+    }));
+  };
 
   function card() {
     return (
@@ -294,34 +335,60 @@ export default function Pedidos() {
                                 </div>
                                 <div className="col pt-3">
                                   {/*Input de cantidad a pagar*/}
-                                  <div className="input-group mb-3 pb-2">
+                                  <div className="input-group mb-3">
                                     <span className="input-group-text">Cantidad a pagar</span>
-                                    <input type="number" className="form-control" aria-label='Amount' step={50} min={0} />
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      value={inputs.payment}
+                                      placeholder="Abono"
+                                      onFocus={() => setActiveInput('payment')}
+                                      onChange={(e) => setInputs({
+                                        ...inputs,
+                                        payment: formatNumber(e.target.value)
+                                      })} />
                                     <span className="input-group-text">$</span>
                                   </div>
+                                  {/*Input de cantidad recibida*/}
                                   <div className="input-group mb-3">
-                                    {/*Input de cantidad a recibir*/}
-                                    <span className="input-group-text">Cantidad a recibir </span>
-                                    <input type="number" className="form-control" aria-label='Amount' />
+                                    <span className="input-group-text">Cantidad a recibir</span>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      aria-label="Amount"
+                                      value={inputs.received}
+                                      placeholder="Recibido"
+                                      onFocus={() => setActiveInput('received')}
+                                      onChange={(e) => setInputs({
+                                        ...inputs,
+                                        received: formatNumber(e.target.value)
+                                      })} />
                                     <span className="input-group-text">$</span>
                                   </div>
                                   <div className="d-flex justify-content-between">
                                     {/* Boton de eliminar cantidad de precio */}
-                                    <button className="btn btn-danger w-25" data-bs-dismiss="modal"> Borrar</button>
-                                    <button className="btn btn-primary w-25" data-bs-dismiss="modal"><i className="fa-solid fa-delete-left"></i></button>
+                                    <button className="btn btn-danger w-25" data-bs-dismiss="modal" onClick={handleClearInput}> Borrar</button>
+                                    <button className="btn btn-primary w-25" data-bs-dismiss="modal" onClick={handleDeleteLastDigit}><i className="fa-solid fa-delete-left"></i></button>
                                   </div>
                                   {/* Botones de Cantidad de precio */}
-                                  <div className="row">
-                                    <div className="col pt-4">
-                                      <button className="btn btn-success col-3 m-1 h-50 fs-4">7</button>
-                                      <button className="btn btn-success col-3 m-1 h-50 fs-4">8</button>
-                                      <button className="btn btn-success col-3 m-1 h-50 fs-4">9</button>
-                                      <button className="btn btn-success col-3 m-1 h-50 fs-4">4</button>
-                                      <button className="btn btn-success col-3 m-1 h-50 fs-4">5</button>
-                                      <button className="btn btn-success col-3 m-1 h-50 fs-4">6</button>
-                                      <button className="btn btn-success col-3 m-1 h-50 fs-4">1</button>
-                                      <button className="btn btn-success col-3 m-1 h-50 fs-4">2</button>
-                                      <button className="btn btn-success col-3 m-1 h-50 fs-4">3</button>
+                                  <div className="row mt-2">
+                                    <div className='d-flex justify-content-between align-items-center pt-3'>
+                                      <button type="button" className="btn btn-success border-2  w-100 fs-4" onClick={() => handleButtonClick(1)}>1</button>
+                                      <button type="button" className="btn btn-success border-2  w-100 fs-4 mx-2" onClick={() => handleButtonClick(2)}>2</button>
+                                      <button type="button" className="btn btn-success border-2  w-100 fs-4" onClick={() => handleButtonClick(3)}>3</button>
+                                    </div>
+                                    <div className='d-flex justify-content-between align-items-center pt-3'>
+                                      <button type="button" className="btn btn-success border-2  w-100 fs-4" onClick={() => handleButtonClick(4)}>4</button>
+                                      <button type="button" className="btn btn-success border-2  w-100 fs-4 mx-2" onClick={() => handleButtonClick(5)}>5</button>
+                                      <button type="button" className="btn btn-success border-2  w-100 fs-4" onClick={() => handleButtonClick(6)}>6</button>
+                                    </div>
+                                    <div className='d-flex justify-content-between align-items-center pt-3'>
+                                      <button type="button" className="btn btn-success border-2  w-100 fs-4" onClick={() => handleButtonClick(7)}>7</button>
+                                      <button type="button" className="btn btn-success border-2  w-100 fs-4 mx-2" onClick={() => handleButtonClick(8)}>8</button>
+                                      <button type="button" className="btn btn-success border-2  w-100 fs-4" onClick={() => handleButtonClick(9)}>9</button>
+                                    </div>
+                                    <div className='d-flex justify-content-between align-items-center pt-3'>
+                                      <button type="button" className="btn btn-success border-2  w-100 fs-4 " onClick={() => handleButtonClick(0)}>0</button>
                                     </div>
                                   </div>
                                 </div>
@@ -375,10 +442,11 @@ export default function Pedidos() {
                                     </div>
                                   </div>
                                   <div className="col align-self-center">
-                                    <h1 className='pb-4'>Total: $ 15.000</h1>
-                                    <h1 className='pb-4'>Recibido: $ 100.000</h1>
-                                    <h1 className=''>Cambio: $ 85.000</h1>
+                                    <h1 className='pb-4'>Total: $ {formatNumber(inputs.payment)}</h1>
+                                    <h1 className='pb-4'>Recibido: $ {formatNumber(inputs.received)}</h1>
+                                    <h1 className=''>Cambio: $ {formatNumber(parseNumber(inputs.received) - parseNumber(inputs.payment))}</h1>
                                   </div>
+
                                 </div>
                               </div>
                             </div>
