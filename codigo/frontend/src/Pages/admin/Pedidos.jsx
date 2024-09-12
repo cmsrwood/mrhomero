@@ -16,7 +16,7 @@ export default function Pedidos() {
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [inputs, setInputs] = useState({
     payment: '',
-    received: ''  
+    received: ''
   })
   const [activeInput, setActiveInput] = useState('');
 
@@ -24,7 +24,7 @@ export default function Pedidos() {
     // Convertir el valor a cadena y eliminar caracteres no numéricos
     const formattedValue = value.toString().replace(/\D/g, '');
     // Añadir puntos como separadores de miles
-    return formattedValue.replace( /\B(?=(\d{3})+(?!\d))/g, '.');    
+    return formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
 
@@ -39,6 +39,14 @@ export default function Pedidos() {
     setInputs(prevInputs => ({
       ...prevInputs,
       [activeInput]: formatNumber(prevInputs[activeInput] + number)
+    }));
+  };
+
+  const handleValueClick = (number) => {
+    // Agregar el número al valor actual del input
+    setInputs(prevInputs => ({
+      ...prevInputs,
+      [activeInput]: formatNumber(prevInputs[activeInput] + number),
     }));
   };
 
@@ -317,19 +325,19 @@ export default function Pedidos() {
                                   {/*Botones de Cantidad de precio*/}
                                   <div className='col pt-5 pb-3 justify-content-start text-start'>
                                     <div className='pt-3 ms-3'>
-                                      <button className='btn btn-success w-75 fs-4'><i className="bi bi-currency-dollar"></i> 10.000</button>
+                                      <button type="button" className='btn btn-success w-75 fs-4' onClick={() => handleValueClick(10000)}><i className="bi bi-currency-dollar" ></i> 10.000</button>
                                     </div>
                                     <div className='pt-3 ms-3'>
-                                      <button className='btn btn-success w-75 fs-4'><i className="bi bi-currency-dollar"></i> 20.000</button>
+                                      <button type="button" className='btn btn-success w-75 fs-4' onClick={() => handleValueClick(20000)}><i className="bi bi-currency-dollar" ></i> 20.000</button>
                                     </div>
                                     <div className='pt-3 ms-3'>
-                                      <button className='btn btn-success w-75 fs-4'><i className="bi bi-currency-dollar"></i> 30.000</button>
+                                      <button type="button" className='btn btn-success w-75 fs-4' onClick={() => handleValueClick(30000)}><i className="bi bi-currency-dollar" ></i> 30.000</button>
                                     </div>
                                     <div className='pt-3 ms-3'>
-                                      <button className='btn btn-success w-75 fs-4'><i className="bi bi-currency-dollar"></i> 50.000</button>
+                                      <button type="button" className='btn btn-success w-75 fs-4' onClick={() => handleValueClick(50000)}><i className="bi bi-currency-dollar" ></i> 50.000</button>
                                     </div>
                                     <div className='pt-3 ms-3'>
-                                      <button className='btn btn-success w-75 fs-4'><i className="bi bi-currency-dollar"></i> 100.000</button>
+                                      <button type="button" className='btn btn-success w-75 fs-4' onClick={() => handleValueClick(100000)}><i className="bi bi-currency-dollar" ></i> 100.000</button>
                                     </div>
                                   </div>
                                 </div>
