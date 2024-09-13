@@ -25,17 +25,23 @@ export default function Ingresar() {
 
     const codeInput = (event, index) => {
         const { value } = event.target;
-        if (/^[0-9]$/.test(value)) {
-            const newCode = [...code];
+        const newCode = [...code];
+
+        if (/^[0-9]$/.test(value) || value === "") {
             newCode[index] = value;
             setCode(newCode);
-            if (inputRefs.current[index + 1] && value !== "") {
-                inputRefs.current[index + 1].focus();
-            }
-        } else if (value === "") {
-            if (inputRefs.current[index - 1]) {
-                inputRefs.current[index - 1].focus();
-            }
+
+            if (value !== '') {
+                // Mueve al siguiente campo si existe un numero en el input
+                if (inputRefs.current[index + 1]) {
+                    inputRefs.current[index + 1].focus();
+                }
+            } else {
+                // Retrosede al anterior campo si el input es vacío
+                if (inputRefs.current[index - 1]) {
+                    inputRefs.current[index - 1].focus();
+                }
+            }   
         }
     };
 
