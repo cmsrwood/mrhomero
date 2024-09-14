@@ -6,6 +6,14 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Inventario() {
 
+  // Traer los datos de la base de datos
+  const [inventario, setInventario] = useState([]);
+  const [isDataUpdated, setIsDataUpdated] = useState(false);
+
+  // Bajo stock
+  const [bajoStockIngredientes, setBajoStockIngredientes] = useState([]);
+
+  // Modal para añadir
   const [ingrediente, setIngrediente] = useState({
     inv_nombre: '',
     inv_categoria: '',
@@ -14,6 +22,8 @@ export default function Inventario() {
     inv_cantidad: '',
     inv_cantidad_min: '',
   });
+
+  // Modal para editar
 
   const [ingredienteEditar, setIngredienteEditar] = useState({
     inv_nombre: '',
@@ -24,13 +34,24 @@ export default function Inventario() {
     inv_cantidad_min: '',
   });
 
-  const handleChange = (e) => {
-    setIngrediente(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
 
-  const handleEditChange = (e) => {
-    setIngredienteEditar(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  // Función para mostrar los ingredientes
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`${BACKEND_URL}/inventario/mostrar`);
+        setInventario(res.data);
+        setBajoStockIngredientes(res.data.filter((ingrediente) => ingrediente.inv_cantidad < ingrediente.inv_cantidad_min));
+        setIsDataUpdated(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  })
+
+  // Función para crear los ingredientes
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -40,33 +61,23 @@ export default function Inventario() {
         icon: 'success',
         title: 'Ingrediente creado exitosamente',
       });
+      setInventario([...inventario, ingrediente]);
       setIsDataUpdated(true);
     } catch (err) {
       console.log(err);
       Swal.fire({
         icon: 'error',
-        title: 'Oops...',
+        title: 'Error',
         text: err.response.data,
       });
     }
   };
 
-  const [inventario, setInventario] = useState([]);
-  const [isDataUpdated, setIsDataUpdated] = useState(false);
+  // Handle change para añadir
+  const handleChange = (e) => {
+    setIngrediente(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-  useEffect(() => {
-    const traerInventario = async () => {
-      try {
-        const res = await axios.get(`${BACKEND_URL}/inventario/mostrar`);
-        setInventario(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    traerInventario();
-  }, []);
-
-  const [bajoStockIngredientes, setBajoStockIngredientes] = useState([]);
 
   useEffect(() => {
     const filterBajoStock = () => {
@@ -118,6 +129,7 @@ export default function Inventario() {
           const res = await axios.get(`${BACKEND_URL}/inventario/mostrar`);
           setInventario(res.data);
           setIsDataUpdated(false);
+          setBajoStockIngredientes(res.data.filter((ingrediente) => ingrediente.inv_cantidad < ingrediente.inv_cantidad_min));
         } catch (error) {
           console.log(error);
         }
@@ -157,10 +169,28 @@ export default function Inventario() {
     }
   };
 
+  const handleEditChange = (e) => {
+    setIngredienteEditar(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   function openEditModal(ingrediente) {
     setIngredienteEditar(ingrediente);
   }
 
+  const [categorias, setCategorias] = useState([]);
+
+  //function para datos del select de categorias
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`${BACKEND_URL}/inventario/categorias`);
+        setCategorias(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  })
   return (
     <div className='d-flex'>
       <NavegacionAdmin />
@@ -186,11 +216,11 @@ export default function Inventario() {
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Categoría</label>
-                            <select name="inv_categoria" className="form-select" id="" required onChange={handleChange}>
-                              <option value="x" selected disabled>Categoría...</option>
-                              <option value="1">Hamburguesas</option>
-                              <option value="2">Choriperro</option>
-                              <option value="3">Salchipapa</option>
+                            <select className='form-select' id='inv_categoria' name='inv_categoria' required onChange={handleChange}>
+                              <option value="" disabled selected>Selecciona una categoría</option>
+                              {categorias.map(categoria => (
+                                <option key={categoria.id_categoria_inv} value={categoria.id_categoria_inv}>{categoria.categoria_inv_nom}</option>
+                              ))}
                             </select>
                           </div>
                           <div className="col-12 mb-3">
@@ -221,27 +251,31 @@ export default function Inventario() {
               </div>
             </div>
             <div className="table-responsive scrollbar">
-              <table className="table table-striped table-scrollbar">
+              <table className="table table-striped table-scrollbar table-hover">
                 <thead>
                   <tr>
+                    <th scope="col">ID</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Categoría</th>
                     <th scope="col">Fecha de ingreso</th>
                     <th scope="col">Fecha de caducidad</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Cantidad mínima</th>
+                    <th scope="col">Estado</th>
                     <th scope="col">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {inventario.map((ingrediente, i) => (
                     <tr key={i}>
+                      <th scope="row">{ingrediente.id_producto_inv}</th>
                       <td>{ingrediente.inv_nombre}</td>
                       <td>{ingrediente.inv_categoria}</td>
                       <td>{ingrediente.inv_fecha_ing}</td>
                       <td>{ingrediente.inv_fecha_cad}</td>
                       <td>{ingrediente.inv_cantidad}</td>
                       <td>{ingrediente.inv_cantidad_min}</td>
+                      <td className={ingrediente.inv_cantidad < ingrediente.inv_cantidad_min ? 'text-danger' : 'text-success'}>{ingrediente.inv_cantidad < ingrediente.inv_cantidad_min ? 'Stock bajo' : 'Suficiente'}</td>
                       <td className=''>
                         <div className="d-flex justify-content-between">
                           <button type="button" className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditProducto" onClick={() => openEditModal(ingrediente)}><i className="bi bi-pencil"></i></button>
@@ -252,6 +286,7 @@ export default function Inventario() {
                   ))}
                 </tbody>
               </table>
+              <p>Total de ingredientes: {inventario.length}</p>
             </div>
           </div>
           <div className="col-10 col-sm-4 scrollbar">
@@ -263,7 +298,8 @@ export default function Inventario() {
                     <div className="col-md-8">
                       <div className="card-body">
                         <h3 className="card-title">{ingrediente.inv_nombre}</h3>
-                        <h4 className="card-text">{ingrediente.inv_cantidad}</h4>
+                        <h4 className="">{`${ingrediente.inv_cantidad}/${ingrediente.inv_cantidad_min}`}</h4>
+                        <p>Falta {ingrediente.inv_cantidad_min - ingrediente.inv_cantidad} unidades</p>
                       </div>
                     </div>
                   </div>
@@ -288,11 +324,11 @@ export default function Inventario() {
                     </div>
                     <div className="col-12 mb-3">
                       <label htmlFor="floatingInput">Categoría</label>
-                      <select name="inv_categoria" className="form-select" id="" value={ingredienteEditar.inv_categoria} required onChange={handleEditChange}>
-                        <option value="x" disabled>Categoría...</option>
-                        <option value="1">Hamburguesas</option>
-                        <option value="2">Choriperro</option>
-                        <option value="3">Salchipapa</option>
+                      <select className='form-select' id='inv_categoria' name='inv_categoria' required onChange={handleChange}>
+                        <option value="" disabled selected>Selecciona una categoría</option>
+                        {categorias.map(categoria => (
+                          <option key={categoria.id_categoria_inv} value={categoria.id_categoria_inv}>{categoria.categoria_inv_nom}</option>
+                        ))}
                       </select>
                     </div>
                     <div className="col-12 mb-3">
@@ -316,7 +352,7 @@ export default function Inventario() {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" className="btn btn-warning" onClick={() => editarInventario(ingredienteEditar.id_producto_inv)}>Guardar cambios</button>
+                <button type="button" className="btn btn-warning" onClick={() => editarInventario(ingredienteEditar.id_producto_inv)} >Guardar cambios</button>
               </div>
             </div>
           </div>
