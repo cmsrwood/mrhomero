@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: mrhomero.cp84e8ay06n5.us-east-2.rds.amazonaws.com
--- Tiempo de generación: 16-09-2024 a las 15:41:00
--- Versión del servidor: 8.0.35
--- Versión de PHP: 7.0.33-0ubuntu0.16.04.16
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 16-09-2024 a las 22:59:12
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -29,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categorias` (
-  `id_categoria` int NOT NULL,
-  `cat_nom` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `cat_foto` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+  `id_categoria` int(11) NOT NULL,
+  `cat_nom` varchar(255) NOT NULL,
+  `cat_foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -50,8 +49,8 @@ INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`) VALUES
 --
 
 CREATE TABLE `categorias_inv` (
-  `id_categoria_inv` int NOT NULL,
-  `categoria_inv_nom` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
+  `id_categoria_inv` int(11) NOT NULL,
+  `categoria_inv_nom` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -70,21 +69,23 @@ INSERT INTO `categorias_inv` (`id_categoria_inv`, `categoria_inv_nom`) VALUES
 --
 
 CREATE TABLE `inventario` (
-  `id_producto_inv` int NOT NULL,
-  `inv_nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `inv_categoria` int NOT NULL,
+  `id_producto_inv` int(11) NOT NULL,
+  `inv_nombre` varchar(255) NOT NULL,
+  `id_categoria_inv` int(11) NOT NULL,
   `inv_fecha_ing` date NOT NULL,
   `inv_fecha_cad` date NOT NULL,
-  `inv_cantidad` int NOT NULL,
-  `inv_cantidad_min` int NOT NULL
+  `inv_cantidad` int(11) NOT NULL,
+  `inv_cantidad_min` int(11) NOT NULL,
+  `id_proveedor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `inventario`
 --
 
-INSERT INTO `inventario` (`id_producto_inv`, `inv_nombre`, `inv_categoria`, `inv_fecha_ing`, `inv_fecha_cad`, `inv_cantidad`, `inv_cantidad_min`) VALUES
-(5, 'Lechuga', 2, '2024-09-13', '2024-09-13', 2, 20);
+INSERT INTO `inventario` (`id_producto_inv`, `inv_nombre`, `id_categoria_inv`, `inv_fecha_ing`, `inv_fecha_cad`, `inv_cantidad`, `inv_cantidad_min`, `id_proveedor`) VALUES
+(1, 'Tomate', 1, '2024-08-31', '2024-08-30', 23, 24, 1),
+(2, 'Lechuga', 3, '2024-09-16', '2024-09-18', 24, 23, 1);
 
 -- --------------------------------------------------------
 
@@ -93,13 +94,13 @@ INSERT INTO `inventario` (`id_producto_inv`, `inv_nombre`, `inv_categoria`, `inv
 --
 
 CREATE TABLE `productos` (
-  `id_producto` int NOT NULL,
-  `pro_nom` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `pro_desp` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `pro_precio` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `pro_foto` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `pro_puntos` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `id_categoria` int NOT NULL
+  `id_producto` int(11) NOT NULL,
+  `pro_nom` varchar(255) NOT NULL,
+  `pro_desp` varchar(255) NOT NULL,
+  `pro_precio` varchar(255) NOT NULL,
+  `pro_foto` varchar(255) NOT NULL,
+  `pro_puntos` varchar(255) NOT NULL,
+  `id_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -119,9 +120,9 @@ INSERT INTO `productos` (`id_producto`, `pro_nom`, `pro_desp`, `pro_precio`, `pr
 --
 
 CREATE TABLE `productos_imgs` (
-  `id_pro_img` int NOT NULL,
-  `id_producto` int DEFAULT NULL,
-  `image` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
+  `id_pro_img` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -131,14 +132,21 @@ CREATE TABLE `productos_imgs` (
 --
 
 CREATE TABLE `proveedores` (
-  `id_proveedor` int NOT NULL,
-  `prov_nombre` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `prov_direccion` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `prov_contacto_nombre` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `prov_contacto_telefono` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `prov_contacto_email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `prov_activo` tinyint(1) DEFAULT '1'
+  `id_proveedor` int(11) NOT NULL,
+  `prov_nombre` varchar(255) NOT NULL,
+  `prov_direccion` varchar(255) DEFAULT NULL,
+  `prov_contacto_nombre` varchar(255) DEFAULT NULL,
+  `prov_contacto_telefono` varchar(15) DEFAULT NULL,
+  `prov_contacto_email` varchar(255) DEFAULT NULL,
+  `prov_activo` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `proveedores`
+--
+
+INSERT INTO `proveedores` (`id_proveedor`, `prov_nombre`, `prov_direccion`, `prov_contacto_nombre`, `prov_contacto_telefono`, `prov_contacto_email`, `prov_activo`) VALUES
+(1, 'Coca cola', 'ejm', 'ejm', 'ejm', 'ejm', 1);
 
 -- --------------------------------------------------------
 
@@ -147,10 +155,10 @@ CREATE TABLE `proveedores` (
 --
 
 CREATE TABLE `recompensas` (
-  `id_recomp` int NOT NULL,
-  `recompensa` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `recomp_num_puntos` int NOT NULL,
-  `recomp_foto` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+  `id_recomp` int(11) NOT NULL,
+  `recompensa` varchar(255) NOT NULL,
+  `recomp_num_puntos` int(11) NOT NULL,
+  `recomp_foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -169,9 +177,9 @@ INSERT INTO `recompensas` (`id_recomp`, `recompensa`, `recomp_num_puntos`, `reco
 --
 
 CREATE TABLE `recompensas_obt` (
-  `id_recomp_obt` int NOT NULL,
-  `id_recomp` int NOT NULL,
-  `id_user` int NOT NULL
+  `id_recomp_obt` int(11) NOT NULL,
+  `id_recomp` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -181,8 +189,8 @@ CREATE TABLE `recompensas_obt` (
 --
 
 CREATE TABLE `roles` (
-  `id_rol` int NOT NULL,
-  `rol` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+  `id_rol` int(11) NOT NULL,
+  `rol` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -201,17 +209,17 @@ INSERT INTO `roles` (`id_rol`, `rol`) VALUES
 --
 
 CREATE TABLE `usuarios` (
-  `id_user` int NOT NULL,
-  `user_nom` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `user_apels` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `user_email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `user_tel` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `user_puntos` int NOT NULL,
-  `user_foto` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `user_pass` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `user_reset_code` varchar(7) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `id_user` int(11) NOT NULL,
+  `user_nom` varchar(255) NOT NULL,
+  `user_apels` varchar(255) NOT NULL,
+  `user_email` varchar(255) NOT NULL,
+  `user_tel` varchar(255) DEFAULT NULL,
+  `user_puntos` int(11) NOT NULL,
+  `user_foto` varchar(255) DEFAULT NULL,
+  `user_pass` varchar(255) NOT NULL,
+  `user_reset_code` varchar(7) DEFAULT NULL,
   `user_reset_code_expiration` datetime DEFAULT NULL,
-  `id_rol` int NOT NULL
+  `id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -229,11 +237,11 @@ INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user
 --
 
 CREATE TABLE `ventas` (
-  `id_venta` int NOT NULL,
-  `id_producto` int NOT NULL,
+  `id_venta` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
   `venta_fecha` datetime NOT NULL,
-  `id_user` int NOT NULL,
-  `venta_total` int NOT NULL
+  `id_user` int(11) NOT NULL,
+  `venta_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -257,7 +265,8 @@ ALTER TABLE `categorias_inv`
 --
 ALTER TABLE `inventario`
   ADD PRIMARY KEY (`id_producto_inv`),
-  ADD KEY `inventario - categoria` (`inv_categoria`);
+  ADD KEY `inventario - categoria` (`id_categoria_inv`),
+  ADD KEY `inventario - proveedor` (`id_proveedor`);
 
 --
 -- Indices de la tabla `productos`
@@ -310,6 +319,7 @@ ALTER TABLE `usuarios`
 -- Indices de la tabla `ventas`
 --
 ALTER TABLE `ventas`
+  ADD PRIMARY KEY (`id_venta`),
   ADD KEY `producto` (`id_producto`),
   ADD KEY `usuario` (`id_user`);
 
@@ -321,47 +331,56 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT de la tabla `categorias_inv`
 --
 ALTER TABLE `categorias_inv`
-  MODIFY `id_categoria_inv` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_categoria_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  MODIFY `id_producto_inv` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id_proveedor` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT de la tabla `recompensas`
 --
 ALTER TABLE `recompensas`
-  MODIFY `id_recomp` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_recomp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT de la tabla `recompensas_obt`
 --
 ALTER TABLE `recompensas_obt`
-  MODIFY `id_recomp_obt` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_recomp_obt` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id_rol` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 --
 -- Restricciones para tablas volcadas
 --
@@ -370,7 +389,8 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  ADD CONSTRAINT `inventario - categoria` FOREIGN KEY (`inv_categoria`) REFERENCES `categorias_inv` (`id_categoria_inv`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `inventario - categoria` FOREIGN KEY (`id_categoria_inv`) REFERENCES `categorias_inv` (`id_categoria_inv`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `inventario - proveedor` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id_proveedor`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `productos`
@@ -382,7 +402,7 @@ ALTER TABLE `productos`
 -- Filtros para la tabla `productos_imgs`
 --
 ALTER TABLE `productos_imgs`
-  ADD CONSTRAINT `productos_imgs_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`);
+  ADD CONSTRAINT `producto imagenes` FOREIGN KEY (`id_pro_img`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `recompensas_obt`
