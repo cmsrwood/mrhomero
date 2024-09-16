@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mrhomero.cp84e8ay06n5.us-east-2.rds.amazonaws.com
--- Tiempo de generación: 16-09-2024 a las 15:38:50
+-- Tiempo de generación: 16-09-2024 a las 15:41:00
 -- Versión del servidor: 8.0.35
 -- Versión de PHP: 7.0.33-0ubuntu0.16.04.16
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `mikiweys`
+-- Base de datos: `mrhomero`
 --
 
 -- --------------------------------------------------------
