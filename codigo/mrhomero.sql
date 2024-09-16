@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-09-2024 a las 22:59:12
+-- Tiempo de generación: 17-09-2024 a las 01:55:22
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -84,8 +84,10 @@ CREATE TABLE `inventario` (
 --
 
 INSERT INTO `inventario` (`id_producto_inv`, `inv_nombre`, `id_categoria_inv`, `inv_fecha_ing`, `inv_fecha_cad`, `inv_cantidad`, `inv_cantidad_min`, `id_proveedor`) VALUES
-(1, 'Tomate', 1, '2024-08-31', '2024-08-30', 23, 24, 1),
-(2, 'Lechuga', 3, '2024-09-16', '2024-09-18', 24, 23, 1);
+(1, 'Tomate', 1, '2024-08-31', '2024-08-30', 23, 24, 2),
+(2, 'Lechuga', 3, '2024-09-16', '2024-09-18', 2, 23, 1),
+(4, 'Carne', 2, '2007-02-09', '2024-03-02', 2, 22, 2),
+(5, 'Tomate 3', 2, '2323-02-23', '2323-02-23', 2, 23, 2);
 
 -- --------------------------------------------------------
 
@@ -146,7 +148,8 @@ CREATE TABLE `proveedores` (
 --
 
 INSERT INTO `proveedores` (`id_proveedor`, `prov_nombre`, `prov_direccion`, `prov_contacto_nombre`, `prov_contacto_telefono`, `prov_contacto_email`, `prov_activo`) VALUES
-(1, 'Coca cola', 'ejm', 'ejm', 'ejm', 'ejm', 1);
+(1, 'Coca cola', 'ejm', 'ejm', 'ejm', 'ejm', 1),
+(2, 'Bimbo', 'ejm', 'ejm', 'ejm', 'ejm', 1);
 
 -- --------------------------------------------------------
 
@@ -227,8 +230,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `id_rol`) VALUES
-(7, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$B6LOGSdKpMgfV0xuhUAhoOy.itmWC.5JZcGGf2KSXsAFf.U59eLo2', NULL, NULL, 3),
-(8, 'Bryam', 'Cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$xY5fNkSJf1S2sDxmAlhQ..e6bM21Hdt2BstVgb35hIgnh2XhJR.tm', '521985', '2024-09-11 16:56:37', 3);
+(7, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$z0jNRO.XSGM.Wf8S8nz8FOFjcM3w9PLUIWRNsvSpKb7qBKqAc8H4G', NULL, NULL, 3),
+(8, 'Bryam', 'Cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$2cTfRrz70JVPO7oP3wqVEOlRP0LvOXCB9i05Ik./Wt5cSUOwKugJ.', NULL, NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -343,7 +346,7 @@ ALTER TABLE `categorias_inv`
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
@@ -355,7 +358,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `recompensas`
