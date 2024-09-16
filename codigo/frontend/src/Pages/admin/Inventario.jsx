@@ -16,22 +16,24 @@ export default function Inventario() {
   // Modal para añadir
   const [ingrediente, setIngrediente] = useState({
     inv_nombre: '',
-    inv_categoria: '',
+    id_categoria_inv: '',
     inv_fecha_ing: '',
     inv_fecha_cad: '',
     inv_cantidad: '',
     inv_cantidad_min: '',
+    inv_proveedor: '',
   });
 
   // Modal para editar
 
   const [ingredienteEditar, setIngredienteEditar] = useState({
     inv_nombre: '',
-    inv_categoria: '',
+    id_categoria_inv: '',
     inv_fecha_ing: '',
     inv_fecha_cad: '',
     inv_cantidad: '',
     inv_cantidad_min: '',
+    inv_proveedor: '',
   });
 
 
@@ -49,20 +51,21 @@ export default function Inventario() {
       }
     };
     fetchData();
-  })
+  }, [isDataUpdated]);
 
   // Función para crear los ingredientes
 
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${BACKEND_URL}/inventario/crear`, ingrediente);
+      const res = await axios.post(`${BACKEND_URL}/inventario/crear`, ingrediente);
       Swal.fire({
         icon: 'success',
         title: 'Ingrediente creado exitosamente',
       });
-      setInventario([...inventario, ingrediente]);
-      setIsDataUpdated(true);
+      if (res.status === 200) {
+        setIsDataUpdated(true); // Esto ya desencadenará la actualización en el `useEffect`
+      }
     } catch (err) {
       console.log(err);
       Swal.fire({
@@ -128,15 +131,17 @@ export default function Inventario() {
         try {
           const res = await axios.get(`${BACKEND_URL}/inventario/mostrar`);
           setInventario(res.data);
-          setIsDataUpdated(false);
-          setBajoStockIngredientes(res.data.filter((ingrediente) => ingrediente.inv_cantidad < ingrediente.inv_cantidad_min));
+          setBajoStockIngredientes(res.data.filter(ingrediente => ingrediente.inv_cantidad < ingrediente.inv_cantidad_min));
         } catch (error) {
           console.log(error);
+        } finally {
+          setIsDataUpdated(false);
         }
       };
       fetchData();
     }
   }, [isDataUpdated]);
+
 
   const editarInventario = async (id) => {
     try {
@@ -191,7 +196,7 @@ export default function Inventario() {
       }
     };
     fetchData();
-  })
+  }, [isDataUpdated]);
 
   const [proveedores, setProveedores] = useState([]);
 
@@ -207,7 +212,7 @@ export default function Inventario() {
       }
     };
     fetchData();
-  })
+  }, [isDataUpdated]);
 
   return (
     <div className='d-flex'>
@@ -234,12 +239,13 @@ export default function Inventario() {
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Categoría</label>
-                            <select className='form-select' id='inv_categoria' name='inv_categoria' required onChange={handleChange}>
-                              <option value="" disabled selected>Selecciona una categoría</option>
+                            <select className='form-select' id='id_categoria_inv' name='id_categoria_inv' value={ingrediente.id_categoria_inv} required onChange={handleChange}>
+                              <option value="" disabled>Selecciona una categoría</option>
                               {categorias.map(categoria => (
                                 <option key={categoria.id_categoria_inv} value={categoria.id_categoria_inv}>{categoria.categoria_inv_nom}</option>
                               ))}
                             </select>
+
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Fecha de ingreso</label>
@@ -259,8 +265,8 @@ export default function Inventario() {
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Proveedor</label>
-                            <select className='form-select' id='inv_categoria' name='inv_categoria' required onChange={handleChange}>
-                              <option value="" disabled selected>Selecciona un proveedor</option>
+                            <select className='form-select' id='id_proveedor' name='id_proveedor' value={'x'} required onChange={handleChange}>
+                              <option value="x" disabled>Selecciona un proveedor</option>
                               {proveedores.map(prov => (
                                 <option key={prov.id_proveedor} value={prov.id_proveedor}>{prov.prov_nombre}</option>
                               ))}
@@ -288,6 +294,7 @@ export default function Inventario() {
                     <th scope="col">Fecha de caducidad</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Cantidad mínima</th>
+                    <th scope="col">Proveedor</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Acciones</th>
                   </tr>
@@ -302,6 +309,7 @@ export default function Inventario() {
                       <td>{ingrediente.inv_fecha_cad}</td>
                       <td>{ingrediente.inv_cantidad}</td>
                       <td>{ingrediente.inv_cantidad_min}</td>
+                      <td>{proveedores.find(prov => prov.id_proveedor === ingrediente.id_proveedor).prov_nombre}</td>
                       <td className={ingrediente.inv_cantidad < ingrediente.inv_cantidad_min ? 'text-danger' : 'text-success'}>{ingrediente.inv_cantidad < ingrediente.inv_cantidad_min ? 'Stock bajo' : 'Suficiente'}</td>
                       <td className=''>
                         <div className="d-flex justify-content-betwee">
@@ -351,7 +359,7 @@ export default function Inventario() {
                     </div>
                     <div className="col-12 mb-3">
                       <label htmlFor="floatingInput">Categoría</label>
-                      <select className='form-select' id='inv_categoria' name='inv_categoria' required onChange={handleChange}>
+                      <select className='form-select' id='id_categoria_inv' name='id_categoria_inv' value={ingredienteEditar.id_categoria_inv} required onChange={handleEditChange}>
                         <option value="" disabled>Selecciona una categoría</option>
                         {categorias.map(categoria => (
                           <option key={categoria.id_categoria_inv} value={categoria.id_categoria_inv}>{categoria.categoria_inv_nom}</option>
@@ -373,6 +381,16 @@ export default function Inventario() {
                     <div className="col-12 mb-3">
                       <label htmlFor="floatingInput">Cantidad min</label>
                       <input className='form-control' type="number" autoComplete='off' id='inv_cantidad_min' name='inv_cantidad_min' value={ingredienteEditar.inv_cantidad_min} required onChange={handleEditChange} />
+                    </div>
+                    <div className="col-12 mb-3">
+                      <label htmlFor="floatingInput">Proveedor</label>
+                      <select className='form-select' id='id_proveedor' name='id_proveedor' value={ingredienteEditar.id_proveedor} required onChange={handleEditChange}>
+                        <option value="" disabled>Selecciona un proveedor</option>
+                        {proveedores.map(prov => (
+                          <option key={prov.id_proveedor} value={prov.id_proveedor}>{prov.prov_nombre}</option>
+                        ))}
+                      </select>
+
                     </div>
                   </form>
                 </div>
