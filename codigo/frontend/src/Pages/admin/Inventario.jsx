@@ -196,7 +196,7 @@ export default function Inventario() {
       <NavegacionAdmin />
       <div className='container content'>
         <div className="row g-5 justify-content-center">
-          <div className="col-12 col-sm-8 ">
+          <div className="col-12 col-sm-9 ">
             <div className="d-flex justify-content-between mb-5">
               <h1>Inventario</h1>
               <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalCrearProducto"><i className="bi bi-plus"></i>Añadir</button>
@@ -270,15 +270,15 @@ export default function Inventario() {
                     <tr key={i}>
                       <th scope="row">{ingrediente.id_producto_inv}</th>
                       <td>{ingrediente.inv_nombre}</td>
-                      <td>{ingrediente.inv_categoria}</td>
+                      <td>{categorias.find(categoria => categoria.id_categoria_inv === ingrediente.inv_categoria).categoria_inv_nom}</td>
                       <td>{ingrediente.inv_fecha_ing}</td>
                       <td>{ingrediente.inv_fecha_cad}</td>
                       <td>{ingrediente.inv_cantidad}</td>
                       <td>{ingrediente.inv_cantidad_min}</td>
                       <td className={ingrediente.inv_cantidad < ingrediente.inv_cantidad_min ? 'text-danger' : 'text-success'}>{ingrediente.inv_cantidad < ingrediente.inv_cantidad_min ? 'Stock bajo' : 'Suficiente'}</td>
                       <td className=''>
-                        <div className="d-flex justify-content-between">
-                          <button type="button" className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditProducto" onClick={() => openEditModal(ingrediente)}><i className="bi bi-pencil"></i></button>
+                        <div className="d-flex justify-content-betwee">
+                          <button type="button" className="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#ModalEditProducto" onClick={() => openEditModal(ingrediente)}><i className="bi bi-pencil"></i></button>
                           <button type="button" className="btn btn-danger" onClick={() => borrarInventario(ingrediente.id_producto_inv)}><i className="bi bi-trash"></i></button>
                         </div>
                       </td>
@@ -289,7 +289,7 @@ export default function Inventario() {
               <p>Total de ingredientes: {inventario.length}</p>
             </div>
           </div>
-          <div className="col-10 col-sm-4 scrollbar">
+          <div className="col-10 col-sm-3 scrollbar">
             <h2 className='pb-5'>Bajo stock ({bajoStockIngredientes.length})</h2>
             <div className="row g-3">
               {bajoStockIngredientes.map((ingrediente) => (
