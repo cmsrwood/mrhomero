@@ -185,12 +185,30 @@ export default function Inventario() {
       try {
         const res = await axios.get(`${BACKEND_URL}/inventario/categorias`);
         setCategorias(res.data);
+        setIsDataUpdated(false);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
   })
+
+  const [proveedores, setProveedores] = useState([]);
+
+  //function para datos del select de proveedor
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`${BACKEND_URL}/inventario/proveedores`);
+        setProveedores(res.data);
+        setIsDataUpdated(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  })
+
   return (
     <div className='d-flex'>
       <NavegacionAdmin />
@@ -239,6 +257,15 @@ export default function Inventario() {
                             <label htmlFor="floatingInput">Cantidad min</label>
                             <input className='form-control' type="number" autoComplete='off' id='inv_cantidad_min' name='inv_cantidad_min' required onChange={handleChange} />
                           </div>
+                          <div className="col-12 mb-3">
+                            <label htmlFor="floatingInput">Proveedor</label>
+                            <select className='form-select' id='inv_categoria' name='inv_categoria' required onChange={handleChange}>
+                              <option value="" disabled selected>Selecciona un proveedor</option>
+                              {proveedores.map(prov => (
+                                <option key={prov.id_proveedor} value={prov.id_proveedor}>{prov.prov_nombre}</option>
+                              ))}
+                            </select>
+                          </div>
                         </form>
                       </div>
                     </div>
@@ -270,7 +297,7 @@ export default function Inventario() {
                     <tr key={i}>
                       <th scope="row">{ingrediente.id_producto_inv}</th>
                       <td>{ingrediente.inv_nombre}</td>
-                      <td>{categorias.find(categoria => categoria.id_categoria_inv === ingrediente.inv_categoria).categoria_inv_nom}</td>
+                      <td>{categorias.find(categoria => categoria.id_categoria_inv === ingrediente.id_categoria_inv).categoria_inv_nom}</td>
                       <td>{ingrediente.inv_fecha_ing}</td>
                       <td>{ingrediente.inv_fecha_cad}</td>
                       <td>{ingrediente.inv_cantidad}</td>
@@ -325,7 +352,7 @@ export default function Inventario() {
                     <div className="col-12 mb-3">
                       <label htmlFor="floatingInput">Categoría</label>
                       <select className='form-select' id='inv_categoria' name='inv_categoria' required onChange={handleChange}>
-                        <option value="" disabled selected>Selecciona una categoría</option>
+                        <option value="" disabled>Selecciona una categoría</option>
                         {categorias.map(categoria => (
                           <option key={categoria.id_categoria_inv} value={categoria.id_categoria_inv}>{categoria.categoria_inv_nom}</option>
                         ))}

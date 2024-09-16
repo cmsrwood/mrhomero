@@ -1,17 +1,27 @@
 const db = require('../../config/db');
 
 exports.mostrarInventario = (req, res) => {
-
-    db.query('SELECT * FROM inventario', (err, results) => {
+    db.query(`
+        SELECT 
+            id_producto_inv, 
+            inv_nombre, 
+            id_categoria_inv, 
+            DATE_FORMAT(inv_fecha_ing, '%Y-%m-%d') AS inv_fecha_ing, 
+            DATE_FORMAT(inv_fecha_cad, '%Y-%m-%d') AS inv_fecha_cad, 
+            inv_cantidad, 
+            inv_cantidad_min, 
+            id_proveedor 
+        FROM inventario
+    `, (err, results) => {
         if (err) {
             console.log(err);
             return res.status(500).send('Error en el servidor');
-        }
-        else {
+        } else {
             return res.status(200).send(results);
         }
     });
-}
+};
+
 exports.crearInventario = (req, res) => {
     const nombre = req.body.inv_nombre;
     const categoria = req.body.inv_categoria;
@@ -19,8 +29,9 @@ exports.crearInventario = (req, res) => {
     const fechaVencimiento = req.body.inv_fecha_cad;
     const cantidad = req.body.inv_cantidad;
     const cantidadMinima = req.body.inv_cantidad_min;
+    const proveedor = req.body.inv_proveedor;
 
-    if (!nombre || !categoria || !fechaIngreso || !fechaVencimiento || !cantidad || !cantidadMinima) {
+    if (!nombre || !categoria || !fechaIngreso || !fechaVencimiento || !cantidad || !cantidadMinima || !proveedor) {
         return res.status(400).send('Todos los campos son obligatorios');
     }
 
@@ -34,8 +45,8 @@ exports.crearInventario = (req, res) => {
             return res.status(400).send('El nombre ya existe');
         }
         else {
-            const q = "INSERT INTO inventario (inv_nombre, inv_categoria, inv_cantidad, inv_fecha_ing, inv_fecha_cad, inv_cantidad_min) VALUES (?, ?, ?, ?, ? ,?)";
-            db.query(q, [nombre, categoria, cantidad, fechaIngreso, fechaVencimiento, cantidadMinima], (err, results) => {
+            const q = "INSERT INTO inventario (inv_nombre, inv_categoria, inv_cantidad, inv_fecha_ing, inv_fecha_cad, inv_cantidad_min, id_proveedor) VALUES (?, ?, ?, ?, ? ,?, ?)";
+            db.query(q, [nombre, categoria, cantidad, fechaIngreso, fechaVencimiento, cantidadMinima, proveedor], (err, results) => {
                 if (err) {
                     console.log(err);
                     return res.status(500).send('Error en el servidor');
@@ -72,11 +83,13 @@ exports.actualizarInventario = (req, res) => {
     const fechaVencimiento = req.body.inv_fecha_cad;
     const cantidad = req.body.inv_cantidad;
     const cantidadMinima = req.body.inv_cantidad_min;
-    if (!nombre || !categoria || !fechaIngreso || !fechaVencimiento || !cantidad || !cantidadMinima) {
+    const proveedor = req.body.inv_proveedor;
+
+    if (!nombre || !categoria || !fechaIngreso || !fechaVencimiento || !cantidad || !cantidadMinima || !proveedor) {
         return res.status(400).send('Todos los campos son obligatorios');
     }
-    const q = "UPDATE inventario SET inv_nombre = ?, inv_categoria = ?, inv_cantidad = ?, inv_fecha_ing = ?, inv_fecha_cad = ?, inv_cantidad_min = ? WHERE id_producto_inv = ?";
-    db.query(q, [nombre, categoria, cantidad, fechaIngreso, fechaVencimiento, cantidadMinima, id], (err, results) => {
+    const q = "UPDATE inventario SET inv_nombre = ?, inv_categoria = ?, inv_cantidad = ?, inv_fecha_ing = ?, inv_fecha_cad = ?, inv_cantidad_min = ? , id_proveedor = ? WHERE id_producto_inv = ?";
+    db.query(q, [nombre, categoria, cantidad, fechaIngreso, fechaVencimiento, cantidadMinima, proveedor, id], (err, results) => {
         if (err) {
             console.log(err);
             return res.status(500).send('Error en el servidor');
@@ -98,3 +111,15 @@ exports.mostrarCategorias = (req, res) => {
         }
     });
 };
+
+exports.mostrarProveedores = (req, res) => {
+    db.query('SELECT * FROM proveedores', (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        }
+        else {
+            return res.status(200).send(results);
+        }
+    });
+}

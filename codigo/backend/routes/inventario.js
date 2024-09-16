@@ -13,6 +13,6 @@ router.put('/actualizar/:id', invController.actualizarInventario);
 
 router.get('/categorias', invController.mostrarCategorias);
 
-
+router.get ('/proveedores', invController.mostrarProveedores);
 
 module.exports = router
