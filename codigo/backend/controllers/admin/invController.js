@@ -24,7 +24,7 @@ exports.mostrarInventario = (req, res) => {
 
 exports.crearInventario = (req, res) => {
     const nombre = req.body.inv_nombre;
-    const categoria = req.body.inv_categoria;
+    const categoria = req.body.id_categoria_inv;
     const fechaIngreso = req.body.inv_fecha_ing;
     const fechaVencimiento = req.body.inv_fecha_cad;
     const cantidad = req.body.inv_cantidad;

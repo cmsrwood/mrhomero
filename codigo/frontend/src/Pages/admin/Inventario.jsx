@@ -21,7 +21,7 @@ export default function Inventario() {
     inv_fecha_cad: '',
     inv_cantidad: '',
     inv_cantidad_min: '',
-    inv_proveedor: '',
+    id_proveedor: '',
   });
 
   // Modal para editar
@@ -33,7 +33,7 @@ export default function Inventario() {
     inv_fecha_cad: '',
     inv_cantidad: '',
     inv_cantidad_min: '',
-    inv_proveedor: '',
+    id_proveedor: '',
   });
 
 
@@ -239,8 +239,8 @@ export default function Inventario() {
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Categoría</label>
-                            <select className='form-select' id='id_categoria_inv' name='id_categoria_inv' value={ingrediente.id_categoria_inv} required onChange={handleChange}>
-                              <option value="" disabled>Selecciona una categoría</option>
+                            <select className='form-select' id='id_categoria_inv' defaultValue={'x'} name='id_categoria_inv' required onChange={handleChange}>
+                              <option value="x" disabled>Selecciona una categoría</option>
                               {categorias.map(categoria => (
                                 <option key={categoria.id_categoria_inv} value={categoria.id_categoria_inv}>{categoria.categoria_inv_nom}</option>
                               ))}
@@ -265,8 +265,8 @@ export default function Inventario() {
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Proveedor</label>
-                            <select className='form-select' id='inv_proveedor' name='inv_proveedor' value={ingrediente.inv_proveedor} required onChange={handleChange}>
-                              <option value="" disabled>Selecciona una categoría</option>
+                            <select className='form-select' id='id_proveedor' name='id_proveedor' defaultValue={'x'} required onChange={handleChange}>
+                              <option value="x" disabled>Selecciona una categoría</option>
                               {proveedores.map(prov => (
                                 <option key={prov.id_proveedor} value={prov.id_proveedor}>{prov.prov_nombre}</option>
                               ))}
