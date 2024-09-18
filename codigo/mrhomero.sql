@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mrhomero.cp84e8ay06n5.us-east-2.rds.amazonaws.com
--- Tiempo de generación: 18-09-2024 a las 16:37:46
+-- Tiempo de generación: 18-09-2024 a las 17:55:26
 -- Versión del servidor: 8.0.35
 -- Versión de PHP: 7.0.33-0ubuntu0.16.04.16
 
@@ -88,7 +88,7 @@ INSERT INTO `inventario` (`id_producto_inv`, `inv_nombre`, `id_categoria_inv`, `
 (1, 'Tomate', 1, '2024-08-31', '2024-08-30', 606, 24, 1),
 (2, 'Lechuga', 3, '2024-09-16', '2024-09-18', 25, 23, 1),
 (4, 'Carne', 2, '2007-02-09', '2024-03-02', 2, 22, 2),
-(5, 'Cebolla', 2, '2323-02-23', '2323-02-23', 2, 23, 1);
+(5, 'Cebolla', 2, '2323-02-23', '2323-02-23', 2, 23, 2);
 
 -- --------------------------------------------------------
 
