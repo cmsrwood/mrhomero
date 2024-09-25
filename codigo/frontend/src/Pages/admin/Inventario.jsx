@@ -297,9 +297,9 @@ export default function Inventario() {
             </div>
             <p>Total de ingredientes: {inventario.length}</p>
           </div>
-          <div className="col-10 col-sm-3 scrollbar">
+          <div className="col-10 col-sm-3 ">
             <h2 className='pb-5'>Bajo stock ({bajoStockIngredientes.length})</h2>
-            <div className="row g-3">
+            <div className="row g-3 scrollbar">
               {bajoStockIngredientes.map((ingrediente) => (
                 <div className={ingrediente.inv_cantidad < (ingrediente.inv_cantidad_min/2) ? 'card text-bg-danger mb-3' : 'card text-bg-warning mb-3'} key={ingrediente.id_producto_inv}>
                   <div className="row g-0">
