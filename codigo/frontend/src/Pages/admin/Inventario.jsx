@@ -9,19 +9,44 @@ export default function Inventario() {
   // Traer los datos de la base de datos
   const [inventario, setInventario] = useState([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
+  const [categorias, setCategorias] = useState([]);
+  const [proveedores, setProveedores] = useState([]);
 
   // Bajo stock
   const [bajoStockIngredientes, setBajoStockIngredientes] = useState([]);
 
+  //Use Effect para traer los datos de la base de datos
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [inventarioRes, categoriasRes, proveedoresRes] = await Promise.all([
+          axios.get(`${BACKEND_URL}/inventario/mostrar`),
+          axios.get(`${BACKEND_URL}/inventario/categorias`),
+          axios.get(`${BACKEND_URL}/inventario/proveedores`)
+        ]);
+        setInventario(inventarioRes.data);
+        setCategorias(categoriasRes.data);
+        setProveedores(proveedoresRes.data);
+        setBajoStockIngredientes(inventarioRes.data.filter((ingrediente) => ingrediente.inv_cantidad < ingrediente.inv_cantidad_min));
+      } catch (error) {
+        console.log(error);
+      }
+      setIsDataUpdated(false);
+    };
+    fetchData();
+  }, [isDataUpdated]);
+
+
   // Modal para añadir
   const [ingrediente, setIngrediente] = useState({
     inv_nombre: '',
-    id_categoria_inv: '',
+    id_categoria_inv: 'x',
     inv_fecha_ing: '',
     inv_fecha_cad: '',
     inv_cantidad: '',
     inv_cantidad_min: '',
-    id_proveedor: '',
+    id_proveedor: 'x',
   });
 
   // Modal para editar
@@ -36,24 +61,7 @@ export default function Inventario() {
     id_proveedor: '',
   });
 
-
-  // Función para mostrar los ingredientes
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`${BACKEND_URL}/inventario/mostrar`);
-        setInventario(res.data);
-        setBajoStockIngredientes(res.data.filter((ingrediente) => ingrediente.inv_cantidad < ingrediente.inv_cantidad_min));
-        setIsDataUpdated(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [isDataUpdated]);
-
-  // Función para crear los ingredientes
+  // Handle submit para añadir
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -64,7 +72,25 @@ export default function Inventario() {
         title: 'Ingrediente creado exitosamente',
       });
       if (res.status === 200) {
-        setIsDataUpdated(true); // Esto ya desencadenará la actualización en el `useEffect`
+        setIsDataUpdated(true);
+
+        // Resetear el formulario a valores vacíos después de crear el ingrediente
+        setIngrediente({
+          inv_nombre: '',
+          id_categoria_inv: 'x',
+          inv_fecha_ing: '',
+          inv_fecha_cad: '',
+          inv_cantidad: '',
+          inv_cantidad_min: '',
+          id_proveedor: 'x',
+        });
+
+        // Cerrar el modal
+        const modalElement = document.getElementById('ModalCrearProducto');
+        let modalInstance = bootstrap.Modal.getInstance(modalElement);
+
+        // Cerrar el modal
+        modalInstance.hide();
       }
     } catch (err) {
       console.log(err);
@@ -76,22 +102,12 @@ export default function Inventario() {
     }
   };
 
+
   // Handle change para añadir
   const handleChange = (e) => {
     setIngrediente(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-
-  useEffect(() => {
-    const filterBajoStock = () => {
-      const filtered = inventario.filter(
-        (ingrediente) => ingrediente.inv_cantidad < ingrediente.inv_cantidad_min
-      );
-      setBajoStockIngredientes(filtered);
-    };
-
-    filterBajoStock();
-  }, [inventario]);
 
   const borrarInventario = async (id) => {
     try {
@@ -125,24 +141,6 @@ export default function Inventario() {
     }
   };
 
-  useEffect(() => {
-    if (isDataUpdated) {
-      const fetchData = async () => {
-        try {
-          const res = await axios.get(`${BACKEND_URL}/inventario/mostrar`);
-          setInventario(res.data);
-          setBajoStockIngredientes(res.data.filter(ingrediente => ingrediente.inv_cantidad < ingrediente.inv_cantidad_min));
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setIsDataUpdated(false);
-        }
-      };
-      fetchData();
-    }
-  }, [isDataUpdated]);
-
-
   const editarInventario = async (id) => {
     try {
       const confirm = await Swal.fire({
@@ -162,6 +160,13 @@ export default function Inventario() {
             title: res.data
           });
           setIsDataUpdated(true);
+
+          const modalElement = document.getElementById('ModalEditProducto');
+          let modalInstance = bootstrap.Modal.getInstance(modalElement);
+
+          // Cerrar el modal
+          modalInstance.hide();
+
         }
       }
     } catch (error) {
@@ -181,38 +186,6 @@ export default function Inventario() {
   function openEditModal(ingrediente) {
     setIngredienteEditar(ingrediente);
   }
-
-  const [categorias, setCategorias] = useState([]);
-
-  //function para datos del select de categorias
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`${BACKEND_URL}/inventario/categorias`);
-        setCategorias(res.data);
-        setIsDataUpdated(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [isDataUpdated]);
-
-  const [proveedores, setProveedores] = useState([]);
-
-  //function para datos del select de proveedor
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`${BACKEND_URL}/inventario/proveedores`);
-        setProveedores(res.data);
-        setIsDataUpdated(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [isDataUpdated]);
 
   return (
     <div className='d-flex'>
@@ -235,11 +208,11 @@ export default function Inventario() {
                         <form>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput" className='form-label'>Nombre</label>
-                            <input className='form-control' type="text" autoComplete='off' id='inv_nombre' name='inv_nombre' placeholder='Ej. Tomate' required onChange={handleChange} />
+                            <input className='form-control' type="text" value={ingrediente.inv_nombre} autoComplete='off' id='inv_nombre' name='inv_nombre' placeholder='Ej. Tomate' required onChange={handleChange} />
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Categoría</label>
-                            <select className='form-select' id='id_categoria_inv' defaultValue={'x'} name='id_categoria_inv' required onChange={handleChange}>
+                            <select className='form-select' value={ingrediente.id_categoria_inv} id='id_categoria_inv' name='id_categoria_inv' required onChange={handleChange}>
                               <option value="x" disabled>Selecciona una categoría</option>
                               {categorias.map(categoria => (
                                 <option key={categoria.id_categoria_inv} value={categoria.id_categoria_inv}>{categoria.categoria_inv_nom}</option>
@@ -249,23 +222,23 @@ export default function Inventario() {
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Fecha de ingreso</label>
-                            <input className='form-control' type="date" autoComplete='off' id='inv_fecha_ing' name='inv_fecha_ing' required onChange={handleChange} />
+                            <input className='form-control' value={ingrediente.inv_fecha_ing} type="date" autoComplete='off' id='inv_fecha_ing' name='inv_fecha_ing' required onChange={handleChange} />
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Fecha de caducidad</label>
-                            <input className='form-control' type="date" autoComplete='off' id='inv_fecha_cad' name='inv_fecha_cad' required onChange={handleChange} />
+                            <input className='form-control' value={ingrediente.inv_fecha_cad} type="date" autoComplete='off' id='inv_fecha_cad' name='inv_fecha_cad' required onChange={handleChange} />
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Cantidad</label>
-                            <input className='form-control' type="number" autoComplete='off' id='inv_cantidad' name='inv_cantidad' required onChange={handleChange} />
+                            <input className='form-control' value={ingrediente.inv_cantidad} type="number" autoComplete='off' id='inv_cantidad' name='inv_cantidad' required onChange={handleChange} />
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Cantidad min</label>
-                            <input className='form-control' type="number" autoComplete='off' id='inv_cantidad_min' name='inv_cantidad_min' required onChange={handleChange} />
+                            <input className='form-control' value={ingrediente.inv_cantidad_min} type="number" autoComplete='off' id='inv_cantidad_min' name='inv_cantidad_min' required onChange={handleChange} />
                           </div>
                           <div className="col-12 mb-3">
                             <label htmlFor="floatingInput">Proveedor</label>
-                            <select className='form-select' id='id_proveedor' name='id_proveedor' defaultValue={'x'} required onChange={handleChange}>
+                            <select className='form-select' value={ingrediente.id_proveedor} id='id_proveedor' name='id_proveedor' defaultValue={'x'} required onChange={handleChange}>
                               <option value="x" disabled>Selecciona una categoría</option>
                               {proveedores.map(prov => (
                                 <option key={prov.id_proveedor} value={prov.id_proveedor}>{prov.prov_nombre}</option>
