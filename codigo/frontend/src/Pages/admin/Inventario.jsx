@@ -294,20 +294,20 @@ export default function Inventario() {
                   ))}
                 </tbody>
               </table>
-              <p>Total de ingredientes: {inventario.length}</p>
             </div>
+            <p>Total de ingredientes: {inventario.length}</p>
           </div>
           <div className="col-10 col-sm-3 scrollbar">
             <h2 className='pb-5'>Bajo stock ({bajoStockIngredientes.length})</h2>
             <div className="row g-3">
               {bajoStockIngredientes.map((ingrediente) => (
-                <div className={`card bg-warning col-6 col-sm-12 bg-opacity-75 text-dark`} key={ingrediente.id_producto_inv}>
+                <div className={ingrediente.inv_cantidad < (ingrediente.inv_cantidad_min/2) ? 'card text-bg-danger mb-3' : 'card text-bg-warning mb-3'} key={ingrediente.id_producto_inv}>
                   <div className="row g-0">
                     <div className="col-md-8">
                       <div className="card-body">
                         <h3 className="card-title">{ingrediente.inv_nombre}</h3>
                         <h4 className="">{`${ingrediente.inv_cantidad}/${ingrediente.inv_cantidad_min}`}</h4>
-                        <p>Falta {ingrediente.inv_cantidad_min - ingrediente.inv_cantidad} unidades</p>
+                        <p>Faltan {ingrediente.inv_cantidad_min - ingrediente.inv_cantidad} unidades</p>
                       </div>
                     </div>
                   </div>
