@@ -101,6 +101,9 @@ export default function NavegacionAdmin() {
                             <i className="bi bi-clock"></i> <span className='d-none d-lg-inline'>Horas de empleados</span>
                         </Link>
                     </div>
+                    <Link to='/admin/proveedores' className={rutaActiva('proveedores') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <i className="bi bi-basket3"></i> <span className='d-none d-lg-inline'>Proveedores</span>
+                    </Link>
                 </ul>
             </div>
             <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top shadow">
