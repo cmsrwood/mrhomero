@@ -8,6 +8,7 @@ const invRoutes = require('./routes/inventario');
 const clientesRoutes = require('./routes/clientes');
 const menuRoutes = require('./routes/menu');
 const proveedoresRoutes = require('./routes/proveedores');
+const productosRoutes = require('./routes/productos');
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173 ';
 
 const app = express();
@@ -43,6 +44,9 @@ app.use('/menu', menuRoutes);
 
 // Ruta proveedor
 app.use('/proveedores', proveedoresRoutes);
+
+//Ruta productos 
+app.use ('/productos', productosRoutes);
 
 /* Hola mundo para probar */
 app.get('/', (req, res) => {
