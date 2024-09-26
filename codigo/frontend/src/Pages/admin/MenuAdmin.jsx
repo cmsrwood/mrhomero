@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import NavegacionAdmin from '../../navigation/NavegacionAdmin';
@@ -30,10 +30,17 @@ export default function MenuAdmin() {
     categoria: '',
     foto: null
   })
+  //useREf para limpiar el input de la imagen 
+  const fileInputRef = useRef(null);
+  
+  //Función para resetear el input de la imagen
+  const resetFoto = () => {
+    fileInputRef.current.value = '';  
+  }
 
   //Añade la imagen
   const handleFileChange = (e) => {
-    setCategoria({ ...categoria, foto: e.target.files[0] })
+    setCategoria({ ...categoria, foto: e.target.files[0] });
   }
 
   //input de texto
@@ -66,6 +73,7 @@ export default function MenuAdmin() {
       console.log(error);
       Swal.fire('Error', error.response.data, 'error');
     }
+    resetFoto();    
   };
 
   const deleteCategory = async (id) => {
@@ -165,7 +173,7 @@ export default function MenuAdmin() {
                 <div className="row p-3">
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Imagen</label>
-                    <input className='form-control' onChange={handleFileChange} defaultValue={null} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
+                    <input className='form-control' onChange={handleFileChange} ref={fileInputRef} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
                   </div>
                   <div className="col-12 ">
                     <label htmlFor="floatingInput">Nombre</label>
@@ -184,7 +192,7 @@ export default function MenuAdmin() {
           {categorias.map((cat) => {
             return (
               <div className="col" key={cat.id_categoria}>
-                <div className="card">
+                <div className="card mb-4">
                   <img src={`/images/menu/categorias/${cat.cat_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
                   <div className="card-body text-center">
                     <h4 className="card-title">{cat.cat_nom}</h4>
@@ -219,9 +227,8 @@ export default function MenuAdmin() {
                 <div className="modal-body">
                   <div className="row p-3">
                     <div className="col-12 mb-3">
-                      {editarCategoria.foto && <img src={`/images/menu/categorias/${editarCategoria.foto}`} className="w-25" alt="" />}
+                      {editarCategoria.foto && <img src={`/images/menu/categorias/${editarCategoria.foto}`} className="w-50 mx-auto d-block mb-3" alt="" />}
                       <input className='form-control' onChange={handleFileChangeEdit} defaultValue={null} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
-
                     </div>
                     <div className="col-12 ">
                       <label htmlFor="floatingInput">Nombre</label>
@@ -236,7 +243,6 @@ export default function MenuAdmin() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div >
