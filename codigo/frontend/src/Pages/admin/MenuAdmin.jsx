@@ -33,7 +33,7 @@ export default function MenuAdmin() {
   //useREf para limpiar el input de la imagen 
   const fileInputRef = useRef(null);
   
-  //Función para resetear el input de la imagen
+  //Función para resetear el input dela imagen
   const resetFoto = () => {
     fileInputRef.current.value = '';  
   }

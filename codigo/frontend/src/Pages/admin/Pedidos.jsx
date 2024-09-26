@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Scrollbar } from 'swiper/modules'
 import 'swiper/css'
@@ -9,16 +9,38 @@ import Dropdown from '../../components/Dropdown'
 import Swal from 'sweetalert2'
 import img from '../../assets/img/img.png'
 import NavegacionAdmin from '../../navigation/NavegacionAdmin';
+import axios from 'axios';
 
 export default function Pedidos() {
   // Uso de useState para los modales
   const [showModalSale, setShowModalSale] = useState(false);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [categorias, setCategorias] = useState([]);
+  const [isDataUpdated, setIsDataUpdated] = useState(false);
+  const [mostrarClientes, setMostrarClientes] = useState([]);
+  const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
   const [inputs, setInputs] = useState({
     payment: '',
     received: ''
   })
   const [activeInput, setActiveInput] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [categoriasRes, clientesRes] = await Promise.all([
+          axios.get(`${BACKEND_URL}/menu/mostrarCategorias`),
+          axios.get(`${BACKEND_URL}/clientes/mostrar`),
+        ]);
+        setMostrarClientes(clientesRes.data);
+        setCategorias(categoriasRes.data);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsDataUpdated(false);
+    };
+    fetchData();
+  }), [isDataUpdated];
 
   const formatNumber = (value) => {
     // Convertir el valor a cadena y eliminar caracteres no numéricos
@@ -65,17 +87,6 @@ export default function Pedidos() {
     }));
   };
 
-  function card() {
-    return (
-      <div className="card text-center">
-        <img src={img} height={75} className="card-img-top border-bottom border-1" alt="..." />
-        <div className="card-body">
-          <h5 className="card-title fs-sm-6">Categoria</h5>
-        </div>
-      </div>
-    )
-  }
-
   function cardProduct() {
     return (
       <tbody>
@@ -110,18 +121,6 @@ export default function Pedidos() {
     )
   }
 
-  function tr() {
-    return (
-      <tr>
-        <th scope="row">#</th>
-        <th scope="row">Bryam</th>
-        <th scope="row">Castañeda Cuervo</th>
-        <th scope="row">bryamccuervo2004@gmail.com</th>
-        <th scope="row"><i className="bi bi-plus-circle btn btn-success"></i></th>
-      </tr>
-    )
-  }
-
   function trVenta() {
     return (
       <tr>
@@ -149,6 +148,7 @@ export default function Pedidos() {
       <NavegacionAdmin />
       <div className='container content'>
         <div className='container d-block d-sm-flex d-md-flex'>
+
           <h1 className="mt-3 mt-sm-5">Pedidos</h1>
           <Swiper
             slidesPerView={4}
@@ -160,12 +160,25 @@ export default function Pedidos() {
             modules={[Scrollbar]}
             className="mySwiper p-2 w-100 ms-5"
           >
-            <SwiperSlide>{card()}</SwiperSlide>
-            <SwiperSlide>{card()}</SwiperSlide>
-            <SwiperSlide>{card()}</SwiperSlide>
-            <SwiperSlide>{card()}</SwiperSlide>
-            <SwiperSlide>{card()}</SwiperSlide>
-            <SwiperSlide>{card()}</SwiperSlide>
+            {categorias.map((cat) => {
+              return (
+                <SwiperSlide key={cat.id_categoria}>
+                  <div className="col" >
+                    <div className="card text-center">
+                      <img
+                        src={`/images/menu/categorias/${cat.cat_foto}`}
+                        height={90}
+                        className="card-img-top border-bottom border-1"
+                        alt={cat.cat_nom}
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title fs-sm-5">{cat.cat_nom}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
           </Swiper>
         </div>
         <div className='container border border-2 border-secondary p-3 mt-4'>
@@ -238,24 +251,18 @@ export default function Pedidos() {
                                   <th scope="col">Añadir</th>
                                 </tr>
                               </thead>
-                              <tbody>
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
-                                {tr()}
+                              <tbody >
+                                {mostrarClientes.map((cliente) => {
+                                  return (
+                                    <tr key={cliente.id_user}>
+                                      <th scope="row">{cliente.id_user}</th>
+                                      <th scope="row">{cliente.user_nom}</th>
+                                      <th scope="row">{cliente.user_apels}</th>
+                                      <th scope="row">{cliente.user_email}</th>
+                                      <th scope="row"><i className="bi bi-plus-circle btn btn-success"></i></th>
+                                    </tr>
+                                  )
+                                })}
                               </tbody>
                             </table>
                           </div>
