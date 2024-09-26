@@ -117,18 +117,19 @@ export default function MenuAdmin() {
   const handleEdit = async (id) => {
     const formData = new FormData();
     formData.append('categoria', editarCategoria.categoria);
-    formData.append('foto', editarCategoria.foto);
+    if (editarCategoria.foto) {
+      formData.append('foto', editarCategoria.foto);
+    }
 
     try {
-      await axios.put(`${BACKEND_URL}/menu/actualizarCategoria/${id}`, formData);
-      Swal.fire('Éxito', 'Categoría editada correctamente', 'success');
-      const modalElement = document.getElementById('categoriaEditarModal');
-      let modalInstance = bootstrap.Modal.getInstance(modalElement);
-      modalInstance.hide();
-
-
-      // Cerrar el modal
-      modalInstance.hide();
+      const response = await axios.put(`${BACKEND_URL}/menu/actualizarCategoria/${id}`, formData);
+      if (response.status === 200) {
+        Swal.fire('Éxito', 'Categoría editada correctamente', 'success');
+        const modalElement = document.getElementById('categoriaEditarModal');
+        let modalInstance = bootstrap.Modal.getInstance(modalElement);
+        modalInstance.hide();
+        setIsDataUpdated(true);
+      }
     } catch (error) {
       console.log(error);
       Swal.fire('Error', error.response.data, 'error');
@@ -137,11 +138,12 @@ export default function MenuAdmin() {
 
   function openEditModal(categoria) {
     setEditarCategoria({
+      id: categoria.id_categoria,
       categoria: categoria.cat_nom,
       foto: categoria.cat_foto
     });
   }
-  // menu
+
   return (
     <div className='d-flex'>
       <NavegacionAdmin />
@@ -218,7 +220,7 @@ export default function MenuAdmin() {
                   <div className="row p-3">
                     <div className="col-12 mb-3">
                       {editarCategoria.foto && <img src={`/images/menu/categorias/${editarCategoria.foto}`} className="w-25" alt="" />}
-                      <input className='form-control' onChange={handleFileChangeEdit} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
+                      <input className='form-control' onChange={handleFileChangeEdit} defaultValue={null} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
 
                     </div>
                     <div className="col-12 ">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2024 a las 05:37:42
+-- Tiempo de generación: 26-09-2024 a las 05:53:30
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -38,8 +38,9 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`) VALUES
-(4, 'Salchipapa', 'categoria_1727321472352.jpg'),
-(5, 'Choriperro', 'categoria_1727321371250.jpg');
+(1, 'Salchipapa', 'categoria_1727322756647.jpg'),
+(2, 'Perro caliente', 'categoria_1727322790884.jpg'),
+(3, 'Choriperro', 'categoria_1727322797738.jpg');
 
 -- --------------------------------------------------------
 
@@ -331,7 +332,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias_inv`
