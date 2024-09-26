@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2024 a las 05:20:05
+-- Tiempo de generación: 26-09-2024 a las 05:37:42
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,6 +32,14 @@ CREATE TABLE `categorias` (
   `cat_nom` varchar(255) NOT NULL,
   `cat_foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`) VALUES
+(4, 'Salchipapa', 'categoria_1727321472352.jpg'),
+(5, 'Choriperro', 'categoria_1727321371250.jpg');
 
 -- --------------------------------------------------------
 
@@ -75,11 +83,17 @@ CREATE TABLE `inventario` (
 --
 
 INSERT INTO `inventario` (`id_producto_inv`, `inv_nombre`, `id_categoria_inv`, `inv_fecha_ing`, `inv_fecha_cad`, `inv_cantidad`, `inv_cantidad_min`, `id_proveedor`) VALUES
-(1, 'Tomate', 1, '2024-08-31', '2024-08-30', 606, 24, 1),
-(2, 'Lechuga', 3, '2024-09-16', '2024-09-18', 25, 23, 1),
-(4, 'Carne', 2, '2007-02-09', '2024-03-02', 2, 22, 2),
-(5, 'Cebolla', 2, '2323-02-23', '2323-02-23', 2, 23, 2),
-(7, 'zapatos', 1, '2024-09-18', '2024-09-21', 2, 1, 1);
+(1, 'Tomate', 1, '2024-08-31', '2024-08-30', 11, 24, 2),
+(4, 'Carne', 2, '2007-02-09', '2024-03-02', 213, 22, 1),
+(8, 'Pollo', 1, '2024-09-06', '2024-09-25', 233, 25, 1),
+(16, 'Carne de cerdo', 3, '2024-09-18', '2024-09-25', 22, 23, 2),
+(19, 'Pan', 1, '2024-09-18', '2024-09-25', 23, 2, 2),
+(20, 'Papas fritas', 2, '2024-09-18', '2024-09-25', 2, 20, 2),
+(21, '3123', 3, '2024-09-18', '2024-09-25', 23, 20, 1),
+(22, 'daawfd', 3, '2024-09-18', '2024-09-25', 232, 23, 1),
+(23, 'awfwafwa', 2, '2024-09-19', '2024-09-25', 2323, 2412, 1),
+(24, '213213', 3, '2024-09-18', '2024-09-26', 23, 2141, 2),
+(25, 'afw2wafawf2af2a', 3, '2024-09-18', '2024-09-26', 23, 2141, 2);
 
 -- --------------------------------------------------------
 
@@ -317,7 +331,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias_inv`
@@ -329,7 +343,7 @@ ALTER TABLE `categorias_inv`
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
