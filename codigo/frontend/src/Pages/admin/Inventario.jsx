@@ -273,8 +273,8 @@ export default function Inventario() {
                   </tr>
                 </thead>
                 <tbody>
-                  {inventario.map((ingrediente, i) => (
-                    <tr key={i}>
+                  {inventario.map((ingrediente) => (
+                    <tr key={ingrediente.id_ingrediente_inv}>
                       <th scope="row">{ingrediente.id_producto_inv}</th>
                       <td>{ingrediente.inv_nombre}</td>
                       <td>{categorias.find(categoria => categoria.id_categoria_inv === ingrediente.id_categoria_inv).categoria_inv_nom}</td>
@@ -301,7 +301,7 @@ export default function Inventario() {
             <h2 className='pb-5'>Bajo stock ({bajoStockIngredientes.length})</h2>
             <div className="row g-3 scrollbar">
               {bajoStockIngredientes.map((ingrediente) => (
-                <div className={ingrediente.inv_cantidad < (ingrediente.inv_cantidad_min/2) ? 'card text-bg-danger mb-3' : 'card text-bg-warning mb-3'} key={ingrediente.id_producto_inv}>
+                <div className={ingrediente.inv_cantidad < (ingrediente.inv_cantidad_min / 2) ? 'card text-bg-danger mb-3' : 'card text-bg-warning mb-3'} key={ingrediente.id_producto_inv}>
                   <div className="row g-0">
                     <div className="col-md-8">
                       <div className="card-body">
