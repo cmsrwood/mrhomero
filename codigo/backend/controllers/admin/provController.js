@@ -1,13 +1,7 @@
 const db = require('../../config/db');
 
 exports.mostrarProveedores = (req, res) => {
-    db.query(`SELECT 
-        id_proveedor, 
-        prov_nombre, 
-        prov_direccion, 
-        prov_telefono, 
-        prov_correo
-        FROM proveedores`, (err, results) => {
+    db.query("SELECT * FROM proveedores", (err, results) => {
         if (err) {
             console.log(err);
             return res.status(500).send('Error en el servidor');
@@ -17,3 +11,4 @@ exports.mostrarProveedores = (req, res) => {
         }
     });
 }
+module.exports = exports

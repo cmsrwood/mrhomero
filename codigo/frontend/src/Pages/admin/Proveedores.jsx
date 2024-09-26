@@ -5,13 +5,14 @@ import axios from 'axios';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 export default function Proveedores() {
 
-    const [proveedor, setProveedores] = useState([]);
+    const [proveedores, setProveedores] = useState([]);
     const [isDataUpdated, setIsDataUpdated] = useState(false);
     useEffect(() => {
         try {
             const fetchData = async () => {
-                const res = await axios.get(`${BACKEND_URL}/inventario/proveedor`);
+                const res = await axios.get(`${BACKEND_URL}/proveedores/mostrarProveedores`);
                 setProveedores(res.data);
+                console.log(res.data);
             };
             fetchData();
         } catch (error) {
@@ -23,7 +24,7 @@ export default function Proveedores() {
     return (
         <div className='d-flex'>
             <NavegacionAdmin />
-            <div className="container">
+            <div className="container content">
                 <table className="table">
                     <thead>
                         <tr>
@@ -35,8 +36,8 @@ export default function Proveedores() {
                         </tr>
                     </thead>
                     <tbody>
-                        {proveedor.map(proveedor => (
-                            <tr key={proveedor.id}>
+                        {proveedores.map(proveedor => (
+                            <tr key={proveedor.id_proveedor}>
                                 <th scope="row">{proveedor.prov_nombre}</th>
                                 <td>{proveedor.prov_direccion}</td>
                                 <td>{proveedor.prov_contacto_nombre}</td>
