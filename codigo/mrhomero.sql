@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-09-2024 a las 20:16:41
+-- Tiempo de generación: 26-09-2024 a las 05:20:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -32,15 +32,6 @@ CREATE TABLE `categorias` (
   `cat_nom` varchar(255) NOT NULL,
   `cat_foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`) VALUES
-(1, 'Hamburguesas', 'hamburguesa.jpg'),
-(2, 'Choriperro', 'choriperro.jpg'),
-(3, 'Salchipapa', 'salchipapa.jpg');
 
 -- --------------------------------------------------------
 
@@ -105,16 +96,6 @@ CREATE TABLE `productos` (
   `pro_puntos` varchar(255) NOT NULL,
   `id_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `productos`
---
-
-INSERT INTO `productos` (`id_producto`, `pro_nom`, `pro_desp`, `pro_precio`, `pro_foto`, `pro_puntos`, `id_categoria`) VALUES
-(4, 'Hamburguesa sencilla', 'Hamburguesa de carne 65 grs, lechuga, cebolla, tomate, papa triturada y salsas de la casa.', '6000', 'hamburguesasencilla.jpg', '5', 1),
-(5, 'Choriperro sencillo', 'Pan, chorizo de cerdo, queso, papas chip, cebolla y salsas de la casa.', '6900', 'choriperrosencillo.jpg', '10', 2),
-(6, 'Salchipapa sencilla', 'Papa francesa 200 gr, salchicha zenu long, papas chip y salsas de la casa.', '6900', 'salchipapasencilla.jpg', '6', 3),
-(7, 'Salchipapa especial', '12345', '5600', 'salchipapaespecial.jpg', '15', 3);
 
 -- --------------------------------------------------------
 
@@ -336,7 +317,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias_inv`
