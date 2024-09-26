@@ -7,7 +7,7 @@ const empRoutes = require('./routes/empleados');
 const invRoutes = require('./routes/inventario');
 const clientesRoutes = require('./routes/clientes');
 const menuRoutes = require('./routes/menu');
-const provRoutes = require('./routes/proveedores');
+const proveedoresRoutes = require('./routes/proveedores');
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173 ';
 
 const app = express();
@@ -40,8 +40,9 @@ app.use('/clientes', clientesRoutes);
 
 // Ruta menu
 app.use('/menu', menuRoutes);
+
 // Ruta proveedor
-app.use('/proveedores', provRoutes);
+app.use('/proveedores', proveedoresRoutes);
 
 /* Hola mundo para probar */
 app.get('/', (req, res) => {

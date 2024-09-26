@@ -11,4 +11,3 @@ exports.mostrarProveedores = (req, res) => {
         }
     });
 }
-module.exports = exports
