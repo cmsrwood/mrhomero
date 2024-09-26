@@ -61,7 +61,7 @@ function App() {
             <Route path="/admin/pedidos" element={<Pedidos />}></Route>
             <Route path="/admin/inventario" element={<Inventario />}></Route>
             <Route path="/admin/menu" element={<MenuAdmin />}></Route>
-            <Route path="/admin/categoria" element={<Categoria />}></Route>
+            <Route path="/admin/categoria/:id" element={<Categoria />}></Route>
             <Route path="/admin/recompensas" element={<RecompensasAdmin />}></Route>
             <Route path="/admin/clientes" element={<Clientes />}></Route>
             <Route path="/admin/empleados" element={<Empleados />}></Route>
