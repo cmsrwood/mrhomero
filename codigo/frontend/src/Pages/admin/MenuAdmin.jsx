@@ -102,7 +102,7 @@ export default function MenuAdmin() {
 
   //Editar categoria
   const [editarCategoria, setEditarCategoria] = useState({
-    categoria_editar: '',
+    categoria: '',
     foto: null
   })
 
@@ -116,18 +116,12 @@ export default function MenuAdmin() {
   };
   const handleEdit = async (id) => {
     const formData = new FormData();
-    formData.append('categoria', editarCategoria.categoria_editar);
+    formData.append('categoria', editarCategoria.categoria);
     formData.append('foto', editarCategoria.foto);
 
     try {
       await axios.put(`${BACKEND_URL}/menu/actualizarCategoria/${id}`, formData);
       Swal.fire('Éxito', 'Categoría agregada correctamente', 'success');
-
-      setCategoria({
-        categoria: '',
-        foto: null
-      });
-
       setIsDataUpdated(true); // Actualiza el estado para volver a cargar los datos
       const modalElement = document.getElementById('categoriaAgregarModal');
       let modalInstance = bootstrap.Modal.getInstance(modalElement);
@@ -141,7 +135,10 @@ export default function MenuAdmin() {
   };
 
   function openEditModal(categoria) {
-    setEditarCategoria(categoria);
+    setEditarCategoria({
+      categoria: categoria.cat_nom,
+      foto: categoria.cat_foto
+    });
   }
   // menu
   return (
@@ -206,19 +203,18 @@ export default function MenuAdmin() {
                               <div className="modal-body">
                                 <div className="row p-3">
                                   <div className="col-12 mb-3">
-                                    <label htmlFor="floatingInput">Imagen</label>
-                                    <img src={`/images/menu/categorias/${cat.cat_foto}`} className="img-fluid" alt="" />
+                                    {editarCategoria.foto && <img src={`/images/menu/categorias/${editarCategoria.foto}`} className="w-25" alt="" />}
                                     <input className='form-control' onChange={handleFileChangeEdit} defaultValue={null} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
                                   </div>
                                   <div className="col-12 ">
                                     <label htmlFor="floatingInput">Nombre</label>
-                                    <input className='form-control' onChange={handleInputChangeEdit} value={editarCategoria.categoria_editar} type="text" autoComplete='off' id='categoria' name='categoria' required />
+                                    <input className='form-control' onChange={handleInputChangeEdit} value={editarCategoria.categoria} type="text" autoComplete='off' id='categoria' name='categoria' required />
                                   </div>
                                 </div>
                               </div>
                               <div className="modal-footer">
                                 <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" className="btn btn-success" onClick={handleEdit(cat.id_categoria)}>Guardar</button>
+                                <button type="button" className="btn btn-success" onClick={() => handleEdit(cat.id_categoria)}>Guardar</button>
                               </div>
                             </div>
                           </div>

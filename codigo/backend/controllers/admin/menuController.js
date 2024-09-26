@@ -36,8 +36,6 @@ exports.upload = upload.single('foto')
 
 exports.crearCategoria = (req, res) => {
     const file = req.file;
-    console.log('PHOTOS: ', file);
-    console.log('CATEGORIA: ', req.body)
     if (!file && !req.body.categoria) {
         return res.status(400).send('Debes completar todos los campos')
     }
@@ -81,7 +79,9 @@ exports.eliminarCategoria = (req, res) => {
         }
         const imagen = data[0].cat_foto
         eliminar(imagen)
+
     })
+
     const q = "DELETE FROM categorias WHERE id_categoria = ?"
     db.query(q, [id], (err, data) => {
         if (err) {
@@ -94,27 +94,40 @@ exports.eliminarCategoria = (req, res) => {
 exports.actualizarCategoria = (req, res) => {
     const id = req.params.id;
     const file = req.file;
-    console.log('PHOTOS: ', file);
-    console.log('CATEGORIA: ', req.body)
-    const qimagen = "SELECT cat_foto FROM categorias WHERE id_categoria = ?"
-    db.query(qimagen, [id], (err, data) => {
-        if (err) {
-            return res.json(err)
-        }
-        const imagen = data[0].cat_foto
-        eliminar(imagen)
-    })
-    const q = "UPDATE categorias SET cat_nom = ?, cat_foto = ? WHERE id_categoria = ?"
-    const values = [
-        req.body.categoria,
-        file.filename.toString(),
-        id
-    ]
-    db.query(q, values, (err) => {
-        if (err) {
-            console.log(err)
-        }
-        return res.json("La categoria ha sido actualizada")
-    })
-}
+    const nuevoNombreCategoria = req.body.categoria;
 
+    // Obtener la categoría existente para determinar qué campos deben actualizarse
+    const qSelect = "SELECT cat_nom, cat_foto FROM categorias WHERE id_categoria = ?";
+    db.query(qSelect, [id], (err, data) => {
+        if (err) {
+            return res.status(500).json(err);
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: "Categoría no encontrada" });
+        }
+        // Obtener el nombre y foto actual en la base de datos
+        const categoriaActual = data[0];
+
+        // Establecer los nuevos valores, manteniendo los existentes si no se envían
+        const nombreActualizado = nuevoNombreCategoria || categoriaActual.cat_nom; 
+        const nombreFotoActualizado = file ? file.filename.toString() : categoriaActual.cat_foto;
+
+        // Eliminar la imagen anterior si se ha subido una nueva
+        if (file) {
+            eliminar(categoriaActual.cat_foto);
+        }
+
+        // Actualizar la categoría con los campos que hayan cambiado
+        const qUpdate = "UPDATE categorias SET cat_nom = ?, cat_foto = ? WHERE id_categoria = ?";
+        const values = [nombreActualizado, nombreFotoActualizado, id];
+
+        db.query(qUpdate, values, (err) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ message: "Error actualizando la categoría" });
+            }
+
+            return res.json("La categoría ha sido actualizada correctamente");
+        });
+    });
+};
