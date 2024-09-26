@@ -15,9 +15,9 @@ const storageProductos = multer.diskStorage({
     }
 })
 
-const uploadProductos = multer({ storage: storageProductos })
+const upload = multer({ storage: storageProductos })
 
-exports.uploadProductos = uploadProductos.single('foto');
+exports.uploadProducto = upload.single('imagen');
 
 //Eliminar de carpeta de productos 
 
@@ -35,6 +35,21 @@ const eliminarImagenProducto = async (image) => {
 exports.mostrarProductos = (req, res) => {
     const id = req.params.id;
     const q = "SELECT * FROM productos where id_categoria = ?";
+    db.query(q, [id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send(results);
+        }
+    });
+};
+
+//Mostrar cada producto por id
+
+exports.mostrarProducto = (req, res) => {
+    const id = req.params.id;
+    const q = "SELECT * FROM productos WHERE id_producto = ?";
     db.query(q, [id], (err, results) => {
         if (err) {
             console.log(err);
@@ -85,7 +100,7 @@ exports.crearProducto = (req, res) => {
             return res.status(400).send('El producto ya existe');
         }
 
-        const q = "INSERT INTO productos (`pro_nom`, `pro_des`, `pro_precio`, `pro_foto`, `pro_puntos`, `id_categoria`) VALUES (?)";
+        const q = "INSERT INTO productos (`pro_nom`, `pro_desp`, `pro_precio`, `pro_foto`, `pro_puntos`, `id_categoria`) VALUES (?)";
         const values = [
             nombre,
             descripcion,

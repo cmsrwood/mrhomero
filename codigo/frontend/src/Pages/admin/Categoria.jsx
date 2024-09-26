@@ -15,17 +15,17 @@ export default function Categoria() {
   const [isDataUpdated, setIsDataUpdated] = useState(false);
 
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const productosRes = await axios.get(`${BACKEND_URL}/menu/mostrarProductos/${categoriaId}`);
-      setProductos(productosRes.data);
-      setIsDataUpdated(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  fetchData();
-}, [isDataUpdated, categoriaId]);
+    const fetchData = async () => {
+      try {
+        const productosRes = await axios.get(`${BACKEND_URL}/productos/mostrarProductos/${categoriaId}`);
+        setProductos(productosRes.data);
+        setIsDataUpdated(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [isDataUpdated, categoriaId]);
 
 
   const borrarProducto = async (id) => {
@@ -40,9 +40,9 @@ export default function Categoria() {
         confirmButtonText: 'Sí, borrar'
       });
       if (confirm.isConfirmed) {
-        const res = await axios.delete(`${BACKEND_URL}/menu/borrarProducto/${id}`);
+        const res = await axios.delete(`${BACKEND_URL}/productos/borrarProducto/${id}`);
         if (res.status === 200) {
-          Swal.fire('Producto eliminado', res.data, 'success');  // Para cuando se elimina correctamente
+          Swal.fire('Producto eliminado', res.data, 'success');
           setIsDataUpdated(true);
         }
       }
@@ -85,7 +85,7 @@ export default function Categoria() {
     formData.append('imagen', productoSubir.imagen);
 
     try {
-      const res = await axios.post(`${BACKEND_URL}/menu/crearProducto`, formData);
+      const res = await axios.post(`${BACKEND_URL}/productos/crearProducto`, formData);
       if (res.status === 200) {
         Swal.fire('Producto creado', res.data, 'success');
         setIsDataUpdated(true);
@@ -100,6 +100,7 @@ export default function Categoria() {
   return (
     <div className="d-flex">
       <NavegacionAdmin />
+
       <div className="container content justify-content-between">
         <div className="d-flex justify-content-between mb-5">
           <h1>Nombre de la categoria</h1>
@@ -149,23 +150,31 @@ export default function Categoria() {
           </div>
         </div>
         <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
-          {productos.map((item) => (
-            <div className="col my-2" key={item.id_producto}>
+          {productos.map((producto) => (
+
+            <div className="col my-2" key={producto.id_producto}>
               <div className="card text-center p-2">
-                <img src={item.pro_foto} height={200} className="card-img-top" alt="..." />
+                <img src={`/images/menu/productos/${producto.pro_foto}`} height={200} className="card-img-top" alt="..." />
                 <div className="card-body">
-                  <div className=" justify-content-between align-items-center">
-                    <h3 className="card-title">{item.pro_nom}</h3>
+                  <div className=" justify-content-between align-productos-center">
+                    <h3 className="card-title">{producto.pro_nom}</h3>
                     <div className="row">
                       <div className="col">
-                        <NumericFormat value={item.pro_precio} displayType={'text'} thousandSeparator=',' prefix={'$ '} />
+                        <NumericFormat value={producto.pro_precio} displayType={'text'} thousandSeparator=',' prefix={'$ '} />
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="flex">
-                  <button type="button" className="btn btn-warning ms-2"><i className="bi bi-pencil-square"></i> Editar</button>
-                  <button type="button" className="btn btn-danger ms-2" onClick={() => borrarProducto(item.id_producto)}><i className="bi bi-trash"></i> Eliminar</button>
+                <div className="row row-cols-3">
+                  <div className="col">
+                    <Link to={`/admin/producto/${producto.id_producto}`} className="btn btn-success w-100"><i className="bi bi-eye"></i> Ver</Link>
+                  </div>
+                  <div className="col">
+                    <button type="button" className="btn btn-warning w-100"><i className="bi bi-pencil-square"></i> Editar</button>
+                  </div>
+                  <div className="col">
+                    <button type="button" className="btn btn-danger w-100" onClick={() => borrarProducto(producto.id_producto)}><i className="bi bi-trash"></i> Eliminar</button>
+                  </div>
                 </div>
               </div>
             </div>

@@ -69,7 +69,7 @@ export default function Inventario() {
       const res = await axios.post(`${BACKEND_URL}/inventario/crear`, ingrediente);
       Swal.fire({
         icon: 'success',
-        title: 'Ingrediente creado exitosamente',
+        title: res.data,
       });
       if (res.status === 200) {
         setIsDataUpdated(true);

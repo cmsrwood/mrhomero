@@ -36,6 +36,7 @@ const Clientes = lazy(() => import("./Pages/admin/Clientes"));
 const RecompensasAdmin = lazy(() => import("./Pages/admin/RecompensasAdmin"));
 const Empleados = lazy(() => import("./Pages/admin/Empleados"));
 const HorasEmpleados = lazy(() => import("./Pages/admin/HorasEmpleados"));
+const ProductoAdmin = lazy(() => import("./Pages/admin/ProductoAdmin"));
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
             <Route path="/admin/inventario" element={<Inventario />}></Route>
             <Route path="/admin/menu" element={<MenuAdmin />}></Route>
             <Route path="/admin/categoria/:id" element={<Categoria />}></Route>
+            <Route path="/admin/producto/:id" element={<ProductoAdmin />}></Route>
             <Route path="/admin/recompensas" element={<RecompensasAdmin />}></Route>
             <Route path="/admin/clientes" element={<Clientes />}></Route>
             <Route path="/admin/empleados" element={<Empleados />}></Route>
