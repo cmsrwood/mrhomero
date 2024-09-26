@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Loader from "./components/Loader";
 import Categoria from "./Pages/admin/Categoria";
 import Producto from "./components/Producto";
+import Proveedores from "./Pages/admin/Proveedores";
 
 
 const Error = lazy(() => import("./components/Error"));
@@ -65,6 +66,7 @@ function App() {
             <Route path="/admin/clientes" element={<Clientes />}></Route>
             <Route path="/admin/empleados" element={<Empleados />}></Route>
             <Route path="/admin/horasempleados" element={<HorasEmpleados />}></Route>
+            <Route path="/admin/proveedores" element={<Proveedores />} className=""></Route>
 
 
             {/* Rutas para el cliente */}
