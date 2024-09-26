@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth');
 const empRoutes = require('./routes/empleados');
 const invRoutes = require('./routes/inventario');
 const clientesRoutes = require('./routes/clientes');
+const menuRoutes = require('./routes/menu');
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173 ';
 
 const app = express();
@@ -34,7 +35,9 @@ app.use('/empleados', empRoutes);
 app.use('/inventario', invRoutes);
 
 // Ruta clientes
-app.use ('/clientes', clientesRoutes);
+app.use('/clientes', clientesRoutes);
+
+app.use('/menu', menuRoutes);
 
 /* Hola mundo para probar */
 app.get('/', (req, res) => {
