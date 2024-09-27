@@ -45,20 +45,25 @@ exports.mostrarProductos = (req, res) => {
     });
 };
 
-//Mostrar cada producto por id
-
+// Mostrar un solo producto
 exports.mostrarProducto = (req, res) => {
     const id = req.params.id;
     const q = "SELECT * FROM productos WHERE id_producto = ?";
+
     db.query(q, [id], (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(500).send('Error en el servidor');
-        } else {
-            return res.status(200).send(results);
+            return res.status(500).json({ message: 'Error en el servidor', error: err });
         }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
+        }
+
+        return res.status(200).json(results[0]);
     });
 };
+
 
 // Crear un nuevo producto
 exports.crearProducto = (req, res) => {

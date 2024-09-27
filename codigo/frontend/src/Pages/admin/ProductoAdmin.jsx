@@ -12,8 +12,8 @@ export default function ProductoAdmin() {
     const location = useLocation();
     const idProducto = location.pathname.split("/")[3];
 
-    console.log (producto);
-    console.log (idProducto);
+    console.log(producto);
+    console.log(idProducto);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,8 +31,16 @@ export default function ProductoAdmin() {
         <div className='d-flex'>
             <NavegacionAdmin />
             <div className="container content">
-                <h1>{producto.pro_nom}</h1>
+                <div className="row">
+                    <div className="col">
+                        <img src={`/images/menu/productos/${producto?.pro_foto}`} alt="" />
+                    </div>
+                    <div className="col">
+                        <h2>{producto?.pro_nom}</h2>
+                    </div>
+                </div>
             </div>
         </div>
     );
+
 }
