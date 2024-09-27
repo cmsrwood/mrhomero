@@ -68,7 +68,7 @@ function App() {
             <Route path="/admin/clientes" element={<Clientes />}></Route>
             <Route path="/admin/empleados" element={<Empleados />}></Route>
             <Route path="/admin/horasempleados" element={<HorasEmpleados />}></Route>
-            <Route path="/admin/proveedores" element={<Proveedores />} className=""></Route>
+            <Route path="/admin/proveedores" element={<Proveedores />}></Route>
 
 
             {/* Rutas para el cliente */}
