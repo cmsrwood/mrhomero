@@ -28,6 +28,7 @@ export default function Categoria() {
   }, [isDataUpdated, categoriaId]);
 
 
+
   const borrarProducto = async (id) => {
     try {
       const confirm = await Swal.fire({
@@ -96,6 +97,56 @@ export default function Categoria() {
     }
   };
 
+  const [editarProducto, setEditarProducto] = useState({
+    id: '',
+    id_categoria: '',
+    nombre: '',
+    descripcion: '',
+    precio: '',
+    puntos: '',
+    imagen: null
+  });
+
+  const handleChangeEdit = (e) => {
+    setEditarProducto({
+      ...editarProducto,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleFileChangeEdit = (e) => {
+    setEditarProducto({
+      ...editarProducto,
+      imagen: e.target.files[0]
+    })
+  }
+
+  const handleSubmitEdit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('id', editarProducto.id);
+    formData.append('id_categoria', editarProducto.id_categoria);
+    formData.append('nombre', editarProducto.nombre);
+    formData.append('descripcion', editarProducto.descripcion);
+    formData.append('precio', editarProducto.precio);
+    formData.append('puntos', editarProducto.puntos);
+    formData.append('imagen', editarProducto.imagen);
+
+    try {
+      const res = await axios.put(`${BACKEND_URL}/productos/actualizarProducto/${editarProducto.id}`, formData);
+      if (res.status === 200) {
+        Swal.fire('Producto editado', res.data, 'success');
+        setIsDataUpdated(true);
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire('Error', error.response.data, 'error');
+    }
+  }
+
+  function openEditModal(producto) {
+    setEditarProducto(producto);
+  }
 
   return (
     <div className="d-flex">
@@ -116,9 +167,9 @@ export default function Categoria() {
                 <h1 className="modal-title fs-5" id="MenuModalLabel">Agregar producto</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div className="modal-body">
-                <div className="row p-3">
-                  <form>
+              <form onSubmit={handleSubmit}>
+                <div className="modal-body">
+                  <div className="row p-3">
                     <div className="col-12 mb-3">
                       <label htmlFor="floatingInput">Imagen</label>
                       <input onChange={handleFileChange} className='form-control' type="file" accept='image/*' id='imagen' name='imagen' required />
@@ -139,19 +190,18 @@ export default function Categoria() {
                       <label htmlFor="floatingInput">Puntos</label>
                       <input onChange={handleChange} className='form-control' type="number" autoComplete='off' id='puntos' name='puntos' required min={0} step={1} />
                     </div>
-                  </form>
+                  </div>
                 </div>
-              </div>
-              <div className="modal-footer">
-                <button type="submit" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" className="btn btn-success" onClick={handleSubmit}>Guardar</button>
-              </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" className="btn btn-success">Guardar</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
         <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
           {productos.map((producto) => (
-
             <div className="col my-2" key={producto.id_producto}>
               <div className="card text-center p-2">
                 <img src={`/images/menu/productos/${producto.pro_foto}`} height={200} className="card-img-top" alt="..." />
@@ -166,12 +216,15 @@ export default function Categoria() {
                   </div>
                 </div>
                 <div className="row row-cols-3">
+                  {/* Botón para ver */}
                   <div className="col">
                     <Link to={`/admin/producto/${producto.id_producto}`} className="btn btn-success w-100"><i className="bi bi-eye"></i> Ver</Link>
                   </div>
+                  {/* Botón para editar */}
                   <div className="col">
-                    <button type="button" className="btn btn-warning w-100"><i className="bi bi-pencil-square"></i> Editar</button>
+                    <button type="button" className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#EditarModal" onClick={() => openEditModal(producto)}><i className="bi bi-pencil-square"></i> Editar</button>
                   </div>
+                  {/* Botón para borrar */}
                   <div className="col">
                     <button type="button" className="btn btn-danger w-100" onClick={() => borrarProducto(producto.id_producto)}><i className="bi bi-trash"></i> Eliminar</button>
                   </div>
@@ -179,6 +232,47 @@ export default function Categoria() {
               </div>
             </div>
           ))}
+          {/* Modal para añadir categoria */}
+          <div className="modal fade" id="EditarModal" tabIndex="-1" aria-labelledby="MenuModalLabelEdit" aria-hidden="true">
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1 className="modal-title fs-5" id="MenuModalLabelEdit">Agregar producto</h1>
+                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form onSubmit={handleSubmitEdit}>
+                  <div className="modal-body">
+                    <div className="row p-3">
+                      <div className="col-12 mb-3">
+                        <label htmlFor="floatingInput">Imagen</label>
+                        <input onChange={handleFileChangeEdit} value={editarProducto.pro_foto} className='form-control' type="file" accept='image/*' id='imagen' name='imagen' required />
+                      </div>
+                      <div className="col-12 mb-3">
+                        <label htmlFor="floatingInput">Nombre</label>
+                        <input onChange={handleChangeEdit} value={editarProducto.pro_nom} className='form-control' type="text" autoComplete='off' id='nombre' name='nombre' required />
+                      </div>
+                      <div className="col-12 mb-3">
+                        <label htmlFor="floatingInput">Descripción</label>
+                        <input onChange={handleChangeEdit} value={editarProducto.pro_des} className='form-control' type="text" autoComplete='off' id='descripcion' name='descripcion' required />
+                      </div>
+                      <div className="col-12 mb-3">
+                        <label htmlFor="floatingInput">Precio</label>
+                        <input onChange={handleChangeEdit} value={editarProducto.pro_precio} className='form-control' type="number" autoComplete='off' id='precio' name='precio' required min={0} step={50} />
+                      </div>
+                      <div className="col-12 mb-3">
+                        <label htmlFor="floatingInput">Puntos</label>
+                        <input onChange={handleChangeEdit} value={editarProducto.pro_puntos} className='form-control' type="number" autoComplete='off' id='puntos' name='puntos' required min={0} step={1} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" className="btn btn-success">Guardar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div >

@@ -32,10 +32,10 @@ export default function MenuAdmin() {
   })
   //useREf para limpiar el input de la imagen 
   const fileInputRef = useRef(null);
-  
+
   //Función para resetear el input dela imagen
   const resetFoto = () => {
-    fileInputRef.current.value = '';  
+    fileInputRef.current.value = '';
   }
 
   //Añade la imagen
@@ -73,7 +73,7 @@ export default function MenuAdmin() {
       console.log(error);
       Swal.fire('Error', error.response.data, 'error');
     }
-    resetFoto();    
+    resetFoto();
   };
 
   const deleteCategory = async (id) => {
@@ -189,33 +189,30 @@ export default function MenuAdmin() {
           </div>
         </div>
         <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
-          {categorias.map((cat) => {
-            return (
-              <div className="col" key={cat.id_categoria}>
-                <div className="card mb-4">
-                  <img src={`/images/menu/categorias/${cat.cat_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
-                  <div className="card-body text-center">
-                    <h4 className="card-title">{cat.cat_nom}</h4>
-                    <div className="row row-cols-3">
-                      {/* Ver categoria */}
-                      <div className='col'>
-                        <Link to={`/admin/categoria/${cat.id_categoria}`} className="btn btn-success w-100">Ver</Link>
-                      </div>
-                      {/* Editar categoria */}
-                      <div className='col'>
-                        <button className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#categoriaEditarModal" onClick={() => openEditModal(cat)}>Editar</button>
-                      </div>
-                      {/* Eliminar categoria  */}
-                      <div className='col'>
-                        <button onClick={() => deleteCategory(cat.id_categoria)} className="btn btn-danger w-100">Eliminar</button>
-                      </div>
+          {categorias.map(cat => (
+            <div className="col" key={cat.id_categoria}>
+              <div className="card mb-4">
+                <img src={`/images/menu/categorias/${cat.cat_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
+                <div className="card-body text-center">
+                  <h4 className="card-title">{cat.cat_nom}</h4>
+                  <div className="row row-cols-3">
+                    {/* Ver categoria */}
+                    <div className='col'>
+                      <Link to={`/admin/categoria/${cat.id_categoria}`} className="btn btn-success w-100">Ver</Link>
+                    </div>
+                    {/* Editar categoria */}
+                    <div className='col'>
+                      <button className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#categoriaEditarModal" onClick={() => openEditModal(cat)}>Editar</button>
+                    </div>
+                    {/* Eliminar categoria  */}
+                    <div className='col'>
+                      <button onClick={() => deleteCategory(cat.id_categoria)} className="btn btn-danger w-100">Eliminar</button>
                     </div>
                   </div>
                 </div>
               </div>
-            )
-          }
-          )}
+            </div>
+          ))}
           <div className="modal fade" id="categoriaEditarModal" tabIndex="-1" aria-labelledby="MenuModalLabelEditar" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">

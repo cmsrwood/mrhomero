@@ -126,57 +126,50 @@ exports.crearProducto = (req, res) => {
     });
 };
 
-// Actualizar un producto
+// Actualizar una categoría
 exports.actualizarProducto = (req, res) => {
     const id = req.params.id;
+    const id_categoria = req.body.id_categoria_edit;
     const file = req.file;
-    const nombre = req.body.nombre;
-    const descripcion = req.body.descripcion;
-    const precio = req.body.precio;
-    const puntos = req.body.puntos;
-    const id_categoria = req.body.id_categoria;
+    const nombre = req.body.nombre_edit;
+    const descripcion = req.body.descripcion_edit;
+    const precio = req.body.precio_edit;
+    const puntos = req.body.puntos_edit;
 
-    if (!nombre || !descripcion || !precio || !file || !puntos || !id_categoria) {
-        return res.status(400).send('Debes completar todos los campos.');
-    } else if (!nombre) {
-        return res.status(400).send('Ingrese el nombre del producto.');
-    }
-    else if (!descripcion) {
-        return res.status(400).send('Ingrese la descripción del producto.');
-    }
-    else if (!puntos) {
-        return res.status(400).send('Ingrese la cantidad de puntos.');
-    }
-    else if (!file) {
-        return res.status(400).send('Inserte una imagen.');
-    }
-    else if (!puntos) {
-        return res.status(400).send('Ingrese la cantidad de puntos.');
-    }
-    else if (!id_categoria) {
-        return res.status(400).send('Seleccione una categoria.');
-    }
-
-    const q = "UPDATE productos SET `pro_nom` = ?, `pro_des` = ?, `pro_precio` = ?, `pro_foto` = ?, `pro_puntos` = ?, `id_categoria` = ? WHERE id_producto = ?";
-    const values = [
-        nombre,
-        descripcion,
-        precio,
-        file.filename.toString(),
-        puntos,
-        id_categoria,
-        id
-    ];
-
-    db.query(q, values, (err) => {
+    const qSelect = "SELECT * FROM productos WHERE id_producto = ?";
+    db.query(qSelect, [id], (err, data) => {
         if (err) {
-            console.log(err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json(err);
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: "Producto no encontrado" });
         }
 
-        return res.status(200).send('El producto se ha actualizado correctamente');
+        const productoActual = data[0];
+        const nombreActualizado = nombre || productoActual.pro_nom;
+        const descripcionActualizada = descripcion || productoActual.pro_desp;
+        const precioActualizado = precio || productoActual.pro_precio;
+        const puntosActualizados = puntos || productoActual.pro_puntos;
+        const nombreFotoActualizado = file ? file.filename.toString() : productoActual.pro_foto;
+
+        if (file && productoActual.pro_foto) {
+            eliminarImagenProducto(productoActual.pro_foto);
+        }
+
+        const qUpdate = "UPDATE productos SET pro_nom = ?, pro_desp = ?, pro_precio = ?, pro_foto = ?, pro_puntos = ?, id_categoria = ? WHERE id_producto = ?";
+        const values = [nombreActualizado, descripcionActualizada, precioActualizado, nombreFotoActualizado, puntosActualizados, id_categoria, id];
+
+        db.query(qUpdate, values, (err) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ message: "Error actualizando el producto" });
+            }
+
+            return res.json("El producto se ha actualizado correctamente");
+        });
     });
-}
+};
+
 // Borrar un producto
 exports.borrarProducto = (req, res) => {
     const id = req.params.id;
