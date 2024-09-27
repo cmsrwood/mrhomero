@@ -216,7 +216,6 @@ export default function MenuAdmin() {
             )
           }
           )}
-          {/* Mueve este modal fuera del map() */}
           <div className="modal fade" id="categoriaEditarModal" tabIndex="-1" aria-labelledby="MenuModalLabelEditar" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
