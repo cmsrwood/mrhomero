@@ -7,18 +7,21 @@ export default function Proveedores() {
 
     const [proveedores, setProveedores] = useState([]);
     const [isDataUpdated, setIsDataUpdated] = useState(false);
+
     useEffect(() => {
-        try {
-            const fetchData = async () => {
+        const fetchData = async () => {
+            try {
                 const res = await axios.get(`${BACKEND_URL}/proveedores/mostrarProveedores`);
                 setProveedores(res.data);
-            };
-            fetchData();
-        } catch (error) {
-            console.error(error);
-        }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
         setIsDataUpdated(false);
-    })
+    }, [isDataUpdated]);
+
     // Para crear el proveedor
     const [proveedor, setProveedor] = useState({
         prov_nombre: '',
@@ -27,6 +30,7 @@ export default function Proveedores() {
         prov_contacto_telefono: '',
         prov_contacto_email: ''
     });
+
     //Para editar el proveedor
     const [proveedorEdit, setProveedorEdit] = useState({
         prov_id: '',
@@ -37,7 +41,7 @@ export default function Proveedores() {
         prov_contacto_email_edit: ''
     });
 
-    //handleSubmit para crear el proveedor
+    // handleSubmit para crear el proveedor
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -45,13 +49,12 @@ export default function Proveedores() {
             Swal.fire({
                 icon: 'success',
                 title: 'Proveedor creado exitosamente',
-
             });
 
             if (res.status === 200) {
                 setIsDataUpdated(true);
 
-                // Resetear el formulario a valores vacios
+                // Resetear el formulario a valores vacíos
                 setProveedor({
                     prov_nombre: '',
                     prov_direccion: '',
@@ -63,9 +66,7 @@ export default function Proveedores() {
                 // Cerrar el modal
                 const modalElement = document.getElementById('ModalAñadirProv');
                 let modalInstance = bootstrap.Modal.getInstance(modalElement);
-
-                // Cerrar el modal
-                modalInstance.hide();
+                if (modalInstance) modalInstance.hide();
             }
 
         } catch (error) {
@@ -76,18 +77,19 @@ export default function Proveedores() {
                 text: (error.response && error.response.data),
             });
         }
-    }
+    };
+
     // hanleChange para crear el proveedor
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProveedor(prev => ({ ...prev, [name]: value }));
-    }
+    };
 
     // handleEdit para editar el proveedor
     const handleEditChange = (e) => {
         const { name, value } = e.target;
         setProveedorEdit(prev => ({ ...prev, [name]: value }));
-    }
+    };
 
     // handleSubmit para editar el proveedor
     const handleEditSubmit = async (e) => {
@@ -96,10 +98,15 @@ export default function Proveedores() {
             const res = await axios.put(`${BACKEND_URL}/proveedores/actualizarProveedor/${proveedorEdit.prov_id}`, proveedorEdit);
             if (res.status === 200) {
                 setIsDataUpdated(true);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: res.data,
+                })
                 // Cerrar el modal
                 const modalElement = document.getElementById('ModalEditarProv');
                 let modalInstance = bootstrap.Modal.getInstance(modalElement);
-                modalInstance.hide();
+                if (modalInstance) modalInstance.hide();
             }
         } catch (error) {
             console.log(error);
@@ -109,10 +116,18 @@ export default function Proveedores() {
                 text: (error.response && error.response.data),
             });
         }
-    }
-    function OpenEditModal(proveedor) {
-        setProveedorEdit(proveedor);
-    }
+    };
+
+    const OpenEditModal = (proveedor) => {
+        setProveedorEdit({
+            prov_id: proveedor.id_proveedor,
+            prov_nombre_edit: proveedor.prov_nombre,
+            prov_direccion_edit: proveedor.prov_direccion,
+            prov_contacto_nombre_edit: proveedor.prov_contacto_nombre,
+            prov_contacto_telefono_edit: proveedor.prov_contacto_telefono,
+            prov_contacto_email_edit: proveedor.prov_contacto_email,
+        });
+    };
 
     const borrar = async (id) => {
         try {
@@ -141,7 +156,8 @@ export default function Proveedores() {
                 text: (error.response && error.response.data),
             });
         }
-    }
+    };
+
 
     return (
         <div className='d-flex'>

@@ -69,24 +69,17 @@ exports.actualizarProveedor = (req, res) => {
             if (!nombre || !direccion || !correo || !telefono || !encargado) {
                 return res.status(400).send('Todos los campos son obligatorios');
             }
-            const q = "UPDATE proveedores SET `prov_nombre` = ?, `prov_direccion` = ?, `prov_contacto_nombre` = ?, `prov_contacto_telefono` = ?, `prov_contacto_email` = ? WHERE `id_proveedor` = ?";
-            const values = [
-                nombre,
-                direccion,
-                encargado,
-                telefono,
-                correo,
-                id
-            ];
-            db.query(q, [values], (err) => {
+            const q = "UPDATE proveedores SET prov_nombre = ?, prov_direccion = ?, prov_contacto_nombre = ?, prov_contacto_telefono = ?, prov_contacto_email = ? WHERE id_proveedor = ?";
+            const values = [nombre, direccion, encargado, telefono, correo, id];
+            db.query(q, values, (err) => {
                 if (err) {
                     console.log(err);
                     return res.status(500).send('Error en el servidor');
-                }
-                else {
-                    return res.status(200).send('Proveedoredor actualizado exitosamente');
+                } else {
+                    return res.status(200).send('Proveedor actualizado exitosamente');
                 }
             });
+
         }
     });
 }
