@@ -5,7 +5,6 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import '../../styles/style.css'
-import Dropdown from '../../components/Dropdown'
 import Swal from 'sweetalert2'
 import img from '../../assets/img/img.png'
 import NavegacionAdmin from '../../navigation/NavegacionAdmin';
@@ -24,6 +23,9 @@ export default function Pedidos() {
     received: ''
   })
   const [activeInput, setActiveInput] = useState('');
+  const [searchTerm, setSearchTerms] = useState('');
+  const [userSelect, setUserSelect] = useState('( Seleccione usuario )');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,8 +50,6 @@ export default function Pedidos() {
     // Añadir puntos como separadores de miles
     return formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
-
-
 
   const parseNumber = (value) => {
     // Elimina puntos y convierte la cadena a número
@@ -86,6 +86,25 @@ export default function Pedidos() {
       [activeInput]: ''
     }));
   };
+
+  // Funciones para la busqueda de usuario
+  const filteredClients = mostrarClientes.filter(cliente => {
+    const   term = searchTerm.toLowerCase();
+    return(
+      cliente.user_nom.toLowerCase().includes(term) ||
+      cliente.user_apels.toLowerCase().includes(term) ||
+      cliente.user_email.toLowerCase().includes(term)
+    )
+  })
+
+  // Funcion para la busqueda del usuario
+  const handleSearch = (e) => {
+    setSearchTerms(e.target.value); 
+  }
+
+  const handleAddClient = (cliente) => {
+    setUserSelect(cliente.user_nom)
+  }
 
   function cardProduct() {
     return (
@@ -223,7 +242,7 @@ export default function Pedidos() {
             <div className="col">
               <div className="row">
                 <div className='d-flex justify-content-between align-items-center'>
-                  <h5>(Nombre del usuario)</h5>
+                  <h5>{userSelect}</h5>
                   <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddClient">
                     <i className="bi bi-plus-circle">  Añadir cliente</i>
                   </button>
@@ -238,7 +257,17 @@ export default function Pedidos() {
                         <div className="modal-body">
                           <div className="d-flex justify-content-between align-items-center pb-2">
                             <h4>Clientes</h4>
-                            <Dropdown placeholder={"Buscar..."} icon={"bi bi-search"} title={"Atributo cliente"} actions={"Buscar por email"} actions2={"Buscar por letra"} actions3={"Buscar por puntos"} actions4={"Buscar por documento"} />
+                            <div className="search-input position-relative d-flex">
+                              <div className="input-group">
+                                <input type="search"
+                                  className="form-control form-control-lg ps-5 w-100"
+                                  placeholder={"Buscar usuario..."}
+                                  onChange={handleSearch}
+                                />
+                                <i className={`bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary`}></i>
+                                
+                              </div>
+                            </div>
                           </div>
                           <div className='table-responsive border border-1'>
                             <table className='table table-striped table-hover'>
@@ -252,14 +281,14 @@ export default function Pedidos() {
                                 </tr>
                               </thead>
                               <tbody >
-                                {mostrarClientes.map((cliente) => {
+                                {filteredClients.map((cliente) => {
                                   return (
                                     <tr key={cliente.id_user}>
                                       <th scope="row">{cliente.id_user}</th>
                                       <th scope="row">{cliente.user_nom}</th>
                                       <th scope="row">{cliente.user_apels}</th>
                                       <th scope="row">{cliente.user_email}</th>
-                                      <th scope="row"><i className="bi bi-plus-circle btn btn-success"></i></th>
+                                      <th scope="row"><i className="bi bi-plus-circle btn btn-success" onClick={() => handleAddClient(cliente)}></i></th>
                                     </tr>
                                   )
                                 })}
