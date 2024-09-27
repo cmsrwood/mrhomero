@@ -136,6 +136,10 @@ exports.actualizarProducto = (req, res) => {
     const precio = req.body.precio_edit;
     const puntos = req.body.puntos_edit;
 
+    if (!id || !id_categoria || !file || !nombre || !descripcion || !puntos || !precio) {
+        return res.status(400).send('Debes completar todos los campos.');
+    }
+
     const qSelect = "SELECT * FROM productos WHERE id_producto = ?";
     db.query(qSelect, [id], (err, data) => {
         if (err) {

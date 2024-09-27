@@ -98,14 +98,14 @@ export default function Categoria() {
   };
 
   const [editarProducto, setEditarProducto] = useState({
-    id: '',
-    id_categoria: '',
-    nombre: '',
-    descripcion: '',
-    precio: '',
-    puntos: '',
-    imagen: null
+    id_categoria_edit: categoriaId,
+    nombre_edit: '',
+    descripcion_edit: '',
+    precio_edit: '',
+    puntos_edit: '',
+    imagen_edit: null
   });
+
 
   const handleChangeEdit = (e) => {
     setEditarProducto({
@@ -117,20 +117,19 @@ export default function Categoria() {
   const handleFileChangeEdit = (e) => {
     setEditarProducto({
       ...editarProducto,
-      imagen: e.target.files[0]
+      imagen_edit: e.target.files[0]
     })
   }
 
   const handleSubmitEdit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('id', editarProducto.id);
-    formData.append('id_categoria', editarProducto.id_categoria);
-    formData.append('nombre', editarProducto.nombre);
-    formData.append('descripcion', editarProducto.descripcion);
-    formData.append('precio', editarProducto.precio);
-    formData.append('puntos', editarProducto.puntos);
-    formData.append('imagen', editarProducto.imagen);
+    formData.append('id_categoria', editarProducto.id_categoria_edit);
+    formData.append('nombre', editarProducto.nombre_edit);
+    formData.append('descripcion', editarProducto.descripcion_edit);
+    formData.append('precio', editarProducto.precio_edit);
+    formData.append('puntos', editarProducto.puntos_edit);
+    formData.append('imagen', editarProducto.imagen_edit);
 
     try {
       const res = await axios.put(`${BACKEND_URL}/productos/actualizarProducto/${editarProducto.id}`, formData);
@@ -145,8 +144,16 @@ export default function Categoria() {
   }
 
   function openEditModal(producto) {
-    setEditarProducto(producto);
+    setEditarProducto({
+      id_categoria_edit: producto.id_categoria,
+      nombre_edit: producto.pro_nom,
+      descripcion_edit: producto.pro_desp,
+      precio_edit: producto.pro_precio,
+      puntos_edit: producto.pro_puntos,
+      imagen_edit: null
+    });
   }
+
 
   return (
     <div className="d-flex">
@@ -232,12 +239,11 @@ export default function Categoria() {
               </div>
             </div>
           ))}
-          {/* Modal para añadir categoria */}
-          <div className="modal fade" id="EditarModal" tabIndex="-1" aria-labelledby="MenuModalLabelEdit" aria-hidden="true">
+          <div className="modal fade" id="EditarModal" tabIndex="-1" aria-labelledby="MenuModalLabelEditar" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h1 className="modal-title fs-5" id="MenuModalLabelEdit">Agregar producto</h1>
+                  <h1 className="modal-title fs-5" id="MenuModalLabelEditar">Editar categoria</h1>
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form onSubmit={handleSubmitEdit}>
@@ -245,23 +251,23 @@ export default function Categoria() {
                     <div className="row p-3">
                       <div className="col-12 mb-3">
                         <label htmlFor="floatingInput">Imagen</label>
-                        <input onChange={handleFileChangeEdit} value={editarProducto.pro_foto} className='form-control' type="file" accept='image/*' id='imagen' name='imagen' required />
+                        <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='imagen_edit' name='imagen_edit' required />
                       </div>
                       <div className="col-12 mb-3">
                         <label htmlFor="floatingInput">Nombre</label>
-                        <input onChange={handleChangeEdit} value={editarProducto.pro_nom} className='form-control' type="text" autoComplete='off' id='nombre' name='nombre' required />
+                        <input onChange={handleChangeEdit} value={editarProducto.nombre_edit} className='form-control' type="text" autoComplete='off' id='nombre_edit' name='nombre_edit' required />
                       </div>
                       <div className="col-12 mb-3">
                         <label htmlFor="floatingInput">Descripción</label>
-                        <input onChange={handleChangeEdit} value={editarProducto.pro_des} className='form-control' type="text" autoComplete='off' id='descripcion' name='descripcion' required />
+                        <input onChange={handleChangeEdit} value={editarProducto.descripcion_edit} className='form-control' type="text" autoComplete='off' id='descripcion_edit' name='descripcion_edit' required />
                       </div>
                       <div className="col-12 mb-3">
                         <label htmlFor="floatingInput">Precio</label>
-                        <input onChange={handleChangeEdit} value={editarProducto.pro_precio} className='form-control' type="number" autoComplete='off' id='precio' name='precio' required min={0} step={50} />
+                        <input onChange={handleChangeEdit} value={editarProducto.precio_edit} className='form-control' type="number" autoComplete='off' id='precio_edit' name='precio_edit' required min={0} step={50} />
                       </div>
                       <div className="col-12 mb-3">
                         <label htmlFor="floatingInput">Puntos</label>
-                        <input onChange={handleChangeEdit} value={editarProducto.pro_puntos} className='form-control' type="number" autoComplete='off' id='puntos' name='puntos' required min={0} step={1} />
+                        <input onChange={handleChangeEdit} value={editarProducto.puntos_edit} className='form-control' type="number" autoComplete='off' id='puntos_edit' name='puntos_edit' required min={0} step={1} />
                       </div>
                     </div>
                   </div>
@@ -274,7 +280,7 @@ export default function Categoria() {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </div >
   )
 }
