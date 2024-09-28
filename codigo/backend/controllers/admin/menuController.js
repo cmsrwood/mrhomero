@@ -40,6 +40,20 @@ exports.mostrarCategorias = (req, res) => {
     });
 };
 
+// Mostrar una categoría
+exports.mostrarCategoria = (req, res) => {
+    const id = req.params.id;
+    const q = `SELECT * FROM categorias WHERE id_categoria = ?`;
+    db.query(q, [id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send(results[0]);
+        }
+    });
+};
+
 // Configuración de Multer para subir una sola imagen
 exports.upload = upload.single('foto');
 

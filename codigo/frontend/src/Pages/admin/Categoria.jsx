@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { NumericFormat } from 'react-number-format';
 import Swal from 'sweetalert2';
 import NavegacionAdmin from '../../navigation/NavegacionAdmin';
@@ -13,21 +13,24 @@ export default function Categoria() {
 
   const [productos, setProductos] = useState([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
+  const [categoria, setCategoria] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productosRes] = await Promise.all([
+        const [productosRes, categoriaRes] = await Promise.all([
           axios.get(`${BACKEND_URL}/productos/mostrarProductos/${categoriaId}`),
+          axios.get(`${BACKEND_URL}/menu/mostrarCategoria/${categoriaId}`),
         ]);
         setProductos(productosRes.data);
+        setCategoria(categoriaRes.data);
       } catch (error) {
         console.log(error);
       }
       setIsDataUpdated(false);
     };
     fetchData();
-  }, [isDataUpdated , categoriaId]);
+  }, [isDataUpdated, categoriaId]);
 
 
 
@@ -163,7 +166,7 @@ export default function Categoria() {
 
       <div className="container content justify-content-between">
         <div className="d-flex justify-content-between mb-5">
-          <h1>Nombre de la categoria</h1>
+          <h1>{categoria?.cat_nom}</h1>
           <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#AñadirModal">
             <i className="bi bi-plus-circle"></i> Añadir producto
           </button>
