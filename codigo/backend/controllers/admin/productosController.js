@@ -129,24 +129,26 @@ exports.crearProducto = (req, res) => {
 // Actualizar una categoría
 exports.actualizarProducto = (req, res) => {
     const id = req.params.id;
-    const id_categoria = req.body.id_categoria_edit;
+    console.log(id)
     const file = req.file;
-    const nombre = req.body.nombre_edit;
-    const descripcion = req.body.descripcion_edit;
-    const precio = req.body.precio_edit;
-    const puntos = req.body.puntos_edit;
-
-    if (!id || !id_categoria || !file || !nombre || !descripcion || !puntos || !precio) {
-        return res.status(400).send('Debes completar todos los campos.');
-    }
+    console.log(file)
+    const nombre = req.body.nombre || null;
+    console.log (nombre)
+    const descripcion = req.body.descripcion || null;
+    console.log (descripcion)
+    const precio = req.body.precio || null;
+    console.log (precio)
+    const puntos = req.body.puntos || null;
+    console.log (puntos)
 
     const qSelect = "SELECT * FROM productos WHERE id_producto = ?";
+
     db.query(qSelect, [id], (err, data) => {
         if (err) {
-            return res.status(500).json(err);
+            return res.status(500).send(err);
         }
         if (data.length === 0) {
-            return res.status(404).json({ message: "Producto no encontrado" });
+            return res.status(404).send({ message: "Producto no encontrado" });
         }
 
         const productoActual = data[0];
@@ -157,19 +159,26 @@ exports.actualizarProducto = (req, res) => {
         const nombreFotoActualizado = file ? file.filename.toString() : productoActual.pro_foto;
 
         if (file && productoActual.pro_foto) {
-            eliminarImagenProducto(productoActual.pro_foto);
+            eliminar(productoActual.pro_foto);
         }
 
-        const qUpdate = "UPDATE productos SET pro_nom = ?, pro_desp = ?, pro_precio = ?, pro_foto = ?, pro_puntos = ?, id_categoria = ? WHERE id_producto = ?";
-        const values = [nombreActualizado, descripcionActualizada, precioActualizado, nombreFotoActualizado, puntosActualizados, id_categoria, id];
+        const qUpdate = `UPDATE productos SET pro_nom = ?, pro_desp = ?, pro_precio = ?, pro_foto = ?, pro_puntos = ? WHERE id_producto = ?`;
+
+        const values = [
+            nombreActualizado,
+            descripcionActualizada,
+            precioActualizado,
+            nombreFotoActualizado,
+            puntosActualizados,
+            id
+        ];
 
         db.query(qUpdate, values, (err) => {
             if (err) {
                 console.log(err);
-                return res.status(500).json({ message: "Error actualizando el producto" });
+                return res.status(500).send({ message: "Error editando el producto" });
             }
-
-            return res.json("El producto se ha actualizado correctamente");
+            return res.send("El producto se ha editado correctamente");
         });
     });
 };
@@ -181,10 +190,10 @@ exports.borrarProducto = (req, res) => {
 
     db.query(qimagen, [id], async (err, data) => {
         if (err) {
-            return res.status(500).json(err);
+            return res.status(500).send(err);
         }
         if (data.length === 0) {
-            return res.status(404).json({ message: "Producto no encontrado" });
+            return res.status(404).send({ message: "Producto no encontrado" });
         }
 
         const imagen = data[0].pro_foto;
@@ -196,7 +205,7 @@ exports.borrarProducto = (req, res) => {
         db.query(q, [id], (err, data) => {
             if (err) {
                 console.log(err);
-                return res.status(500).json(err);
+                return res.status(500).send(err);
             }
             return res.json("El producto se ha eliminado correctamente");
         });

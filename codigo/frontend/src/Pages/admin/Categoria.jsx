@@ -17,15 +17,17 @@ export default function Categoria() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productosRes = await axios.get(`${BACKEND_URL}/productos/mostrarProductos/${categoriaId}`);
+        const [productosRes] = await Promise.all([
+          axios.get(`${BACKEND_URL}/productos/mostrarProductos/${categoriaId}`),
+        ]);
         setProductos(productosRes.data);
-        setIsDataUpdated(false);
       } catch (error) {
         console.log(error);
       }
+      setIsDataUpdated(false);
     };
     fetchData();
-  }, [isDataUpdated, categoriaId]);
+  }, [isDataUpdated , categoriaId]);
 
 
 
@@ -98,43 +100,41 @@ export default function Categoria() {
   };
 
   const [editarProducto, setEditarProducto] = useState({
-    id_categoria_edit: categoriaId,
-    nombre_edit: '',
-    descripcion_edit: '',
-    precio_edit: '',
-    puntos_edit: '',
-    imagen_edit: null
+    id: '',
+    nombre: '',
+    descripcion: '',
+    precio: '',
+    puntos: '',
+    imagen: null
   });
 
 
   const handleChangeEdit = (e) => {
-    setEditarProducto({
-      ...editarProducto,
-      [e.target.name]: e.target.value
-    })
-  }
+    setEditarProducto(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleFileChangeEdit = (e) => {
-    setEditarProducto({
-      ...editarProducto,
-      imagen_edit: e.target.files[0]
-    })
+    setEditarProducto({ ...editarProducto, imagen: e.target.files[0] })
   }
 
-  const handleSubmitEdit = async (e) => {
-    e.preventDefault();
+  const handleSubmitEdit = async (id) => {
     const formData = new FormData();
-    formData.append('id_categoria', editarProducto.id_categoria_edit);
-    formData.append('nombre', editarProducto.nombre_edit);
-    formData.append('descripcion', editarProducto.descripcion_edit);
-    formData.append('precio', editarProducto.precio_edit);
-    formData.append('puntos', editarProducto.puntos_edit);
-    formData.append('imagen', editarProducto.imagen_edit);
+    formData.append('nombre', editarProducto.nombre);
+    formData.append('descripcion', editarProducto.descripcion);
+    formData.append('precio', editarProducto.precio);
+    formData.append('puntos', editarProducto.puntos);
+
+    if (editarProducto.imagen) {
+      formData.append('imagen', editarProducto.imagen);
+    }
 
     try {
-      const res = await axios.put(`${BACKEND_URL}/productos/actualizarProducto/${editarProducto.id}`, formData);
+      const res = await axios.put(`${BACKEND_URL}/productos/actualizarProducto/${id}`, formData);
       if (res.status === 200) {
         Swal.fire('Producto editado', res.data, 'success');
+        const modalElement = document.getElementById('EditarModal');
+        let modalInstance = bootstrap.Modal.getInstance(modalElement);
+        modalInstance.hide();
         setIsDataUpdated(true);
       }
     } catch (error) {
@@ -143,16 +143,18 @@ export default function Categoria() {
     }
   }
 
+
   function openEditModal(producto) {
     setEditarProducto({
-      id_categoria_edit: producto.id_categoria,
-      nombre_edit: producto.pro_nom,
-      descripcion_edit: producto.pro_desp,
-      precio_edit: producto.pro_precio,
-      puntos_edit: producto.pro_puntos,
-      imagen_edit: null
+      id: producto.id_producto,
+      nombre: producto.pro_nom,
+      descripcion: producto.pro_desp,
+      precio: producto.pro_precio,
+      puntos: producto.pro_puntos,
+      imagen: producto.pro_foto
     });
   }
+
 
 
   return (
@@ -166,7 +168,7 @@ export default function Categoria() {
             <i className="bi bi-plus-circle"></i> Añadir producto
           </button>
         </div>
-        {/* Modal para añadir categoria */}
+        {/* Modal para añadir */}
         <div className="modal fade" id="AñadirModal" tabIndex="-1" aria-labelledby="MenuModalLabel" aria-hidden="true">
           <div className="modal-dialog">
             <div className="modal-content">
@@ -239,6 +241,7 @@ export default function Categoria() {
               </div>
             </div>
           ))}
+          {/* Modal para editar */}
           <div className="modal fade" id="EditarModal" tabIndex="-1" aria-labelledby="MenuModalLabelEditar" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
@@ -246,34 +249,37 @@ export default function Categoria() {
                   <h1 className="modal-title fs-5" id="MenuModalLabelEditar">Editar categoria</h1>
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form onSubmit={handleSubmitEdit}>
+                <form>
                   <div className="modal-body">
                     <div className="row p-3">
                       <div className="col-12 mb-3">
-                        <label htmlFor="floatingInput">Imagen</label>
-                        <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='imagen_edit' name='imagen_edit' required />
+                        {editarProducto.imagen ? (
+                          <img src={`/images/menu/productos/${editarProducto.imagen}`} className="img-fluid mb-3" alt="Imagen actual" height={100} />
+                        ) : null}
+                        <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='imagen' name='imagen' />
                       </div>
+
                       <div className="col-12 mb-3">
                         <label htmlFor="floatingInput">Nombre</label>
-                        <input onChange={handleChangeEdit} value={editarProducto.nombre_edit} className='form-control' type="text" autoComplete='off' id='nombre_edit' name='nombre_edit' required />
+                        <input onChange={handleChangeEdit} value={editarProducto.nombre} className='form-control' type="text" autoComplete='off' id='nombre' name='nombre' required />
                       </div>
                       <div className="col-12 mb-3">
                         <label htmlFor="floatingInput">Descripción</label>
-                        <input onChange={handleChangeEdit} value={editarProducto.descripcion_edit} className='form-control' type="text" autoComplete='off' id='descripcion_edit' name='descripcion_edit' required />
+                        <input onChange={handleChangeEdit} value={editarProducto.descripcion} className='form-control' type="text" autoComplete='off' id='descripcion' name='descripcion' required />
                       </div>
                       <div className="col-12 mb-3">
                         <label htmlFor="floatingInput">Precio</label>
-                        <input onChange={handleChangeEdit} value={editarProducto.precio_edit} className='form-control' type="number" autoComplete='off' id='precio_edit' name='precio_edit' required min={0} step={50} />
+                        <input onChange={handleChangeEdit} value={editarProducto.precio} className='form-control' type="number" autoComplete='off' id='precio' name='precio' required min={0} step={50} />
                       </div>
                       <div className="col-12 mb-3">
                         <label htmlFor="floatingInput">Puntos</label>
-                        <input onChange={handleChangeEdit} value={editarProducto.puntos_edit} className='form-control' type="number" autoComplete='off' id='puntos_edit' name='puntos_edit' required min={0} step={1} />
+                        <input onChange={handleChangeEdit} value={editarProducto.puntos} className='form-control' type="number" autoComplete='off' id='puntos' name='puntos' required min={0} step={1} />
                       </div>
                     </div>
                   </div>
                   <div className="modal-footer">
                     <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" className="btn btn-success">Guardar</button>
+                    <button type="button" className="btn btn-success" onClick={() => handleSubmitEdit(editarProducto.id)}>Guardar</button>
                   </div>
                 </form>
               </div>

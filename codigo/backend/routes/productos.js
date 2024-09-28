@@ -7,7 +7,7 @@ const productosController = require('../controllers/admin/productosController');
 router.get('/mostrarProductos/:id', productosController.mostrarProductos);
 router.get ('/mostrarProducto/:id', productosController.mostrarProducto);
 router.post('/crearProducto', productosController.uploadProducto, productosController.crearProducto);
-router.put('/actualizarProducto/:id', productosController.actualizarProducto);
+router.put('/actualizarProducto/:id', productosController.uploadProducto, productosController.actualizarProducto);
 router.delete('/borrarProducto/:id', productosController.borrarProducto);
 
 
