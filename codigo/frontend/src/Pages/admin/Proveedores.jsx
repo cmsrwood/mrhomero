@@ -194,7 +194,7 @@ export default function Proveedores() {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="recipient-name" className="col-form-label">Email:</label>
-                                    <input type="text" className="form-control" id="recipient-name" name="prov_contacto_email" onChange={handleChange} />_edit
+                                    <input type="text" className="form-control" id="recipient-name" name="prov_contacto_email" onChange={handleChange} />
                                 </div>
                             </div>
                             <div className="modal-footer">
