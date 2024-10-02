@@ -17,7 +17,7 @@ export default function ProductoAdmin() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`${BACKEND_URL}/productos/mostrarProducto/${idProducto}`);
+                const res = await axios.get(`${BACKEND_URL}/api/productos/mostrarProducto/${idProducto}`);
                 setProducto(res.data);
             } catch (error) {
                 console.log(error);

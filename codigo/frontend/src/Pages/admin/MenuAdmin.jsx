@@ -14,7 +14,7 @@ export default function MenuAdmin() {
     const fetchData = async () => {
       try {
         const [categoriasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/menu/mostrarCategorias`),
+          axios.get(`${BACKEND_URL}/api/menu/mostrarCategorias`),
         ]);
         setCategorias(categoriasRes.data);
       } catch (error) {
@@ -55,7 +55,7 @@ export default function MenuAdmin() {
     formData.append('foto', categoria.foto);
 
     try {
-      await axios.post(`${BACKEND_URL}/menu/crearCategoria`, formData);
+      await axios.post(`${BACKEND_URL}/api/menu/crearCategoria`, formData);
       Swal.fire('Éxito', 'Categoría agregada correctamente', 'success');
 
       setCategoria({
@@ -90,7 +90,7 @@ export default function MenuAdmin() {
       if (!confirm.isConfirmed) {
         return;
       }
-      const res = await axios.delete(`${BACKEND_URL}/menu/eliminarCategoria/${id}`);
+      const res = await axios.delete(`${BACKEND_URL}/api/menu/eliminarCategoria/${id}`);
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',
@@ -130,7 +130,7 @@ export default function MenuAdmin() {
     }
 
     try {
-      const response = await axios.put(`${BACKEND_URL}/menu/actualizarCategoria/${id}`, formData);
+      const response = await axios.put(`${BACKEND_URL}/api/menu/actualizarCategoria/${id}`, formData);
       if (response.status === 200) {
         Swal.fire('Éxito', 'Categoría editada correctamente', 'success');
         const modalElement = document.getElementById('categoriaEditarModal');

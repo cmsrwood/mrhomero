@@ -21,9 +21,9 @@ export default function Inventario() {
     const fetchData = async () => {
       try {
         const [inventarioRes, categoriasRes, proveedoresRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/inventario/mostrar`),
-          axios.get(`${BACKEND_URL}/inventario/categorias`),
-          axios.get(`${BACKEND_URL}/inventario/proveedores`)
+          axios.get(`${BACKEND_URL}/api/inventario/mostrar`),
+          axios.get(`${BACKEND_URL}/api/inventario/categorias`),
+          axios.get(`${BACKEND_URL}/api/inventario/proveedores`)
         ]);
         setInventario(inventarioRes.data);
         setCategorias(categoriasRes.data);
@@ -66,7 +66,7 @@ export default function Inventario() {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${BACKEND_URL}/inventario/crear`, ingrediente);
+      const res = await axios.post(`${BACKEND_URL}/api/inventario/crear`, ingrediente);
       Swal.fire({
         icon: 'success',
         title: res.data,
@@ -123,7 +123,7 @@ export default function Inventario() {
       if (!confirm.isConfirmed) {
         return;
       }
-      const res = await axios.delete(`${BACKEND_URL}/inventario/borrar/${id}`);
+      const res = await axios.delete(`${BACKEND_URL}/api/inventario/borrar/${id}`);
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',
@@ -153,7 +153,7 @@ export default function Inventario() {
         confirmButtonText: 'Sí, editar'
       });
       if (confirm.isConfirmed) {
-        const res = await axios.put(`${BACKEND_URL}/inventario/actualizar/${id}`, ingredienteEditar);
+        const res = await axios.put(`${BACKEND_URL}/api/inventario/actualizar/${id}`, ingredienteEditar);
         if (res.status === 200) {
           Swal.fire({
             icon: 'success',

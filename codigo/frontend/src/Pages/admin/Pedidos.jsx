@@ -31,8 +31,8 @@ export default function Pedidos() {
     const fetchData = async () => {
       try {
         const [categoriasRes, clientesRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/menu/mostrarCategorias`),
-          axios.get(`${BACKEND_URL}/clientes/mostrar`),
+          axios.get(`${BACKEND_URL}/api/menu/mostrarCategorias`),
+          axios.get(`${BACKEND_URL}/api/clientes/mostrar`),
         ]);
         setMostrarClientes(clientesRes.data);
         setCategorias(categoriasRes.data);
@@ -89,8 +89,8 @@ export default function Pedidos() {
 
   // Funciones para la busqueda de usuario
   const filteredClients = mostrarClientes.filter(cliente => {
-    const   term = searchTerm.toLowerCase();
-    return(
+    const term = searchTerm.toLowerCase();
+    return (
       cliente.user_nom.toLowerCase().includes(term) ||
       cliente.user_apels.toLowerCase().includes(term) ||
       cliente.user_email.toLowerCase().includes(term)
@@ -99,7 +99,7 @@ export default function Pedidos() {
 
   // Funcion para la busqueda del usuario
   const handleSearch = (e) => {
-    setSearchTerms(e.target.value); 
+    setSearchTerms(e.target.value);
   }
 
   const handleAddClient = (cliente) => {
@@ -265,7 +265,7 @@ export default function Pedidos() {
                                   onChange={handleSearch}
                                 />
                                 <i className={`bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary`}></i>
-                                
+
                               </div>
                             </div>
                           </div>

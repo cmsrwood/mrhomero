@@ -41,7 +41,7 @@ export default function Ingresar() {
                 if (inputRefs.current[index - 1]) {
                     inputRefs.current[index - 1].focus();
                 }
-            }   
+            }
         }
     };
 
@@ -49,7 +49,7 @@ export default function Ingresar() {
         e.preventDefault();
         const verificationCode = code.join('');
         try {
-            const res = await axios.post(`${BACKEND_URL}/auth/resetPassword`, {
+            const res = await axios.post(`${BACKEND_URL}/api/auth/resetPassword`, {
                 ...user,
                 verificationCode
             });

@@ -14,7 +14,7 @@ export default function Clientes() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`${BACKEND_URL}/clientes/mostrar`);
+                const res = await axios.get(`${BACKEND_URL}/api/clientes/mostrar`);
                 setClientes(res.data);
             } catch (error) {
                 console.error('Error al obtener clientes:', error);
@@ -42,7 +42,7 @@ export default function Clientes() {
                 return;
             }
 
-            const res = await axios.delete(`${BACKEND_URL}/clientes/borrar/${id}`);
+            const res = await axios.delete(`${BACKEND_URL}/api/clientes/borrar/${id}`);
 
             if (res.status === 200) {
                 Swal.fire({
@@ -60,7 +60,7 @@ export default function Clientes() {
         if (isDataUpdated) {
             const fetchData = async () => {
                 try {
-                    const res = await axios.get(`${BACKEND_URL}/clientes/mostrar`);
+                    const res = await axios.get(`${BACKEND_URL}/api/clientes/mostrar`);
                     setClientes(res.data);
                     setIsDataUpdated(false);
                 } catch (error) {

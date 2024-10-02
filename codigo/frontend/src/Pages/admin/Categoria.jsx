@@ -19,8 +19,8 @@ export default function Categoria() {
     const fetchData = async () => {
       try {
         const [productosRes, categoriaRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/productos/mostrarProductos/${categoriaId}`),
-          axios.get(`${BACKEND_URL}/menu/mostrarCategoria/${categoriaId}`),
+          axios.get(`${BACKEND_URL}/api/productos/mostrarProductos/${categoriaId}`),
+          axios.get(`${BACKEND_URL}/api/menu/mostrarCategoria/${categoriaId}`),
         ]);
         setProductos(productosRes.data);
         setCategoria(categoriaRes.data);
@@ -46,7 +46,7 @@ export default function Categoria() {
         confirmButtonText: 'Sí, borrar'
       });
       if (confirm.isConfirmed) {
-        const res = await axios.delete(`${BACKEND_URL}/productos/borrarProducto/${id}`);
+        const res = await axios.delete(`${BACKEND_URL}/api/productos/borrarProducto/${id}`);
         if (res.status === 200) {
           Swal.fire('Producto eliminado', res.data, 'success');
           setIsDataUpdated(true);
@@ -91,7 +91,7 @@ export default function Categoria() {
     formData.append('imagen', productoSubir.imagen);
 
     try {
-      const res = await axios.post(`${BACKEND_URL}/productos/crearProducto`, formData);
+      const res = await axios.post(`${BACKEND_URL}/api/productos/crearProducto`, formData);
       if (res.status === 200) {
         Swal.fire('Producto creado', res.data, 'success');
         setIsDataUpdated(true);
@@ -132,7 +132,7 @@ export default function Categoria() {
     }
 
     try {
-      const res = await axios.put(`${BACKEND_URL}/productos/actualizarProducto/${id}`, formData);
+      const res = await axios.put(`${BACKEND_URL}/api/productos/actualizarProducto/${id}`, formData);
       if (res.status === 200) {
         Swal.fire('Producto editado', res.data, 'success');
         const modalElement = document.getElementById('EditarModal');

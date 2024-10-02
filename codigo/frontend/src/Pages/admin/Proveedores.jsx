@@ -11,7 +11,7 @@ export default function Proveedores() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`${BACKEND_URL}/proveedores/mostrarProveedores`);
+                const res = await axios.get(`${BACKEND_URL}/api/proveedores/mostrarProveedores`);
                 setProveedores(res.data);
             } catch (error) {
                 console.error(error);
@@ -45,7 +45,7 @@ export default function Proveedores() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`${BACKEND_URL}/proveedores/crearProveedor`, proveedor);
+            const res = await axios.post(`${BACKEND_URL}/api/proveedores/crearProveedor`, proveedor);
             Swal.fire({
                 icon: 'success',
                 title: 'Proveedor creado exitosamente',
@@ -95,7 +95,7 @@ export default function Proveedores() {
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.put(`${BACKEND_URL}/proveedores/actualizarProveedor/${proveedorEdit.prov_id}`, proveedorEdit);
+            const res = await axios.put(`${BACKEND_URL}/api/proveedores/actualizarProveedor/${proveedorEdit.prov_id}`, proveedorEdit);
             if (res.status === 200) {
                 setIsDataUpdated(true);
 
@@ -143,7 +143,7 @@ export default function Proveedores() {
             if (!confirm.isConfirmed) {
                 return;
             }
-            const res = await axios.delete(`${BACKEND_URL}/proveedores/borrarProveedor/${id}`);
+            const res = await axios.delete(`${BACKEND_URL}/api/proveedores/borrarProveedor/${id}`);
             if (res.status === 200) {
                 Swal.fire('Proveedor eliminado', res.data, 'success');
                 setIsDataUpdated(true);

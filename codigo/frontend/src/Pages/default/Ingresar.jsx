@@ -26,7 +26,7 @@ export default function Ingresar() {
     e.preventDefault();
     setLoading(true);  // Mostrar loader antes de hacer la solicitud
     try {
-      const res = await axios.post(`${BACKEND_URL}/auth/ingresar`, user);
+      const res = await axios.post(`${BACKEND_URL}/api/auth/ingresar`, user);
       if (res.status === 200) {
         switch (res.data) {
           case 'administrador':
@@ -90,7 +90,7 @@ export default function Ingresar() {
   return (
     <div className="vh-100">
       <NavegacionDefault />
-      <div className='container-fluid p-0 p-sm-5 py-0 py-sm-5 text-center  wipe-in-down' transition-style="in:wipe:up" style={{ width: '85%'}}>
+      <div className='container-fluid p-0 p-sm-5 py-0 py-sm-5 text-center  wipe-in-down' transition-style="in:wipe:up" style={{ width: '85%' }}>
         {loading ? (
           <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
             <div className="spinner-border text-warning" role="status">
