@@ -1,7 +1,7 @@
 const db = require('../../config/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
-const secret = 'mysecretkey';
+const secret = process.env.JWT_SECRET || 'secret';
 const nodemailer = require('nodemailer');
 const moment = require('moment');
 
@@ -39,22 +39,42 @@ exports.ingresar = (req, res) => {
 
         // Verificar la contraseña
         if (bcrypt.compareSync(password, user.user_pass)) {
-            // inicio de sesion correcto
-            switch (user.id_rol) {
-                case 1:
-                    return res.status(200).send('administrador');
-                case 2:
-                    return res.status(200).send('empleado');
-                case 3:
-                    return res.status(200).send('cliente');
-            }
-        }
+            // Si la contraseña es correcta, generar el token JWT
+            const token = jwt.sign({ id_user: user.id_user, email: user.user_email, rol: user.id_rol }, secret, {
+                expiresIn: '1h' // El token expira en 1 hora
+            });
 
-        else {
+            // Enviar el token y el rol de usuario
+            return res.status(200).json({ token, rol: user.id_rol });
+        } else {
             //inicio de sesion incorrecto
             return res.status(400).send('Contraseña incorrecta');
         }
     });
+};
+
+// Middleware para verificar el token
+exports.validarToken = (req, res, next) => {
+    const token = req.headers['authorization'];
+
+    if (!token) {
+        return res.status(403).send('Token no proporcionado');
+    }
+
+    jwt.verify(token, secret, (err, decoded) => {
+        if (err) {
+            return res.status(500).send('Error al verificar el token');
+        }
+
+        req.userId = decoded.id_user; // Almacenar el ID de usuario decodificado en la request
+        req.userRol = decoded.rol; // Almacenar el rol del usuario
+        next(); // Continuar con la siguiente función middleware o ruta
+    });
+};
+
+// Ejemplo de una ruta protegida
+exports.rutaProtegida = (req, res) => {
+    res.status(200).send(`Bienvenido, usuario con rol ${req.userRol}`);
 };
 
 exports.registrar = (req, res) => {

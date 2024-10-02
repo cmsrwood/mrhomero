@@ -28,25 +28,25 @@ app.use(cors({
 // Rutas
 
 /* Ruta login */
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 
 /* Ruta empleados */
-app.use('/empleados', empRoutes);
+app.use('/api/empleados', empRoutes);
 
 /* Ruta inventario */
-app.use('/inventario', invRoutes);
+app.use('/api/inventario', invRoutes);
 
 // Ruta clientes
-app.use('/clientes', clientesRoutes);
+app.use('/api/clientes', clientesRoutes);
 
 // Ruta menu
-app.use('/menu', menuRoutes);
+app.use('/api/menu', menuRoutes);
 
 // Ruta proveedor
-app.use('/proveedores', proveedoresRoutes);
+app.use('/api/proveedores', proveedoresRoutes);
 
 //Ruta productos 
-app.use ('/productos', productosRoutes);
+app.use('/api/productos', productosRoutes);
 
 /* Hola mundo para probar */
 app.get('/', (req, res) => {
