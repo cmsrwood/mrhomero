@@ -16,6 +16,7 @@ export default function Ingresar() {
     email: "",
     password: ""
   });
+
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
@@ -24,38 +25,33 @@ export default function Ingresar() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);  // Mostrar loader antes de hacer la solicitud
     try {
       const res = await axios.post(`${BACKEND_URL}/api/auth/ingresar`, user);
       if (res.status === 200) {
-        switch (res.data) {
-          case 'administrador':
-            Swal.fire({
-              title: 'Bienvenido administrador',
-              text: 'Has iniciado sesión correctamente',
-              icon: 'success',
-              confirmButtonText: 'Continuar'
-            })
+        console.log(res.data)
+        const { token, rol } = res.data; // Aquí asumo que el backend devuelve el token y el rol en el cuerpo de la respuesta
+        localStorage.setItem('token', token); // Guarda el token en el localStorage
+
+        Swal.fire({
+          title: 'Has iniciado sesión correctamente',
+          text: 'Bienvenido',
+          icon: 'success',
+          confirmButtonText: 'Continuar'
+        });
+
+        // Redireccionar según el rol
+        switch (rol) {
+          case 1:
             navigate('/admin/');
             break;
-          case 'empleado':
-            Swal.fire({
-              title: 'Bienvenido',
-              text: 'Has iniciado sesión correctamente',
-              icon: 'success',
-              confirmButtonText: 'Continuar'
-            })
+          case 2:
             navigate('/empleado/');
             break;
-          case 'cliente':
-            Swal.fire({
-              title: 'Has iniciado sesión correctamente',
-              text: 'Has iniciado sesión correctamente',
-              icon: 'success',
-              confirmButtonText: 'Continuar'
-            })
+          case 3:
             navigate('/cliente/');
             break;
+          default:
+            navigate('/');
         }
       }
     } catch (error) {
@@ -81,10 +77,9 @@ export default function Ingresar() {
           confirmButtonText: 'Intentar de nuevo'
         });
       }
-    } finally {
-      setLoading(false);  // Ocultar loader después de la respuesta
     }
   };
+
 
 
   return (

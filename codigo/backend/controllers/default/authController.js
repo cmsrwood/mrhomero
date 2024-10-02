@@ -66,8 +66,8 @@ exports.validarToken = (req, res, next) => {
             return res.status(500).send('Error al verificar el token');
         }
 
-        req.userId = decoded.id_user; // Almacenar el ID de usuario decodificado en la request
-        req.userRol = decoded.rol; // Almacenar el rol del usuario
+        req.userId = decoded.id_user;
+        req.userRol = decoded.rol;
         next(); // Continuar con la siguiente función middleware o ruta
     });
 };
