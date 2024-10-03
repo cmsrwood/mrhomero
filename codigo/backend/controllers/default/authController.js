@@ -52,7 +52,6 @@ exports.ingresar = (req, res) => {
 };
 
 exports.validarToken = (req, res) => {
-    console.log("Validando token...");
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
