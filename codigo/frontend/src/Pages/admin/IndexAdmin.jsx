@@ -16,9 +16,9 @@ export default function IndexAdmin() {
           <div className='row aling items-center m-2'>
             <div className='col'>
               <h5>Ventas</h5>
-              <Link className='d-block mx-1'>Prueba</Link>
-              <Link className='d-block mx-1'>Prueba</Link>
-              <Link className='d-block mx-1'>Prueba</Link>
+              <Link className='d-block mx-1'>Analisis de ventas</Link>
+              <Link className='d-block mx-1'>Gestion de ventas</Link>
+              <Link className='d-block mx-1'>Pedidos</Link>
             </div>
             <div className='col'>
               <h5>Inventario</h5>
