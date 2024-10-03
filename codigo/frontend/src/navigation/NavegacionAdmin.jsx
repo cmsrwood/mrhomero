@@ -2,26 +2,14 @@ import React, { useEffect } from 'react'
 import { useLocation, Link } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import axios from 'axios';
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function NavegacionAdmin() {
 
-    const token = localStorage.getItem('token');
-    const config = {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
+    const cerrarSesion = () => {
+        localStorage.removeItem('token');
+        // Redirige a la página de inicio de sesión
+        window.location.href = '/ingresar';
     };
-
-    useEffect(() => {
-        axios.get(`${BACKEND_URL}/api/auth/validarToken`, config)
-            .then(res => {
-                console.log('Datos protegidos:', res.data);
-            })
-            .catch(err => {
-                console.log('Error al acceder a ruta protegida:', err);
-            });
-    }, [token]);
 
     const location = useLocation();
     const ruta = location.pathname.split("/")[2];
@@ -137,7 +125,7 @@ export default function NavegacionAdmin() {
                             <ul className="dropdown-menu">
                                 <li><Link className="dropdown-item" to="#">Mi perfil</Link></li>
                                 <li><Link className="dropdown-item" to="#">Configuración</Link></li>
-                                <li><Link className="dropdown-item text-danger" to="#"><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
+                                <li><Link className="dropdown-item text-danger" to="#" onClick={cerrarSesion}><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
                             </ul>
                         </div>
                         <button className='btn' onClick={tema} ><i id="botont" className='bi bi-moon-fill text-white'></i></button>

@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import NavegacionDefault from '../../navigation/NavegacionDefault'
-import Spline from './Hamburguesa'
-import axios from 'axios'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import NavegacionDefault from '../../navigation/NavegacionDefault';
+import Spline from './Hamburguesa';
+import axios from 'axios';
+
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Ingresar() {
-
-  axios.defaults.withCredentials = true
+  axios.defaults.withCredentials = true;
 
   const navigate = useNavigate();
 
@@ -25,12 +25,29 @@ export default function Ingresar() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Iniciar carga
+
+    // Validar campos
+    if (!user.email || !user.password) {
+      Swal.fire({
+        title: 'Campos vacíos',
+        text: 'Por favor, completa todos los campos.',
+        icon: 'warning',
+        confirmButtonText: 'Intentar de nuevo'
+      });
+      setLoading(false); // Detener carga
+      return;
+    }
+
     try {
       const res = await axios.post(`${BACKEND_URL}/api/auth/ingresar`, user);
       if (res.status === 200) {
-        console.log(res.data)
-        const { token, rol } = res.data; // Aquí asumo que el backend devuelve el token y el rol en el cuerpo de la respuesta
-        localStorage.setItem('token', token); // Guarda el token en el localStorage
+        console.log(res.data);
+        const token = res.data.token;
+        const rol = res.data.rol;
+
+        // Guardar el token en el localStorage
+        localStorage.setItem('token', token);
 
         Swal.fire({
           title: 'Has iniciado sesión correctamente',
@@ -77,15 +94,15 @@ export default function Ingresar() {
           confirmButtonText: 'Intentar de nuevo'
         });
       }
+    } finally {
+      setLoading(false);
     }
   };
-
-
 
   return (
     <div className="vh-100">
       <NavegacionDefault />
-      <div className='container-fluid p-0 p-sm-5 py-0 py-sm-5 text-center  wipe-in-down' transition-style="in:wipe:up" style={{ width: '85%' }}>
+      <div className='container-fluid p-0 p-sm-5 py-0 py-sm-5 text-center wipe-in-down' style={{ width: '85%' }}>
         {loading ? (
           <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
             <div className="spinner-border text-warning" role="status">
@@ -98,11 +115,23 @@ export default function Ingresar() {
               <form onSubmit={handleSubmit}>
                 <i className='display-1 bi bi-person-circle'></i>
                 <div className="form-floating my-5">
-                  <input type="email" className="form-control" placeholder="email" name='email' onChange={handleChange} />
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="email"
+                    name='email'
+                    onChange={handleChange}
+                  />
                   <label htmlFor="floatingInput">Email</label>
                 </div>
                 <div className="form-floating my-5">
-                  <input type="password" className="form-control" placeholder="Contraseña" name='password' onChange={handleChange} />
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Contraseña"
+                    name='password'
+                    onChange={handleChange}
+                  />
                   <label htmlFor="floatingInput">Contraseña</label>
                 </div>
                 <div className="text-center">
@@ -131,6 +160,5 @@ export default function Ingresar() {
         )}
       </div>
     </div>
-  )
-
+  );
 }

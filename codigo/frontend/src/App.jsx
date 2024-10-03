@@ -52,7 +52,7 @@ function App() {
             <Route path="/loader" element={<Loader />}></Route>
 
             {/* Rutas para el admin */}
-            <Route element={<RutaPrivada />}>
+            <Route element={<RutaPrivada requiredRole={1} />}>
               <Route path="/admin/" element={<IndexAdmin />}></Route>
               <Route path="/admin/dashboard" element={<Dashboard />}></Route>
               <Route path="/admin/ventas" element={<Ventas />}></Route>
@@ -69,7 +69,7 @@ function App() {
             </Route>
 
             {/* Rutas para el cliente */}
-            <Route element={<RutaPrivada />}>
+            <Route element={<RutaPrivada requiredRole={3} />}>
               <Route path="/cliente/" element={<IndexCliente />}></Route>
               <Route path="/cliente/miscompras" element={<HistorialCompras />}></Route>
               <Route path="/cliente/menu" element={<MenuCliente />}></Route>

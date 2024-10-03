@@ -40,12 +40,10 @@ exports.ingresar = (req, res) => {
         // Verificar la contraseña
         if (bcrypt.compareSync(password, user.user_pass)) {
             // Si la contraseña es correcta, generar el token JWT
-            const token = jwt.sign({ id_user: user.id_user, email: user.user_email, rol: user.id_rol }, secret, {
-                expiresIn: '1h' // El token expira en 1 hora
-            });
+            const token = jwt.sign({ id: user.id_user, rol: user.id_rol }, secret, { expiresIn: '1h' });
 
             // Enviar el token y el rol de usuario
-            return res.status(200).json({ token, rol: user.id_rol });
+            return res.status(200).json({ token, rol: user.id_rol, email: user.user_email, id_user: user.id_user, nombres: user.user_nom, apellidos: user.user_apels });
         } else {
             //inicio de sesion incorrecto
             return res.status(400).send('Contraseña incorrecta');
@@ -53,9 +51,9 @@ exports.ingresar = (req, res) => {
     });
 };
 
-// Middleware para verificar el token
-exports.validarToken = (req, res, next) => {
-    const token = req.headers['authorization'];
+exports.validarToken = (req, res) => {
+    console.log("Validando token...");
+    const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
         return res.status(403).send('Token no proporcionado');
@@ -63,19 +61,24 @@ exports.validarToken = (req, res, next) => {
 
     jwt.verify(token, secret, (err, decoded) => {
         if (err) {
-            return res.status(500).send('Error al verificar el token');
+            console.error("Error al verificar el token:", err);
+            return res.status(401).send('Error al verificar el token');
         }
 
-        req.userId = decoded.id_user;
-        req.userRol = decoded.rol;
-        next(); // Continuar con la siguiente función middleware o ruta
+        req.user = decoded;
+        console.log("Token verificado con éxito:", req.user.rol);
+        res.send({ rol: decoded.rol });
     });
 };
 
-// Ejemplo de una ruta protegida
 exports.rutaProtegida = (req, res) => {
-    res.status(200).send(`Bienvenido, usuario con rol ${req.userRol}`);
+    res.json({
+        message: 'Acceso a la ruta protegida',
+        rol: req.user.rol,
+    });
 };
+
+
 
 exports.registrar = (req, res) => {
 
