@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 const RutaPrivada = ({ requiredRole }) => {
@@ -23,7 +24,11 @@ const RutaPrivada = ({ requiredRole }) => {
                 console.error(err);
                 setIsAuth(false);
                 localStorage.removeItem('token');
-                alert("No se pudo validar la sesión. Por favor, inicia sesión nuevamente.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Su sesión ha expirado. Por favor, inicia sesión de nuevo.',
+                })
             }
         };
 
