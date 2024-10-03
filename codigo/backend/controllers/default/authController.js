@@ -66,7 +66,6 @@ exports.validarToken = (req, res) => {
         }
 
         req.user = decoded;
-        console.log("Token verificado con éxito:", req.user.rol);
         res.send({ rol: decoded.rol });
     });
 };
