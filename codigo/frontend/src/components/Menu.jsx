@@ -35,34 +35,9 @@ export default function Menu() {
         <div className="">
             <div className="container">
                 <h1 className="text-warning text-center p-2">Menu</h1>
-                <Swiper
-                    grabCursor={true}
-                    effect={'creative'}
-                    creativeEffect={{
-                        prev: {
-                            translate: ['-100%', 0, -500],
-                        },
-                        next: {
-                            translate: ['100%', 0, -500],
-                        },
-                    }}
-                    centeredSlides={true}
-                    modules={[Navigation, Pagination, EffectCreative]}
-                    navigation={{ clickable: true }}
-                    pagination={{ clickable: true }}
-                    loop={true}
-                    breakpoints={{
-                        640: {
-                            slidesPerView: 1
-                        },
-                        768: {
-                            slidesPerView: 3
-                        }
-                    }}
-                    className="mySwiper2"
-                >
-                    {categorias.map((categoria) => (
-                        <SwiperSlide key={categoria.id_categoria}>
+                <div className=" d-flex justify-content-between">
+                {categorias.map((categoria) => (
+                        <div className="card col-4 m-2" key={categoria.id_categoria}>
                             <Link to={`/menu/${categoria.id_categoria}`} style={{ textDecoration: 'none' }}>
                                 <div className="card text-center border-0">
                                     <img src={`/images/menu/categorias/${categoria.cat_foto}`} height={200} className="card-img-top" alt="..." />
@@ -71,9 +46,9 @@ export default function Menu() {
                                     </div>
                                 </div>
                             </Link>
-                        </SwiperSlide>
+                        </div>
                     ))}
-                </Swiper>
+                    </div>    
             </div>
         </div>
     )
