@@ -8,5 +8,6 @@ router.post('/registrar', authController.registrar);
 router.post('/recuperar', authController.recuperar)
 router.post('/resetPassword', authController.resetPassword)
 router.post('/validarToken', authController.validarToken)
+router.post ('/rutaProtegida', authController.rutaProtegida)
 
 module.exports = router

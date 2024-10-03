@@ -1,8 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation, Link } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import axios from 'axios';
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function NavegacionAdmin() {
+
+    const token = localStorage.getItem('token');
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    };
+
+    useEffect(() => {
+        axios.get(`${BACKEND_URL}/api/auth/validarToken`, config)
+            .then(res => {
+                console.log('Datos protegidos:', res.data);
+            })
+            .catch(err => {
+                console.log('Error al acceder a ruta protegida:', err);
+            });
+    }, [token]);
 
     const location = useLocation();
     const ruta = location.pathname.split("/")[2];
