@@ -106,12 +106,13 @@ exports.registrar = (req, res) => {
 
         else {
             const hashpassword = bcrypt.hashSync(password, 10)
-            const q = "INSERT INTO usuarios (user_nom, user_apels, user_email, user_pass , id_rol) VALUES (?,?,?,?,3)"
+            const q = "INSERT INTO usuarios (user_nom, user_apels, user_email, user_pass , id_rol, user_fecha_registro) VALUES (?,?,?,?,3,?)";
             const values = [
                 nombres,
                 apellidos,
                 email,
-                hashpassword
+                hashpassword,
+                moment().format('YYYY-MM-DD HH:mm:ss')
             ]
             db.query(q, values, (err) => {
                 if (err) {

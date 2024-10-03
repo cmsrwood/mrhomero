@@ -41,7 +41,7 @@ const RutaPrivada = ({ requiredRole }) => {
     }, [token]);
 
     if (isAuth === null) {
-        return <div>Verificando autenticación...</div>; // O un spinner
+        return <div></div>;
     }
 
     if (!isAuth) {
