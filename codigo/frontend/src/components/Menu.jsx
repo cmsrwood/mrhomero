@@ -20,7 +20,7 @@ export default function Menu() {
         const fetchData = async () => {
             try {
                 const [categoriasRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/menu/mostrarCategorias`),
+                    axios.get(`${BACKEND_URL}/api/menu/mostrarCategorias`),
                 ]);
                 setCategorias(categoriasRes.data);
             } catch (error) {
