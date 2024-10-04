@@ -47,6 +47,7 @@ function App() {
             <Route path='/registrar' element={<Registrar />}></Route>
             <Route path='/ingresar' element={<Ingresar />}></Route>
             <Route path='/menu' element={<MenuDefault />}></Route>
+            <Route path="/menu/:nombre"></Route>
             <Route path="/recuperar" element={<Recuperar />}></Route>
             <Route path="/emailRecuperar" element={<EmailRecuperar />}></Route>
             <Route path="/loader" element={<Loader />}></Route>
@@ -78,7 +79,6 @@ function App() {
               <Route path="/cliente/nosotros" element={<NosotrosCliente />}></Route>
               <Route path="/producto" element={<Producto />}></Route>
             </Route>
-
             <Route path="*" element={<Error />}></Route>
           </Routes>
         </Suspense>
