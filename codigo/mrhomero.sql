@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2024 a las 05:53:30
+-- Tiempo de generación: 04-10-2024 a las 02:43:44
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -38,9 +38,9 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`) VALUES
-(1, 'Salchipapa', 'categoria_1727322756647.jpg'),
-(2, 'Perro caliente', 'categoria_1727322790884.jpg'),
-(3, 'Choriperro', 'categoria_1727322797738.jpg');
+(1, 'Salchipapas', 'categoria_1727322756647.jpg'),
+(2, 'Perros calientes', 'categoria_1727322790884.jpg'),
+(3, 'Choriperros', 'categoria_1727322797738.jpg');
 
 -- --------------------------------------------------------
 
@@ -84,7 +84,7 @@ CREATE TABLE `inventario` (
 --
 
 INSERT INTO `inventario` (`id_producto_inv`, `inv_nombre`, `id_categoria_inv`, `inv_fecha_ing`, `inv_fecha_cad`, `inv_cantidad`, `inv_cantidad_min`, `id_proveedor`) VALUES
-(1, 'Tomate', 1, '2024-08-31', '2024-08-30', 11, 24, 2),
+(1, 'Tomate', 3, '2024-08-31', '2024-08-30', 11, 24, 2),
 (4, 'Carne', 2, '2007-02-09', '2024-03-02', 213, 22, 1),
 (8, 'Pollo', 1, '2024-09-06', '2024-09-25', 233, 25, 1),
 (16, 'Carne de cerdo', 3, '2024-09-18', '2024-09-25', 22, 23, 2),
@@ -111,6 +111,14 @@ CREATE TABLE `productos` (
   `pro_puntos` varchar(255) NOT NULL,
   `id_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`id_producto`, `pro_nom`, `pro_desp`, `pro_precio`, `pro_foto`, `pro_puntos`, `id_categoria`) VALUES
+(7, 'Perro sencillo', 'Pan, chorizo de cerdo, queso, jamón, papas chip, cebolla y salsas de la casa.', '8050', 'producto_1727495294895.webp', '10', 2),
+(8, 'Choriperro sencillo', 'Pan, chorizo de cerdo, queso, papas chip, cebolla y salsas de la casa.', '6900', 'producto_1727495377341.webp', '10', 3);
 
 -- --------------------------------------------------------
 
@@ -219,6 +227,7 @@ CREATE TABLE `usuarios` (
   `user_pass` varchar(255) NOT NULL,
   `user_reset_code` varchar(7) DEFAULT NULL,
   `user_reset_code_expiration` datetime DEFAULT NULL,
+  `user_fecha_registro` datetime NOT NULL,
   `id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -226,10 +235,11 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `id_rol`) VALUES
-(7, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$z0jNRO.XSGM.Wf8S8nz8FOFjcM3w9PLUIWRNsvSpKb7qBKqAc8H4G', NULL, NULL, 3),
-(8, 'Bryam', 'Cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$2cTfRrz70JVPO7oP3wqVEOlRP0LvOXCB9i05Ik./Wt5cSUOwKugJ.', NULL, NULL, 3),
-(9, 'Sebastian', 'Muñoz', 'johansebastian05433259@gmail.com', NULL, 0, NULL, '$2a$10$pP40vwVh.ZRHB7RZ4lsTze2qUGhCHVfQcFNOAyUne34VhPQxVGYI2', NULL, NULL, 3);
+INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `user_fecha_registro`, `id_rol`) VALUES
+(1, 'admin', 'admin', 'admin@gmail.com', NULL, 0, NULL, '$2a$10$ryatX/igKMkGPSkbfq8s4e5lRevbYJhh1g25cajrc82xgDku4csG2', NULL, NULL, '2024-10-03 19:40:47', 1),
+(2, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$nIXpxd3AQdOvYUMAfHDc5.JLn6vPen5cVJdXVTcnpBWY8k6k7cB2.', NULL, NULL, '2024-10-03 19:42:26', 3),
+(3, 'Bryam', 'Castañeda Cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$qOzxrB0nP7fXMiZfMf/HauFihRmIDijfE5P9Ky4i5nh..JsMkt/3i', NULL, NULL, '2024-10-03 19:42:50', 3),
+(4, 'Johan Sebastian', 'Muñoz Contreras', 'sebastianmc@gmail.com', NULL, 0, NULL, '$2a$10$IzZaYGl2ZLZAEdiGEtAM6.4.luREWPjnusfy6uLxlaIIxRFyx52Ja', NULL, NULL, '2024-10-03 19:43:23', 3);
 
 -- --------------------------------------------------------
 
@@ -332,7 +342,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias_inv`
@@ -350,7 +360,7 @@ ALTER TABLE `inventario`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
@@ -380,7 +390,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
