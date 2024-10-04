@@ -36,9 +36,9 @@ export default function Menu() {
             <div className="container">
                 <h1 className="text-warning text-center p-2">Menu</h1>
                 <div className=" d-flex justify-content-between">
-                {categorias.map((categoria) => (
+                    {categorias.map((categoria) => (
                         <div className="card col-4 m-2" key={categoria.id_categoria}>
-                            <Link to={`/menu/${categoria.id_categoria}`} style={{ textDecoration: 'none' }}>
+                            <Link to={`/menu/${categoria.cat_nom}`} style={{ textDecoration: 'none' }}>
                                 <div className="card text-center border-0">
                                     <img src={`/images/menu/categorias/${categoria.cat_foto}`} height={200} className="card-img-top" alt="..." />
                                     <div className="card-body">
@@ -48,7 +48,7 @@ export default function Menu() {
                             </Link>
                         </div>
                     ))}
-                    </div>    
+                </div>
             </div>
         </div>
     )
