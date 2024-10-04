@@ -51,7 +51,7 @@ export default function Recuperar() {
                         <form onSubmit={handleSubmit}>
                             <i className='display-1 bi bi-person-circle'></i>
                             <div className="form-floating my-5">
-                                <input type="email" className="form-control" placeholder="email" name='email' onChange={handleChange} />
+                                <input type="email" className="form-control" placeholder="email" name='email' onChange={handleChange} required/>
                                 <label htmlFor="floatingInput">Email</label>
                             </div>
                             <div className="text-center">

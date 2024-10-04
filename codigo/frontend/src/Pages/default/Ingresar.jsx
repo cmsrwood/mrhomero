@@ -121,6 +121,7 @@ export default function Ingresar() {
                     placeholder="email"
                     name='email'
                     onChange={handleChange}
+                    required
                   />
                   <label htmlFor="floatingInput">Email</label>
                 </div>
@@ -131,6 +132,7 @@ export default function Ingresar() {
                     placeholder="Contraseña"
                     name='password'
                     onChange={handleChange}
+                    required
                   />
                   <label htmlFor="floatingInput">Contraseña</label>
                 </div>

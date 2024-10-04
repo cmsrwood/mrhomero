@@ -59,23 +59,23 @@ export default function Registrar() {
             <p>Crear una cuenta</p>
           </div>
           <div className="form-floating mb-3">
-            <input type="text" className="form-control " id="floatingInput" placeholder="nombres" name='nombres' onChange={handleChange} />
+            <input type="text" className="form-control " id="floatingInput" placeholder="nombres" name='nombres' onChange={handleChange} required />
             <label htmlFor="floatingInput">Nombres</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="text" className="form-control " id="floatingInput" placeholder="apellidos" name="apellidos" onChange={handleChange} />
+            <input type="text" className="form-control " id="floatingInput" placeholder="apellidos" name="apellidos" onChange={handleChange} required />
             <label htmlFor="floatingInput">Apellidos</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="email" className="form-control" id="floatingInput" placeholder="email" name='email' onChange={handleChange} />
+            <input type="email" className="form-control" id="floatingInput" placeholder="email" name='email' onChange={handleChange} required />
             <label htmlFor="floatingInput">Email</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password' onChange={handleChange} />
+            <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password' onChange={handleChange} required />
             <label htmlFor="floatingInput">Contraseña</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="password" className="form-control" id="floatingInput" placeholder="Confirmar contraseña" name='confirmPassword' onChange={handleChange} />
+            <input type="password" className="form-control" id="floatingInput" placeholder="Confirmar contraseña" name='confirmPassword' onChange={handleChange} required />
             <label htmlFor="floatingInput">Confirmar contraseña</label>
           </div>
           <div className="text-center">
