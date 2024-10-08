@@ -46,7 +46,7 @@ export default function Dashboard() {
             <CustomChart data={data} tipo='line' options={options} />
           </div>
           <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary  text-center">
-            <h3 className='pt-4'>Pro  ductos vendidos</h3>
+            <h3 className='pt-4'>Productos vendidos</h3>
             <h4 className='pt-2'>1234 unidades</h4>
             <h4 className='pb-4 text-success'>+8% este mes</h4>
           </div>

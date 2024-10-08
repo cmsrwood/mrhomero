@@ -14,9 +14,8 @@ export default function Pedidos() {
   // Uso de useState para los modales
   const [showModalSale, setShowModalSale] = useState(false);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [categorias, setCategorias] = useState([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
-  const [mostrarClientes, setMostrarClientes] = useState([]);
+
   const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
   const [inputs, setInputs] = useState({
     payment: '',
@@ -24,18 +23,27 @@ export default function Pedidos() {
   })
   const [activeInput, setActiveInput] = useState('');
   const [searchTerm, setSearchTerms] = useState('');
-  const [userSelect, setUserSelect] = useState('( Seleccione usuario )');
+  const [userSelect, setUserSelect] = useState('Seleccione usuario');
+  const [idCategoria, setIdCategoria] = useState(null);
+
+  // Traer datos
+
+  const [categorias, setCategorias] = useState([]);
+  const [mostrarProductos, setMostrarProductos] = useState([]);
+  const [mostrarClientes, setMostrarClientes] = useState([]);
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [categoriasRes, clientesRes] = await Promise.all([
+        const [categoriasRes, productosRes, clientesRes,] = await Promise.all([
           axios.get(`${BACKEND_URL}/api/menu/mostrarCategorias`),
+          axios.get(`${BACKEND_URL}/api/productos/mostrarProductos/${idCategoria}`),
           axios.get(`${BACKEND_URL}/api/clientes/mostrar`),
         ]);
-        setMostrarClientes(clientesRes.data);
         setCategorias(categoriasRes.data);
+        setMostrarProductos(productosRes.data);
+        setMostrarClientes(clientesRes.data);
       } catch (error) {
         console.log(error);
       }
@@ -103,7 +111,7 @@ export default function Pedidos() {
   }
 
   const handleAddClient = (cliente) => {
-    setUserSelect(cliente.user_nom)
+    setUserSelect(cliente.user_nom + ' ' + cliente.user_apels);
   }
 
   function cardProduct() {
@@ -151,15 +159,8 @@ export default function Pedidos() {
     )
   }
 
-  function card2() {
-    return (
-      <div className="card text-center">
-        <img src={img} height={80} width={80} className="card-img-top border-bottom border-1" alt="..." />
-        <div className="card-body">
-          <h5 className="card-title fs-sm-6">Producto</h5>
-        </div>
-      </div>
-    )
+  function seleccionarCategoria(id) {
+    setIdCategoria(id)
   }
 
   return (
@@ -182,7 +183,7 @@ export default function Pedidos() {
             {categorias.map((cat) => {
               return (
                 <SwiperSlide key={cat.id_categoria}>
-                  <div className="col" >
+                  <div className="col" onClick={() => seleccionarCategoria(cat.id_categoria)}>
                     <div className="card text-center">
                       <img
                         src={`/images/menu/categorias/${cat.cat_foto}`}
@@ -200,43 +201,22 @@ export default function Pedidos() {
             })}
           </Swiper>
         </div>
-        <div className='container border border-2 border-secondary p-3 mt-4'>
+        <div className='containe p-3 mt-4'>
           <div className='row'>
             <div className='col'>
-              <div className='row row-cols-auto'>
-                <div className='col mt-2'>
-                  {card2()}
-                </div>
-                <div className='col mt-2'>
-                  {card2()}
-                </div>
-                <div className='col mt-2'>
-                  {card2()}
-                </div>
-                <div className='col mt-2'>
-                  {card2()}
-                </div>
-                <div className='col mt-2'>
-                  {card2()}
-                </div>
-                <div className='col mt-2'>
-                  {card2()}
-                </div>
-                <div className='col mt-2'>
-                  {card2()}
-                </div>
-                <div className='col mt-2'>
-                  {card2()}
-                </div>
-                <div className='col mt-2'>
-                  {card2()}
-                </div>
-                <div className='col mt-2'>
-                  {card2()}
-                </div>
-                <div className='col mt-2'>
-                  {card2()}
-                </div>
+              <div className="row row-cols-1 row-cols-md-4 g-4">
+                {mostrarProductos.map((product) => {
+                  return (
+                    <div className="col">
+                      <div className="card text-center">
+                        <img src={`/images/menu/productos/${product.pro_foto}`} height={80} width={80} className="card-img-top border-bottom border-1" alt="..." />
+                        <div className="card-body">
+                          <h5 className="card-title fs-sm-6">{product.pro_nom}</h5>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
             <div className="col">
@@ -297,8 +277,7 @@ export default function Pedidos() {
                           </div>
                         </div>
                         <div className="modal-footer">
-                          <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                          <button type="button" className="btn btn-success">Entendido</button>
+                          <button type="button" className="btn btn-success" data-bs-dismiss="modal">¡Hecho!</button>
                         </div>
                       </div>
                     </div>
