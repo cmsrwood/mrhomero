@@ -18,8 +18,7 @@ export default function Empleados() {
         const [empleadosRes] = await Promise.all([
           axios.get(`${BACKEND_URL}/api/empleados/mostrarEmpleados`)
         ]);
-        setEmpleados(empleadosRes)
-        console.log(empleadosRes)
+        setEmpleados(empleadosRes.data)
       } catch (error) {
         console.log(error);
       }
@@ -89,7 +88,7 @@ export default function Empleados() {
           </div>
 
           <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row">
-            {empleados.map(empleado => (
+            {empleados.map((empleado) => (
               <div className="col my-2" key={empleado.id_user}>
                 <div className="card p-2">
                   <div className="card-body">

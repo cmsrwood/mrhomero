@@ -183,7 +183,7 @@ export default function Pedidos() {
             {categorias.map((cat) => {
               return (
                 <SwiperSlide key={cat.id_categoria}>
-                  <div className="col" onClick={() => seleccionarCategoria(cat.id_categoria)}>
+                  <div className="col hoverCursor" onClick={() => seleccionarCategoria(cat.id_categoria)}>
                     <div className="card text-center">
                       <img
                         src={`/images/menu/categorias/${cat.cat_foto}`}
@@ -204,10 +204,10 @@ export default function Pedidos() {
         <div className='containe p-3 mt-4'>
           <div className='row'>
             <div className='col'>
-              <div className="row row-cols-1 row-cols-md-4 g-4">
+              <div className="row row-cols-1 row-cols-md-3 g-4">
                 {mostrarProductos.map((product) => {
                   return (
-                    <div className="col">
+                    <div className="col" key={product.id_producto}>
                       <div className="card text-center">
                         <img src={`/images/menu/productos/${product.pro_foto}`} height={80} width={80} className="card-img-top border-bottom border-1" alt="..." />
                         <div className="card-body">
