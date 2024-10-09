@@ -18,11 +18,8 @@ export default function Empleados() {
   const [empleados, setEmpleados] = useState([])
   const [isDataUpdated, setIsDataUpdated] = useState(false)
 
-  const handleEdit = (e) => {
-    setEmp({
-      ...emp,
-      [e.target.name]: e.target.value
-    })
+  const handleChange = (e) => {
+    setEmp({ ...emp, [e.target.name]: e.target.value })
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,21 +84,21 @@ export default function Empleados() {
                       <div className="col row" >
                         <div className="col">
                           <label htmlFor="floatingInput">Nombre</label>
-                          <input type="text" className="form-control my-2" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" name="emp_nom" onChange={handleEdit}></input>
+                          <input type="text" className="form-control my-2" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" name="emp_nom" onChange={handleChange}></input>
                           <label htmlFor="floatingInput">Apellidos</label>
-                          <input type="text" className="form-control my-2" placeholder="Apellidos" aria-label="Username" aria-describedby="basic-addon1" name="emp_apellidos" onChange={handleEdit}></input>
+                          <input type="text" className="form-control my-2" placeholder="Apellidos" aria-label="Username" aria-describedby="basic-addon1" name="emp_apellidos" onChange={handleChange}></input>
                           <label htmlFor="floatingInput">Telefono</label>
-                          <input type="text" className="form-control my-2" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1" name="emp_tel" onChange={handleEdit}></input>
+                          <input type="text" className="form-control my-2" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1" name="emp_tel" onChange={handleChange}></input>
                         </div>
                         <div className="col">
                           <label htmlFor="floatingInput">Email</label>
-                          <input type="text" className="form-control my-2" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" name="emp_email" onChange={handleEdit}></input>
+                          <input type="text" className="form-control my-2" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" name="emp_email" onChange={handleChange}></input>
                           <label htmlFor="floatingInput">Numero de documento</label>
                           <input type="text" className="form-control my-2" placeholder="Numero de documento" aria-label="Username" aria-describedby="basic-addon1"></input>
                         </div>
                         <div className="mt-2">
                           <label htmlFor="floatingInput">Fecha de ingreso</label>
-                          <input type="date" name="emp_fecha" id="" className="form-control my-2" onChange={handleEdit} />
+                          <input type="date" name="emp_fecha" id="" className="form-control my-2" onChange={handleChange} />
                         </div>
                       </div>
                     </div>
