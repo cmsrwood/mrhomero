@@ -27,19 +27,16 @@ export default function ProductoAdmin() {
     }, [idProducto]);
 
     return (
-        <div className='d-flex'>
-            <NavegacionAdmin />
-            <div className="container content">
-                <h1 className='display-1 text-center'>Producto #{producto?.id_producto}</h1>
-                <div className="row ">
-                    <div className="col-5 pt-4">
-                        <img className='img-fluid rounded' src={`/images/menu/productos/${producto?.pro_foto}`} alt="" />
-                    </div>
-                    <div className="col-7 px-5 py-3">
-                        <h2 className='display-5 fw-bold'>{producto?.pro_nom}</h2>
-                        <h4 className='py-3'>{producto?.pro_desp}</h4>
-                        <NumericFormat className='display-5 text-warning' value={producto?.pro_precio} displayType={'text'} thousandSeparator=',' prefix={'$ '} />
-                    </div>
+        <div className=''>
+            <h1 className='display-1 text-center'>Producto #{producto?.id_producto}</h1>
+            <div className="row ">
+                <div className="col-5 pt-4">
+                    <img className='img-fluid rounded' src={`/images/menu/productos/${producto?.pro_foto}`} alt="" />
+                </div>
+                <div className="col-7 px-5 py-3">
+                    <h2 className='display-5 fw-bold'>{producto?.pro_nom}</h2>
+                    <h4 className='py-3'>{producto?.pro_desp}</h4>
+                    <NumericFormat className='display-5 text-warning' value={producto?.pro_precio} displayType={'text'} thousandSeparator=',' prefix={'$ '} />
                 </div>
             </div>
         </div>

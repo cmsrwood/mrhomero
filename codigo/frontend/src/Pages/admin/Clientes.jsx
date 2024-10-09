@@ -73,57 +73,54 @@ export default function Clientes() {
     }, [isDataUpdated]);
 
     return (
-        <div className="d-flex">
-            <NavegacionAdmin />
-            <div className="container content">
-                <div className="row">
-                    <h1 className="col-12 col-sm-6">Clientes</h1>
-                    <div className="col-12 col-sm-6 position-relative">
-                        <Buscador icon="search" placeholder="Buscar" />
-                    </div>
+        <div className="">
+            <div className="row">
+                <h1 className="col-12 col-sm-6">Clientes</h1>
+                <div className="col-12 col-sm-6 position-relative">
+                    <Buscador icon="search" placeholder="Buscar" />
                 </div>
-                <div className="table-responsive">
-                    <table className=" table table-striped mt-5">
-                        <thead>
-                            <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Apellidos</th>
-                                <th scope="col">Correo</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {clientes.map(cliente => (
-                                <tr key={cliente.id_user}>
-                                    <th scope="row">{cliente.id_user}</th>
-                                    <td>{cliente.user_nom}</td>
-                                    <td>{cliente.user_apels}</td>
-                                    <td>{cliente.user_email}</td>
-                                    <td><button type="button" className="btn btn-danger" onClick={() => borrarCliente(cliente.id_user)} ><i className="bi bi-trash"></i></button></td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-                <nav aria-label="Page navigation example">
-                    <ul className="pagination">
-                        <li className="page-item">
-                            <a className="page-link text-warning" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li className="page-item"><a className="page-link text-warning" href="#">1</a></li>
-                        <li className="page-item"><a className="page-link text-warning" href="#">2</a></li>
-                        <li className="page-item"><a className="page-link text-warning" href="#">3</a></li>
-                        <li className="page-item">
-                            <a className="page-link text-warning" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
+            <div className="table-responsive">
+                <table className=" table table-striped mt-5">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Correo</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {clientes.map(cliente => (
+                            <tr key={cliente.id_user}>
+                                <th scope="row">{cliente.id_user}</th>
+                                <td>{cliente.user_nom}</td>
+                                <td>{cliente.user_apels}</td>
+                                <td>{cliente.user_email}</td>
+                                <td><button type="button" className="btn btn-danger" onClick={() => borrarCliente(cliente.id_user)} ><i className="bi bi-trash"></i></button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul className="pagination">
+                    <li className="page-item">
+                        <a className="page-link text-warning" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li className="page-item"><a className="page-link text-warning" href="#">1</a></li>
+                    <li className="page-item"><a className="page-link text-warning" href="#">2</a></li>
+                    <li className="page-item"><a className="page-link text-warning" href="#">3</a></li>
+                    <li className="page-item">
+                        <a className="page-link text-warning" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     )
 }

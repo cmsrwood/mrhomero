@@ -77,60 +77,57 @@ export default function Ventas() {
     )
   }
   return (
-    <div className='d-flex'>
-      <NavegacionAdmin />
+    <div className=''>
       {/* Cuerpo de la pagina */}
-      <div className=" container content">
-        <div className="row">
-          <h1 className="col-12 col-sm-6">Gestion de ventas</h1>
-          <div className="col-12 col-sm-6 position-relative">
-            <Buscador icon="search" placeholder="Buscar" />
-          </div>
+      <div className="row">
+        <h1 className="col-12 col-sm-6">Gestion de ventas</h1>
+        <div className="col-12 col-sm-6 position-relative">
+          <Buscador icon="search" placeholder="Buscar" />
         </div>
-        {/* Tabla  de ventas*/}
-        <div className="table-responsive">
-          <table className=" table table-striped mt-5">
-            <thead>
-              <tr>
-
-                <th scope="col">id</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Productos</th>
-                <th scope="col">Cliente</th>
-                <th scope="col">Descuento</th>
-                <th scope="col">Valor</th>
-                <th scope="col">Editar</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Fila()}
-              {Fila()}
-              {Fila()}
-              {Fila()}
-              {Fila()}
-              {Fila()}
-            </tbody>
-          </table>
-        </div>
-        {/* Paginador */}
-        <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            <li className="page-item">
-              <a className="page-link text-warning" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li className="page-item"><a className="page-link text-warning" href="#">1</a></li>
-            <li className="page-item"><a className="page-link text-warning" href="#">2</a></li>
-            <li className="page-item"><a className="page-link text-warning" href="#">3</a></li>
-            <li className="page-item">
-              <a className="page-link text-warning" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
       </div>
+      {/* Tabla  de ventas*/}
+      <div className="table-responsive">
+        <table className=" table table-striped mt-5">
+          <thead>
+            <tr>
+
+              <th scope="col">id</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Productos</th>
+              <th scope="col">Cliente</th>
+              <th scope="col">Descuento</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Editar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Fila()}
+            {Fila()}
+            {Fila()}
+            {Fila()}
+            {Fila()}
+            {Fila()}
+          </tbody>
+        </table>
+      </div>
+      {/* Paginador */}
+      <nav aria-label="Page navigation example">
+        <ul className="pagination">
+          <li className="page-item">
+            <a className="page-link text-warning" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li className="page-item"><a className="page-link text-warning" href="#">1</a></li>
+          <li className="page-item"><a className="page-link text-warning" href="#">2</a></li>
+          <li className="page-item"><a className="page-link text-warning" href="#">3</a></li>
+          <li className="page-item">
+            <a className="page-link text-warning" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   )
 }

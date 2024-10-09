@@ -160,114 +160,111 @@ export default function Proveedores() {
 
 
     return (
-        <div className='d-flex'>
-            <NavegacionAdmin />
-            <div className="container content">
-                <div className="d-flex justify-content-between m-3">
-                    <h1>Proveedores</h1>
-                    <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalAñadirProv"><i className="bi bi-plus"></i>añadir</button>
-                </div>
-                <div className="modal" id="ModalAñadirProv" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div className="modal-dialog  modal-fullscreen-sm-down">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">Añadir Proveedor</h5>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
+        <div className=''>
+            <div className="d-flex justify-content-between m-3">
+                <h1>Proveedores</h1>
+                <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalAñadirProv"><i className="bi bi-plus"></i>añadir</button>
+            </div>
+            <div className="modal" id="ModalAñadirProv" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog  modal-fullscreen-sm-down">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Añadir Proveedor</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
 
-                                <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label">Empresa:</label>
-                                    <input type="text" className="form-control" id="recipient-name" name="prov_nombre" onChange={handleChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label">Dirección:</label>
-                                    <input type="text" className="form-control" id="recipient-name" name="prov_direccion" onChange={handleChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label">Contacto:</label>
-                                    <input type="text" className="form-control" id="recipient-name" name="prov_contacto_nombre" onChange={handleChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label">Telefono:</label>
-                                    <input type="text" className="form-control" id="recipient-name" name="prov_contacto_telefono" onChange={handleChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label">Email:</label>
-                                    <input type="text" className="form-control" id="recipient-name" name="prov_contacto_email" onChange={handleChange} />
-                                </div>
+                            <div className="mb-3">
+                                <label htmlFor="recipient-name" className="col-form-label">Empresa:</label>
+                                <input type="text" className="form-control" id="recipient-name" name="prov_nombre" onChange={handleChange} />
                             </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" className="btn btn-warning" onClick={handleSubmit}>Guardar cambios</button>
+                            <div className="mb-3">
+                                <label htmlFor="recipient-name" className="col-form-label">Dirección:</label>
+                                <input type="text" className="form-control" id="recipient-name" name="prov_direccion" onChange={handleChange} />
                             </div>
+                            <div className="mb-3">
+                                <label htmlFor="recipient-name" className="col-form-label">Contacto:</label>
+                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_nombre" onChange={handleChange} />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="recipient-name" className="col-form-label">Telefono:</label>
+                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_telefono" onChange={handleChange} />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="recipient-name" className="col-form-label">Email:</label>
+                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_email" onChange={handleChange} />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" className="btn btn-warning" onClick={handleSubmit}>Guardar cambios</button>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th scope="col">Empresa</th>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Contacto</th>
-                            <th scope="col">Telefono</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Editar</th>
-                            <th scope='col'>Eliminar</th>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th scope="col">Empresa</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Contacto</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Editar</th>
+                        <th scope='col'>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {proveedores.map(proveedor => (
+                        <tr key={proveedor.id_proveedor}>
+                            <th>{proveedor.id_proveedor}</th>
+                            <th scope="row" className="text-warning">{proveedor.prov_nombre}</th>
+                            <td>{proveedor.prov_direccion}</td>
+                            <td>{proveedor.prov_contacto_nombre}</td>
+                            <td>{proveedor.prov_contacto_telefono}</td>
+                            <td>{proveedor.prov_contacto_email}</td>
+                            <td><button className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditarProv" onClick={() => { OpenEditModal(proveedor) }}><i className="bi bi-pencil-square"></i></button></td>
+                            <td><button className="btn btn-danger" onClick={() => { borrar(proveedor.id_proveedor) }}><i className="bi bi-trash"></i></button></td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {proveedores.map(proveedor => (
-                            <tr key={proveedor.id_proveedor}>
-                                <th>{proveedor.id_proveedor}</th>
-                                <th scope="row" className="text-warning">{proveedor.prov_nombre}</th>
-                                <td>{proveedor.prov_direccion}</td>
-                                <td>{proveedor.prov_contacto_nombre}</td>
-                                <td>{proveedor.prov_contacto_telefono}</td>
-                                <td>{proveedor.prov_contacto_email}</td>
-                                <td><button className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditarProv" onClick={() => { OpenEditModal(proveedor) }}><i className="bi bi-pencil-square"></i></button></td>
-                                <td><button className="btn btn-danger" onClick={() => { borrar(proveedor.id_proveedor) }}><i className="bi bi-trash"></i></button></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                {/* Modal para Editar proveedor */}
-                <div className="modal" id="ModalEditarProv" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div className="modal-dialog  modal-fullscreen-sm-down">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">Editar Proveedor</h5>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
+                    ))}
+                </tbody>
+            </table>
+            {/* Modal para Editar proveedor */}
+            <div className="modal" id="ModalEditarProv" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog  modal-fullscreen-sm-down">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Editar Proveedor</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
 
-                                <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label">Empresa:</label>
-                                    <input type="text" className="form-control" id="recipient-name" name="prov_nombre_edit" value={proveedorEdit.prov_nombre_edit} onChange={handleEditChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label">Dirección:</label>
-                                    <input type="text" className="form-control" id="recipient-name" name="prov_direccion_edit" value={proveedorEdit.prov_direccion_edit} onChange={handleEditChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label">Contacto:</label>
-                                    <input type="text" className="form-control" id="recipient-name" name="prov_contacto_nombre_edit" value={proveedorEdit.prov_contacto_nombre_edit} onChange={handleEditChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label">Telefono:</label>
-                                    <input type="text" className="form-control" id="recipient-name" name="prov_contacto_telefono_edit" value={proveedorEdit.prov_contacto_telefono_edit} onChange={handleEditChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label">Email:</label>
-                                    <input type="text" className="form-control" id="recipient-name" name="prov_contacto_email_edit" value={proveedorEdit.prov_contacto_email_edit} onChange={handleEditChange} />
-                                </div>
+                            <div className="mb-3">
+                                <label htmlFor="recipient-name" className="col-form-label">Empresa:</label>
+                                <input type="text" className="form-control" id="recipient-name" name="prov_nombre_edit" value={proveedorEdit.prov_nombre_edit} onChange={handleEditChange} />
                             </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" className="btn btn-warning" onClick={handleEditSubmit}>Guardar cambios</button>
+                            <div className="mb-3">
+                                <label htmlFor="recipient-name" className="col-form-label">Dirección:</label>
+                                <input type="text" className="form-control" id="recipient-name" name="prov_direccion_edit" value={proveedorEdit.prov_direccion_edit} onChange={handleEditChange} />
                             </div>
+                            <div className="mb-3">
+                                <label htmlFor="recipient-name" className="col-form-label">Contacto:</label>
+                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_nombre_edit" value={proveedorEdit.prov_contacto_nombre_edit} onChange={handleEditChange} />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="recipient-name" className="col-form-label">Telefono:</label>
+                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_telefono_edit" value={proveedorEdit.prov_contacto_telefono_edit} onChange={handleEditChange} />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="recipient-name" className="col-form-label">Email:</label>
+                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_email_edit" value={proveedorEdit.prov_contacto_email_edit} onChange={handleEditChange} />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" className="btn btn-warning" onClick={handleEditSubmit}>Guardar cambios</button>
                         </div>
                     </div>
                 </div>

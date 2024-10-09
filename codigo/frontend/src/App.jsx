@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Loader from "./components/Loader";
 import Producto from "./components/Producto";
 import RutaPrivada from "./components/RutaPrivada";
+import AdminLayout from "./components/AdminLayout";
 
 const Error = lazy(() => import("./components/Error"));
 // Importar las rutas para el default
@@ -55,20 +56,23 @@ function App() {
 
             {/* Rutas para el admin */}
             <Route element={<RutaPrivada requiredRole={1} />}>
-              <Route path="/admin/" element={<IndexAdmin />}></Route>
-              <Route path="/admin/dashboard" element={<Dashboard />}></Route>
-              <Route path="/admin/ventas" element={<Ventas />}></Route>
-              <Route path="/admin/pedidos" element={<Pedidos />}></Route>
-              <Route path="/admin/inventario" element={<Inventario />}></Route>
-              <Route path="/admin/menu" element={<MenuAdmin />}></Route>
-              <Route path="/admin/categoria/:id" element={<Categoria />}></Route>
-              <Route path="/admin/producto/:id" element={<ProductoAdmin />}></Route>
-              <Route path="/admin/recompensas" element={<RecompensasAdmin />}></Route>
-              <Route path="/admin/clientes" element={<Clientes />}></Route>
-              <Route path="/admin/empleados" element={<Empleados />}></Route>
-              <Route path="/admin/horasempleados" element={<HorasEmpleados />}></Route>
-              <Route path="/admin/proveedores" element={<Proveedores />}></Route>
+              <Route element={<AdminLayout />}>
+                <Route path="/admin/" element={<IndexAdmin />}></Route>
+                <Route path="/admin/dashboard" element={<Dashboard />}></Route>
+                <Route path="/admin/ventas" element={<Ventas />}></Route>
+                <Route path="/admin/pedidos" element={<Pedidos />}></Route>
+                <Route path="/admin/inventario" element={<Inventario />}></Route>
+                <Route path="/admin/menu" element={<MenuAdmin />}></Route>
+                <Route path="/admin/categoria/:id" element={<Categoria />}></Route>
+                <Route path="/admin/producto/:id" element={<ProductoAdmin />}></Route>
+                <Route path="/admin/recompensas" element={<RecompensasAdmin />}></Route>
+                <Route path="/admin/clientes" element={<Clientes />}></Route>
+                <Route path="/admin/empleados" element={<Empleados />}></Route>
+                <Route path="/admin/horasempleados" element={<HorasEmpleados />}></Route>
+                <Route path="/admin/proveedores" element={<Proveedores />}></Route>
+              </Route>
             </Route>
+
 
             {/* Rutas para el empleado */}
             <Route element={<RutaPrivada requiredRole={2} />}>

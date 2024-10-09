@@ -153,94 +153,91 @@ export default function MenuAdmin() {
   }
 
   return (
-    <div className='d-flex'>
-      <NavegacionAdmin />
-      <div className="container content">
-        <div className="d-flex justify-content-between mb-5">
-          <h1>Menú</h1>
-          <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#categoriaAgregarModal">
-            <i className="bi bi-plus-circle"></i> Añadir categoria
-          </button>
+    <div className=''>
+      <div className="d-flex justify-content-between mb-5">
+        <h1>Menú</h1>
+        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#categoriaAgregarModal">
+          <i className="bi bi-plus-circle"></i> Añadir categoria
+        </button>
+      </div>
+      <div className="modal fade" id="categoriaAgregarModal" tabIndex="-1" aria-labelledby="MenuModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="MenuModalLabel">Agregar categoria</h1>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <div className="row p-3">
+                <div className="col-12 mb-3">
+                  <label htmlFor="floatingInput">Imagen</label>
+                  <input className='form-control' onChange={handleFileChange} ref={fileInputRef} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
+                </div>
+                <div className="col-12 ">
+                  <label htmlFor="floatingInput">Nombre</label>
+                  <input className='form-control' onChange={handleInputChange} value={categoria.categoria} type="text" autoComplete='off' id='categoria' name='categoria' required />
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" className="btn btn-success" onClick={handleSubmit}>Guardar</button>
+            </div>
+          </div>
         </div>
-        <div className="modal fade" id="categoriaAgregarModal" tabIndex="-1" aria-labelledby="MenuModalLabel" aria-hidden="true">
+      </div>
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+        {categorias.map(cat => (
+          <div className="col" key={cat.id_categoria}>
+            <div className="card mb-4">
+              <img src={`/images/menu/categorias/${cat.cat_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
+              <div className="card-body text-center">
+                <h4 className="card-title">{cat.cat_nom}</h4>
+                <div className="row row-cols-3">
+                  {/* Ver categoria */}
+                  <div className='col'>
+                    <Link to={`/admin/categoria/${cat.id_categoria}`} className="btn btn-success w-100">Ver</Link>
+                  </div>
+                  {/* Editar categoria */}
+                  <div className='col'>
+                    <button className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#categoriaEditarModal" onClick={() => openEditModal(cat)}>Editar</button>
+                  </div>
+                  {/* Eliminar categoria  */}
+                  <div className='col'>
+                    <button onClick={() => deleteCategory(cat.id_categoria)} className="btn btn-danger w-100">Eliminar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+        <div className="modal fade" id="categoriaEditarModal" tabIndex="-1" aria-labelledby="MenuModalLabelEditar" aria-hidden="true">
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h1 className="modal-title fs-5" id="MenuModalLabel">Agregar categoria</h1>
+                <h1 className="modal-title fs-5" id="MenuModalLabelEditar">Editar categoria</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
                 <div className="row p-3">
                   <div className="col-12 mb-3">
-                    <label htmlFor="floatingInput">Imagen</label>
-                    <input className='form-control' onChange={handleFileChange} ref={fileInputRef} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
+                    {editarCategoria.foto && <img src={`/images/menu/categorias/${editarCategoria.foto}`} className="w-50 mx-auto d-block mb-3" alt="" />}
+                    <input className='form-control' onChange={handleFileChangeEdit} defaultValue={null} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
                   </div>
                   <div className="col-12 ">
                     <label htmlFor="floatingInput">Nombre</label>
-                    <input className='form-control' onChange={handleInputChange} value={categoria.categoria} type="text" autoComplete='off' id='categoria' name='categoria' required />
+                    <input className='form-control' onChange={handleInputChangeEdit} value={editarCategoria.categoria} type="text" autoComplete='off' id='categoria' name='categoria' required />
                   </div>
                 </div>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" className="btn btn-success" onClick={handleSubmit}>Guardar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
-          {categorias.map(cat => (
-            <div className="col" key={cat.id_categoria}>
-              <div className="card mb-4">
-                <img src={`/images/menu/categorias/${cat.cat_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
-                <div className="card-body text-center">
-                  <h4 className="card-title">{cat.cat_nom}</h4>
-                  <div className="row row-cols-3">
-                    {/* Ver categoria */}
-                    <div className='col'>
-                      <Link to={`/admin/categoria/${cat.id_categoria}`} className="btn btn-success w-100">Ver</Link>
-                    </div>
-                    {/* Editar categoria */}
-                    <div className='col'>
-                      <button className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#categoriaEditarModal" onClick={() => openEditModal(cat)}>Editar</button>
-                    </div>
-                    {/* Eliminar categoria  */}
-                    <div className='col'>
-                      <button onClick={() => deleteCategory(cat.id_categoria)} className="btn btn-danger w-100">Eliminar</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-          <div className="modal fade" id="categoriaEditarModal" tabIndex="-1" aria-labelledby="MenuModalLabelEditar" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h1 className="modal-title fs-5" id="MenuModalLabelEditar">Editar categoria</h1>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                  <div className="row p-3">
-                    <div className="col-12 mb-3">
-                      {editarCategoria.foto && <img src={`/images/menu/categorias/${editarCategoria.foto}`} className="w-50 mx-auto d-block mb-3" alt="" />}
-                      <input className='form-control' onChange={handleFileChangeEdit} defaultValue={null} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
-                    </div>
-                    <div className="col-12 ">
-                      <label htmlFor="floatingInput">Nombre</label>
-                      <input className='form-control' onChange={handleInputChangeEdit} value={editarCategoria.categoria} type="text" autoComplete='off' id='categoria' name='categoria' required />
-                    </div>
-                  </div>
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" className="btn btn-success" onClick={() => handleEdit(editarCategoria.id)}>Guardar</button>
-                </div>
+                <button type="button" className="btn btn-success" onClick={() => handleEdit(editarCategoria.id)}>Guardar</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   )
 }
