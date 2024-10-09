@@ -143,7 +143,7 @@ exports.recuperar = (req, res) => {
 
         const user = results[0];
         const verificationCode = generateVerificationCode();
-        const expirationDate = moment().add(1, 'hour').format('YYYY-MM-DD HH:mm:ss'); // Fecha de expiración en 1 hora
+        const expirationDate = moment().add(12, 'hour').format('YYYY-MM-DD HH:mm:ss'); // Fecha de expiración en 1 hora
 
         // Guardar el código y la fecha de expiración en la base de datos
         db.query('UPDATE usuarios SET user_reset_code = ?, user_reset_code_expiration = ? WHERE id_user = ?', [verificationCode, expirationDate, user.id_user], (err) => {
