@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Scrollbar } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import '../../styles/style.css'
-import Swal from 'sweetalert2'
-import img from '../../assets/img/img.png'
-import NavegacionAdmin from '../../navigation/NavegacionAdmin';
 import axios from 'axios';
 
 export default function Pedidos() {
@@ -18,11 +16,11 @@ export default function Pedidos() {
 
   const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
   const [inputs, setInputs] = useState({
-    payment: '',
-    received: ''
+    received: 0
   })
-  const [count, setCount] = useState(0); //contador de productos en la venta
-  const [activeInput, setActiveInput] = useState('');
+
+  const [venta, setVenta] = useState([]);
+  const [activeInput, setActiveInput] = useState('received');
   const [searchTerm, setSearchTerms] = useState('');
   const [userSelect, setUserSelect] = useState('Seleccione usuario');
   const [idCategoria, setIdCategoria] = useState(null);
@@ -32,6 +30,8 @@ export default function Pedidos() {
   const [categorias, setCategorias] = useState([]);
   const [mostrarProductos, setMostrarProductos] = useState([]);
   const [mostrarClientes, setMostrarClientes] = useState([]);
+
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -74,10 +74,11 @@ export default function Pedidos() {
   };
 
   const handleValueClick = (number) => {
-    // Agregar el número al valor actual del input
     setInputs(prevInputs => ({
       ...prevInputs,
-      [activeInput]: formatNumber(prevInputs[activeInput] + number),
+      [activeInput]: formatNumber(
+        parseNumber(formatNumber(prevInputs[activeInput])) + parseNumber(formatNumber(number))
+      ),
     }));
   };
 
@@ -115,64 +116,36 @@ export default function Pedidos() {
     setUserSelect(cliente.user_nom + ' ' + cliente.user_apels);
   }
 
-  function countPlus() {
-    setCount(count + 1)
-  }
+  // Funcion para la venta de productos
 
-  function countMinus() {
-    setCount(count - 1)
-    if (count <= 0) {
-      setCount(0);
+  function ventaProductos(producto) {
+    const existeProducto = venta.some(p => p.id_producto === producto.id_producto);
+    if (!existeProducto) {
+      const cantidad = 1;
+      setVenta([...venta, { ...producto, cantidad: cantidad, total: totalPrecioProductos() }]);
     }
   }
 
-  function cardProduct() {
-    return (
-      <tbody>
-        <tr>
-          <td>#</td>
-          <td>Hamburguesa</td>
-          <td>30.000</td>
-          <td>-25%</td>
-          <td><button type="button" className='btn btn-danger' onClick={() => {
-            Swal.fire({
-              title: '¿Eliminar producto?',
-              text: '¡Se eliminara el producto!',
-              icon: 'question',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: '¡Si, eliminar!',
-              cancelButtonText: 'Cancelar'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire({
-                  title: '¡Eliminado!',
-                  text: 'El producto fue eliminado correctamente.',
-                  icon: 'success',
-                  confirmButtonText: "Hecho"
-                })
-              }
-            })
-          }}><i className='bi bi-trash '></i></button></td>
-        </tr>
-      </tbody>
-    )
+  function actualizarCantidad(id_producto, incremento) {
+    setVenta(venta.map(producto =>
+      producto.id_producto === id_producto
+        ? { ...producto, cantidad: Math.max(1, producto.cantidad + incremento) }
+        : producto
+    ))
   }
 
-  function trVenta() {
-    return (
-      <tr>
-        <th scope='row'>1</th>
-        <td>Hamburguesa</td>
-        <td>$ 15.000</td>
-        <td>15%</td>
-      </tr>
-    )
+  function totalPrecioProductos() {
+    return venta.reduce((total, producto) => total + (producto.pro_precio * producto.cantidad), 0);
   }
 
   function seleccionarCategoria(id) {
     setIdCategoria(id)
+  }
+
+
+  function deleteProduct(productoAEliminar) {
+    const updatedItems = venta.filter(producto => producto !== productoAEliminar);
+    setVenta(updatedItems);
   }
 
   return (
@@ -215,9 +188,10 @@ export default function Pedidos() {
         <div className='row'>
           <div className='col'>
             <div className="row row-cols-1 row-cols-md-2 g-2 pt-2">
+              {/* Mostrar los productos de la categoria */}
               {mostrarProductos.map((product) => {
                 return (
-                  <div className="col" key={product.id_producto}>
+                  <div className="hoverCursor col" onClick={() => ventaProductos(product)} key={product.id_producto}>
                     <div className="card text-center">
                       <img src={`/images/menu/productos/${product.pro_foto}`} height={120} width={80} className="card-img-top border-bottom border-1" alt="..." />
                       <div className="card-body">
@@ -302,42 +276,28 @@ export default function Pedidos() {
                             <th scope="col">Cantidad</th>
                             <th scope="col">Producto</th>
                             <th scope="col">Precio</th>
-                            <th scope="col">Descuento</th>
+                            <th scope="col">Puntos</th>
                             <th scope="col">Eliminar</th>
                           </tr>
                         </thead>
+
                         <tbody>
-                          <tr>
-                            <td>
-                              <button type='button' className='btn btn-danger me-2' id='btnMinus' onClick={countMinus}>-</button>
-                              <span>{count}</span>
-                              <button type='button' className='btn btn-success ms-2' id='btnPlus' onClick={countPlus}>+</button>
-                            </td>
-                            <td>Hamburguesa</td>
-                            <td>30.000</td>
-                            <td>-25%</td>
-                            <td><button type="button" className='btn btn-danger' onClick={() => {
-                              Swal.fire({
-                                title: '¿Eliminar producto?',
-                                text: '¡Se eliminara el producto!',
-                                icon: 'question',
-                                showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: '¡Si, eliminar!',
-                                cancelButtonText: 'Cancelar'
-                              }).then((result) => {
-                                if (result.isConfirmed) {
-                                  Swal.fire({
-                                    title: '¡Eliminado!',
-                                    text: 'El producto fue eliminado correctamente.',
-                                    icon: 'success',
-                                    confirmButtonText: "Hecho"
-                                  })
-                                }
-                              })
-                            }}><i className='bi bi-trash '></i></button></td>
-                          </tr>
+                          {/* Venta */}
+                          {venta.map((product) => {
+                            return (
+                              <tr key={product.id_venta}>
+                                <td>
+                                  <button type='button' className='btn btn-danger me-2' id='btnMinus' onClick={() => actualizarCantidad(product.id_producto, -1)}>-</button>
+                                  <span>{product.cantidad}</span>
+                                  <button type='button' className='btn btn-success ms-2' id='btnPlus' onClick={() => actualizarCantidad(product.id_producto, 1)}>+</button>
+                                </td>
+                                <td>{product.pro_nom}</td>
+                                <td>{formatNumber(product.pro_precio * product.cantidad)}</td>
+                                <td>{product.pro_puntos * product.cantidad}</td>
+                                <td><button type="button" className='btn btn-danger' onClick={() => deleteProduct(product)}><i className='bi bi-trash'></i></button></td>
+                              </tr>
+                            )
+                          })}
                         </tbody>
                       </table>
                     </div>
@@ -345,11 +305,11 @@ export default function Pedidos() {
                 </div>
               </div>
               <div className="container text-center">
-                <h3 className='text-end p-3'>Total: $ 99999</h3>
+                <h3 className='text-end p-3'>Total: {formatNumber(totalPrecioProductos())}</h3>
                 <button type='button' className='btn btn-success w-50 ms-auto p-2' data-bs-toggle="modal" data-bs-target="#modalSale" onClick={() => setShowModalSale(true)}><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
                 {/* Modal realizar venta */}
                 {showModalSale && (
-                  <div className="modal show d-block" id="modalSale" tabindex="-1" role="dialog">
+                  <div className="modal show d-block" id="modalSale" tabIndex="-1" role="dialog">
                     <div className="modal-dialog modal-lg" role="document" onClick={e => e.stopPropagation()}>
                       <div className="modal-content">
                         <div className="modal-header">
@@ -392,13 +352,12 @@ export default function Pedidos() {
                               <div className="col pt-3">
                                 {/*Input de cantidad a pagar*/}
                                 <div className="input-group mb-3">
-                                  <span className="input-group-text">Cantidad a pagar</span>
+                                  <span className="input-group-text">Cantidad a pagar:</span>
                                   <input
                                     type="text"
                                     className="form-control"
-                                    value={inputs.payment}
+                                    value={formatNumber(totalPrecioProductos())}
                                     placeholder="Abono"
-                                    onFocus={() => setActiveInput('payment')}
                                     onChange={(e) => setInputs({
                                       ...inputs,
                                       payment: formatNumber(e.target.value)
@@ -474,33 +433,37 @@ export default function Pedidos() {
                               <div className="row">
                                 <div className="col">
                                   <h3 className='pb-4 pt-2'>Detalles del pedido</h3>
-                                  <div className="table-responsive table-scrollbar" style={{ maxHeight: '280px' }}>
-                                    <table className='table table-hover border border-1'>
+                                  <div className="table-responsive table-scrollbar">
+                                    <table className="table table-hover border border-1">
                                       <thead>
                                         <tr>
-                                          <th scope='col'>Cantidad</th>
-                                          <th scope='col'>Producto</th>
-                                          <th scope='col'>Precio</th>
-                                          <th scope='col'>Descuento</th>
+                                          <th scope="col">Cantidad</th>
+                                          <th scope="col">Producto</th>
+                                          <th scope="col">Precio</th>
+                                          <th scope="col">Puntos</th>
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        {trVenta()}
-                                        {trVenta()}
-                                        {trVenta()}
-                                        {trVenta()}
-                                        {trVenta()}
-                                        {trVenta()}
-                                        {trVenta()}
-                                        {trVenta()}
+                                        {venta.map((product) => {
+                                          return (
+                                            <tr key={product.id_venta}>
+                                              <td>
+                                                <span>{product.cantidad}</span>
+                                              </td>
+                                              <td>{product.pro_nom}</td>
+                                              <td>{product.pro_precio}</td>
+                                              <td>{product.pro_puntos}</td>
+                                            </tr>
+                                          )
+                                        })}
                                       </tbody>
                                     </table>
                                   </div>
                                 </div>
                                 <div className="col align-self-center">
-                                  <h1 className='pb-4'>Total: $ {formatNumber(inputs.payment)}</h1>
+                                  <h1 className='pb-4'>Total: $ {formatNumber(totalPrecioProductos())}</h1>
                                   <h1 className='pb-4'>Recibido: $ {formatNumber(inputs.received)}</h1>
-                                  <h1 className=''>Cambio: $ {formatNumber(parseNumber(inputs.received) - parseNumber(inputs.payment))}</h1>
+                                  <h1 className=''>Cambio: $ {formatNumber(parseNumber(inputs.received) - totalPrecioProductos())}</h1>
                                 </div>
 
                               </div>
@@ -508,7 +471,7 @@ export default function Pedidos() {
                           </div>
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
-                          <button type="button" className="btn btn-success fs-5" onClick={() => { setShowModalConfirm(false); setShowModalSale(false); }}><i className="bi bi-plus">Realizar otro pedido</i></button>
+                          <button type="button" className="btn btn-success fs-5" onClick={() => { navigate(0) }}><i className="bi bi-plus">Realizar otro pedido</i></button>
                         </div>
                       </div>
                     </div>
