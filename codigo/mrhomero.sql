@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-10-2024 a las 03:41:06
+-- Tiempo de generación: 09-10-2024 a las 05:51:47
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -33,15 +33,6 @@ CREATE TABLE `categorias` (
   `cat_foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`) VALUES
-(1, 'Salchipapas', 'categoria_1727322756647.jpg'),
-(2, 'Perros calientes', 'categoria_1727322790884.jpg'),
-(3, 'Choriperros', 'categoria_1727322797738.jpg');
-
 -- --------------------------------------------------------
 
 --
@@ -59,8 +50,20 @@ CREATE TABLE `categorias_inv` (
 
 INSERT INTO `categorias_inv` (`id_categoria_inv`, `categoria_inv_nom`) VALUES
 (1, 'Perecedero'),
-(2, 'Nevera'),
-(3, 'Congelado');
+(2, 'Congelado');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalle_ventas`
+--
+
+CREATE TABLE `detalle_ventas` (
+  `id_detalle` int(11) NOT NULL,
+  `id_venta` int(11) DEFAULT NULL,
+  `id_producto` int(11) DEFAULT NULL,
+  `cantidad_productos` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -79,23 +82,6 @@ CREATE TABLE `inventario` (
   `id_proveedor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Volcado de datos para la tabla `inventario`
---
-
-INSERT INTO `inventario` (`id_producto_inv`, `inv_nombre`, `id_categoria_inv`, `inv_fecha_ing`, `inv_fecha_cad`, `inv_cantidad`, `inv_cantidad_min`, `id_proveedor`) VALUES
-(1, 'Tomate', 3, '2024-08-31', '2024-08-30', 11, 24, 2),
-(4, 'Carne', 2, '2007-02-09', '2024-03-02', 213, 22, 1),
-(8, 'Pollo', 1, '2024-09-06', '2024-09-25', 233, 25, 1),
-(16, 'Carne de cerdo', 3, '2024-09-18', '2024-09-25', 22, 23, 2),
-(19, 'Pan', 1, '2024-09-18', '2024-09-25', 23, 2, 2),
-(20, 'Papas fritas', 2, '2024-09-18', '2024-09-25', 2, 20, 2),
-(21, '3123', 3, '2024-09-18', '2024-09-25', 23, 20, 1),
-(22, 'daawfd', 3, '2024-09-18', '2024-09-25', 232, 23, 1),
-(23, 'awfwafwa', 2, '2024-09-19', '2024-09-25', 2323, 2412, 1),
-(24, '213213', 3, '2024-09-18', '2024-09-26', 23, 2141, 2),
-(25, 'afw2wafawf2af2a', 3, '2024-09-18', '2024-09-26', 23, 2141, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -111,14 +97,6 @@ CREATE TABLE `productos` (
   `pro_puntos` varchar(255) NOT NULL,
   `id_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `productos`
---
-
-INSERT INTO `productos` (`id_producto`, `pro_nom`, `pro_desp`, `pro_precio`, `pro_foto`, `pro_puntos`, `id_categoria`) VALUES
-(7, 'Perro sencillo', 'Pan, chorizo de cerdo, queso, jamón, papas chip, cebolla y salsas de la casa.', '8050', 'producto_1727495294895.webp', '10', 2),
-(8, 'Choriperro sencillo', 'Pan, chorizo de cerdo, queso, papas chip, cebolla y salsas de la casa.', '6900', 'producto_1727495377341.webp', '10', 3);
 
 -- --------------------------------------------------------
 
@@ -148,14 +126,6 @@ CREATE TABLE `proveedores` (
   `prov_activo` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `proveedores`
---
-
-INSERT INTO `proveedores` (`id_proveedor`, `prov_nombre`, `prov_direccion`, `prov_contacto_nombre`, `prov_contacto_telefono`, `prov_contacto_email`, `prov_activo`) VALUES
-(1, 'Coca cola', 'ejm', 'ejm', 'ejm', 'ejm', 1),
-(2, 'Bimbo', 'ejm', 'ejm', 'ejm', 'ejm', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -168,15 +138,6 @@ CREATE TABLE `recompensas` (
   `recomp_num_puntos` int(11) NOT NULL,
   `recomp_foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `recompensas`
---
-
-INSERT INTO `recompensas` (`id_recomp`, `recompensa`, `recomp_num_puntos`, `recomp_foto`) VALUES
-(1, 'Llavero', 20, 'llavero.jpg'),
-(2, 'Peluche', 30, 'peluche.jpg'),
-(3, 'Sticker', 5, 'sticker.jpg');
 
 -- --------------------------------------------------------
 
@@ -249,9 +210,7 @@ INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user
 
 CREATE TABLE `ventas` (
   `id_venta` int(11) NOT NULL,
-  `id_producto` int(11) NOT NULL,
   `venta_fecha` datetime NOT NULL,
-  `cantidad_productos` int(255) NOT NULL,
   `id_user` int(11) DEFAULT NULL,
   `venta_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -271,6 +230,14 @@ ALTER TABLE `categorias`
 --
 ALTER TABLE `categorias_inv`
   ADD PRIMARY KEY (`id_categoria_inv`);
+
+--
+-- Indices de la tabla `detalle_ventas`
+--
+ALTER TABLE `detalle_ventas`
+  ADD PRIMARY KEY (`id_detalle`),
+  ADD KEY `detalle_ventas_venta` (`id_venta`),
+  ADD KEY `detalle_ventas_producto` (`id_producto`);
 
 --
 -- Indices de la tabla `inventario`
@@ -332,8 +299,7 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `ventas`
   ADD PRIMARY KEY (`id_venta`),
-  ADD KEY `producto` (`id_producto`),
-  ADD KEY `usuario` (`id_user`);
+  ADD KEY `usuario venta` (`id_user`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -343,37 +309,43 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias_inv`
 --
 ALTER TABLE `categorias_inv`
-  MODIFY `id_categoria_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_categoria_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `detalle_ventas`
+--
+ALTER TABLE `detalle_ventas`
+  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `recompensas`
 --
 ALTER TABLE `recompensas`
-  MODIFY `id_recomp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_recomp` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `recompensas_obt`
@@ -394,8 +366,21 @@ ALTER TABLE `usuarios`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `detalle_ventas`
+--
+ALTER TABLE `detalle_ventas`
+  ADD CONSTRAINT `detalle_ventas_producto` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`),
+  ADD CONSTRAINT `detalle_ventas_venta` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id_venta`);
 
 --
 -- Filtros para la tabla `inventario`
@@ -433,8 +418,7 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  ADD CONSTRAINT `producto` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `usuario` FOREIGN KEY (`id_user`) REFERENCES `usuarios` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `usuario venta` FOREIGN KEY (`id_user`) REFERENCES `usuarios` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
