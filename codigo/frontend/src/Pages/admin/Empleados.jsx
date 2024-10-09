@@ -98,7 +98,7 @@ export default function Empleados() {
                         </div>
                         <div className="mt-2">
                           <label htmlFor="floatingInput">Fecha de ingreso</label>
-                          <input type="date" name="emp_fecha" id="" className="form-control my-2" onChange={handleChange} />
+                          <input type="date" name="emp_fecha_ingreso" id="" className="form-control my-2" onChange={handleChange} />
                         </div>
                       </div>
                     </div>
@@ -159,14 +159,7 @@ export default function Empleados() {
                   </div>
                   <div className="modal-footer">
                     <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" className="btn btn-warning" onClick={() => {
-                      Swal.fire({
-                        title: 'Empleado editado correctamente.',
-                        text: 'El empleado fue editado correctamente.',
-                        icon: 'success',
-                        confirmButtonText: 'Hecho'
-                      })
-                    }}>Guardar cambios</button>
+                    <button type="button" className="btn btn-warning" >Guardar cambios</button>
                   </div>
                 </div>
               </div>
