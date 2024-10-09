@@ -32,7 +32,7 @@ exports.asignarRol = (req, res) => {
             if (!nombre || !apellidos || !correo || !telefono || !fecha) {
                 return res.status(400).send('Todos los campos son obligatorios');
             }
-            db.query("UPDATE usuarios SET id_rol = 2 WHERE user_email = ?", [correo], (err) => {
+            db.query("UPDATE usuarios SET id_rol = 2, user_nom = ?, user_apels = ?, user_email = ?, user_tel = ?, user_fecha_registro = ? WHERE user_email = ?", [nombre, apellidos, correo, telefono, fecha, correo], (err) => {
                 if (err) {
                     console.log(err);
                     return res.status(500).send('Error en el servidor');

@@ -118,7 +118,7 @@ export default function Empleados() {
             <div className="col my-2" key={empleado.id_user}>
               <div className="card p-2">
                 <div className="card-body">
-                  <h3 className="card-title">{empleado.user_nom}</h3>
+                  <h3 className="card-title">{empleado.user_nom} {empleado.user_apels}</h3>
                 </div>
               </div>
               <div className="d-flex">
