@@ -2,15 +2,46 @@ import React, { useEffect, useState } from 'react'
 import Buscador from '../../components/Buscador'
 import Swal from 'sweetalert2'
 import img from '../../assets/img/img.png'
-import NavegacionAdmin from '../../navigation/NavegacionAdmin'
 import axios from 'axios'
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 
 export default function Empleados() {
 
+  const[emp,setEmp] = useState({
+    emp_nom: '',
+    emp_apellidos: '',
+    emp_tel: '',
+    emp_email: '',
+    emp_fecha_ingreso: '',
+  })
   const [empleados, setEmpleados] = useState([])
   const [isDataUpdated, setIsDataUpdated] = useState(false)
+
+  const handleEdit = (e) => {
+    setEmp({
+      ...emp,
+      [e.target.name]: e.target.value
+    })
+    handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const res = await axios.put(`${BACKEND_URL}/api/empleados/crearEmpleado`, emp);
+        if (res.status === 200) {
+          Swal.fire('Empleado creado', res.data, 'success');
+          setIsDataUpdated(true);
+        }
+        const modalElement = document.getElementById('Añadir');
+                let modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) modalInstance.hide();
+      } catch (error) {
+        console.log(error);
+        if (error.response) {
+          Swal.fire('Error', error.response.data, 'error');
+        }
+      }
+    }
+  }
 
   useEffect(() => {
     const fechData = async () => {
@@ -46,6 +77,8 @@ export default function Empleados() {
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
+                  <form action="" 
+                  onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-3">
                       <img src={img} height={200} className="card-img-top" alt="..." />
@@ -53,31 +86,28 @@ export default function Empleados() {
                     <div className="col row" >
                       <div className="col">
                         <label htmlFor="floatingInput">Nombre</label>
-                        <input type="text" className="form-control my-2" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1"></input>
-                        <label htmlFor="floatingInput">Telefono</label><input type="text" className="form-control my-2" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1"></input>
+                        <input type="text" className="form-control my-2" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" name="emp_nom" onChange={handleEdit}></input>
+                        <label htmlFor="floatingInput">Apellidos</label>
+                        <input type="text" className="form-control my-2" placeholder="Apellidos" aria-label="Username" aria-describedby="basic-addon1" name="emp_apellidos" onChange={handleEdit}></input>
+                        <label htmlFor="floatingInput">Telefono</label>
+                        <input type="text" className="form-control my-2" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1" name="emp_tel" onChange={handleEdit}></input>
                       </div>
                       <div className="col">
                         <label htmlFor="floatingInput">Email</label>
-                        <input type="text" className="form-control my-2" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1"></input>
+                        <input type="text" className="form-control my-2" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" name="emp_email" onChange={handleEdit}></input>
                         <label htmlFor="floatingInput">Numero de documento</label>
                         <input type="text" className="form-control my-2" placeholder="Numero de documento" aria-label="Username" aria-describedby="basic-addon1"></input>
                       </div>
                       <div className="mt-2">
                         <label htmlFor="floatingInput">Fecha de ingreso</label>
-                        <input type="date" name="" id="" className="form-control my-2" />
+                        <input type="date" name="emp_fecha" id="" className="form-control my-2" onChange={handleEdit}/>
                       </div>
                     </div>
                   </div>
+                  </form>        
                   <div className="modal-footer">
                     <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" className="btn btn-warning" onClick={() => {
-                      Swal.fire({
-                        title: 'Empleado añadido',
-                        text: 'El empleado fue añadido correctamente.',
-                        icon: 'success',
-                        confirmButtonText: 'Hecho'
-                      })
-                    }}>Confirmar</button>
+                    <button type="submit" className="btn btn-warning" >Confirmar</button>
                   </div>
                 </div>
               </div>
@@ -125,7 +155,7 @@ export default function Empleados() {
                       </div>
                       <div className="mt-2">
                         <label htmlFor="floatingInput">Fecha de ingreso</label>
-                        <input disabled type="date" name="" id="" className="form-control my-2" />
+                        <input disabled type="date" name="emp_fecha_ingreso" id="" className="form-control my-2" />
                       </div>
                     </div>
                   </div>
@@ -149,3 +179,4 @@ export default function Empleados() {
     </div>
   )
 }
+
