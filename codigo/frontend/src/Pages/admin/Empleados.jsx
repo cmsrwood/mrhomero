@@ -37,6 +37,7 @@ export default function Empleados() {
       if (modalInstance) modalInstance.hide();
     } catch (error) {
       console.log(error);
+      Swal.fire('Error', error.response.data, 'error');
       if (error.response) {
         Swal.fire('Error', error.response.data, 'error');
       }
@@ -104,11 +105,11 @@ export default function Empleados() {
                         </div>
                       </div>
                     </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                      <button type="submit" className="btn btn-warning" >Confirmar</button>
+                    </div>
                   </form>
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" className="btn btn-warning" >Confirmar</button>
-                  </div>
                 </div>
               </div>
             </div>
