@@ -1,9 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Loader from "./components/Loader";
-import Categoria from "./Pages/admin/Categoria";
 import Producto from "./components/Producto";
-import Proveedores from "./Pages/admin/Proveedores";
 import RutaPrivada from "./components/RutaPrivada";
 
 const Error = lazy(() => import("./components/Error"));
@@ -29,11 +27,14 @@ const Dashboard = lazy(() => import("./Pages/admin/Dashboard"));
 const Ventas = lazy(() => import("./Pages/admin/Ventas"));
 const Inventario = lazy(() => import("./Pages/admin/Inventario"));
 const MenuAdmin = lazy(() => import("./Pages/admin/MenuAdmin"));
+const Categoria = lazy(() => import("./Pages/admin/Categoria"));
 const Clientes = lazy(() => import("./Pages/admin/Clientes"));
 const RecompensasAdmin = lazy(() => import("./Pages/admin/RecompensasAdmin"));
 const Empleados = lazy(() => import("./Pages/admin/Empleados"));
 const HorasEmpleados = lazy(() => import("./Pages/admin/HorasEmpleados"));
 const ProductoAdmin = lazy(() => import("./Pages/admin/ProductoAdmin"));
+const IndexEmpleado = lazy(() => import("./Pages/empleado/IndexEmpleado"));
+const Proveedores = lazy(() => import("./Pages/admin/Proveedores"));
 
 function App() {
   return (
@@ -67,6 +68,12 @@ function App() {
               <Route path="/admin/empleados" element={<Empleados />}></Route>
               <Route path="/admin/horasempleados" element={<HorasEmpleados />}></Route>
               <Route path="/admin/proveedores" element={<Proveedores />}></Route>
+            </Route>
+
+            {/* Rutas para el empleado */}
+            <Route element={<RutaPrivada requiredRole={2} />}>
+              <Route path="/empleado/" element={<IndexEmpleado />}></Route>
+              <Route path="/empleado/pedidos" element={<Pedidos />}></Route>
             </Route>
 
             {/* Rutas para el cliente */}
