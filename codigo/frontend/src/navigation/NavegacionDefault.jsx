@@ -1,29 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function NavegacionDefault() {
   const location = useLocation();
   const ruta = location.pathname.split("/")[1];
 
-  const [tema, setTema] = useState('light');
+  const temaInicial = localStorage.getItem('tema') || 'dark';
+  const [tema, setTema] = useState(temaInicial);
 
-  const index = document.getElementById('html');
+  const ToastTema = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 1500,
+  });
 
   useEffect(() => {
-    const temaGuardado = localStorage.getItem('tema') || 'light';
-    setTema(temaGuardado);
-    index.setAttribute('data-bs-theme', temaGuardado);
+    const index = document.documentElement;
+    index.setAttribute('data-bs-theme', tema);
   }, []);
 
   useEffect(() => {
+    const index = document.documentElement;
     localStorage.setItem('tema', tema);
     index.setAttribute('data-bs-theme', tema);
-  }, [tema] ); 
+  }, [tema]);
 
   function cambiarTema() {
     const nuevoTema = tema === 'light' ? 'dark' : 'light';
     setTema(nuevoTema);
+    ToastTema.fire({
+      title: `Tema cambiado a ${nuevoTema}`,
+      icon: 'success'
+    });
   }
 
   function rutaActiva(link) {
@@ -33,7 +44,7 @@ export default function NavegacionDefault() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary shadow homero-font mb-5">
       <div className="container-fluid">
-        <Link className="navbar-brand text-warning fs-3 ps-2" to="/admin/">Mr. Homero</Link>
+        <Link className="navbar-brand text-warning fs-3 ps-2" to="/">Mr. Homero</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
