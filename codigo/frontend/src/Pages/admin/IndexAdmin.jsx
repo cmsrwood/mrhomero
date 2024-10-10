@@ -19,7 +19,6 @@ export default function IndexAdmin() {
         ]);
         setClientes(clientesRes.data);
         setClientesUltimoMes(clientesUltimoMesRes.data);
-        console.log(clientesUltimoMesRes.data);
       } catch (error) {
         console.log(error);
       }

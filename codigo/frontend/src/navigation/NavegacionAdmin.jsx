@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, Link } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import axios from 'axios';
@@ -7,52 +7,44 @@ export default function NavegacionAdmin() {
 
     const cerrarSesion = () => {
         localStorage.removeItem('token');
-        // Redirige a la página de inicio de sesión
         window.location.href = '/ingresar';
     };
 
-    const location = useLocation();
-    const ruta = location.pathname.split("/")[2];
-    function rutaActiva(link) {
-        if (ruta === link) {
-            return "text-warning"
-        }
-    }
+    const temaInicial = localStorage.getItem('tema') || 'dark';
+    const [tema, setTema] = useState(temaInicial);
 
     const ToastTema = Swal.mixin({
         toast: true,
         position: "bottom-end",
         showConfirmButton: false,
         timer: 1500,
-    })
-    function tema() {
-        var index = document.getElementById('html');
-        var icon = document.getElementById('botont');
-        var sidebar = document.getElementById('sidebar');
-        if (index.getAttribute("data-bs-theme") === "light") {
-            index.setAttribute("data-bs-theme", "dark");
-            index.removeAttribute("transition-style");
-            void index.offsetWidth;
-            index.setAttribute("transition-style", "in:circle:center");
-            icon.classList.remove("bi-sun-fill")
-            icon.classList.add("bi-moon-fill")
-            sidebar.classList.add("border-end")
-            ToastTema.fire({
-                title: "<i class='bi bi-moon'> Has cambiado al modo oscuro</i> "
-            })
-        }
-        else {
-            index.setAttribute("data-bs-theme", "light");
-            index.removeAttribute("transition-style");
-            void index.offsetWidth;
-            index.setAttribute("transition-style", "in:circle:center");
-            icon.classList.remove("bi-moon-fill")
-            icon.classList.add("bi-sun-fill")
-            sidebar.classList.remove("border-end")
-            ToastTema.fire({
-                title: "<i class='bi bi-sun text-white'> Has cambiado al modo claro</i> ",
-                background: "#212529",
-            })
+    });
+
+    useEffect(() => {
+        const index = document.documentElement;
+        index.setAttribute('data-bs-theme', tema);
+    }, []);
+
+    useEffect(() => {
+        const index = document.documentElement;
+        localStorage.setItem('tema', tema);
+        index.setAttribute('data-bs-theme', tema);
+    }, [tema]);
+
+    function cambiarTema() {
+        const nuevoTema = tema === 'light' ? 'dark' : 'light';
+        setTema(nuevoTema);
+        ToastTema.fire({
+            title: `Tema cambiado a ${nuevoTema}`,
+            icon: 'success'
+        });
+    }
+
+    const location = useLocation();
+    const ruta = location.pathname.split("/")[2];
+    function rutaActiva(link) {
+        if (ruta === link) {
+            return "text-warning";
         }
     }
 
@@ -128,7 +120,7 @@ export default function NavegacionAdmin() {
                                 <li><Link className="dropdown-item text-danger" to="#" onClick={cerrarSesion}><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
                             </ul>
                         </div>
-                        <button className='btn' onClick={tema} ><i id="botont" className='bi bi-moon-fill text-white'></i></button>
+                        <button className='btn' onClick={cambiarTema} ><i id="botont" className='bi bi-moon-fill text-white'></i></button>
                     </div>
                 </div>
             </nav>
