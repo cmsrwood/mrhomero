@@ -89,7 +89,7 @@ export default function Ingresar() {
                                     name='newPassword'
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="floatingInput">Contraseña</label>
+                                <label htmlFor="floatingInput">Contraseña nueva</label>
                             </div>
                             <div className="form-floating my-5">
                                 <input
