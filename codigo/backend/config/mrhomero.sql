@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-10-2024 a las 06:50:08
+-- Tiempo de generación: 25-10-2024 a las 06:57:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -32,6 +32,13 @@ CREATE TABLE `categorias` (
   `cat_nom` varchar(255) NOT NULL,
   `cat_foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`) VALUES
+(2, 'Gaseosas', 'categoria_1729831911431.png');
 
 -- --------------------------------------------------------
 
@@ -96,18 +103,6 @@ CREATE TABLE `productos` (
   `pro_foto` varchar(255) NOT NULL,
   `pro_puntos` varchar(255) NOT NULL,
   `id_categoria` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `productos_imgs`
---
-
-CREATE TABLE `productos_imgs` (
-  `id_pro_img` int(11) NOT NULL,
-  `id_producto` int(11) NOT NULL,
-  `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -198,10 +193,10 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `user_fecha_registro`, `id_rol`, `user_estado`) VALUES
-(1, 'admin', 'admin', 'admin@gmail.com', NULL, 0, NULL, '$2a$10$ryatX/igKMkGPSkbfq8s4e5lRevbYJhh1g25cajrc82xgDku4csG2', NULL, NULL, '2024-10-03 19:40:47', 1, 0),
-(2, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$nIXpxd3AQdOvYUMAfHDc5.JLn6vPen5cVJdXVTcnpBWY8k6k7cB2.', NULL, NULL, '2024-10-03 19:42:26', 3, 0),
-(3, 'Bryam', 'Castañeda Cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$qOzxrB0nP7fXMiZfMf/HauFihRmIDijfE5P9Ky4i5nh..JsMkt/3i', NULL, NULL, '2024-10-03 19:42:50', 3, 0),
-(4, 'Johan Sebastian', 'Muñoz Contreras', 'sebastianmc@gmail.com', NULL, 0, NULL, '$2a$10$IzZaYGl2ZLZAEdiGEtAM6.4.luREWPjnusfy6uLxlaIIxRFyx52Ja', NULL, NULL, '2024-10-03 19:43:23', 3, 0);
+(1, 'admin', 'admin', 'admin@gmail.com', NULL, 0, NULL, '$2a$10$ryatX/igKMkGPSkbfq8s4e5lRevbYJhh1g25cajrc82xgDku4csG2', NULL, NULL, '2024-10-03 19:40:47', 1, 1),
+(2, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$nIXpxd3AQdOvYUMAfHDc5.JLn6vPen5cVJdXVTcnpBWY8k6k7cB2.', NULL, NULL, '2024-10-03 19:42:26', 3, 1),
+(3, 'Bryam', 'Castañeda Cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$qOzxrB0nP7fXMiZfMf/HauFihRmIDijfE5P9Ky4i5nh..JsMkt/3i', NULL, NULL, '2024-10-03 19:42:50', 3, 1),
+(4, 'Johan Sebastian', 'Muñoz Contreras', 'sebastianmc@gmail.com', NULL, 0, NULL, '$2a$10$IzZaYGl2ZLZAEdiGEtAM6.4.luREWPjnusfy6uLxlaIIxRFyx52Ja', NULL, NULL, '2024-10-03 19:43:23', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -257,13 +252,6 @@ ALTER TABLE `productos`
   ADD KEY `categoria` (`id_categoria`);
 
 --
--- Indices de la tabla `productos_imgs`
---
-ALTER TABLE `productos_imgs`
-  ADD PRIMARY KEY (`id_pro_img`),
-  ADD KEY `product_id` (`id_producto`);
-
---
 -- Indices de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
@@ -311,7 +299,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias_inv`
@@ -335,7 +323,7 @@ ALTER TABLE `inventario`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
@@ -390,12 +378,6 @@ ALTER TABLE `inventario`
 --
 ALTER TABLE `productos`
   ADD CONSTRAINT `categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `productos_imgs`
---
-ALTER TABLE `productos_imgs`
-  ADD CONSTRAINT `producto imagenes` FOREIGN KEY (`id_pro_img`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `recompensas_obt`
