@@ -27,10 +27,27 @@ exports.mostrarCuentaClientesUltimoMes = (req, res) => {
 exports.borrarCliente = (req, res) => {
     const id = req.params.id;
 
-    db.query('DELETE FROM usuarios WHERE id_user = ?', [id], (err, results) => {
+    db.query('UPDATE usuarios SET user_estado = 0  WHERE id_user = ?', [id], (err, results) => {
         if (err) {
             console.log(err);
             return res.status(500).send('Error en el servidor');
+
+        }
+        else {
+            return res.status(200).send('Cliente eliminado exitosamente');
+        }
+    });
+}
+
+
+exports.restaurarCliente = (req, res) => {
+    const id = req.params.id;
+
+    db.query('UPDATE usuarios SET user_estado = 1  WHERE id_user = ?', [id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+
         }
         else {
             return res.status(200).send('Cliente eliminado exitosamente');
