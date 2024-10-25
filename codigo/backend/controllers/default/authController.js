@@ -40,7 +40,7 @@ exports.ingresar = (req, res) => {
         // Verificar la contraseña
         if (bcrypt.compareSync(password, user.user_pass)) {
             // Si la contraseña es correcta, generar el token JWT
-            const token = jwt.sign({ id: user.id_user, rol: user.id_rol }, secret, { expiresIn: '1h' });
+            const token = jwt.sign({ id: user.id_user, rol: user.id_rol }, secret);
 
             // Enviar el token y el rol de usuario
             return res.status(200).json({ token, rol: user.id_rol, email: user.user_email, id_user: user.id_user, nombres: user.user_nom, apellidos: user.user_apels });

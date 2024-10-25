@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Scrollbar } from 'swiper/modules'
+import moment from 'moment';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import uniqid from 'uniquid';
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import '../../styles/style.css'
-import axios from 'axios';
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Pedidos() {
   // Uso de useState para los modales
@@ -14,7 +18,6 @@ export default function Pedidos() {
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
 
-  const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
   const [inputs, setInputs] = useState({
     received: 0
   })
@@ -22,7 +25,11 @@ export default function Pedidos() {
   const [venta, setVenta] = useState([]);
   const [activeInput, setActiveInput] = useState('received');
   const [searchTerm, setSearchTerms] = useState('');
-  const [userSelect, setUserSelect] = useState('Seleccione usuario');
+  const [userSelect, setUserSelect] = useState({
+    id_user: 0,
+    user_nom: '',
+    user_apels: '',
+  });
   const [idCategoria, setIdCategoria] = useState(null);
 
   // Traer datos
@@ -30,6 +37,8 @@ export default function Pedidos() {
   const [categorias, setCategorias] = useState([]);
   const [mostrarProductos, setMostrarProductos] = useState([]);
   const [mostrarClientes, setMostrarClientes] = useState([]);
+  const [metodoPago, setMetodoPago] = useState('Efectivo');
+
 
   const navigate = useNavigate();
 
@@ -113,7 +122,12 @@ export default function Pedidos() {
   }
 
   const handleAddClient = (cliente) => {
-    setUserSelect(cliente.user_nom + ' ' + cliente.user_apels);
+    setUserSelect({
+      ...userSelect,
+      id_user: cliente.id_user,
+      user_nom: cliente.user_nom,
+      user_apels: cliente.user_apels
+    });
   }
 
   // Funcion para la venta de productos
@@ -125,6 +139,7 @@ export default function Pedidos() {
       setVenta([...venta, { ...producto, cantidad: cantidad, total: totalPrecioProductos() }]);
     }
   }
+
 
   function actualizarCantidad(id_producto, incremento) {
     setVenta(venta.map(producto =>
@@ -148,10 +163,45 @@ export default function Pedidos() {
     setVenta(updatedItems);
   }
 
+  const [ventaInfo, setVentaInfo] = useState({
+    fecha: moment().format("YYYY-MM-DD HH:mm:ss"),
+    metodo_pago: '',
+    id_user: 0,
+    total: 0
+  });
+
+  const handleChange = () => {
+
+    const updatedInfo = {
+      fecha: moment().format("YYYY-MM-DD HH:mm:ss"),
+      metodo_pago: metodoPago,
+      id_user: userSelect.id_user,
+      total: totalPrecioProductos()
+    };
+    setVentaInfo(updatedInfo);
+    return updatedInfo;
+  };
+
+  const handleSubmit = async () => {
+    const updatedVentaInfo = handleChange();
+    console.log(updatedVentaInfo);
+    try {
+      const res = await axios.post(`${BACKEND_URL}/api/ventas/crear`, updatedVentaInfo);
+      if (res.status === 200) {
+        Swal.fire('Pedido realizado', res.data, 'success');
+        setIsDataUpdated(true);
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        Swal.fire('Error', error.response.data, 'error');
+      }
+    }
+  };
+
   return (
     <div className=''>
       <div className='container d-block d-sm-flex d-md-flex'>
-
         <h1 className="mt-3 mt-sm-5">Pedidos</h1>
         <Swiper
           slidesPerView={4}
@@ -184,7 +234,7 @@ export default function Pedidos() {
           })}
         </Swiper>
       </div>
-      <div className='containe p-3 mt-4'>
+      <div className='container p-3 mt-4'>
         <div className='row'>
           <div className='col'>
             <div className="row row-cols-1 row-cols-md-2 g-2 pt-2">
@@ -206,7 +256,7 @@ export default function Pedidos() {
           <div className="col">
             <div className="row">
               <div className='d-flex justify-content-between align-items-center'>
-                <h5>{userSelect}</h5>
+                <h5>{userSelect.user_nom + " " + userSelect.user_apels}</h5>
                 <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddClient">
                   <i className="bi bi-plus-circle">  Añadir cliente</i>
                 </button>
@@ -280,7 +330,6 @@ export default function Pedidos() {
                             <th scope="col">Eliminar</th>
                           </tr>
                         </thead>
-
                         <tbody>
                           {/* Venta */}
                           {venta.map((product) => {
@@ -323,13 +372,12 @@ export default function Pedidos() {
                               <div className="col pt-3">
                                 {/*Select sobre el tipo de pago*/}
                                 <h3 className='text-start pb-2 ms-3'>Método de pago</h3>
-                                <select className='form-select form-select-sm w-75 fs-5 ms-3' aria-label='Small'>
-                                  <option selected>Efectivo</option>
-                                  <option value='1'>Tarjeta</option>
-                                  <option value='2'>Credito</option>
-                                  <option value='3'>Debito</option>
+                                <select onChange={(e) => setMetodoPago(e.target.value)} className='form-select form-select-sm w-75 fs-5 ms-3' aria-label='Small'>
+                                  <option selected value='Efectivo'>Efectivo</option>
+                                  <option value='Tarjeta'>Tarjeta</option>
+                                  <option value='Nequi'>Nequi</option>
+                                  <option value='David palta'>Daviplata</option>
                                 </select>
-
                                 {/*Botones de Cantidad de precio*/}
                                 <div className='col pt-5 pb-3 justify-content-start text-start'>
                                   <div className='pt-3 ms-3'>
@@ -411,7 +459,7 @@ export default function Pedidos() {
                           </div>
                           <div className="modal-footer">
                             <button type="button" className="btn btn-danger" onClick={() => setShowModalSale(false)}>Cerrar</button>
-                            <button type="button" className="btn btn-success" onClick={() => { setShowModalConfirm(true); setShowModalSale(false) }}>Realizar venta</button>
+                            <button type="button" className="btn btn-success" onClick={() => { setShowModalConfirm(true); setShowModalSale(false); handleSubmit(); }}>Realizar venta</button>
                           </div>
                         </div>
                       </div>
@@ -465,7 +513,6 @@ export default function Pedidos() {
                                   <h1 className='pb-4'>Recibido: $ {formatNumber(inputs.received)}</h1>
                                   <h1 className=''>Cambio: $ {formatNumber(parseNumber(inputs.received) - totalPrecioProductos())}</h1>
                                 </div>
-
                               </div>
                             </div>
                           </div>

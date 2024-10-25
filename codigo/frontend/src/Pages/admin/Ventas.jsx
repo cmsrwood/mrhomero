@@ -15,38 +15,7 @@ export default function Ventas() {
         <td>20%</td>
         <td>30.000</td>
         <td>
-          <div className="d-flex ">
-            <button type="button" className="btn btn-warning me-3" data-bs-toggle="modal" data-bs-target="#Modal"><i className="bi bi-pencil-square"></i> </button>
-            {/* Modal para editar venta */}
-            <div className="modal fade" id="Modal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h1 className="modal-title fs-5" id="exampleModalLabel">Editar venta</h1>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div className="modal-body">
-                    <label htmlFor="floatingInput">Productos</label>
-                    <input type="text" className="form-control my-2" placeholder="Productos" aria-label="Username" aria-describedby="basic-addon1"></input>
-                    <label htmlFor="floatingInput">Descuento</label>
-                    <input type="text" className="form-control my-2" placeholder="Descuento" aria-label="Username" aria-describedby="basic-addon1"></input>
-                    <label htmlFor="floatingInput">Valor</label>
-                    <input type="text" className="form-control my-2" placeholder="Valor" aria-label="Username" aria-describedby="basic-addon1"></input>
-                  </div>
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" className="btn btn-warning" onClick={() => {
-                      Swal.fire({
-                        title: 'Venta editada',
-                        text: 'La venta fue editada correctamente.',
-                        icon: 'success',
-                        confirmButtonText: 'Hecho'
-                      })
-                    }}>Confirmar</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="d-flex ">            
             {/* Alerta para eliminar venta */}
             <button type="button" className="btn btn-danger" onClick={() => {
               Swal.fire({
@@ -97,7 +66,7 @@ export default function Ventas() {
               <th scope="col">Cliente</th>
               <th scope="col">Descuento</th>
               <th scope="col">Valor</th>
-              <th scope="col">Editar</th>
+              <th scope="col">Eliminar</th>
             </tr>
           </thead>
           <tbody>

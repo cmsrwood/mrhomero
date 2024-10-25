@@ -8,6 +8,7 @@ const clientesRoutes = require('./routes/clientes');
 const menuRoutes = require('./routes/menu');
 const proveedoresRoutes = require('./routes/proveedores');
 const productosRoutes = require('./routes/productos');
+const ventasRoutes = require('./routes/ventas');
 
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 const port = process.env.PORT || 4400;
@@ -33,6 +34,7 @@ app.use('/api/clientes', clientesRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/proveedores', proveedoresRoutes);
 app.use('/api/productos', productosRoutes);
+app.use('/api/ventas', ventasRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
