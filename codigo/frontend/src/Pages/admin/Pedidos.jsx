@@ -19,7 +19,7 @@ export default function Pedidos() {
   const [isDataUpdated, setIsDataUpdated] = useState(false);
 
   const [inputs, setInputs] = useState({
-    received: 0
+    received: ''
   })
 
   const [venta, setVenta] = useState([]);
@@ -183,21 +183,72 @@ export default function Pedidos() {
   };
 
   const handleSubmit = async () => {
-    const updatedVentaInfo = handleChange();
-    console.log(updatedVentaInfo);
-    try {
-      const res = await axios.post(`${BACKEND_URL}/api/ventas/crear`, updatedVentaInfo);
-      if (res.status === 200) {
-        Swal.fire('Pedido realizado', res.data, 'success');
-        setIsDataUpdated(true);
-      }
-    } catch (error) {
-      console.log(error);
-      if (error.response) {
-        Swal.fire('Error', error.response.data, 'error');
+    if (verificarRecibido() == 'correcto') {
+      const updatedVentaInfo = handleChange();
+      console.log(updatedVentaInfo);
+      try {
+        const res = await axios.post(`${BACKEND_URL}/api/ventas/crear`, updatedVentaInfo);
+        if (res.status === 200) {
+          setIsDataUpdated(true);
+          setShowModalSale(false)
+          setShowModalConfirm(true);
+        }
+      } catch (error) {
+        console.log(error);
+        if (error.response) {
+          Swal.fire('Error', error.response.data, 'error');
+        }
       }
     }
+    else if (verificarRecibido() == 'vacio') {
+      Swal.fire({
+        title: "Debes ingresar cantidad recibida",
+        text: 'La cantidad recibida no puede ser 0',
+        timer: 1000,
+        icon: 'error',
+        showConfirmButton: false
+      })
+    }
+    else if (verificarRecibido() == 'menor') {
+      Swal.fire({
+        title: `La cantidad recibida es menor a ${totalPrecioProductos()}`,
+        text: 'La cantidad recibida no puede ser menor a la de la venta',
+        timer: 1000,
+        icon: 'error',
+        showConfirmButton: false
+      })
+    }
+
   };
+
+  function verificarInformacionVenta() {
+    if (venta.length == []) {
+      Swal.fire({
+        title: "El pedido está vacio",
+        text: 'Agrega al menos 1 producto',
+        timer: 1000,
+        icon: 'error',
+        showConfirmButton: false
+      })
+    }
+    else {
+      setShowModalSale(true)
+    }
+  }
+
+  function verificarRecibido() {
+    if (parseNumber(formatNumber(inputs.received)) <= 0) {
+      console.log('Cantidad recibida:', parseNumber(inputs.received))
+      return 'vacio';
+    }
+    else if (parseNumber(inputs.received) <= totalPrecioProductos()) {
+      console.log('Cantidad recibida:', parseNumber(inputs.received))
+      return 'menor';
+    }
+    else {
+      return 'correcto';
+    }
+  }
 
   return (
     <div className=''>
@@ -256,7 +307,7 @@ export default function Pedidos() {
           <div className="col">
             <div className="row">
               <div className='d-flex justify-content-between align-items-center'>
-                <h5>{userSelect.user_nom + " " + userSelect.user_apels}</h5>
+                <h5>{userSelect.user_nom ? userSelect.user_nom + " " + userSelect.user_apels : "Cliente sin cuenta"}</h5>
                 <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddClient">
                   <i className="bi bi-plus-circle">  Añadir cliente</i>
                 </button>
@@ -355,7 +406,7 @@ export default function Pedidos() {
               </div>
               <div className="container text-center">
                 <h3 className='text-end p-3'>Total: {formatNumber(totalPrecioProductos())}</h3>
-                <button type='button' className='btn btn-success w-50 ms-auto p-2' data-bs-toggle="modal" data-bs-target="#modalSale" onClick={() => setShowModalSale(true)}><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
+                <button type='button' className='btn btn-success w-50 ms-auto p-2' data-bs-toggle="modal" data-bs-target="#modalSale" onClick={() => verificarInformacionVenta()}><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
                 {/* Modal realizar venta */}
                 {showModalSale && (
                   <div className="modal show d-block" id="modalSale" tabIndex="-1" role="dialog">
@@ -459,7 +510,7 @@ export default function Pedidos() {
                           </div>
                           <div className="modal-footer">
                             <button type="button" className="btn btn-danger" onClick={() => setShowModalSale(false)}>Cerrar</button>
-                            <button type="button" className="btn btn-success" onClick={() => { setShowModalConfirm(true); setShowModalSale(false); handleSubmit(); }}>Realizar venta</button>
+                            <button type="button" className="btn btn-success" onClick={() => { handleSubmit(); }}>Realizar venta</button>
                           </div>
                         </div>
                       </div>
@@ -472,7 +523,7 @@ export default function Pedidos() {
                     <div className="modal-dialog modal-xl" onClick={e => e.stopPropagation()}>
                       <div className="modal-content" >
                         <div className="modal-header">
-                          <h1 className="modal-title fs-4 text-success" id="ModalConfirmLabel">Pedido #999 realizado <i className="bi bi-bag-check text-success"></i></h1>
+                          <h1 className="modal-title fs-4 text-success" id="ModalConfirmLabel">Pedido realizado <i className="bi bi-bag-check text-success"></i></h1>
                           <button type="button" className="btn-close" onClick={() => setShowModalConfirm(false)}></button>
                         </div>
                         <div className="modal-body">
