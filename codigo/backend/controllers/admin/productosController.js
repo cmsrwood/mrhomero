@@ -30,9 +30,23 @@ const eliminarImagenProducto = async (image) => {
     }
 };
 
-// Mostrar todos los productos
+//Mostrar todos los productos
 
 exports.mostrarProductos = (req, res) => {
+    const q = "SELECT * FROM productos";
+    db.query(q, (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send(results);
+        }
+    });
+};
+
+// Mostrar todos los productos por categoria
+
+exports.mostrarProductosPorcategoria = (req, res) => {
     const id = req.params.id;
     const q = "SELECT * FROM productos where id_categoria = ?";
     db.query(q, [id], (err, results) => {
@@ -133,13 +147,13 @@ exports.actualizarProducto = (req, res) => {
     const file = req.file;
     console.log(file)
     const nombre = req.body.nombre || null;
-    console.log (nombre)
+    console.log(nombre)
     const descripcion = req.body.descripcion || null;
-    console.log (descripcion)
+    console.log(descripcion)
     const precio = req.body.precio || null;
-    console.log (precio)
+    console.log(precio)
     const puntos = req.body.puntos || null;
-    console.log (puntos)
+    console.log(puntos)
 
     const qSelect = "SELECT * FROM productos WHERE id_producto = ?";
 

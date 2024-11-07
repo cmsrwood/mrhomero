@@ -9,7 +9,8 @@ exports.mostrarVentas = (req, res) => {
             DATE_FORMAT(venta_fecha, '%Y-%m-%d') AS venta_fecha, 
             id_user, 
             venta_metodo_pago, 
-            venta_total
+            venta_total,
+            venta_estado
         FROM ventas
     `, (err, results) => {
         if (err) {
@@ -22,7 +23,7 @@ exports.mostrarVentas = (req, res) => {
 };
 
 exports.mostrarDetalleVenta = (req, res) => {
-    db.query(`SELECT * from detalle_venta where id_detalle = ${req.params.id}`, (err, results) => {
+    db.query(`SELECT * from detalle_ventas where id_venta = '${req.params.id}'`, (err, results) => {
         if (err) {
             console.log(err);
             return res.status(500).send('Error en el servidor');
@@ -57,16 +58,31 @@ exports.crearVenta = (req, res) => {
 }
 
 exports.borrarVenta = (req, res) => {
-
     const id = req.params.id;
 
-    db.query('DELETE FROM ventas WHERE id_venta = ?', [id], (err, results) => {
+    db.query('UPDATE ventas SET venta_estado = 0  WHERE id_venta = ?', [id], (err, results) => {
         if (err) {
             console.log(err);
             return res.status(500).send('Error en el servidor');
+
         }
         else {
             return res.status(200).send('Venta eliminada exitosamente');
+        }
+    });
+}
+
+exports.restaurarVenta = (req, res) => {
+    const id = req.params.id;
+
+    db.query('UPDATE ventas SET venta_estado = 1  WHERE id_venta = ?', [id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+
+        }
+        else {
+            return res.status(200).send('Venta restaurada exitosamente');
         }
     });
 }
