@@ -57,21 +57,44 @@ export default function RecompensasAdmin() {
 
 
     try {
-      await axios.post(`${BACKEND_URL}/api/recompensas/crearRecompensa`, formData);
+      const res = await axios.post(`${BACKEND_URL}/api/recompensas/crearRecompensa`, formData);
       Swal.fire('Exito', 'Recompensa agregada correctamente', 'success');
-      setRecompensa({
-        nombre: '',
-        descripcion: '',
-        puntos: '',
-        foto: null
-      });
+      if (res.status === 200) {
+        setIsDataUpdated(true);
+        setRecompensa({
+          nombre: '',
+          descripcion: '',
+          puntos: '',
+          foto: null
+        });
+      }
 
       setIsDataUpdated(true); // Actualiza el estado para volver a cargar los datos
     } catch (error) {
       console.log(error);
       Swal.fire('Error', error.response.data, 'error');
     }
+
+    const modalElement = document.getElementById('client_add');
+    let modalInstance = bootstrap.Modal.getInstance(modalElement);
+    modalInstance.hide();
   }
+
+    //Previsualizar imagen
+    // const [image, setImage] = useState(null);
+    // const handleChangeImage = (e) => {
+    //   const file = e.target.files[0];
+    //   if(file) {
+    //     setImage(URL.createObjectURL(file));
+    //   }
+    // };
+
+    // useEffect(() => {
+    //   return () => {
+    //     if (image) URL.revokeObjectURL(image);
+    //   }
+    // })
+  
 
   return (
     <div className=''>
@@ -90,22 +113,22 @@ export default function RecompensasAdmin() {
                 <div className="container">
                   <div className="row">
                     <div className="col-3 m-3 ps-3 pt-2">
-                      <img src={img} height={250} className='card-img-center border' alt="..." />
+                      <img src={img} height={200} width={280} className='card-img-center border mb-4' alt="..." />
                       <input className='form-control' onChange={handleFileChange} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
                     </div>
-                    <div className="col">
+                    <div className="col ms-3">
                       <label htmlFor="floatingInput">Nombre</label>
-                      <input type="text" name='nombre' onChange={handleInputChange} className="form-control my-2" placeholder="Nombre" />
+                      <input type="text" name='nombre' onChange={handleInputChange} className="form-control my-2" placeholder="Nombre" value={recompensa.nombre}/>
                       <label htmlFor="floatingInput">Puntos</label>
-                      <input type="text" name='puntos' onChange={handleInputChange} className="form-control my-2" placeholder="Puntos" />
+                      <input type="text" name='puntos' onChange={handleInputChange} className="form-control my-2" placeholder="Puntos" value={recompensa.puntos} />
                       <label htmlFor="floatingInput">Descripcion</label>
-                      <textarea type="text" name='descripcion' onChange={handleInputChange} className="form-control my-2" placeholder="Descripción" id="floatingTextarea"></textarea>
+                      <textarea type="text" name='descripcion' onChange={handleInputChange} className="form-control my-2" placeholder="Descripción" id="floatingTextarea" value={recompensa.descripcion}></textarea>
                     </div>
                   </div>
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-circle"></i></button>
-                  <button type="button" className="btn btn-success" onClick={handleSubmit}><i className="bi bi-check-circle"></i></button>
+                  <button type="submit" className="btn btn-success" onClick={handleSubmit}><i className="bi bi-check-circle"></i></button>
                 </div>
               </div>
             </div>
