@@ -2,7 +2,13 @@ const db = require('../../config/db');
 
 exports.mostrarEmpleados = (req, res) => {
 
-    db.query('SELECT * FROM usuarios WHERE id_rol = 2', (err, results) => {
+    db.query( `SELECT 
+            id_user,
+            user_nom,
+            user_apels,
+            user_email,
+            user_tel,
+            DATE_FORMAT(user_fecha_registro, '%Y-%m-%d') AS user_fecha_registro FROM usuarios WHERE id_rol = 2`, (err, results) => {
 
         if (err) {
             console.log(err);
@@ -43,3 +49,47 @@ exports.asignarRol = (req, res) => {
         }
     });
 }
+exports.EditarEmpleado = (req, res) => {
+    const nombre = req.body.emp_nom_edit;
+    const apellidos = req.body.emp_apellidos_edit;
+    const correo = req.body.emp_email_edit;
+    const telefono = req.body.emp_tel_edit;
+    const fecha = req.body.emp_fecha_ingreso;
+
+    db.query('SELECT * FROM usuarios WHERE user_email = ?', [correo], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        }
+        if (results.length < 0) {
+            return res.status(400).send('El usuario no existe');
+        }
+        else {
+            if (!nombre || !apellidos || !correo || !telefono || !fecha) {
+                return res.status(400).send('Todos los campos son obligatorios');
+            }
+            db.query("UPDATE usuarios SET id_rol = 2, user_nom = ?, user_apels = ?, user_email = ?, user_tel = ?, user_fecha_registro = ? WHERE user_email = ?", [nombre, apellidos, correo, telefono, fecha, correo], (err) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send('Error en el servidor');
+                } else {
+                    return res.status(200).send('Empleado creado exitosamente');
+                }
+            });
+        }
+    });
+}
+exports.EliminarEmpleado = (req, res) => {
+    const id = req.params.id;
+    db.query('UPDATE usuarios SET id_rol = 3  WHERE id_user = ?', [id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+
+        }
+        else {
+            return res.status(200).send('Cliente eliminado exitosamente');
+        }
+    });
+}
+

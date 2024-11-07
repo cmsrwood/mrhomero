@@ -5,6 +5,8 @@ const empController = require('../controllers/admin/empController');
 // Controladores de autenticación
 router.get('/mostrarEmpleados', empController.mostrarEmpleados);
 router.put('/crearEmpleado', empController.asignarRol);
+router.put('/actualizarEmpleado/:id', empController.EditarEmpleado);
+router.put('/borrarEmpleado/:id', empController.EliminarEmpleado);
 
 
 module.exports = router
