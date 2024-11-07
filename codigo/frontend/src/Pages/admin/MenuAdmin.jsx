@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
-import NavegacionAdmin from '../../navigation/NavegacionAdmin';
 import axios from 'axios';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
