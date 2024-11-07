@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2024 a las 02:54:42
+-- Tiempo de generación: 07-11-2024 a las 03:25:25
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -134,7 +134,8 @@ CREATE TABLE `proveedores` (
 
 CREATE TABLE `recompensas` (
   `id_recomp` int(11) NOT NULL,
-  `recompensa` varchar(255) NOT NULL,
+  `recompensa_nombre` varchar(255) NOT NULL,
+  `recompensa_descripcion` varchar(255) NOT NULL,
   `recomp_num_puntos` int(11) NOT NULL,
   `recomp_foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -199,9 +200,9 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `user_fecha_registro`, `id_rol`, `user_estado`) VALUES
 (1, 'admin', 'admin', 'admin@gmail.com', NULL, 0, NULL, '$2a$10$ryatX/igKMkGPSkbfq8s4e5lRevbYJhh1g25cajrc82xgDku4csG2', NULL, NULL, '2024-10-03 19:40:47', 1, 0),
-(2, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$nIXpxd3AQdOvYUMAfHDc5.JLn6vPen5cVJdXVTcnpBWY8k6k7cB2.', NULL, NULL, '2024-10-03 19:42:26', 3, 0),
-(3, 'Bryam', 'Castañeda Cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$qOzxrB0nP7fXMiZfMf/HauFihRmIDijfE5P9Ky4i5nh..JsMkt/3i', NULL, NULL, '2024-10-03 19:42:50', 3, 0),
-(4, 'Johan Sebastian', 'Muñoz Contreras', 'sebastianmc@gmail.com', NULL, 0, NULL, '$2a$10$IzZaYGl2ZLZAEdiGEtAM6.4.luREWPjnusfy6uLxlaIIxRFyx52Ja', NULL, NULL, '2024-10-03 19:43:23', 3, 0);
+(2, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$nIXpxd3AQdOvYUMAfHDc5.JLn6vPen5cVJdXVTcnpBWY8k6k7cB2.', NULL, NULL, '2024-10-03 19:42:26', 3, 1),
+(3, 'Bryam', 'Castañeda Cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$qOzxrB0nP7fXMiZfMf/HauFihRmIDijfE5P9Ky4i5nh..JsMkt/3i', NULL, NULL, '2024-10-03 19:42:50', 3, 1),
+(4, 'Johan Sebastian', 'Muñoz Contreras', 'sebastianmc@gmail.com', NULL, 0, NULL, '$2a$10$IzZaYGl2ZLZAEdiGEtAM6.4.luREWPjnusfy6uLxlaIIxRFyx52Ja', NULL, NULL, '2024-10-03 19:43:23', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -214,7 +215,8 @@ CREATE TABLE `ventas` (
   `venta_fecha` datetime NOT NULL,
   `id_user` int(11) DEFAULT NULL,
   `venta_metodo_pago` varchar(255) NOT NULL,
-  `venta_total` int(11) NOT NULL
+  `venta_total` int(11) NOT NULL,
+  `venta_estado` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
