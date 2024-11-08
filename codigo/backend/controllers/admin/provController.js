@@ -79,7 +79,6 @@ exports.actualizarProveedor = (req, res) => {
                     return res.status(200).send('Proveedor actualizado exitosamente');
                 }
             });
-
         }
     });
 }
