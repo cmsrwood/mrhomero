@@ -4,6 +4,7 @@ import Loader from "./components/Loader";
 import Producto from "./components/Producto";
 import RutaPrivada from "./components/RutaPrivada";
 import AdminLayout from "./components/AdminLayout";
+import RutaPublica from "./components/RutaPublica";
 
 const Error = lazy(() => import("./components/Error"));
 // Importar las rutas para el default
@@ -44,15 +45,17 @@ function App() {
         <Suspense fallback={<Loader />}>
           <Routes>
             {/* Rutas para el default */}
-            <Route exact path='/' element={<IndexDefault />}></Route>
-            <Route path='/nosotros' element={<Nosotros />}></Route>
-            <Route path='/registrar' element={<Registrar />}></Route>
-            <Route path='/ingresar' element={<Ingresar />}></Route>
-            <Route path='/menu' element={<MenuDefault />}></Route>
-            <Route path="/menu/:nombre"></Route>
-            <Route path="/recuperar" element={<Recuperar />}></Route>
-            <Route path="/emailRecuperar" element={<EmailRecuperar />}></Route>
-            <Route path="/loader" element={<Loader />}></Route>
+            <Route element={<RutaPublica />}>
+              <Route exact path='/' element={<IndexDefault />}></Route>
+              <Route path='/nosotros' element={<Nosotros />}></Route>
+              <Route path='/registrar' element={<Registrar />}></Route>
+              <Route path='/ingresar' element={<Ingresar />}></Route>
+              <Route path='/menu' element={<MenuDefault />}></Route>
+              <Route path="/menu/:nombre"></Route>
+              <Route path="/recuperar" element={<Recuperar />}></Route>
+              <Route path="/emailRecuperar" element={<EmailRecuperar />}></Route>
+              <Route path="/loader" element={<Loader />}></Route>
+            </Route>
 
             {/* Rutas para el admin */}
             <Route element={<RutaPrivada requiredRole={1} />}>

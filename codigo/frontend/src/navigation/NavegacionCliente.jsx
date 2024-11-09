@@ -1,23 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
-// import logo from './img/logo.png';
+import Swal from 'sweetalert2';
 
 export default function NavegacionCliente() {
   const location = useLocation();
   const ruta = location.pathname.split("/")[2];
 
-  function tema() {
-    var index = document.getElementById('html');
-    var icon = document.getElementById('botont');
-    if (index.getAttribute("data-bs-theme") === "light") {
-      index.setAttribute("data-bs-theme", "dark");
-      icon.setAttribute("class", "bi bi-moon-fill")
-    }
-    else {
-      index.setAttribute("data-bs-theme", "light");
-      icon.setAttribute("class", "bi bi-sun-fill")
-    }
+  const cerrarSesion = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/ingresar';
+  };
+
+  const temaInicial = localStorage.getItem('tema') || 'dark';
+  const [tema, setTema] = useState(temaInicial);
+
+  const ToastTema = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+
+  useEffect(() => {
+    const index = document.documentElement;
+    index.setAttribute('data-bs-theme', tema);
+  }, []);
+
+  useEffect(() => {
+    const index = document.documentElement;
+    localStorage.setItem('tema', tema);
+    index.setAttribute('data-bs-theme', tema);
+  }, [tema]);
+
+  function cambiarTema() {
+    const nuevoTema = tema === 'light' ? 'dark' : 'light';
+    setTema(nuevoTema);
+    ToastTema.fire({
+      title: `Tema cambiado a ${nuevoTema}`,
+      icon: 'success'
+    });
   }
 
   function rutaActiva(link) {
@@ -40,16 +62,16 @@ export default function NavegacionCliente() {
           <Link className={`nav-link mx-2 homero-font ${rutaActiva('recompensas')} fs-5`} to="/cliente/recompensas"><i className="bi bi-gift me-1"></i>Recompensas</Link>
           <Link className={`nav-link mx-2 homero-font ${rutaActiva('miscompras')} fs-5`} to="/cliente/miscompras"><i className="bi bi-clock-history me-1"></i>Mis compras</Link>
           <div className="dropdown me-1 pe-5">
-            <button className="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i className="bi bi-person-square "></i>
             </button>
             <ul className="dropdown-menu">
               <li><Link className="dropdown-item" to="/cliente/perfil">Mi perfil</Link></li>
               <li><Link className="dropdown-item" to="#">Configuración</Link></li>
-              <li><Link className="dropdown-item text-danger" to="#"><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
+              <li><Link className="dropdown-item text-danger" to="#" onClick={cerrarSesion}><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
             </ul>
           </div>
-          <button className='btn' onClick={tema}><i id="botont" className='bi bi-moon-fill'></i></button>
+          <button className='btn' onClick={cambiarTema} ><i id="botont" className={`bi bi-${tema === 'light' ? 'sun-fill' : 'moon-fill'}`}></i></button>
         </div>
       </div>
     </nav>

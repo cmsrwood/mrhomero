@@ -120,7 +120,7 @@ export default function NavegacionAdmin() {
                                 <li><Link className="dropdown-item text-danger" to="#" onClick={cerrarSesion}><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
                             </ul>
                         </div>
-                        <button className='btn' onClick={cambiarTema} ><i id="botont" className='bi bi-moon-fill text-white'></i></button>
+                        <button className='btn' onClick={cambiarTema} ><i id="botont" className={`bi bi-${tema === 'light' ? 'sun-fill' : 'moon-fill'} text-white`} ></i></button>
                     </div>
                 </div>
             </nav>
