@@ -1,56 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import useTema from '../hooks/useTema';
+import useCerrarSesion from '../hooks/useCerrarSesion';
 
 export default function NavegacionCliente() {
   const location = useLocation();
   const ruta = location.pathname.split("/")[2];
-
-  const cerrarSesion = () => {
-    localStorage.removeItem('token');
-    window.location.href = '/ingresar';
-  };
-
-  const temaInicial = localStorage.getItem('tema') || 'dark';
-  const [tema, setTema] = useState(temaInicial);
-
-  const ToastTema = Swal.mixin({
-    toast: true,
-    position: "bottom-end",
-    showConfirmButton: false,
-    timer: 1500,
-  });
-
-  useEffect(() => {
-    const index = document.documentElement;
-    index.setAttribute('data-bs-theme', tema);
-  }, []);
-
-  useEffect(() => {
-    const index = document.documentElement;
-    localStorage.setItem('tema', tema);
-    index.setAttribute('data-bs-theme', tema);
-  }, [tema]);
-
-  function cambiarTema() {
-    const nuevoTema = tema === 'light' ? 'dark' : 'light';
-    setTema(nuevoTema);
-    ToastTema.fire({
-      title: `Tema cambiado a ${nuevoTema}`,
-      icon: 'success'
-    });
-  }
+  const { tema, cambiarTema } = useTema();
+  const cerrarSesion = useCerrarSesion();
 
   function rutaActiva(link) {
-    if (ruta === link) {
-      return "text-warning"
-    }
+    return ruta === link ? "text-warning" : "";
   }
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary shadow mb-5">
       <div className="container-fluid">
-        <Link className="navbar-brand  text-warning fs-3 ps-2 homero-font" to="/admin/">Mr. Homero</Link>
+        <Link className="navbar-brand text-warning fs-3 ps-2 homero-font" to="/admin/">Mr. Homero</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -71,7 +38,7 @@ export default function NavegacionCliente() {
               <li><Link className="dropdown-item text-danger" to="#" onClick={cerrarSesion}><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
             </ul>
           </div>
-          <button className='btn' onClick={cambiarTema} ><i id="botont" className={`bi bi-${tema === 'light' ? 'sun-fill' : 'moon-fill'}`}></i></button>
+          <button className='btn' onClick={cambiarTema}><i id="botont" className={`bi bi-${tema === 'light' ? 'sun-fill' : 'moon-fill'}`}></i></button>
         </div>
       </div>
     </nav>

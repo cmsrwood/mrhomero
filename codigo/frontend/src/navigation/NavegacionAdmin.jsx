@@ -1,51 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import Swal from 'sweetalert2'
-import axios from 'axios';
+import useTema from '../hooks/useTema';
+import useCerrarSesion from '../hooks/useCerrarSesion';
 
 export default function NavegacionAdmin() {
-
-    const cerrarSesion = () => {
-        localStorage.removeItem('token');
-        window.location.href = '/ingresar';
-    };
-
-    const temaInicial = localStorage.getItem('tema') || 'dark';
-    const [tema, setTema] = useState(temaInicial);
-
-    const ToastTema = Swal.mixin({
-        toast: true,
-        position: "bottom-end",
-        showConfirmButton: false,
-        timer: 1500,
-    });
-
-    useEffect(() => {
-        const index = document.documentElement;
-        index.setAttribute('data-bs-theme', tema);
-    }, []);
-
-    useEffect(() => {
-        const index = document.documentElement;
-        localStorage.setItem('tema', tema);
-        index.setAttribute('data-bs-theme', tema);
-    }, [tema]);
-
-    function cambiarTema() {
-        const nuevoTema = tema === 'light' ? 'dark' : 'light';
-        setTema(nuevoTema);
-        ToastTema.fire({
-            title: `Tema cambiado a ${nuevoTema}`,
-            icon: 'success'
-        });
-    }
+    const { tema, cambiarTema } = useTema();
+    const cerrarSesion = useCerrarSesion();
 
     const location = useLocation();
     const ruta = location.pathname.split("/")[2];
+
     function rutaActiva(link) {
-        if (ruta === link) {
-            return "text-warning";
-        }
+        return ruta === link ? "text-warning" : "";
     }
 
     return (

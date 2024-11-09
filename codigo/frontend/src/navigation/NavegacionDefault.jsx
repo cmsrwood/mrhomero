@@ -1,41 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import useTema from '../hooks/useTema';
 
 export default function NavegacionDefault() {
+
+  const { tema, cambiarTema } = useTema();
   const location = useLocation();
   const ruta = location.pathname.split("/")[1];
-
-  const temaInicial = localStorage.getItem('tema') || 'dark';
-  const [tema, setTema] = useState(temaInicial);
-
-  const ToastTema = Swal.mixin({
-    toast: true,
-    position: "bottom-end",
-    showConfirmButton: false,
-    timer: 1500,
-  });
-
-  useEffect(() => {
-    const index = document.documentElement;
-    index.setAttribute('data-bs-theme', tema);
-  }, []);
-
-  useEffect(() => {
-    const index = document.documentElement;
-    localStorage.setItem('tema', tema);
-    index.setAttribute('data-bs-theme', tema);
-  }, [tema]);
-
-  function cambiarTema() {
-    const nuevoTema = tema === 'light' ? 'dark' : 'light';
-    setTema(nuevoTema);
-    ToastTema.fire({
-      title: `Tema cambiado a ${nuevoTema}`,
-      icon: 'success'
-    });
-  }
 
   function rutaActiva(link) {
     return ruta === link ? "text-warning" : "";
@@ -58,9 +30,7 @@ export default function NavegacionDefault() {
           </Link>
           <Link className={`nav-link mx-2 ${rutaActiva('registrar')} fs-5`} to="/registrar">Crear mi cuenta</Link>
           <Link className={`nav-link mx-2 ${rutaActiva('ingresar')} fs-5`} to="/ingresar">Ingresar</Link>
-          <button className='btn' onClick={cambiarTema}>
-            <i className={`bi ${tema === 'light' ? 'bi-sun-fill' : 'bi-moon-fill'}`}></i>
-          </button>
+          <button className='btn' onClick={cambiarTema} ><i id="botont" className={`bi bi-${tema === 'light' ? 'sun-fill' : 'moon-fill'}`} ></i></button>
         </div>
       </div>
     </nav>
