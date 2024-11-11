@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { NumericFormat } from 'react-number-format';
 import Swal from 'sweetalert2';
@@ -94,13 +94,34 @@ export default function Categoria() {
       const res = await axios.post(`${BACKEND_URL}/api/productos/crearProducto`, formData);
       if (res.status === 200) {
         Swal.fire('Producto creado', res.data, 'success');
+        setProductoSubir({
+          id_categoria: categoriaId,
+          nombre: '',
+          descripcion: '',
+          precio: '',
+          puntos: '',
+          imagen: null
+        })
+        const modalElement = document.getElementById('AñadirModal');
+        let modalInstance = bootstrap.Modal.getInstance(modalElement);
+        // Cerrar el modal
+        modalInstance.hide();
         setIsDataUpdated(true);
       }
     } catch (error) {
       console.log(error);
-      Swal.fire('Error', error.response.data, 'error');
+      Swal.fire(error.response.data.title, error.response.data.message, 'error');
     }
+    resetFoto();
   };
+
+  //useREf para limpiar el input de la imagen 
+  const fileInputRef = useRef(null);
+
+  //Función para resetear el input dela imagen
+  const resetFoto = () => {
+    fileInputRef.current.value = '';
+  }
 
   const [editarProducto, setEditarProducto] = useState({
     id: '',
@@ -181,23 +202,23 @@ export default function Categoria() {
                 <div className="row p-3">
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Imagen</label>
-                    <input onChange={handleFileChange} className='form-control' type="file" accept='image/*' id='imagen' name='imagen' required />
+                    <input ref={fileInputRef} onChange={handleFileChange} className='form-control' type="file" accept='image/*' id='imagen' name='imagen' required />
                   </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Nombre</label>
-                    <input onChange={handleChange} className='form-control' type="text" autoComplete='off' id='nombre' name='nombre' required />
+                    <input value={productoSubir.nombre} onChange={handleChange} className='form-control' type="text" autoComplete='off' id='nombre' name='nombre' required />
                   </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Descripción</label>
-                    <input onChange={handleChange} className='form-control' type="text" autoComplete='off' id='descripcion' name='descripcion' required />
+                    <input value={productoSubir.descripcion} onChange={handleChange} className='form-control' type="text" autoComplete='off' id='descripcion' name='descripcion' required />
                   </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Precio</label>
-                    <input onChange={handleChange} className='form-control' type="number" autoComplete='off' id='precio' name='precio' required min={0} step={50} />
+                    <input value={productoSubir.precio} onChange={handleChange} className='form-control' type="number" autoComplete='off' id='precio' name='precio' required min={0} step={50} />
                   </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Puntos</label>
-                    <input onChange={handleChange} className='form-control' type="number" autoComplete='off' id='puntos' name='puntos' required min={0} step={1} />
+                    <input value={productoSubir.puntos} onChange={handleChange} className='form-control' type="number" autoComplete='off' id='puntos' name='puntos' required min={0} step={1} />
                   </div>
                 </div>
               </div>

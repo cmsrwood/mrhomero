@@ -2,6 +2,7 @@ const db = require('../../config/db');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const { error } = require('console');
 
 //PRODUCTOS
 const storageProductos = multer.diskStorage({
@@ -113,10 +114,10 @@ exports.crearProducto = (req, res) => {
     db.query(verificarNombre, [nombre], (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).send({ error: err, title: 'Error en el servidor', message: 'Intente nuevamente' });
         }
         if (results.length > 0) {
-            return res.status(400).send('El producto ya existe');
+            return res.status(400).send({ error : err, title: 'El producto ya existe', message: 'Cambia el nombre del producto' });
         }
 
         const q = "INSERT INTO productos (`pro_nom`, `pro_desp`, `pro_precio`, `pro_foto`, `pro_puntos`, `id_categoria`) VALUES (?)";
@@ -132,7 +133,7 @@ exports.crearProducto = (req, res) => {
         db.query(q, [values], (err) => {
             if (err) {
                 console.log(err);
-                return res.status(500).send('Error en el servidor');
+                return res.status(500).send({ error: err, title: 'Error en el servidor', message: 'Intente nuevamente' });
             }
 
             return res.status(200).send('El producto se ha creado correctamente');

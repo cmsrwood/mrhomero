@@ -102,7 +102,7 @@ export default function Ingresar() {
   return (
     <div className="vh-100">
       <NavegacionDefault />
-      <div className='container-fluid p-0 p-sm-5 py-0 py-sm-5 text-center wipe-in-down' style={{ width: '85%' }}>
+      <div className='container-fluid p-0 p-sm-5 py-0 py-sm-1 text-center wipe-in-down' style={{ width: '85%' }}>
         {loading ? (
           <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
             <div className="spinner-border text-warning" role="status">
@@ -111,10 +111,9 @@ export default function Ingresar() {
           </div>
         ) : (
           <div className="row">
-            <div className="col-12 col-sm-5 align-content-center align-items-center p-5 shadow-lg">
+            <div className="col-12 col-sm-5 align-content-center align-items-center px-5 py-4 shadow-lg rounded-3">
               <form onSubmit={handleSubmit}>
-                <i className='display-1 bi bi-person-circle'></i>
-                <div className="form-floating my-5">
+                  <div className="form-floating my-5">
                   <input
                     type="email"
                     className="form-control"

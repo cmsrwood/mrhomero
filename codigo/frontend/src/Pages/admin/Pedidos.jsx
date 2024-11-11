@@ -204,7 +204,7 @@ export default function Pedidos() {
       Swal.fire({
         title: "Debes ingresar cantidad recibida",
         text: 'La cantidad recibida no puede ser 0',
-        timer: 1000,
+        timer: 1200,
         icon: 'error',
         showConfirmButton: false
       })
@@ -212,8 +212,8 @@ export default function Pedidos() {
     else if (verificarRecibido() == 'menor') {
       Swal.fire({
         title: `La cantidad recibida es menor a ${totalPrecioProductos()}`,
-        text: 'La cantidad recibida no puede ser menor a la de la venta',
-        timer: 1000,
+        text: `La cantidad recibida es : ${inputs.received}`,
+        timer: 1200,
         icon: 'error',
         showConfirmButton: false
       })
