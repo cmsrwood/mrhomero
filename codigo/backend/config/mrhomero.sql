@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2024 a las 03:25:25
+-- Tiempo de generación: 13-11-2024 a las 04:12:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -62,7 +62,9 @@ CREATE TABLE `detalle_ventas` (
   `id_detalle` int(11) NOT NULL,
   `id_venta` varchar(255) DEFAULT NULL,
   `id_producto` int(11) DEFAULT NULL,
-  `cantidad_productos` int(11) DEFAULT NULL
+  `cantidad_producto` int(11) DEFAULT NULL,
+  `precio_unitario` varchar(255) NOT NULL,
+  `subtotal` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -296,6 +298,7 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_user`),
+  ADD UNIQUE KEY `user_email` (`user_email`),
   ADD KEY `rol` (`id_rol`);
 
 --
@@ -313,7 +316,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias_inv`
@@ -337,7 +340,7 @@ ALTER TABLE `inventario`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
