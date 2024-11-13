@@ -231,18 +231,18 @@ export default function Ventas() {
                                 <th scope="col">Producto</th>
                                 <th scope="col">Precio</th>
                                 <th scope="col">Puntos</th>
-                                <th scope='col'>Total</th>
+                                <th scope='col'>Subtotal</th>
                               </tr>
                             </thead>
                             <tbody>
                               {detallesVentas[venta.id_venta].map((detalle) => (
                                 <React.Fragment key={detalle.id_detalle}>
                                   <tr key={detalle.id_detalle}>
-                                    <td>{detalle.cantidad_productos}</td>
+                                    <td>{detalle.cantidad_producto}</td>
                                     <td>{detalle.producto.pro_nom}</td>
                                     <td>{formatNumber(detalle.producto.pro_precio)}</td>
                                     <td>{detalle.producto.pro_puntos}</td>
-                                    <td className='fw-bold'>{formatNumber(detalle.producto.pro_precio * detalle.cantidad_productos)}</td>
+                                    <td className='fw-bold'>{detalle.subtotal}</td>
                                   </tr>
                                 </React.Fragment>
                               ))}

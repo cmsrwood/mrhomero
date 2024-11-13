@@ -5,7 +5,6 @@ import { Scrollbar } from 'swiper/modules'
 import moment from 'moment';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import uniqid from 'uniquid';
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
@@ -33,15 +32,10 @@ export default function Pedidos() {
   const [idCategoria, setIdCategoria] = useState(null);
 
   // Traer datos
-
   const [categorias, setCategorias] = useState([]);
   const [mostrarProductos, setMostrarProductos] = useState([]);
   const [mostrarClientes, setMostrarClientes] = useState([]);
   const [metodoPago, setMetodoPago] = useState('Efectivo');
-
-
-  const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,15 +56,16 @@ export default function Pedidos() {
     fetchData();
   }), [isDataUpdated];
 
+  const navigate = useNavigate();
+
+  //Convertir el valor a cadena y eliminar caracteres no numéricos
   const formatNumber = (value) => {
-    // Convertir el valor a cadena y eliminar caracteres no numéricos
     const formattedValue = value.toString().replace(/\D/g, '');
-    // Añadir puntos como separadores de miles
     return formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
+  // Elimina puntos y convierte la cadena a número
   const parseNumber = (value) => {
-    // Elimina puntos y convierte la cadena a número
     return parseFloat(value.replace(/\./g, '')) || 0;
   }
 
@@ -90,7 +85,6 @@ export default function Pedidos() {
       ),
     }));
   };
-
 
   const handleDeleteLastDigit = () => {
     setInputs(prevInputs => ({
@@ -121,6 +115,7 @@ export default function Pedidos() {
     setSearchTerms(e.target.value);
   }
 
+  // Funcion para agregar el usuario
   const handleAddClient = (cliente) => {
     setUserSelect({
       ...userSelect,
@@ -131,7 +126,6 @@ export default function Pedidos() {
   }
 
   // Funcion para la venta de productos
-
   function ventaProductos(producto) {
     const existeProducto = venta.some(p => p.id_producto === producto.id_producto);
     if (!existeProducto) {
@@ -139,7 +133,6 @@ export default function Pedidos() {
       setVenta([...venta, { ...producto, cantidad: cantidad, total: totalPrecioProductos() }]);
     }
   }
-
 
   function actualizarCantidad(id_producto, incremento) {
     setVenta(venta.map(producto =>
@@ -157,7 +150,6 @@ export default function Pedidos() {
     setIdCategoria(id)
   }
 
-
   function deleteProduct(productoAEliminar) {
     const updatedItems = venta.filter(producto => producto !== productoAEliminar);
     setVenta(updatedItems);
@@ -171,7 +163,6 @@ export default function Pedidos() {
   });
 
   const handleChange = () => {
-
     const updatedInfo = {
       fecha: moment().format("YYYY-MM-DD HH:mm:ss"),
       metodo_pago: metodoPago,
@@ -185,12 +176,26 @@ export default function Pedidos() {
   const handleSubmit = async () => {
     if (verificarRecibido() == 'correcto') {
       const updatedVentaInfo = handleChange();
-      console.log(updatedVentaInfo);
       try {
-        const res = await axios.post(`${BACKEND_URL}/api/ventas/crear`, updatedVentaInfo);
-        if (res.status === 200) {
+        const ventaRes = await axios.post(`${BACKEND_URL}/api/ventas/crear`, updatedVentaInfo);
+        if (ventaRes.status === 200) {
+          const id_venta = ventaRes.data.id_venta;
+
+          const detalles = venta.map(async (producto) => {
+            const detalleVenta = {
+              id_venta: id_venta,
+              id_producto: producto.id_producto,
+              cantidad: producto.cantidad,
+              precio_unitario: producto.pro_precio,
+              subtotal: producto.pro_precio * producto.cantidad
+            };
+            return axios.post(`${BACKEND_URL}/api/ventas/crearDetalleVenta`, detalleVenta);
+          });
+
+          await Promise.all(detalles);
+
           setIsDataUpdated(true);
-          setShowModalSale(false)
+          setShowModalSale(false);
           setShowModalConfirm(true);
         }
       } catch (error) {
@@ -198,28 +203,27 @@ export default function Pedidos() {
         if (error.response) {
           Swal.fire('Error', error.response.data, 'error');
         }
-      }
+        else if (verificarRecibido() == 'vacio') {
+          Swal.fire({
+            title: "Debes ingresar cantidad recibida",
+            text: 'La cantidad recibida no puede ser 0',
+            timer: 1200,
+            icon: 'error',
+            showConfirmButton: false
+          })
+        }
+        else if (verificarRecibido() == 'menor') {
+          Swal.fire({
+            title: `La cantidad recibida es menor a ${totalPrecioProductos()}`,
+            text: `La cantidad recibida es : ${inputs.received}`,
+            timer: 1200,
+            icon: 'error',
+            showConfirmButton: false
+          })
+        }
+      };
     }
-    else if (verificarRecibido() == 'vacio') {
-      Swal.fire({
-        title: "Debes ingresar cantidad recibida",
-        text: 'La cantidad recibida no puede ser 0',
-        timer: 1200,
-        icon: 'error',
-        showConfirmButton: false
-      })
-    }
-    else if (verificarRecibido() == 'menor') {
-      Swal.fire({
-        title: `La cantidad recibida es menor a ${totalPrecioProductos()}`,
-        text: `La cantidad recibida es : ${inputs.received}`,
-        timer: 1200,
-        icon: 'error',
-        showConfirmButton: false
-      })
-    }
-
-  };
+  }
 
   function verificarInformacionVenta() {
     if (venta.length == []) {
@@ -237,7 +241,7 @@ export default function Pedidos() {
   }
 
   function verificarRecibido() {
-    if (parseNumber(formatNumber(inputs.received)) <= 0) {
+    if (parseNumber(inputs.received) <= 0) {
       console.log('Cantidad recibida:', parseNumber(inputs.received))
       return 'vacio';
     }
@@ -427,7 +431,7 @@ export default function Pedidos() {
                                   <option selected value='Efectivo'>Efectivo</option>
                                   <option value='Tarjeta'>Tarjeta</option>
                                   <option value='Nequi'>Nequi</option>
-                                  <option value='David palta'>Daviplata</option>
+                                  <option value='Davidplata'>Daviplata</option>
                                 </select>
                                 {/*Botones de Cantidad de precio*/}
                                 <div className='col pt-5 pb-3 justify-content-start text-start'>

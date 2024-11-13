@@ -33,8 +33,8 @@ exports.mostrarDetalleVenta = (req, res) => {
     });
 };
 
+
 exports.crearVenta = (req, res) => {
-    // Ventas
     const id_venta = `venta_${uuidv4()}`;
     const fecha = req.body.fecha;
     const id_user = req.body.id_user ? req.body.id_user : null;
@@ -53,7 +53,27 @@ exports.crearVenta = (req, res) => {
             return res.status(500).send('Error en el servidor');
         }
 
-        return res.status(200).send('Venta creada exitosamente');
+        return res.status(200).send({ message: 'Venta creada exitosamente', id_venta: id_venta });
+    });
+}
+
+exports.crearDetalleVenta = (req, res) => {
+    const id_venta = req.body.id_venta;
+    const id_producto = req.body.id_producto;
+    const cantidad = req.body.cantidad;
+    const precio_unitario = req.body.precio_unitario;
+    const subtotal = req.body.subtotal;
+
+    if (!id_venta || !id_producto || !cantidad) {
+        return res.status(400).send('Todos los campos son obligatorios');
+    }
+
+    db.query('INSERT INTO detalle_ventas (id_venta, id_producto, cantidad_producto, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?)', [id_venta, id_producto, cantidad, precio_unitario, subtotal], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        }
+        return res.status(200).send({ message: 'Venta creada exitosamente' });
     });
 }
 
