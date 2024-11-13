@@ -4,6 +4,7 @@ const ventasController = require('../controllers/admin/ventasController');
 
 router.get('/mostrar', ventasController.mostrarVentas);
 router.get('/mostrarDetalleVenta/:id', ventasController.mostrarDetalleVenta);
+router.get('mostrarProductosMasVendidos', ventasController.mostrarProductosMasVendidos);
 router.post('/crear', ventasController.crearVenta);
 router.post('/crearDetalleVenta', ventasController.crearDetalleVenta);
 router.put('/borrar/:id', ventasController.borrarVenta);

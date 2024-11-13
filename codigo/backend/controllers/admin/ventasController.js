@@ -1,5 +1,4 @@
 const db = require('../../config/db');
-const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
 
 exports.mostrarVentas = (req, res) => {
@@ -33,6 +32,21 @@ exports.mostrarDetalleVenta = (req, res) => {
     });
 };
 
+exports.mostrarProductosMasVendidos = (req, res) => {
+    db.query(`SELECT p.pro_nom, SUM(dv.cantidad_producto) AS cantidad_vendida
+                FROM detalle_ventas dv
+                JOIN productos p ON dv.id_producto = p.id_producto
+                GROUP BY p.pro_nom
+                ORDER BY cantidad_vendida DESC;`,
+        (err, results) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({ error: 'Error en el servidor' });
+            } else {
+                return res.status(200).send(results);
+            }
+        });
+}
 
 exports.crearVenta = (req, res) => {
     const id_venta = `venta_${uuidv4()}`;

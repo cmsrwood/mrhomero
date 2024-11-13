@@ -1,4 +1,4 @@
-import React from 'react'
+import React , { useState, useEffect } from 'react'
 import CustomChart from '../../components/CustomChart';
 import img from '../../assets/img/img.png'
 
@@ -16,8 +16,24 @@ export default function Dashboard() {
     )
   }
 
-  
+  const [ventas, setVentas] = useState([]);
+  const [isDataUpdated, setIsDataUpdated] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [ventasRes, clientesRes] = await Promise.all([
+          axios.get(`${BACKEND_URL}/api/ventas/mostrar`),
+        ]);
+        setVentas(ventasRes.data);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsDataUpdated(false);
+    };
+
+    fetchData();
+  }, [isDataUpdated]);
 
   const data = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
