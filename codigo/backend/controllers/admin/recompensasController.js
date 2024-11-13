@@ -16,6 +16,17 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Función para eliminar una imagen de la carpeta
+const eliminar = async (image) => {
+    try {
+        const filePath = path.resolve(__dirname, `../../../frontend/public/images/recompensas/${image}`);
+        await fs.promises.unlink(filePath);
+    } catch (err) {
+        console.error('Error eliminando imagen:', err);
+    }
+};
+
+
 //Mostar todas las recompensas
 exports.mostrarRecompensas = (req, res) => {
     const q = "SELECT * FROM recompensas";
@@ -77,16 +88,20 @@ exports.actualizarRecompensa = (req, res) => {
         }
 
         const recompensaActual = data[0];
+        const nombreActualizado = nombre || recompensaActual.recompensa_nombre;
+        const descripcionActualizada = descripcion || recompensaActual.recompensa_descripcion;
+        const puntosActualizados = puntos || recompensaActual.recomp_num_puntos;
+        const nombreFotoActualizado = file ? file.filename.toString() : recompensaActual.recomp_foto;
         if (file && recompensaActual.recomp_foto) {
             eliminar(recompensaActual.recomp_foto);
         }
         const qUpdate = "UPDATE recompensas SET recompensa_nombre = ?, recompensa_descripcion = ?, recomp_num_puntos = ?, recomp_foto = ? WHERE id_recomp = ?";
 
         const values = [
-            nombre,
-            descripcion,
-            puntos,
-            file,
+            nombreActualizado,
+            descripcionActualizada,
+            puntosActualizados,
+            nombreFotoActualizado,
             id
         ];
 
@@ -103,5 +118,28 @@ exports.actualizarRecompensa = (req, res) => {
 }
 
 exports.eliminarRecompensa = (req, res) => {
+    const id = req.params.id;
+    const qImagen = "SELECT recomp_foto FROM recompensas WHERE id_recomp = ?";
 
+    db.query(qImagen, [id], async (err, data) => {
+        if (err) {
+            return res.status(500).json(err);
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: "Recompensa no encontrada" });
+        }
+
+        const imagen = data[0].recomp_foto;
+        if(imagen) {
+            await eliminar(imagen);
+        }
+
+        const q = "DELETE FROM recompensas WHERE id_recomp = ?";
+        db.query(q, [id], (err, data) => {
+            if (err) {
+                return res.status(500).json(err);
+            }
+            return res.json("La recompensa se ha eliminado correctamente");
+        })
+    })
 }

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { NumericFormat } from 'react-number-format';
 import Swal from 'sweetalert2';
-import NavegacionAdmin from '../../navigation/NavegacionAdmin';
 import axios from 'axios';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
@@ -31,9 +30,7 @@ export default function Categoria() {
     };
     fetchData();
   }, [isDataUpdated, categoriaId]);
-
-
-
+  
   const borrarProducto = async (id) => {
     try {
       const confirm = await Swal.fire({
@@ -178,8 +175,6 @@ export default function Categoria() {
       imagen: producto.pro_foto
     });
   }
-
-
 
   return (
     <div className="justify-content-between">
