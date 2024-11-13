@@ -198,32 +198,33 @@ export default function Pedidos() {
           setShowModalSale(false);
           setShowModalConfirm(true);
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.log(error);
         if (error.response) {
           Swal.fire('Error', error.response.data, 'error');
         }
-        else if (verificarRecibido() == 'vacio') {
-          Swal.fire({
-            title: "Debes ingresar cantidad recibida",
-            text: 'La cantidad recibida no puede ser 0',
-            timer: 1200,
-            icon: 'error',
-            showConfirmButton: false
-          })
-        }
-        else if (verificarRecibido() == 'menor') {
-          Swal.fire({
-            title: `La cantidad recibida es menor a ${totalPrecioProductos()}`,
-            text: `La cantidad recibida es : ${inputs.received}`,
-            timer: 1200,
-            icon: 'error',
-            showConfirmButton: false
-          })
-        }
-      };
+      }
     }
-  }
+    else if (verificarRecibido() == 'vacio') {
+      Swal.fire({
+        title: "Debes ingresar cantidad recibida",
+        text: 'La cantidad recibida no puede ser 0',
+        timer: 1200,
+        icon: 'error',
+        showConfirmButton: false
+      })
+    }
+    else if (verificarRecibido() == 'menor') {
+      Swal.fire({
+        title: `La cantidad recibida es menor a ${totalPrecioProductos()}`,
+        text: `La cantidad recibida es : ${inputs.received}`,
+        timer: 1200,
+        icon: 'error',
+        showConfirmButton: false
+      })
+    }
+  };
 
   function verificarInformacionVenta() {
     if (venta.length == []) {
@@ -245,7 +246,7 @@ export default function Pedidos() {
       console.log('Cantidad recibida:', parseNumber(inputs.received))
       return 'vacio';
     }
-    else if (parseNumber(inputs.received) <= totalPrecioProductos()) {
+    else if (parseNumber(inputs.received) < totalPrecioProductos()) {
       console.log('Cantidad recibida:', parseNumber(inputs.received))
       return 'menor';
     }

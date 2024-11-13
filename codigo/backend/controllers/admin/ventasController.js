@@ -1,5 +1,22 @@
 const db = require('../../config/db');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadPath = path.resolve(__dirname, '../../../frontend/public/images/menu/productos');
+        cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+        const ext = file.originalname.split(".").pop();
+        cb(null, `recompensa_${Date.now()}.${ext}`);
+    }
+});
+
+const upload = multer({ storage: storage });
 
 exports.mostrarVentas = (req, res) => {
     db.query(`
@@ -33,19 +50,28 @@ exports.mostrarDetalleVenta = (req, res) => {
 };
 
 exports.mostrarProductosMasVendidos = (req, res) => {
-    db.query(`SELECT p.pro_nom, SUM(dv.cantidad_producto) AS cantidad_vendida
+
+    const mes = req.params.mes;
+    const ano = req.params.ano;
+
+    db.query(`SELECT p.pro_nom,
+                p.pro_foto,
+                p.pro_nom   ,
+                SUM(dv.cantidad_producto) AS cantidad_vendida
                 FROM detalle_ventas dv
                 JOIN productos p ON dv.id_producto = p.id_producto
+                JOIN ventas v ON dv.id_venta = v.id_venta
+                WHERE MONTH(v.venta_fecha) = ?
+                AND YEAR(v.venta_fecha) = ?
                 GROUP BY p.pro_nom
-                ORDER BY cantidad_vendida DESC;`,
-        (err, results) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).send({ error: 'Error en el servidor' });
-            } else {
-                return res.status(200).send(results);
-            }
-        });
+                ORDER BY cantidad_vendida DESC;`, [mes, ano], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send({ error: 'Error en el servidor' });
+        } else {
+            return res.status(200).send(results);
+        }
+    });
 }
 
 exports.crearVenta = (req, res) => {

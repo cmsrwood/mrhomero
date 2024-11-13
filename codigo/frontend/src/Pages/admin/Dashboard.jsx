@@ -1,31 +1,29 @@
-import React , { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import CustomChart from '../../components/CustomChart';
-import img from '../../assets/img/img.png'
+import axios from 'axios';
+import moment from 'moment';
+import Swal from 'sweetalert2';
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 export default function Dashboard() {
-  function card() {
-    return (
-      <div className="col-6 col-sm">
-        <div className="card text-center my-2">
-          <img src={img} className="card-img-top" alt="..." />
-          <div className="card-body">
-            <h5 className="card-title">Producto</h5>
-          </div>
-        </div>
-      </div>
-    )
-  }
 
   const [ventas, setVentas] = useState([]);
+  const [productosMasVendidos, setProductosMasVendidos] = useState([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
+  const anoActual = moment().format('YYYY');
+  const mesActual = moment().format('M');
+  const [ano, setAno] = useState(anoActual);
+  const [mes, setMes] = useState(mesActual);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [ventasRes, clientesRes] = await Promise.all([
+        const [ventasRes, productosMasVendidosRes] = await Promise.all([
           axios.get(`${BACKEND_URL}/api/ventas/mostrar`),
+          axios.get(`${BACKEND_URL}/api/ventas/mostrarProductosMasVendidos/${ano}/${mes}`),
         ]);
         setVentas(ventasRes.data);
+        setProductosMasVendidos(productosMasVendidosRes.data);
       } catch (error) {
         console.log(error);
       }
@@ -34,6 +32,16 @@ export default function Dashboard() {
 
     fetchData();
   }, [isDataUpdated]);
+
+  const handleAnoChange = (event) => {
+    setAno(event.target.value);
+    setIsDataUpdated(true);
+  };
+
+  const handleMesChange = (event) => {
+    setMes(event.target.value);
+    setIsDataUpdated(true);
+  };
 
   const data = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
@@ -62,7 +70,7 @@ export default function Dashboard() {
         <div className="text-center justify-content-center">
           <CustomChart data={data} tipo='line' options={options} />
         </div>
-        <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary  text-center">
+        <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary text-center">
           <h3 className='pt-4'>Productos vendidos</h3>
           <h4 className='pt-2'>1234 unidades</h4>
           <h4 className='pb-4 text-success'>+8% este mes</h4>
@@ -74,22 +82,44 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="container border border-2 border-secondary my-5 p-3">
-        <div className="row w-100 justify-content-between">
-          <h4 className="col-12 col-sm-10">Productos más vendidos</h4>
-          <select name="" id="" className="form-select col-12 col-sm mx-2">
-            <option value="">Enero</option>
-            <option value="">Febrero</option>
-            <option value="">Marzo</option>
-            <option value="">Abril</option>
+        <div className="row w-100 justify-content-between mb-3">
+          <h4 className="col-12 col-sm-9">Productos más vendidos</h4>
+          <select value={ano} onChange={handleAnoChange} name="" id="" className="form-select col-12 col-sm mx-2">
+            <option value={anoActual}>{anoActual}</option>
+            <option value={anoActual - 1}>{anoActual - 1}</option>
+            <option value={anoActual - 1}>{anoActual - 2}</option>
+            <option value={anoActual - 1}>{anoActual - 3}</option>
+            <option value={anoActual - 1}>{anoActual - 4}</option>
+          </select>
+          <select value={mes} onChange={handleMesChange} name="" id="" className="form-select col-12 col-sm mx-2">
+            <option value="1">Enero</option>
+            <option value="2">Febrero</option>
+            <option value="3">Marzo</option>
+            <option value="4">Abril</option>
+            <option value="5">Mayo</option>
+            <option value="6">Junio</option>
+            <option value="7">Julio</option>
+            <option value="8">Agosto</option>
+            <option value="9">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
           </select>
         </div>
         <div className="row px-2">
-          {card()}
-          {card()}
-          {card()}
-          {card()}
-          {card()}
-          {card()}
+          {
+            productosMasVendidos.length == 0 ? <div className='py-3'><h2 className='text-center py-5 my-5'>No hay productos vendidos en este mes</h2></div> :
+              productosMasVendidos.map((producto) => (
+                <div key={producto.pro_foto} className="col-6 col-sm-3 wow animate__animated animate__flip animate__slow">
+                  <div className="card">
+                    <img src={`/images/menu/productos/${producto.pro_foto}`} className="card-img-top" alt="..." height={165} />
+                    <div className="card-body">
+                      <h5 className="card-title">{producto.pro_nom}</h5>
+                      <p className="card-text">Vendido {producto.cantidad_vendida} veces</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
         </div>
       </div>
     </div>
