@@ -10,7 +10,6 @@ export default function Ventas() {
 
   const [id_venta, setIdVenta] = useState('');
   const [detallesVentas, setDetallesVentas] = useState([]);
-  const [productosVenta, setProductosVenta] = useState([]);
 
   const [isDataUpdated, setIsDataUpdated] = useState(false);
   const [searchTerm, setSearchTerms] = useState('');
@@ -32,7 +31,7 @@ export default function Ventas() {
     };
 
     fetchData();
-  }, [isDataUpdated, id_venta]);
+  }, [isDataUpdated]);
 
 
 

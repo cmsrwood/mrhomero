@@ -1,7 +1,6 @@
 import React from 'react'
 import CustomChart from '../../components/CustomChart';
 import img from '../../assets/img/img.png'
-import NavegacionAdmin from '../../navigation/NavegacionAdmin'
 
 export default function Dashboard() {
   function card() {
@@ -16,6 +15,10 @@ export default function Dashboard() {
       </div>
     )
   }
+
+  
+
+
   const data = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
     datasets: [
