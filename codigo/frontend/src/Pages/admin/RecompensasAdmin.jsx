@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Scrollbar } from 'swiper/modules'
 import 'swiper/css'
@@ -11,6 +11,7 @@ import axios from 'axios'
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 export default function RecompensasAdmin() {
+
   const [recompensas, setRecompensas] = useState([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
 
@@ -37,7 +38,6 @@ export default function RecompensasAdmin() {
     foto: null
   })
 
-  //Añade la imagen
   const handleFileChange = (e) => {
     setRecompensa({ ...recompensa, foto: e.target.files[0] });
   }
@@ -47,13 +47,11 @@ export default function RecompensasAdmin() {
   }
 
   const handleSubmit = async () => {
-
     const formData = new FormData();
     formData.append('recompensa_nombre', recompensa.nombre);
     formData.append('recompensa_descripcion', recompensa.descripcion);
     formData.append('recomp_num_puntos', recompensa.puntos);
     formData.append('foto', recompensa.foto);
-
 
     try {
       const res = await axios.post(`${BACKEND_URL}/api/recompensas/crearRecompensa`, formData);
@@ -68,15 +66,24 @@ export default function RecompensasAdmin() {
         });
       }
 
-      setIsDataUpdated(true); // Actualiza el estado para volver a cargar los datos
+      setIsDataUpdated(true);
     } catch (error) {
       console.log(error);
       Swal.fire('Error', error.response.data, 'error');
     }
 
-    const modalElement = document.getElementById('client_add');
+    const modalElement = document.getElementById('añadirRecompensa');
     let modalInstance = bootstrap.Modal.getInstance(modalElement);
     modalInstance.hide();
+    resetFoto();
+  }
+
+  //useREf para limpiar el input de la imagen 
+  const fileInputRef = useRef(null);
+
+  //Función para resetear el input dela imagen
+  const resetFoto = () => {
+    fileInputRef.current.value = '';
   }
 
   //Previsualizar imagen
@@ -94,6 +101,7 @@ export default function RecompensasAdmin() {
   //   }
   // })
 
+
   //Editar recompensa
   const [editarRecompensa, setEditarRecompensa] = useState({
     id: '',
@@ -108,7 +116,7 @@ export default function RecompensasAdmin() {
   }
 
   const handleInputChangeEdit = (e) => {
-    setEditarRecompensa(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    setEditarRecompensa({ ...editarRecompensa, [e.target.name]: e.target.value })
   }
 
   const handleEdit = async (id) => {
@@ -123,9 +131,11 @@ export default function RecompensasAdmin() {
 
     try {
       const res = await axios.put(`${BACKEND_URL}/api/recompensas/actualizarRecompensa/${id}`, formData);
-
       if (res.status === 200) {
         Swal.fire('Exito', 'Recompensa editada correctamente', 'success');
+        const modalElement = document.getElementById('recompensaEditarModal');
+        let modalInstance = bootstrap.Modal.getInstance(modalElement);
+        modalInstance.hide();
         setIsDataUpdated(true);
       }
     } catch (error) {
@@ -141,48 +151,78 @@ export default function RecompensasAdmin() {
       descripcion_edit: recompensa.recompensa_descripcion,
       puntos_edit: recompensa.recomp_num_puntos,
       foto_edit: recompensa.recomp_foto
-    })
+    });
+  }
+
+  //Eliminar recompensa
+  const eliminarRecompensa = async (id) => {
+    try {
+      const confirm = await Swal.fire({
+        title: '¿Estas seguro de borrar esta recompensa?',
+        text: "No podrás revertir estaacción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, borrar'
+      })
+      if(!confirm.isConfirmed) {
+        return;
+    }
+    
+    const res = await axios.delete(`${BACKEND_URL}/api/recompensas/eliminarRecompensa/${id}`);
+    if (res.status === 200) {
+      Swal.fire('Exito', 'Recompensa eliminada correctamente', 'success');
+      setIsDataUpdated(true);
+    }
+    } catch (error) {
+      console.log(error);
+      Swal.fire('Error', error.response?.data || 'error');
+    }
   }
 
   return (
     <div className=''>
       <div className="d-flex justify-content-between">
         <h1>Recompensas</h1>
-        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#client_add"><i className="bi bi-plus"></i>Añadir</button>
+        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#añadirRecompensa"><i className="bi bi-plus"></i>Añadir</button>
+      </div>
 
-        <div className="modal fade" id="client_add" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div className="modal-dialog modal-xl">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="staticBackdropLabel">Añadir recompensa</h1>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div className="modal-body">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-3 m-3 ps-3 pt-2">
-                      <img src={img} height={200} width={280} className='card-img-center border mb-4' alt="..." />
-                      <input className='form-control' onChange={handleFileChange} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
-                    </div>
-                    <div className="col ms-3">
-                      <label htmlFor="floatingInput">Nombre</label>
-                      <input type="text" name='nombre' onChange={handleInputChange} className="form-control my-2" placeholder="Nombre" value={recompensa.nombre} />
-                      <label htmlFor="floatingInput">Puntos</label>
-                      <input type="text" name='puntos' onChange={handleInputChange} className="form-control my-2" placeholder="Puntos" value={recompensa.puntos} />
-                      <label htmlFor="floatingInput">Descripcion</label>
-                      <textarea type="text" name='descripcion' onChange={handleInputChange} className="form-control my-2" placeholder="Descripción" id="floatingTextarea" value={recompensa.descripcion}></textarea>
-                    </div>
+      {/* Modal para agregar recompensa */}
+
+      <div className="modal fade" id="añadirRecompensa" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="staticBackdropLabel">Añadir recompensa</h1>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <div className="container">
+                <div className="row">
+                  <div className="col-3 m-3 ps-3 pt-2">
+                    <img src={img} height={200} width={280} className='card-img-center border mb-4' alt="..." />
+                    <input ref={fileInputRef} className='form-control' onChange={handleFileChange} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
+                  </div>
+                  <div className="col ms-3">
+                    <label htmlFor="floatingInput">Nombre</label>
+                    <input type="text" name='nombre' onChange={handleInputChange} className="form-control my-2" placeholder="Nombre" value={recompensa.nombre} />
+                    <label htmlFor="floatingInput">Puntos</label>
+                    <input type="text" name='puntos' onChange={handleInputChange} className="form-control my-2" placeholder="Puntos" value={recompensa.puntos} />
+                    <label htmlFor="floatingInput">Descripcion</label>
+                    <textarea type="text" name='descripcion' onChange={handleInputChange} className="form-control my-2" placeholder="Descripción" id="floatingTextarea" value={recompensa.descripcion}></textarea>
                   </div>
                 </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-circle"></i></button>
-                  <button type="submit" className="btn btn-success" onClick={handleSubmit}><i className="bi bi-check-circle"></i></button>
-                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-circle"></i></button>
+                <button type="submit" className="btn btn-success" onClick={handleSubmit}><i className="bi bi-check-circle"></i></button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div className="mt-3">
         <Swiper
           slidesPerView={4}
@@ -200,34 +240,17 @@ export default function RecompensasAdmin() {
                 <div className="card-body">
                   <h5 className="card-title">{recompensa.recompensa_nombre}</h5>
                   <p className="card-text">{recompensa.recompensa_descripcion}</p>
-                  <button type="button" className="btn btn-warning mx-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i className="bi bi-pencil-square" onClick={() => openEditModal(recompensa)}></i></button>
-                  <button type="button" className="btn btn-danger mx-4" onClick={() => {
-                    Swal.fire({
-                      icon: 'question',
-                      title: '¿Estas seguro de eliminar esta recompensa?',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      confirmButtonText: 'Eliminar',
-                      cancelButtonColor: '#d33',
-                      cancelButtonText: 'Cancelar',
-                    }).then((result => {
-                      if (result.isConfirmed) {
-                        Swal.fire({
-                          title: '¡Eliminado!',
-                          text: 'La recompensa fue eliminada correctamente',
-                          icon: 'success',
-                          confirmButtonText: 'Hecho'
-                        })
-                      }
-                    }))
-                  }}><i className="bi bi-trash"></i></button>
+                  <button type="button" className="btn btn-warning mx-4" data-bs-toggle="modal" data-bs-target="#recompensaEditarModal" onClick={() => openEditModal(recompensa)}>
+                    <i className="bi bi-pencil-square"></i>
+                  </button>
+                  <button type="button" className="btn btn-danger mx-4" onClick={() => eliminarRecompensa(recompensa.id_recomp)}><i className="bi bi-trash"></i></button>
                 </div>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
-      <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div className="modal fade" id="recompensaEditarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
@@ -238,14 +261,18 @@ export default function RecompensasAdmin() {
               <div className="conatiner">
                 <div className="row">
                   <div className="col-3 m-3 ps-3 pt-2">
-                    {editarRecompensa.foto_edit && <img src={`/images/recompensas/${editarRecompensa.foto_edit}`} height={250} className="card-img-center border" alt="..." />}
-                    <input type="file" className="form-control mt-5" accept='image/*' id='foto' name='foto' onChange={handleFileChangeEdit} />
+                    {editarRecompensa.foto_edit ? (
+                      <img src={`/images/recompensas/${editarRecompensa.foto_edit}`} className="img-fluid mb-3" alt="Imagen actual" height={100} />
+                    ) : null}
+                    <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='foto' name='foto' />
                   </div>
                   <div className="col">
                     <label htmlFor="floatingInput">Nombre</label>
                     <input type="text" className="form-control my-2" name='nombre_edit' onChange={handleInputChangeEdit} value={editarRecompensa.nombre_edit} placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1"></input>
+
                     <label htmlFor="floatingInput">Puntos</label>
                     <input type="number" className="form-control my-2" name='puntos_edit' onChange={handleInputChangeEdit} value={editarRecompensa.puntos_edit} placeholder="Puntos" aria-label="Username" aria-describedby="basic-addon1" ></input>
+
                     <label htmlFor="floatingInput">Descripción</label>
                     <textarea className='form-control' name='descripcion_edit' onChange={handleInputChangeEdit} value={editarRecompensa.descripcion_edit} id="descripcion" placeholder='Inserte la descripcion' ></textarea>
                   </div>
