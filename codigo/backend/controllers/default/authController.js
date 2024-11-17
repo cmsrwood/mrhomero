@@ -43,7 +43,7 @@ exports.ingresar = (req, res) => {
             const token = jwt.sign({ id: user.id_user, rol: user.id_rol }, secret);
 
             // Enviar el token y el rol de usuario
-            return res.status(200).json({ token: token, rol: user.id_rol, email: user.user_email});
+            return res.status(200).json({ token: token, rol: user.id_rol, email: user.user_email });
         } else {
             //inicio de sesion incorrecto
             return res.status(400).send('Contraseña incorrecta');

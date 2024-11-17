@@ -104,35 +104,17 @@ export default function Ingresar() {
       <NavegacionDefault />
       <div className='container-fluid p-0 p-sm-5 py-0 py-sm-1 text-center wipe-in-down' style={{ width: '85%' }}>
         {loading ? (
-          <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
-            <div className="spinner-border text-warning" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
+          <Loader />
         ) : (
           <div className="row">
             <div className="col-12 col-sm-5 align-content-center align-items-center px-5 py-4 shadow-lg rounded-3">
               <form onSubmit={handleSubmit}>
-                  <div className="form-floating my-5">
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="email"
-                    name='email'
-                    onChange={handleChange}
-                    required
-                  />
+                <div className="form-floating my-5">
+                  <input value={user.email} type="email" className="form-control" placeholder="email" name='email' onChange={handleChange} required />
                   <label htmlFor="floatingInput">Email</label>
                 </div>
                 <div className="form-floating my-5">
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Contraseña"
-                    name='password'
-                    onChange={handleChange}
-                    required
-                  />
+                  <input type="password" className="form-control" placeholder="Contraseña" name='password' onChange={handleChange} required />
                   <label htmlFor="floatingInput">Contraseña</label>
                 </div>
                 <div className="text-center">

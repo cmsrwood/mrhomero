@@ -1,7 +1,6 @@
-import React from "react";
-import '../styles/style.css'
+import React from 'react'
 
-const Loader = () => {
+export default function Loader() {
     return (
         <div className="vh-100 d-block justify-content-center text-center align-items-center align-content-center">
             <div className="spinner-border spinner-border-xl text-warning" style={{ width: '3rem', height: '3rem' }} role="status">
@@ -11,5 +10,3 @@ const Loader = () => {
         </div>
     )
 }
-
-export default Loader

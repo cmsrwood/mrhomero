@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Loader from '../components/Loader';
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
@@ -42,7 +43,7 @@ export default function RutaPublica() {
     }, [token]);
 
     if (isLoading) {
-        return <div>Cargando...</div>;
+        return <Loader />;
     }
 
     if (userRole) {
