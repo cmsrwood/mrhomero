@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import NavegacionDefault from '../../navigation/NavegacionDefault';
 import Spline from './Hamburguesa';
 import axios from 'axios';
+import Loader from '../../components/Loader';
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
