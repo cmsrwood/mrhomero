@@ -162,26 +162,28 @@ export default function MenuAdmin() {
       <div className="modal fade" id="categoriaAgregarModal" tabIndex="-1" aria-labelledby="MenuModalLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="MenuModalLabel">Agregar categoria</h1>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              <div className="row p-3">
-                <div className="col-12 mb-3">
-                  <label htmlFor="floatingInput">Imagen</label>
-                  <input className='form-control' onChange={handleFileChange} ref={fileInputRef} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
-                </div>
-                <div className="col-12 ">
-                  <label htmlFor="floatingInput">Nombre</label>
-                  <input className='form-control' onChange={handleInputChange} value={categoria.categoria} type="text" autoComplete='off' id='categoria' name='categoria' required />
+            <form onSubmit={handleSubmit}>
+              <div className="modal-header">
+                <h1 className="modal-title fs-5" id="MenuModalLabel">Agregar categoria</h1>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="row p-3">
+                  <div className="col-12 mb-3">
+                    <label htmlFor="floatingInput">Imagen</label>
+                    <input className='form-control' onChange={handleFileChange} ref={fileInputRef} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
+                  </div>
+                  <div className="col-12 ">
+                    <label htmlFor="floatingInput">Nombre</label>
+                    <input className='form-control' onChange={handleInputChange} value={categoria.categoria} type="text" autoComplete='off' id='categoria' name='categoria' required />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" className="btn btn-success" onClick={handleSubmit}>Guardar</button>
-            </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" className="btn btn-success">Guardar</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

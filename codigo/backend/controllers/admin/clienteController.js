@@ -50,7 +50,7 @@ exports.restaurarCliente = (req, res) => {
 
         }
         else {
-            return res.status(200).send('Cliente eliminado exitosamente');
+            return res.status(200).send('Cliente restaurado exitosamente');
         }
     });
 }

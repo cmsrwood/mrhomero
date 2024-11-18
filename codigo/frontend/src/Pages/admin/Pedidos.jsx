@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Scrollbar } from 'swiper/modules'
 import moment from 'moment';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Scrollbar } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
-import '../../styles/style.css'
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Pedidos() {
@@ -260,13 +259,25 @@ export default function Pedidos() {
       <div className='container d-block d-sm-flex d-md-flex'>
         <h1 className="mt-3 mt-sm-5">Pedidos</h1>
         <Swiper
-          slidesPerView={4}
-          spaceBetween={10}
           pagination={{
             clickable: true,
           }}
           scrollbar={{ hide: true }}
           modules={[Scrollbar]}
+          breakpoints={{
+            0: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 40,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 25,
+            },
+          }}
           className="mySwiper p-2 w-100 ms-5"
         >
           {categorias.map((cat) => {
@@ -276,7 +287,7 @@ export default function Pedidos() {
                   <div className="card text-center">
                     <img
                       src={`/images/menu/categorias/${cat.cat_foto}`}
-                      height={90}
+                      height={150}
                       className="card-img-top border-bottom border-1"
                       alt={cat.cat_nom}
                     />
@@ -293,7 +304,7 @@ export default function Pedidos() {
       <div className='container p-3 mt-4'>
         <div className='row'>
           <div className='col'>
-            <div className="row row-cols-1 row-cols-md-2 g-2 pt-2">
+            <div className="row row-cols-2 row-cols-lg-3 g-2 pt-2">
               {/* Mostrar los productos de la categoria */}
               {mostrarProductos.map((product) => {
                 return (
@@ -391,10 +402,12 @@ export default function Pedidos() {
                           {venta.map((product) => {
                             return (
                               <tr key={product.id_venta}>
-                                <td>
-                                  <button type='button' className='btn btn-danger me-2' id='btnMinus' onClick={() => actualizarCantidad(product.id_producto, -1)}>-</button>
-                                  <span>{product.cantidad}</span>
-                                  <button type='button' className='btn btn-success ms-2' id='btnPlus' onClick={() => actualizarCantidad(product.id_producto, 1)}>+</button>
+                                <td className=''>
+                                  <div className="d-flex align-items-center">
+                                    <button type='button' className='btn btn-danger me-2' id='btnMinus' onClick={() => actualizarCantidad(product.id_producto, -1)}>-</button>
+                                    <span>{product.cantidad}</span>
+                                    <button type='button' className='btn btn-success ms-2' id='btnPlus' onClick={() => actualizarCantidad(product.id_producto, 1)}>+</button>
+                                  </div>
                                 </td>
                                 <td>{product.pro_nom}</td>
                                 <td>{formatNumber(product.pro_precio * product.cantidad)}</td>

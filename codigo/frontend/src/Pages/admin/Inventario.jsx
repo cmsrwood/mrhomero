@@ -63,7 +63,7 @@ export default function Inventario() {
 
   // Handle submit para añadir
 
-  const handleClick = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${BACKEND_URL}/api/inventario/crear`, ingrediente);
@@ -197,13 +197,13 @@ export default function Inventario() {
             <div className="modal fade" id="ModalCrearProducto" tabIndex="-1" aria-hidden="true">
               <div className="modal-dialog">
                 <div className="modal-content">
-                  <div className="modal-header">
-                    <h1 className="modal-title fs-5">Añadir producto</h1>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div className="modal-body">
-                    <div className="row p-3">
-                      <form>
+                  <form onSubmit={handleSubmit}>
+                    <div className="modal-header">
+                      <h1 className="modal-title fs-5">Añadir producto</h1>
+                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div className="modal-body">
+                      <div className="row p-3">
                         <div className="col-12 mb-3">
                           <label htmlFor="floatingInput" className='form-label'>Nombre</label>
                           <input className='form-control' type="text" value={ingrediente.inv_nombre} autoComplete='off' id='inv_nombre' name='inv_nombre' placeholder='Ej. Tomate' required onChange={handleChange} />
@@ -243,13 +243,13 @@ export default function Inventario() {
                             ))}
                           </select>
                         </div>
-                      </form>
+                      </div>
                     </div>
-                  </div>
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" className="btn btn-warning" onClick={handleClick}>Guardar cambios</button>
-                  </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                      <button type="submit" className="btn btn-warning">Guardar cambios</button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -373,6 +373,6 @@ export default function Inventario() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

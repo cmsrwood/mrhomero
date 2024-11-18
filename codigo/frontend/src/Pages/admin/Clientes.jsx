@@ -61,7 +61,7 @@ export default function Clientes() {
         try {
             const confirm = await Swal.fire({
                 title: '¿Estás seguro de borrar este cliente?',
-                text: "No podrás revertir esta acción",
+                text: "El usuario sera inactivado",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -78,7 +78,7 @@ export default function Clientes() {
             if (res.status === 200) {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Cliente eliminado exitosamente'
+                    title: res.data
                 });
                 setIsDataUpdated(true);
             }
@@ -107,7 +107,7 @@ export default function Clientes() {
             if (res.status === 200) {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Cliente restaurado exitosamente'
+                    title: res.data
                 });
                 setIsDataUpdated(true);
             }
@@ -133,7 +133,7 @@ export default function Clientes() {
                                     type="search"
                                     className="form-control form-control-lg ps-5 w-100"
                                     placeholder="Buscar usuario..."
-                                    value={searchTerm} 
+                                    value={searchTerm}
                                     onChange={handleSearch}
                                 />
                                 <i className={`bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary`}></i>

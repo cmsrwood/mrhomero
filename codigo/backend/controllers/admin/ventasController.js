@@ -22,7 +22,7 @@ exports.mostrarVentas = (req, res) => {
     db.query(`
         SELECT 
             id_venta, 
-            DATE_FORMAT(venta_fecha, '%Y-%m-%d') AS venta_fecha, 
+            DATE_FORMAT(venta_fecha, '%Y-%m-%d / %H:%i:%s') AS venta_fecha, 
             id_user, 
             venta_metodo_pago, 
             venta_total,
@@ -65,6 +65,26 @@ exports.mostrarProductosMasVendidos = (req, res) => {
                 AND YEAR(v.venta_fecha) = ?
                 GROUP BY p.pro_nom
                 ORDER BY cantidad_vendida DESC;`, [mes, ano], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send({ error: 'Error en el servidor' });
+        } else {
+            return res.status(200).send(results);
+        }
+    });
+}
+
+exports.mostrarCuentaProductosVendidosPorMes = (req, res) => {
+
+    const mes = req.params.mes;
+    const ano = req.params.ano;
+
+    db.query(`SELECT
+                SUM(dv.cantidad_producto) AS cantidad
+                FROM detalle_ventas dv
+                JOIN ventas v ON dv.id_venta = v.id_venta
+                WHERE MONTH(v.venta_fecha) = ?
+                AND YEAR(v.venta_fecha) = ?`, [mes, ano], (err, results) => {
         if (err) {
             console.log(err);
             return res.status(500).send({ error: 'Error en el servidor' });

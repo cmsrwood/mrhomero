@@ -34,18 +34,20 @@ export default function Menu() {
     return (
         <div className="">
             <div className="container">
-                <h1 className="text-warning text-center p-2">Menu</h1>
-                <div className=" d-flex justify-content-between">
+                <h1 className="text-warning text-center mb-4">Menu</h1>
+                <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-5">
                     {categorias.map((categoria) => (
-                        <div className="card col-4 m-2" key={categoria.id_categoria}>
-                            <Link to={`/menu/${categoria.cat_nom}`} style={{ textDecoration: 'none' }}>
-                                <div className="card text-center border-0">
-                                    <img src={`/images/menu/categorias/${categoria.cat_foto}`} height={200} className="card-img-top" alt="..." />
-                                    <div className="card-body">
-                                        <h5 className="card-title">{categoria.cat_nom}</h5>
+                        <div className="col">
+                            <div className="card" key={categoria.id_categoria}>
+                                <Link to={`/menu/${categoria.cat_nom}`} style={{ textDecoration: 'none' }}>
+                                    <div className="card text-center border-0">
+                                        <img src={`/images/menu/categorias/${categoria.cat_foto}`} height={200} className="card-img-top" alt="..." />
+                                        <div className="card-body">
+                                            <h5 className="card-title">{categoria.cat_nom}</h5>
+                                        </div>
                                     </div>
-                                </div>
-                            </Link>
+                                </Link>
+                            </div>
                         </div>
                     ))}
                 </div>
