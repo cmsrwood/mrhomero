@@ -36,7 +36,7 @@ export default function Dashboard() {
         setVentas(ventasRes.data);
         setProductosMasVendidos(productosMasVendidosRes.data);
         setProductosVendidosPorMes(productosVendidosPorMesRes.data[0].cantidad);
-        setPorcentaje(((productosVendidosPorMesRes.data[0].cantidad - productosVendidosMesAnteriorRes.data[0].cantidad) / productosVendidosPorMesRes.data[0].cantidad) * 100);
+        setPorcentaje(Math.floor(((productosVendidosPorMesRes.data[0].cantidad - productosVendidosMesAnteriorRes.data[0].cantidad) / productosVendidosPorMesRes.data[0].cantidad) * 100));
 
       } catch (error) {
         console.log(error);
@@ -86,8 +86,8 @@ export default function Dashboard() {
         </div>
         <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary text-center">
           <h3 className='pt-4'>Productos vendidos</h3>
-          <h4 className={productosVendidosPorMes}></h4>
-          <h4 className='pb-4 text-success'>{porcentaje || 0} este mes</h4>
+          <h4 className>{productosVendidosPorMes} Unidades</h4>
+          <h4 className='pb-4 text-success'>{porcentaje || 0}% este mes</h4>
         </div>
         <div className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center">
           <h3 className='pt-4'>Total ganancias</h3>
