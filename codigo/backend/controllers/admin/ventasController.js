@@ -78,6 +78,7 @@ exports.mostrarCuentaProductosVendidosPorMes = (req, res) => {
 
     const mes = req.params.mes;
     const ano = req.params.ano;
+    
 
     db.query(`SELECT
                 SUM(dv.cantidad_producto) AS cantidad
@@ -85,6 +86,46 @@ exports.mostrarCuentaProductosVendidosPorMes = (req, res) => {
                 JOIN ventas v ON dv.id_venta = v.id_venta
                 WHERE MONTH(v.venta_fecha) = ?
                 AND YEAR(v.venta_fecha) = ?`, [mes, ano], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send({ error: 'Error en el servidor' });
+        } else {
+            return res.status(200).send(results);
+        }
+    });
+}
+
+exports.cantidadPrecioVentas = (req, res) => {
+
+    const mes = req.params.mes;
+    const ano = req.params.ano;
+
+    db.query(`SELECT
+                SUM(venta_total) AS total
+                FROM ventas
+                WHERE MONTH(venta_fecha) = ?
+                AND YEAR(venta_fecha) = ?`, [mes, ano], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send({ error: 'Error en el servidor' });
+        } else {
+            return res.status(200).send(results);
+        }
+    });
+}
+
+exports.ventasMensuales = (req, res) => {
+
+    const mes = req.params.mes;
+    const ano = req.params.ano;
+
+    db.query(`SELECT 
+                DATE_FORMAT(venta_fecha, '%d') AS dia, 
+                SUM(venta_total) AS total_ventas
+                FROM ventas
+                WHERE MONTH(venta_fecha) = ? AND YEAR(venta_fecha) = ?
+                GROUP BY dia
+                ORDER BY dia; `, [mes, ano], (err, results) => {
         if (err) {
             console.log(err);
             return res.status(500).send({ error: 'Error en el servidor' });

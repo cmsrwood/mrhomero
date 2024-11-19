@@ -6,7 +6,9 @@ router.get('/mostrar', ventasController.mostrarVentas);
 router.get('/mostrarDetalleVenta/:id', ventasController.mostrarDetalleVenta);
 router.get('/mostrarProductosMasVendidos/:ano/:mes', ventasController.mostrarProductosMasVendidos);
 router.get('/mostrarCuentaProductosVendidosPorMes/:ano/:mes', ventasController.mostrarCuentaProductosVendidosPorMes);
-router.post('/crear', ventasController.crearVenta);
+router.get('/mostrarVentasMensuales/:ano/:mes', ventasController.ventasMensuales);
+router.get('/mostrarVentasPorMes/:ano/:mes', ventasController.cantidadPrecioVentas);
+router.post('/crear', ventasController.crearVenta)
 router.post('/crearDetalleVenta', ventasController.crearDetalleVenta);
 router.put('/borrar/:id', ventasController.borrarVenta);
 router.put('/restaurar/:id', ventasController.restaurarVenta);

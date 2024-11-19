@@ -8,15 +8,20 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import '../../styles/style.css'
+import { NumericFormat } from 'react-number-format';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 export default function Dashboard() {
 
   //Traer datos
   const [ventas, setVentas] = useState([]);
+  const [ventasMensuales, setVentasMensuales] = useState([]);
+  console.log(ventasMensuales);
   const [productosMasVendidos, setProductosMasVendidos] = useState([]);
   const [productosVendidosPorMes, setProductosVendidosPorMes] = useState(0);
-  const [porcentaje, setPorcentaje] = useState(0);
+  const [porcentajeProductos, setPorcentajeProductos] = useState(0);
+  const [productosVentas, setProductosVentas] = useState(0);
+  const [porcentajeTotal, setPorcentajeTotal] = useState(0);
 
   const [isDataUpdated, setIsDataUpdated] = useState(false);
   const anoActual = moment().format('YYYY');
@@ -27,17 +32,22 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [ventasRes, productosMasVendidosRes, productosVendidosPorMesRes, productosVendidosMesAnteriorRes] = await Promise.all([
+        const [ventasRes, ventasMensualesRes, productosMasVendidosRes, productosVendidosPorMesRes, productosVendidosMesAnteriorRes, totalProductosVentasRes, totalProductosVentasMesAnteriorRes] = await Promise.all([
           axios.get(`${BACKEND_URL}/api/ventas/mostrar`),
+          axios.get(`${BACKEND_URL}/api/ventas/mostrarVentasMensuales/${ano}/${mes}`),
           axios.get(`${BACKEND_URL}/api/ventas/mostrarProductosMasVendidos/${ano}/${mes}`),
           axios.get(`${BACKEND_URL}/api/ventas/mostrarCuentaProductosVendidosPorMes/${ano}/${mes}`),
           axios.get(`${BACKEND_URL}/api/ventas/mostrarCuentaProductosVendidosPorMes/${ano}/${mes - 1}`),
+          axios.get(`${BACKEND_URL}/api/ventas/mostrarVentasPorMes/${ano}/${mes}`),
+          axios.get(`${BACKEND_URL}/api/ventas/mostrarVentasPorMes/${ano}/${mes - 1}`)
         ]);
         setVentas(ventasRes.data);
+        setVentasMensuales(ventasMensualesRes.data);
         setProductosMasVendidos(productosMasVendidosRes.data);
         setProductosVendidosPorMes(productosVendidosPorMesRes.data[0].cantidad);
-        setPorcentaje(Math.floor(((productosVendidosPorMesRes.data[0].cantidad - productosVendidosMesAnteriorRes.data[0].cantidad) / productosVendidosPorMesRes.data[0].cantidad) * 100));
-
+        setPorcentajeProductos(Math.floor(((productosVendidosPorMesRes.data[0].cantidad - productosVendidosMesAnteriorRes.data[0].cantidad) / productosVendidosPorMesRes.data[0].cantidad) * 100));
+        setProductosVentas(totalProductosVentasRes.data[0].total);
+        setPorcentajeTotal(Math.floor((totalProductosVentasRes.data[0].total - totalProductosVentasMesAnteriorRes.data[0].total) / totalProductosVentasRes.data[0].total * 100));
       } catch (error) {
         console.log(error);
       }
@@ -45,7 +55,7 @@ export default function Dashboard() {
     };
 
     fetchData();
-  }, [isDataUpdated]);
+  }, [isDataUpdated, ano, mes]);
 
   const handleAnoChange = (event) => {
     setAno(event.target.value);
@@ -57,19 +67,27 @@ export default function Dashboard() {
     setIsDataUpdated(true);
   };
 
-  const data = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
-    datasets: [
-      {
-        label: 'Ventas',
-        data: [65, 59, 80, 81, 56, 55]
-      },
-      {
-        label: 'Gastos',
-        data: [28, 48, 40, 19, 86, 27]
-      },
-    ],
+  const diasNoviembre = [];
+  for (let dia = 1; dia <= 30; dia++) {
+    diasNoviembre.push(dia);
+  }
+
+  const ventasDiarias = diasNoviembre.map(dia => {
+    const venta = ventasMensuales.find(venta => venta.dia == dia);
+    return {
+      dia: dia,
+      total_ventas: venta ? venta.total_ventas : 0
+    };
+  });
+
+  const dataGrafica = {
+    labels: ventasDiarias.map(venta => venta.dia),
+    datasets: ventasMensuales.map(venta => ({
+      label: venta.dia,
+      data: ventasDiarias.map(venta => venta.total_ventas),
+    }))
   };
+
   const options = {
     scales: {
       y: {
@@ -78,47 +96,51 @@ export default function Dashboard() {
     },
     maintainAspectRatio: false,
   };
+
   return (
     <div className="">
-      <div className="row g-4">
-        <div className="text-center justify-content-center">
-          <CustomChart data={data} tipo='line' options={options} />
+      <div className='row w-100 justify-content-between my-3'>
+        <select value={ano} onChange={handleAnoChange} name="" id="" className="form-select col-12 col-sm mx-2">
+          <option value={anoActual}>{anoActual}</option>
+          <option value={anoActual - 1}>{anoActual - 1}</option>
+          <option value={anoActual - 1}>{anoActual - 2}</option>
+          <option value={anoActual - 1}>{anoActual - 3}</option>
+          <option value={anoActual - 1}>{anoActual - 4}</option>
+        </select>
+        <select value={mes} onChange={handleMesChange} name="" id="" className="form-select col-12 col-sm mx-2">
+          <option value="1">Enero</option>
+          <option value="2">Febrero</option>
+          <option value="3">Marzo</option>
+          <option value="4">Abril</option>
+          <option value="5">Mayo</option>
+          <option value="6">Junio</option>
+          <option value="7">Julio</option>
+          <option value="8">Agosto</option>
+          <option value="9">Septiembre</option>
+          <option value="10">Octubre</option>
+          <option value="11">Noviembre</option>
+          <option value="12">Diciembre</option>
+        </select>
+      </div>
+      <div className="row g-5 my-3">
+        <div className="col-12 px-5 text-center justify-content-center">
+          <CustomChart data={dataGrafica} tipo='bar' options={options} />
         </div>
-        <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary text-center">
-          <h3 className='pt-4'>Productos vendidos</h3>
-          <h4 className>{productosVendidosPorMes} Unidades</h4>
-          <h4 className='pb-4 text-success'>{porcentaje || 0}% este mes</h4>
+        <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary text-center shadow">
+          <h3 className='pt-4'>Productos vendidos por mes</h3>
+          <h4 className>{productosVendidosPorMes || 0} Unidades</h4>
+          <h4 className={`pb-4 ${porcentajeProductos < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeProductos || 0}% este mes</h4>
         </div>
-        <div className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center">
-          <h3 className='pt-4'>Total ganancias</h3>
-          <h4 className='pt-2'>COP 10.000.000</h4>
-          <h4 className='pb-4 text-danger'>-5% este mes</h4>
+        <div className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center shadow">
+          <h3 className='pt-4'>Total ventas por mes</h3>
+
+          <h4>COP <NumericFormat value={productosVentas || 0} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={'$'} /></h4>
+          <h4 className={`pb-4 ${porcentajeTotal < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeTotal || 0}% este mes </h4>
         </div>
       </div>
-      <div className="container border border-2 border-secondary my-5 p-3">
+      <div className="containermy-5 p-3 shadow">
         <div className="row w-100 justify-content-between mb-3">
           <h4 className="col-12 col-sm-9">Productos más vendidos</h4>
-          <select value={ano} onChange={handleAnoChange} name="" id="" className="form-select col-12 col-sm mx-2">
-            <option value={anoActual}>{anoActual}</option>
-            <option value={anoActual - 1}>{anoActual - 1}</option>
-            <option value={anoActual - 1}>{anoActual - 2}</option>
-            <option value={anoActual - 1}>{anoActual - 3}</option>
-            <option value={anoActual - 1}>{anoActual - 4}</option>
-          </select>
-          <select value={mes} onChange={handleMesChange} name="" id="" className="form-select col-12 col-sm mx-2">
-            <option value="1">Enero</option>
-            <option value="2">Febrero</option>
-            <option value="3">Marzo</option>
-            <option value="4">Abril</option>
-            <option value="5">Mayo</option>
-            <option value="6">Junio</option>
-            <option value="7">Julio</option>
-            <option value="8">Agosto</option>
-            <option value="9">Septiembre</option>
-            <option value="10">Octubre</option>
-            <option value="11">Noviembre</option>
-            <option value="12">Diciembre</option>
-          </select>
         </div>
         <div className="row px-2">
           {
@@ -155,7 +177,7 @@ export default function Dashboard() {
                   return (
                     <SwiperSlide key={producto.pro_foto}>
                       <div className="wow animate__animated animate__fadeInRight">
-                        <div className="card text-center">
+                        <div className="card text-center shadow">
                           <img
                             src={`/images/menu/productos/${producto.pro_foto}`}
                             height={200}
