@@ -5,6 +5,7 @@ import Producto from "./components/Producto";
 import RutaPrivada from "./components/RutaPrivada";
 import AdminLayout from "./components/AdminLayout";
 import RutaPublica from "./components/RutaPublica";
+import ClienteLayout from "./components/ClienteLayout";
 
 const Error = lazy(() => import("./components/Error"));
 // Importar las rutas para el default
@@ -85,13 +86,15 @@ function App() {
 
             {/* Rutas para el cliente */}
             <Route element={<RutaPrivada requiredRole={3} />}>
-              <Route path="/cliente/" element={<IndexCliente />}></Route>
-              <Route path="/cliente/miscompras" element={<HistorialCompras />}></Route>
-              <Route path="/cliente/menu" element={<MenuCliente />}></Route>
-              <Route path="/cliente/perfil" element={<PerfilCliente />}></Route>
-              <Route path="/cliente/recompensas" element={<RecompensasCliente />}></Route>
-              <Route path="/cliente/nosotros" element={<NosotrosCliente />}></Route>
-              <Route path="/producto" element={<Producto />}></Route>
+              <Route element={<ClienteLayout />}>
+                <Route path="/cliente/" element={<IndexCliente />}></Route>
+                <Route path="/cliente/miscompras" element={<HistorialCompras />}></Route>
+                <Route path="/cliente/menu" element={<MenuCliente />}></Route>
+                <Route path="/cliente/perfil" element={<PerfilCliente />}></Route>
+                <Route path="/cliente/recompensas" element={<RecompensasCliente />}></Route>
+                <Route path="/cliente/nosotros" element={<NosotrosCliente />}></Route>
+                <Route path="/producto" element={<Producto />}></Route>
+              </Route>
             </Route>
             <Route path="*" element={<Error />}></Route>
           </Routes>

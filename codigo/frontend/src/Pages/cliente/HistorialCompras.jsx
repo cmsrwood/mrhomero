@@ -1,7 +1,5 @@
 import React from 'react'
-import NavegacionCliente from '../../navigation/NavegacionCliente'
 import img from '../../assets/img/img.png'
-import '../../styles/style.css'
 
 export default function HistorialCompras() {
     function cardHistorial() {
@@ -34,8 +32,7 @@ export default function HistorialCompras() {
 
     return (
         <div>
-            <NavegacionCliente />
-            <div className="container">
+            <div className="">
                 <div className="d-flex  justify-content-around">
                     <h1 className="py-3">Historial de compras</h1>
                     <h1 className="ps-5 py-3">Puntos ganados</h1>

@@ -1,5 +1,4 @@
 import React from 'react'
-import NavegacionCliente from '../../navigation/NavegacionCliente'
 import img from '../../assets/img/img.png'
 
 export default function RecompensasCliente() {
@@ -45,8 +44,7 @@ export default function RecompensasCliente() {
   }
   return (
     <div>
-      <NavegacionCliente />
-      <div className="container">
+      <div className="">
         <div className="d-flex justify-content-between align-items-center">
           <h1>Recompensas</h1>
           <h2>Puntos obtenidos: 333</h2>

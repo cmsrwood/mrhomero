@@ -1,12 +1,10 @@
 import React from 'react'
-import NavegacionCliente from '../../navigation/NavegacionCliente'
 import img from '../../assets/img/img.png'
 import Swal from 'sweetalert2'
 export default function PerfilCliente() {
   return (
     <div>
-      <NavegacionCliente />
-      <div className="container px-5 ">
+      <div className="px-5">
         <div className='align-items-center text-center pb-3 pt-3'>
           <img src={img} height={300} alt="" className='rounded rounded-circle border border-3 px-3' />
           <input type="file" className="form-control my-3" id="inputGroupFile01"></input>
