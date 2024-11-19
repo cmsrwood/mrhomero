@@ -1,13 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import NavegacionDefault from '../../navigation/NavegacionDefault'
 import img from '../../assets/img/img.png'
 
 export default function IndexDefault() {
   const heightCarrouselImg = 200
   return (
     <div className=''>
-      <NavegacionDefault />
       <div id="carouselExample" className="carousel slide mb-5 ">
         <div className="carousel-inner">
           <div className="carousel-item active">

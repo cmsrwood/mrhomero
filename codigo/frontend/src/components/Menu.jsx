@@ -16,6 +16,8 @@ export default function Menu() {
     const [categorias, setCategorias] = useState([])
     const [isDataUpdated, setIsDataUpdated] = useState(false)
 
+    const token = localStorage.getItem('token')
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -37,9 +39,9 @@ export default function Menu() {
                 <h1 className="text-warning text-center mb-4">Menu</h1>
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-5">
                     {categorias.map((categoria) => (
-                        <div className="col">
+                        <div key={categoria.id_categoria} className="col">
                             <div className="card" key={categoria.id_categoria}>
-                                <Link to={`/menu/${categoria.cat_nom}`} style={{ textDecoration: 'none' }}>
+                                <Link to={token ? `/cliente/categoria/${categoria.id_categoria}` : `/categoria/${categoria.id_categoria}`} style={{ textDecoration: 'none' }}>
                                     <div className="card text-center border-0">
                                         <img src={`/images/menu/categorias/${categoria.cat_foto}`} height={200} className="card-img-top" alt="..." />
                                         <div className="card-body">

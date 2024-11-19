@@ -51,8 +51,7 @@ export default function Registrar() {
 
   return (
     <div className="vh-100">
-      <NavegacionDefault />
-      <div className='container w-100 w-sm-50 px-5 rounded'>
+      <div className='w-100 w-sm-50 px-5 rounded'>
         <form onSubmit={handleSubmit} className='px-0 px-sm-5 py-2'>
           <div className='text-center my-3'>
             <h1 className='text-warning'>Registro</h1>

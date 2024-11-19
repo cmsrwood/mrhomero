@@ -30,7 +30,7 @@ export default function Categoria() {
     };
     fetchData();
   }, [isDataUpdated, categoriaId]);
-  
+
   const borrarProducto = async (id) => {
     try {
       const confirm = await Swal.fire({
@@ -235,7 +235,7 @@ export default function Categoria() {
                   <h3 className="card-title">{producto.pro_nom}</h3>
                   <div className="row">
                     <div className="col">
-                      <NumericFormat value={producto.pro_precio} displayType={'text'} thousandSeparator=',' prefix={'$ '} />
+                      <NumericFormat value={producto.pro_precio} displayType={'text'} thousandSeparator='.' decimalSeparator=',' prefix={'$ '} />
                     </div>
                   </div>
                 </div>

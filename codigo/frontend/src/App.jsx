@@ -1,13 +1,16 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// Importar componentes
 import Loader from "./components/Loader";
 import Producto from "./components/Producto";
 import RutaPrivada from "./components/RutaPrivada";
 import AdminLayout from "./components/AdminLayout";
 import RutaPublica from "./components/RutaPublica";
 import ClienteLayout from "./components/ClienteLayout";
+import DefaultLayout from "./components/DefaultLayout";
+import CategoriaMenu from "./components/CategoriaMenu";
 
-const Error = lazy(() => import("./components/Error"));
 // Importar las rutas para el default
 const IndexDefault = lazy(() => import("./Pages/default/Index"));
 const Registrar = lazy(() => import("./Pages/default/Registrar"));
@@ -47,15 +50,19 @@ function App() {
           <Routes>
             {/* Rutas para el default */}
             <Route element={<RutaPublica />}>
-              <Route exact path='/' element={<IndexDefault />}></Route>
-              <Route path='/nosotros' element={<Nosotros />}></Route>
-              <Route path='/registrar' element={<Registrar />}></Route>
-              <Route path='/ingresar' element={<Ingresar />}></Route>
-              <Route path='/menu' element={<MenuDefault />}></Route>
-              <Route path="/menu/:nombre"></Route>
-              <Route path="/recuperar" element={<Recuperar />}></Route>
-              <Route path="/emailRecuperar" element={<EmailRecuperar />}></Route>
-              <Route path="/loader" element={<Loader />}></Route>
+              <Route element={<DefaultLayout />}>
+                <Route exact path='/' element={<IndexDefault />}></Route>
+                <Route path='/nosotros' element={<Nosotros />}></Route>
+                <Route path='/registrar' element={<Registrar />}></Route>
+                <Route path='/ingresar' element={<Ingresar />}></Route>
+                <Route path='/menu' element={<MenuDefault />}></Route>
+                <Route path="/menu/:nombre"></Route>
+                <Route path="/recuperar" element={<Recuperar />}></Route>
+                <Route path="/emailRecuperar" element={<EmailRecuperar />}></Route>
+                <Route path="/loader" element={<Loader />}></Route>
+                <Route path="/categoria/:id" element={<CategoriaMenu />}></Route>
+                <Route path="/producto/:id" element={<Producto />}></Route>
+              </Route>
             </Route>
 
             {/* Rutas para el admin */}
@@ -93,7 +100,8 @@ function App() {
                 <Route path="/cliente/perfil" element={<PerfilCliente />}></Route>
                 <Route path="/cliente/recompensas" element={<RecompensasCliente />}></Route>
                 <Route path="/cliente/nosotros" element={<NosotrosCliente />}></Route>
-                <Route path="/producto" element={<Producto />}></Route>
+                <Route path="/cliente/categoria/:id" element={<CategoriaMenu />}></Route>
+                <Route path="/cliente/producto/:id" element={<Producto />}></Route>
               </Route>
             </Route>
             <Route path="*" element={<Error />}></Route>

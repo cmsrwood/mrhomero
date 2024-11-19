@@ -5,7 +5,6 @@ import Nosotros from '../../components/Nosotros'
 export default function NosotrosDefault() {
     return (
         <div className="">
-            <NavegacionDefault />
             <Nosotros />
         </div>
     )

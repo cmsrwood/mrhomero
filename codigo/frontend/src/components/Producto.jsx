@@ -1,47 +1,41 @@
-import React from "react";
-import img from "../assets/img/hamburguesa.png";
-import "../styles/product.css";
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from "react-router-dom";
+import { NumericFormat } from 'react-number-format';
+import axios from 'axios';
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Producto() {
+    const [producto, setProducto] = useState(null);
+    const location = useLocation();
+    const token = localStorage.getItem('token');
+    const idProducto = token ? location.pathname.split("/")[3] : location.pathname.split("/")[2];
 
-    function card() {
-        return (
-            <div className="col-sm-6">
-                <div className="suggestion-card">
-                    <img src={img} alt="" />
-                    <div className="content-suggestion">
-                        <h4>Hamburguesa</h4>
-                        <p style={{maxHeight: "150px", overflowY: "auto" }}>descripcion: Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                    </div>
-                    <p className="price">$10.000</p>
-
-                </div>
-            </div>
-        )
-    }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get(`${BACKEND_URL}/api/productos/mostrarProducto/${idProducto}`);
+                setProducto(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [idProducto]);
 
     return (
-        <>
-            <div className="card-product-content">
-                <div className="img-product">
-                    <img src={img} alt="" />
+        <div className=''>
+            <h1 className='display-1 text-center'>Producto #{producto?.id_producto}</h1>
+            <div className="row ">
+                <div className="col-5 pt-4">
+                    <img className='img-fluid rounded' src={`/images/menu/productos/${producto?.pro_foto}`} alt="" />
                 </div>
-                <div className="content-product">
-                    <h1>Hamburguesa</h1>
-                    <h2>Categoria: Hamburguesa</h2>
-                    <h2>Descripcion: Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis illum dignissimos reiciendis, quae quas eligendi alias, ab consequatur amet recusandae reprehenderit! Officiis deserunt, est reiciendis porro magni enim quod dolorem.</h2>
-                    <h2 className="price">$10.000</h2>
-                </div>
-            </div>
-            <div className="suggestion">
-                <h4 className="title-suggestion">Tambien te puede gustar</h4>
-                <div className="row">
-                    {card()}
-                    {card()}
-                    {card()}
-                    {card()}
+                <div className="col-7 px-5 py-3">
+                    <h2 className='display-5 fw-bold'>{producto?.pro_nom}</h2>
+                    <h4 className='py-3'>{producto?.pro_desp}</h4>
+                    <NumericFormat className='display-5 text-warning' value={producto?.pro_precio} displayType={'text'} thousandSeparator='.' decimalSeparator=',' prefix={'$ '} />
                 </div>
             </div>
-        </>
-    )
+        </div>
+    );
+
 }

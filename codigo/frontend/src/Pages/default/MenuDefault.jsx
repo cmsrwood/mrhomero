@@ -7,7 +7,6 @@ export default function MenuDefault() {
 
     return (
         <div className="">
-            <NavegacionDefault />
             <Menu />
         </div>
 
