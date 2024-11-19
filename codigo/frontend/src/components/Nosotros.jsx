@@ -1,17 +1,30 @@
 import React from 'react'
 import img from '../assets/img/img.png'
+import homero from '../assets/img/homero.jpg'
 
 export default function Nosotros() {
     return (
         <div className="">
-            <h1 className="centro">Nosotros</h1>
-            <div className="container-flex">
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis tenetur doloremque pariatur sed modi repellat cumque vel perferendis accusantium, fuga maiores iusto veritatis voluptas magni placeat minima unde ullam temporibus quidem nemo dolorum numquam maxime. Amet tempora nam rerum inventore? Incidunt, cupiditate. Laboriosam, animi asperiores illum, earum soluta quod labore aperiam voluptatibus perspiciatis at ducimus dicta, neque beatae doloribus eligendi quis corrupti deserunt excepturi? Mollitia modi odit quo enim maiores deserunt, cupiditate nisi animi, ipsum amet dignissimos provident incidunt minima qui? Deserunt, dolorem mollitia deleniti alias nobis ipsa exercitationem quam dolores quasi temporibus sint, delectus quia ullam. Fugiat, earum reprehenderit.</p>
-                <img src={img} className="foto-nosotros" alt="..." />
-            </div>
-            <div className="container-flex">
-                <img src={img} className="foto-nosotros" alt="..." />
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis tenetur doloremque pariatur sed modi repellat cumque vel perferendis accusantium, fuga maiores iusto veritatis voluptas magni placeat minima unde ullam temporibus quidem nemo dolorum numquam maxime. Amet tempora nam rerum inventore? Incidunt, cupiditate. Laboriosam, animi asperiores illum, earum soluta quod labore aperiam voluptatibus perspiciatis at ducimus dicta, neque beatae doloribus eligendi quis corrupti deserunt excepturi? Mollitia modi odit quo enim maiores deserunt, cupiditate nisi animi, ipsum amet dignissimos provident incidunt minima qui? Deserunt, dolorem mollitia deleniti alias nobis ipsa exercitationem quam dolores quasi temporibus sint, delectus quia ullam. Fugiat, earum reprehenderit.</p>
+            <div className="container">
+                <div className="row d-flex justify-content-center mb-5 ps-5">
+                    <div className="col-8  fw-bold d-block align-content-center ">
+                        <h2>SI LO QUE BUSCAS ES SABOR </h2>
+                        <h2><span className='homero'>MR. HOMERO</span> ES LO MEJOR.</h2>
+                    </div>
+                    <div className="col-4  ps-4 text-center">
+                        <img src={img} width={250} height={250} />
+                    </div>
+                </div>
+                <div className="">
+                    <div className="border-bottom border-top border-2 p-5">
+                        <h5>SOBRE <span className='homero fs-4' > MR.HOMERO</span></h5>
+                        <p className='w-25'> Lorem ipsum d align-content-centerolor sit amet consectetur adipisicing elit. Esse et aliquam recusandae labore doloribus, incidunt, aspernatur inventore tenetur amet quisquam, ab delectus. Sint quod, esse accusantium natus mollitia qui eos.</p>
+                    </div>
+                    <div className="pt-3">
+                        <img src={homero} alt="" widyh={500} height={500}className='border border-2 rounded shadow-lg' />
+                    </div>
+                </div>
+
             </div>
         </div>
     )
