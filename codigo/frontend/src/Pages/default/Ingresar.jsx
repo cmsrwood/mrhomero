@@ -101,8 +101,7 @@ export default function Ingresar() {
   };
 
   return (
-    <div className="vh-100">
-      <NavegacionDefault />
+    <div className="">
       <div className='container-fluid p-0 p-sm-5 py-0 py-sm-1 text-center wipe-in-down' style={{ width: '85%' }}>
         {loading ? (
           <Loader />
