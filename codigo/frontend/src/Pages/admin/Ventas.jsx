@@ -7,6 +7,11 @@ export default function Ventas() {
 
   const [ventas, setVentas] = useState([]);
   const [clientes, setClientes] = useState([]);
+  const [Filtro, setFiltro] = useState({
+    fecha: true,
+    metodoDePago: true,
+    total: true,
+  });
 
   const [id_venta, setIdVenta] = useState('');
   const [detallesVentas, setDetallesVentas] = useState([]);
@@ -41,6 +46,7 @@ export default function Ventas() {
 
   const ventasFiltradas = ventas
     .filter(venta => estadoFiltro === null || venta.venta_estado === estadoFiltro)
+    .sort(Filtro.fecha ? (a, b) => new Date(b.venta_fecha) - new Date(a.venta_fecha) : (a, b) => new Date(a.venta_fecha) - new Date(b.venta_fecha))
     .filter(venta => {
       const term = searchTerm.toLowerCase();
       return (
@@ -48,7 +54,8 @@ export default function Ventas() {
         venta.venta_fecha.toLowerCase().includes(term) ||
         venta.venta_total.toString().toLowerCase().includes(term)
       );
-    });
+    }
+    );
 
   const borrarVenta = async (id) => {
     try {
@@ -187,7 +194,7 @@ export default function Ventas() {
         <table className="table table-striped mt-5">
           <thead>
             <tr>
-              <th scope="col">Fecha</th>
+              <th scope="col">Fecha <button onClick={() => setFiltro({ ...Filtro, fecha: !Filtro.fecha })} className='btn'><i className={Filtro.fecha ? `bi bi-caret-down` : `bi bi-caret-up`}></i></button></th>
               <th scope="col">Cliente</th>
               <th scope="col">Método de pago</th>
               <th scope="col">Total</th>
@@ -218,7 +225,7 @@ export default function Ventas() {
                         : <button type="button" className="btn btn-success" onClick={() => restaurarVenta(venta.id_venta)}><i className="bi bi-arrow-counterclockwise"></i></button>}
                     </td>
                   </tr>
-                  <tr className="collapse" id={`collapse_${venta.id_venta}`}>
+                  <tr className="collapse wow animate__animated animate__fadeInLeft" id={`collapse_${venta.id_venta}`}>
                     <td colSpan="6">
                       <div className="card card-body">
                         <p className='card-title'>Detalle de la venta con id {venta.id_venta}</p>
@@ -240,11 +247,18 @@ export default function Ventas() {
                                     <td>{detalle.cantidad_producto}</td>
                                     <td>{detalle.producto.pro_nom}</td>
                                     <td>{formatNumber(detalle.producto.pro_precio)}</td>
-                                    <td>{detalle.producto.pro_puntos}</td>
-                                    <td className='fw-bold'>{detalle.subtotal}</td>
+                                    <td>{formatNumber(detalle.producto.pro_puntos)}</td>
+                                    <td className=''>{formatNumber(detalle.subtotal)}</td>
                                   </tr>
                                 </React.Fragment>
                               ))}
+                              <tr className='fw-bold'>
+                                <td >Total:</td>
+                                <td></td>
+                                <td></td>
+                                <td className='text-warning'>{formatNumber(detallesVentas[venta.id_venta].reduce((total, detalle) => total + detalle.producto.pro_puntos * detalle.cantidad_producto, 0))}</td>
+                                <td className='text-warning'>{formatNumber(venta.venta_total)}</td>
+                              </tr>
                             </tbody>
                           </table>
                         ) : (
