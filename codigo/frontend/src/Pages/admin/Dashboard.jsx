@@ -82,10 +82,10 @@ export default function Dashboard() {
 
   const dataGrafica = {
     labels: ventasDiarias.map(venta => venta.dia),
-    datasets: ventasMensuales.map(venta => ({
-      label: venta.dia,
+    datasets: [{
+      label: 'Ingresos',
       data: ventasDiarias.map(venta => venta.total_ventas),
-    }))
+    }]
   };
 
   const options = {
