@@ -24,6 +24,25 @@ exports.mostrarCuentaClientesUltimoMes = (req, res) => {
         }
     });
 }
+
+exports.agregarPuntos = (req, res) => {
+    const id = req.params.id;
+    const puntos = req.body.puntos;
+
+    db.query('UPDATE usuarios SET user_puntos = user_puntos + ? WHERE id_user = ?', [puntos, id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+
+        }
+        else {
+            return res.status(200).send({
+                message: 'Puntos agregados exitosamente',
+            });
+        }
+    });
+}
+
 exports.borrarCliente = (req, res) => {
     const id = req.params.id;
 

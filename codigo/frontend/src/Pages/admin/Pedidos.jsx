@@ -191,6 +191,13 @@ export default function Pedidos() {
             return axios.post(`${BACKEND_URL}/api/ventas/crearDetalleVenta`, detalleVenta);
           });
 
+          if (userSelect.id_user !== 0) {
+            const puntos = venta.map(async (producto) => {
+              return axios.put(`${BACKEND_URL}/api/clientes/agregarPuntos/${userSelect.id_user}`, { puntos: producto.pro_puntos * producto.cantidad });
+            });
+            await Promise.all(puntos);
+          }
+
           await Promise.all(detalles);
 
           setIsDataUpdated(true);
@@ -401,7 +408,7 @@ export default function Pedidos() {
                           {/* Venta */}
                           {venta.map((product) => {
                             return (
-                              <tr key={product.id_venta}>
+                              <tr key={product.id_producto}>
                                 <td className=''>
                                   <div className="d-flex align-items-center">
                                     <button type='button' className='btn btn-danger me-2' id='btnMinus' onClick={() => actualizarCantidad(product.id_producto, -1)}>-</button>
@@ -441,11 +448,11 @@ export default function Pedidos() {
                               <div className="col pt-3">
                                 {/*Select sobre el tipo de pago*/}
                                 <h3 className='text-start pb-2 ms-3'>Método de pago</h3>
-                                <select onChange={(e) => setMetodoPago(e.target.value)} className='form-select form-select-sm w-75 fs-5 ms-3' aria-label='Small'>
-                                  <option selected value='Efectivo'>Efectivo</option>
-                                  <option value='Tarjeta'>Tarjeta</option>
-                                  <option value='Nequi'>Nequi</option>
-                                  <option value='Davidplata'>Daviplata</option>
+                                <select value={metodoPago} onChange={(e) => setMetodoPago(e.target.value)} className='form-select form-select-sm w-75 fs-5 ms-3' aria-label='Small'>
+                                  <option defaultValue='Efectivo'>Efectivo</option>
+                                  <option defaultValue='Tarjeta'>Tarjeta</option>
+                                  <option defaultValue='Nequi'>Nequi</option>
+                                  <option defaultValue='Davidplata'>Daviplata</option>
                                 </select>
                                 {/*Botones de Cantidad de precio*/}
                                 <div className='col pt-5 pb-3 justify-content-start text-start'>
@@ -563,7 +570,7 @@ export default function Pedidos() {
                                       <tbody>
                                         {venta.map((product) => {
                                           return (
-                                            <tr key={product.id_venta}>
+                                            <tr key={product.id_producto}>
                                               <td>
                                                 <span>{product.cantidad}</span>
                                               </td>
