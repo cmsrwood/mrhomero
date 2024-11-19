@@ -48,7 +48,8 @@ export default function MenuAdmin() {
   };
 
   // Función para manejar el envío de datos
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append('categoria', categoria.categoria);
     formData.append('foto', categoria.foto);
