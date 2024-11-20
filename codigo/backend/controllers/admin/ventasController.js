@@ -1,22 +1,7 @@
 const db = require('../../config/db');
-const multer = require('multer');
 const fs = require('fs');
-const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadPath = path.resolve(__dirname, '../../../frontend/public/images/menu/productos');
-        cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-        const ext = file.originalname.split(".").pop();
-        cb(null, `recompensa_${Date.now()}.${ext}`);
-    }
-});
-
-const upload = multer({ storage: storage });
+const PDFDocument = require('pdfkit');
 
 exports.mostrarVentas = (req, res) => {
     db.query(`
@@ -78,7 +63,7 @@ exports.mostrarCuentaProductosVendidosPorMes = (req, res) => {
 
     const mes = req.params.mes;
     const ano = req.params.ano;
-    
+
 
     db.query(`SELECT
                 SUM(dv.cantidad_producto) AS cantidad
@@ -177,6 +162,35 @@ exports.crearDetalleVenta = (req, res) => {
         return res.status(200).send({ message: 'Venta creada exitosamente' });
     });
 }
+
+function generarPDF(ventas, mes, ano) {
+    doc.pipe(fs.createWriteStream(`ventas_mensuales_${mes}_${ano}.pdf`));
+
+    doc.font('Helvetica');
+    doc.fontSize(25).text(`Reporte de Ventas Mensuales - ${mes}/${ano}`, { align: 'center' });
+    doc.fontSize(12);
+
+    // Crear la tabla
+    doc.text("Día | Total de ventas");
+    doc.text("---------------------");
+    ventas.map(venta => {
+        doc.text(`${venta.venta_fecha} | ${venta.venta_total}`);
+    });
+    doc.end();
+}
+
+exports.generarPDFVentasMensuales = async (req, res) => {
+    const doc = new PDFDocument({ bufferPage: true });
+
+    const stream = res.writeHead(200, {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment;filename=ventas_mensuales.pdf`
+    });
+
+    doc.on('data', (data) => stream.write(stream));
+    doc.on('end', stream.end());
+};
+
 
 exports.borrarVenta = (req, res) => {
     const id = req.params.id;

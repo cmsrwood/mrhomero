@@ -67,12 +67,12 @@ export default function Dashboard() {
     setIsDataUpdated(true);
   };
 
-  const diasNoviembre = [];
-  for (let dia = 1; dia <= 30; dia++) {
-    diasNoviembre.push(dia);
+  const diasMes = [];
+  for (let dia = 1; dia <= moment(`${ano}-${mes}-01`, "YYYY-MM").daysInMonth(); dia++) {
+    diasMes.push(dia);
   }
 
-  const ventasDiarias = diasNoviembre.map(dia => {
+  const ventasDiarias = diasMes.map(dia => {
     const venta = ventasMensuales.find(venta => venta.dia == dia);
     return {
       dia: dia,
@@ -124,21 +124,21 @@ export default function Dashboard() {
       </div>
       <div className="row g-5 my-3">
         <div className="col-12 px-5 text-center justify-content-center">
-          <CustomChart data={dataGrafica} tipo='bar' options={options} />
+          <CustomChart className='' data={dataGrafica} tipo='line' options={options} />
         </div>
         <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary text-center shadow">
           <h3 className='pt-4'>Productos vendidos por mes</h3>
           <h4 className>{productosVendidosPorMes || 0} Unidades</h4>
-          <h4 className={`pb-4 ${porcentajeProductos < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeProductos || 0}% este mes</h4>
+          <h4 className={`pb-4 ${porcentajeProductos < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeProductos <= 0 ? porcentajeProductos : '+' + porcentajeProductos || 0}% este mes</h4>
         </div>
         <div className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center shadow">
           <h3 className='pt-4'>Total ventas por mes</h3>
 
           <h4>COP <NumericFormat value={productosVentas || 0} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={'$'} /></h4>
-          <h4 className={`pb-4 ${porcentajeTotal < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeTotal || 0}% este mes </h4>
+          <h4 className={`pb-4 ${porcentajeTotal < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeTotal <= 0 ? porcentajeTotal : '+' + porcentajeTotal || 0}% este mes </h4>
         </div>
       </div>
-      <div className="containermy-5 p-3 shadow">
+      <div className="container border border-2 border-secondary my-5 p-4 shadow">
         <div className="row w-100 justify-content-between mb-3">
           <h4 className="col-12 col-sm-9">Productos más vendidos</h4>
         </div>
