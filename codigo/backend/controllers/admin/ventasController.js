@@ -1,7 +1,7 @@
 const db = require('../../config/db');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
-const PDFDocument = require('pdfkit');
+const pdfkitTable = require('pdfkit-table')
 
 exports.mostrarVentas = (req, res) => {
     db.query(`
@@ -163,34 +163,63 @@ exports.crearDetalleVenta = (req, res) => {
     });
 }
 
-function generarPDF(ventas, mes, ano) {
-    doc.pipe(fs.createWriteStream(`ventas_mensuales_${mes}_${ano}.pdf`));
+function mesANombre(mes) {
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    return meses[mes - 1];
+}
 
+async function generarPDF(doc, ventas, ano, mes) {
     doc.font('Helvetica');
-    doc.fontSize(25).text(`Reporte de Ventas Mensuales - ${mes}/${ano}`, { align: 'center' });
+    doc.fontSize(25).text(`Reporte de Ventas Mensuales - ${mesANombre(mes)}/${ano}`, { align: 'center' });
     doc.fontSize(12);
 
-    // Crear la tabla
-    doc.text("Día | Total de ventas");
-    doc.text("---------------------");
-    ventas.map(venta => {
-        doc.text(`${venta.venta_fecha} | ${venta.venta_total}`);
+    const table = {
+        headers: ["Día", "Total de ventas", "Método de pago"],
+        rows: ventas.map(venta => [venta.venta_fecha, venta.venta_total, venta.venta_metodo_pago])
+    };
+
+    await doc.table(table, {
+        prepareHeader: () => doc.font("Helvetica-Bold"),
+        prepareRow: (row, indexColumn, indexRow, rectRow) => doc.font("Helvetica").fontSize(10)
     });
+
     doc.end();
 }
 
 exports.generarPDFVentasMensuales = async (req, res) => {
-    const doc = new PDFDocument({ bufferPage: true });
+
+    const ano = req.params.ano;
+    const mes = req.params.mes;
+
+    const doc = new pdfkitTable({ bufferPage: true });
+
+    const filename = `ventas_mensuales_${mes}_${ano}.pdf`;
 
     const stream = res.writeHead(200, {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment;filename=ventas_mensuales.pdf`
+        'Content-Disposition': `attachment; filename=${filename}`
     });
 
-    doc.on('data', (data) => stream.write(stream));
-    doc.on('end', stream.end());
-};
+    doc.on('data', (data) => stream.write(data));
+    doc.on('end', () => stream.end());
 
+    db.query(`SELECT 
+            id_venta, 
+            DATE_FORMAT(venta_fecha, '%Y-%m-%d / %H:%i:%s') AS venta_fecha, 
+            id_user, 
+            venta_metodo_pago, 
+            venta_total,
+            venta_estado
+        FROM ventas`, [mes, ano], (err, ventas) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send({ error: 'Error en el servidor' });
+        } else {
+            generarPDF(doc, ventas, ano, mes);
+        }
+    });
+
+};
 
 exports.borrarVenta = (req, res) => {
     const id = req.params.id;
