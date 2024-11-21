@@ -122,6 +122,14 @@ export default function Dashboard() {
           <option value="12">Diciembre</option>
         </select>
       </div>
+      <div className="d-flex w-100 justify-content-between my-3">
+        <select value={"x"} name="" id="" className='form-select me-2'>
+          <option disabled selected value="x">Seleccionar tipo de reporte</option>
+          <option value="1">Anual</option>
+          <option value="2">Mensual</option>
+        </select>
+        <a className='btn btn-danger me-2' target="_blank" href={`${BACKEND_URL}/api/ventas/crearReporte/${ano}/${mes}`}><i class="bi bi-filetype-pdf"></i></a>
+      </div>
       <div className="row g-5 my-3">
         <div className="col-12 px-5 text-center justify-content-center">
           <CustomChart className='' data={dataGrafica} tipo='line' options={options} />

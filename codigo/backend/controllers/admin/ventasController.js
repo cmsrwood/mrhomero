@@ -2,6 +2,8 @@ const db = require('../../config/db');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const pdfkitTable = require('pdfkit-table')
+const moment = require('moment');
+const path = require('path');
 
 exports.mostrarVentas = (req, res) => {
     db.query(`
@@ -163,25 +165,52 @@ exports.crearDetalleVenta = (req, res) => {
     });
 }
 
+/* Generar PDF */
+
 function mesANombre(mes) {
     const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     return meses[mes - 1];
 }
 
+const formatNumber = (value) => {
+    const formattedValue = value.toString().replace(/\D/g, '');
+    return formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+};
+
 async function generarPDF(doc, ventas, ano, mes) {
+    const filePath = path.resolve(__dirname, `../../../frontend/public/logo.png`);
     doc.font('Helvetica');
-    doc.fontSize(25).text(`Reporte de Ventas Mensuales - ${mesANombre(mes)}/${ano}`, { align: 'center' });
-    doc.fontSize(12);
+    doc.image(filePath, 480, 60, { width: 80 })
+    doc.fontSize(20).text(`Reporte de Ventas Mensuales\n${mesANombre(mes)}/${ano}`, { align: 'center' });
+    doc.moveDown();
+    doc.fontSize(12).text(`Ventas del mes de ${mesANombre(mes)}/${ano}`, { align: 'start' });
+    doc.moveDown();
+
+    const diasMes = [];
+
+    for (let dia = 1; dia <= moment(`${ano}-${mes}-01`, "YYYY-MM").daysInMonth(); dia++) {
+        diasMes.push(dia);
+    }
+
+    const ventasDiarias = diasMes.map(dia => {
+        const venta = ventas.find(venta => venta.dia == dia);
+        return {
+            dia: `${dia}/${mes}/${ano}`,
+            total_ventas: venta ? formatNumber(venta.total_ventas) : 'Sin ventas'
+        };
+    });
 
     const table = {
-        headers: ["Día", "Total de ventas", "Método de pago"],
-        rows: ventas.map(venta => [venta.venta_fecha, venta.venta_total, venta.venta_metodo_pago])
+        headers: ["Fecha", "Total de ventas",],
+        rows: ventasDiarias.map(venta => [venta.dia, venta.total_ventas])
     };
 
     await doc.table(table, {
-        prepareHeader: () => doc.font("Helvetica-Bold"),
-        prepareRow: (row, indexColumn, indexRow, rectRow) => doc.font("Helvetica").fontSize(10)
+        prepareHeader: () => doc.font("Helvetica-Bold").fontSize(10),
+        prepareRow: (row, indexColumn, indexRow, rectRow) => doc.font("Helvetica").fontSize(8)
     });
+
+    doc.fontSize(12).text(`Total de ventas en mes ${mesANombre(mes)}/${ano}: ${formatNumber(ventas.reduce((total, venta) => total + venta.total_ventas, 0))}`, { align: 'end' });
 
     doc.end();
 }
@@ -204,13 +233,12 @@ exports.generarPDFVentasMensuales = async (req, res) => {
     doc.on('end', () => stream.end());
 
     db.query(`SELECT 
-            id_venta, 
-            DATE_FORMAT(venta_fecha, '%Y-%m-%d / %H:%i:%s') AS venta_fecha, 
-            id_user, 
-            venta_metodo_pago, 
-            venta_total,
-            venta_estado
-        FROM ventas`, [mes, ano], (err, ventas) => {
+            DATE_FORMAT(venta_fecha, '%d') AS dia,
+            SUM(venta_total) AS total_ventas
+            FROM ventas
+            WHERE MONTH(venta_fecha) = ? AND YEAR(venta_fecha) = ?
+            GROUP BY dia
+            ORDER BY dia;`, [mes, ano], (err, ventas) => {
         if (err) {
             console.log(err);
             return res.status(500).send({ error: 'Error en el servidor' });
