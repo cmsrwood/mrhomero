@@ -23,7 +23,7 @@ export default function useTema() {
         setTema(nuevoTema);
         if (nuevoTema === 'light') {
             ToastTema.fire({
-                title: `Tema cambiado a ${nuevoTema}`,
+                title: `Tema ${nuevoTema}`,
                 icon: 'success',
                 color: '#fff',
                 background: '#212529',
@@ -31,7 +31,7 @@ export default function useTema() {
         }
         else {
             ToastTema.fire({
-                title: `Tema cambiado a ${nuevoTema}`,
+                title: `Tema ${nuevoTema}`,
                 icon: 'success'
             });
         }

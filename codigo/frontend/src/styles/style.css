@@ -74,3 +74,18 @@ h1 {
 .hoverCursor:hover {
     cursor: pointer;
 }
+.scrollbar-nosotros {
+    overflow-y: auto;
+    max-height: 220px;
+    scrollbar-color: #ffc107 #f6f5f2;
+    scrollbar-width: thin;
+}
+
+.nosotros-img {
+    transition: all ease 0.5s;  
+}
+.nosotros-img:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: all ease 0.5s;
+}
