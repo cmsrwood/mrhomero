@@ -201,7 +201,7 @@ async function generarPDF(doc, ventas, ano, mes) {
     });
 
     const table = {
-        headers: ["Fecha", "Total de ventas",],
+        headers: ["Fecha", "Total de ventas"],
         rows: ventasDiarias.map(venta => [venta.dia, venta.total_ventas])
     };
 

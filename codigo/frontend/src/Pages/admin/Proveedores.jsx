@@ -223,7 +223,7 @@ export default function Proveedores() {
                             <th scope="row" className="text-warning">{proveedor.prov_nombre}</th>
                             <td>{proveedor.prov_direccion}</td>
                             <td>{proveedor.prov_contacto_nombre}</td>
-                            <td>{proveedor.prov_contacto_telefono}</td>
+                            <td><a className='btn btn-success' href={`tel:${proveedor.prov_contacto_telefono}`}><i className='bi bi-telephone'></i> {proveedor.prov_contacto_telefono}</a></td>
                             <td>{proveedor.prov_contacto_email}</td>
                             <td><button className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditarProv" onClick={() => { OpenEditModal(proveedor) }}><i className="bi bi-pencil-square"></i></button></td>
                             <td><button className="btn btn-danger" onClick={() => { borrar(proveedor.id_proveedor) }}><i className="bi bi-trash"></i></button></td>

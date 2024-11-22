@@ -10,6 +10,7 @@ import RutaPublica from "./components/RutaPublica";
 import ClienteLayout from "./components/ClienteLayout";
 import DefaultLayout from "./components/DefaultLayout";
 import CategoriaMenu from "./components/CategoriaMenu";
+import Error from "./components/Error";
 
 // Importar las rutas para el default
 const IndexDefault = lazy(() => import("./Pages/default/Index"));

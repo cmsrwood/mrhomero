@@ -40,27 +40,28 @@ export default function CategoriaMenu() {
             </div>
             <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
                 {productos.map((producto) => (
-                    <div className="col my-2" key={producto.id_producto}>
-                        <div className="card text-center p-2">
-                            <img src={`/images/menu/productos/${producto.pro_foto}`} height={200} className="card-img-top" alt="..." />
-                            <div className="card-body">
-                                <div className=" justify-content-between align-productos-center">
-                                    <h3 className="card-title">{producto.pro_nom}</h3>
-                                    <div className="row">
-                                        <div className="col">
-                                            <NumericFormat value={producto.pro_precio} displayType={'text'} thousandSeparator='.' decimalSeparator=',' prefix={'$ '} />
+                    <Link to={token ? `/cliente/producto/${producto.id_producto}` : `/producto/${producto.id_producto}`} className="text-decoration-none">
+                        <div className="col my-2" key={producto.id_producto}>
+                            <div className="card text-center p-2">
+                                <img src={`/images/menu/productos/${producto.pro_foto}`} height={200} className="card-img-top" alt="..." />
+                                <div className="card-body">
+                                    <div className=" justify-content-between align-productos-center">
+                                        <h3 className="card-title">{producto.pro_nom}</h3>
+                                        <div className="row">
+                                            <div className="col">
+                                                <NumericFormat value={producto.pro_precio} displayType={'text'} thousandSeparator='.' decimalSeparator=',' prefix={'$ '} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="row row-cols-3">
-                                {/* Botón para ver */}
-                                <div className="col">
-                                    <Link to={token ? `/cliente/producto/${producto.id_producto}` : `/producto/${producto.id_producto}`} className="btn btn-success w-100"><i className="bi bi-eye"></i> Ver</Link>
+                                <div className="row row-cols-3">
+                                    {/* Botón para ver */}
+                                    <div className="col">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div >
