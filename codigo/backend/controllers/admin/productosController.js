@@ -136,7 +136,7 @@ exports.crearProducto = (req, res) => {
                 return res.status(500).send({ error: err, title: 'Error en el servidor', message: 'Intente nuevamente' });
             }
 
-            return res.status(200).send('El producto se ha creado correctamente');
+            return res.status(200).send({title : "Producto creado", message : "El producto se ha creado correctamente"});
         });
     });
 };

@@ -40,6 +40,19 @@ exports.mostrarRecompensas = (req, res) => {
     })
 }
 
+exports.mostrarPuntos = (req, res) => {
+    const id = req.params.id;
+    const q = "SELECT user_puntos FROM usuarios WHERE id_user = ?";
+    db.query(q, [id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send(results);
+        }
+    })
+}
+
 // Configuración de Multer para subir una sola imagen
 
 exports.upload = upload.single('foto');
@@ -66,6 +79,45 @@ exports.crearRecompensa = (req, res) => {
             return res.status(500).send('Error al ingresar los datos');
         } else {
             return res.status(200).send('Recompensa creada correctamente');
+        }
+    })
+}
+
+exports.reclamarRecompensa = (req, res) => {
+    const id_recompensa = req.body.id_recompensa;
+    const id_usuario = req.params.id_usuario;
+    const values = [
+        id_recompensa,
+        id_usuario
+    ];
+
+    db.query("SELECT * FROM recompensas WHERE id_recomp = ?", [id_recompensa], (err, data) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error al ingresar los datos');
+        }
+        else {
+            db.query('INSERT INTO recompensas_obt (`id_recomp`, `id_user`) VALUES (?)', [values], (err) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send('Error al ingresar los datos');
+                } else {
+
+                    const values2 = [
+                        data[0].recomp_num_puntos,
+                        id_usuario
+                    ]
+
+                    db.query('UPDATE user_puntos SET user_puntos = user_puntos - ? WHERE id_user = ?', [values2], (err) => {
+                        if (err) {
+                            console.log(err);
+                            return res.status(500).send('Error al ingresar los datos');
+                        } else {
+                            return res.status(200).send({ message: 'Recompensa reclamada correctamente' });
+                        }
+                    })
+                }
+            })
         }
     })
 }
@@ -130,7 +182,7 @@ exports.eliminarRecompensa = (req, res) => {
         }
 
         const imagen = data[0].recomp_foto;
-        if(imagen) {
+        if (imagen) {
             await eliminar(imagen);
         }
 

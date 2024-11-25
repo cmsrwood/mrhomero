@@ -90,7 +90,7 @@ export default function Categoria() {
     try {
       const res = await axios.post(`${BACKEND_URL}/api/productos/crearProducto`, formData);
       if (res.status === 200) {
-        Swal.fire('Producto creado', res.data, 'success');
+        Swal.fire({icon : 'success', title: res.data.title, text: res.data.message});
         setProductoSubir({
           id_categoria: categoriaId,
           nombre: '',
