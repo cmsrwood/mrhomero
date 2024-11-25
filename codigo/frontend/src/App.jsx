@@ -57,11 +57,10 @@ function App() {
                 <Route path='/nosotros' element={<Nosotros />}></Route>
                 <Route path='/registrar' element={<Registrar />}></Route>
                 <Route path='/ingresar' element={<Ingresar />}></Route>
-                <Route path='/menu' element={<MenuDefault />}></Route>
-                <Route path="/menu/:nombre"></Route>
                 <Route path="/recuperar" element={<Recuperar />}></Route>
                 <Route path="/emailRecuperar" element={<EmailRecuperar />}></Route>
                 <Route path="/loader" element={<Loader />}></Route>
+                <Route path='/menu' element={<MenuDefault />}></Route>
                 <Route path="/categoria/:id" element={<CategoriaMenu />}></Route>
                 <Route path="/producto/:id" element={<Producto />}></Route>
                 <Route path="/footer" element={<Footer />}></Route>

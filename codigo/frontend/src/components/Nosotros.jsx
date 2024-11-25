@@ -1,12 +1,12 @@
 import React from 'react'
-import img from '../../public/logo.png'
+import img from '/logo.png'
 import banner from '../assets/img/banner-nosotros.jpg'
 import homero from '../assets/img/homero.jpg'
 import '../styles/style.css'
 
 
 export default function Nosotros() {
-    return (    
+    return (
         <div className="">
             <div className="container">
                 <div className="row d-flex justify-content-center mb-5 ps-5">
