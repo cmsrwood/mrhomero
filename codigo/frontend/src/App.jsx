@@ -6,6 +6,7 @@ import Loader from "./components/Loader";
 import Producto from "./components/Producto";
 import RutaPrivada from "./components/RutaPrivada";
 import AdminLayout from "./components/AdminLayout";
+import EmpleadoLayout from "./components/EmpleadoLayout";
 import RutaPublica from "./components/RutaPublica";
 import ClienteLayout from "./components/ClienteLayout";
 import DefaultLayout from "./components/DefaultLayout";
@@ -41,8 +42,13 @@ const RecompensasAdmin = lazy(() => import("./Pages/admin/RecompensasAdmin"));
 const Empleados = lazy(() => import("./Pages/admin/Empleados"));
 const HorasEmpleados = lazy(() => import("./Pages/admin/HorasEmpleados"));
 const ProductoAdmin = lazy(() => import("./Pages/admin/ProductoAdmin"));
-const IndexEmpleado = lazy(() => import("./Pages/empleado/IndexEmpleado"));
 const Proveedores = lazy(() => import("./Pages/admin/Proveedores"));
+
+// Importar las rutas para el empleado
+const IndexEmpleado = lazy(() => import("./Pages/empleado/IndexEmpleado"));
+const RecompensasEmpleado = lazy(() => import("./Pages/empleado/RecompensasEmpleado"));
+const ClientesEmpleado = lazy(() => import("./Pages/empleado/ClientesEmpleado"));
+
 
 function App() {
   return (
@@ -89,8 +95,20 @@ function App() {
 
             {/* Rutas para el empleado */}
             <Route element={<RutaPrivada requiredRole={2} />}>
-              <Route path="/empleado/" element={<IndexEmpleado />}></Route>
-              <Route path="/empleado/pedidos" element={<Pedidos />}></Route>
+              <Route element={<EmpleadoLayout />}>
+                <Route path="/empleado/" element={<IndexEmpleado />}></Route>
+                <Route path="/empleado/dashboard" element={<Dashboard />}></Route>
+                <Route path="/empleado/ventas" element={<Ventas />}></Route>
+                <Route path="/empleado/pedidos" element={<Pedidos />}></Route>
+                <Route path="/empleado/inventario" element={<Inventario />}></Route>
+                <Route path='/empleado/menu' element={<MenuDefault />}></Route>
+                <Route path="/empleado/categoria/:id" element={<CategoriaMenu />}></Route>
+                <Route path="/empleado/producto/:id" element={<Producto />}></Route>
+                <Route path="/empleado/recompensas" element={<RecompensasEmpleado />}></Route>
+                <Route path="/empleado/clientes" element={<ClientesEmpleado />}></Route>
+                <Route path="/empleado/proveedores" element={<Proveedores />}></Route>
+
+              </Route>
             </Route>
 
             {/* Rutas para el cliente */}

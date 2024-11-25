@@ -17,6 +17,7 @@ export default function Menu() {
     const [isDataUpdated, setIsDataUpdated] = useState(false)
 
     const token = localStorage.getItem('token')
+    const rol = JSON.parse(atob(token.split(".")[1])).rol;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,6 +34,15 @@ export default function Menu() {
         fetchData();
     }, [isDataUpdated]);
 
+    function rutaCategoria(rol, idCategoria) {
+        switch (rol) {
+            case 3:
+                return `/cliente/categoria/${idCategoria}`
+            case 2:
+                return `/empleado/categoria/${idCategoria}`
+        }
+    }
+
     return (
         <div className="">
             <div className="container">
@@ -41,7 +51,7 @@ export default function Menu() {
                     {categorias.map((categoria) => (
                         <div key={categoria.id_categoria} className="col">
                             <div className="card" key={categoria.id_categoria}>
-                                <Link to={token ? `/cliente/categoria/${categoria.id_categoria}` : `/categoria/${categoria.id_categoria}`} style={{ textDecoration: 'none' }}>
+                                <Link to={rutaCategoria(rol, categoria.id_categoria)}>
                                     <div className="card text-center border-0">
                                         <img src={`/images/menu/categorias/${categoria.cat_foto}`} height={200} className="card-img-top" alt="..." />
                                         <div className="card-body">

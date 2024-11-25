@@ -8,13 +8,23 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 export default function CategoriaMenu() {
 
     const token = localStorage.getItem('token');
-
+    const rol = JSON.parse(atob(token.split(".")[1])).rol;
+    
     const location = useLocation();
     const categoriaId = token ? location.pathname.split("/")[3] : location.pathname.split("/")[2];
 
     const [productos, setProductos] = useState([]);
     const [isDataUpdated, setIsDataUpdated] = useState(false);
     const [categoria, setCategoria] = useState(null);
+
+    function rutaCategoria(rol, idProducto) {
+        switch (rol) {
+            case 3:
+                return `/cliente/producto/${idProducto}`
+            case 2:
+                return `/empleado/producto/${idProducto}`
+        }
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,7 +50,7 @@ export default function CategoriaMenu() {
             </div>
             <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
                 {productos.map((producto) => (
-                    <Link to={token ? `/cliente/producto/${producto.id_producto}` : `/producto/${producto.id_producto}`} className="text-decoration-none">
+                    <Link to={rutaCategoria(rol, producto.id_producto)} className="text-decoration-none">
                         <div className="col my-2" key={producto.id_producto}>
                             <div className="card text-center p-2">
                                 <img src={`/images/menu/productos/${producto.pro_foto}`} height={200} className="card-img-top" alt="..." />

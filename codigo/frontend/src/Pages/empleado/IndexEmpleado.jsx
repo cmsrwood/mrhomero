@@ -1,4 +1,5 @@
 import React from 'react'
+import Navegacion from '../../navigation/NavegacionEmpleado'                
 
 export default function IndexEmpleado() {
     return (
