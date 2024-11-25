@@ -50,9 +50,9 @@ export default function Footer() {
                 </div>
                 <div className="row py-2">
                     <div className="col">
-                        <Link className="text-decoration-none text-reset fs-5"><i className="bi bi-tiktok"></i></Link>
-                        <Link className="text-decoration-none text-reset fs-5 px-3"><i className="bi bi-instagram"></i></Link>
-                        <Link className="text-decoration-none text-reset fs-5"><i className="bi bi-facebook"></i></Link>
+                        <a href="https://www.tiktok.com/@mrhomerocomidasrapidas" target="_blank" className="text-decoration-none text-reset fs-5"><i className="bi bi-tiktok"></i></a>
+                        <a href="https://www.instagram.com/mrhomerocomidasrapidas/" target="_blank" className="text-decoration-none text-reset fs-5 px-3"><i className="bi bi-instagram"></i></a>
+                        <a href="https://www.facebook.com/p/Comidas-Rapidas-Mr-Homero-100050735053665/?locale=es_LA" target="_blank" className="text-decoration-none text-reset fs-5"><i className="bi bi-facebook"></i></a>
                     </div>
                 </div>
                 <div className="row">
