@@ -20,6 +20,7 @@ const Nosotros = lazy(() => import("./Pages/default/NosotrosDefault"));
 const MenuDefault = lazy(() => import("./Pages/default/MenuDefault"));
 const EmailRecuperar = lazy(() => import("./Pages/default/EmailRecuperar"));
 const Recuperar = lazy(() => import("./Pages/default/Recuperar"));
+const Footer = lazy(() => import("./components/Footer"));
 // Importar las rutas para el cliente
 const IndexCliente = lazy(() => import("./Pages/cliente/IndexCliente"));
 const HistorialCompras = lazy(() => import("./Pages/cliente/HistorialCompras"));
@@ -63,6 +64,7 @@ function App() {
                 <Route path="/loader" element={<Loader />}></Route>
                 <Route path="/categoria/:id" element={<CategoriaMenu />}></Route>
                 <Route path="/producto/:id" element={<Producto />}></Route>
+                <Route path="/footer" element={<Footer />}></Route>
               </Route>
             </Route>
 

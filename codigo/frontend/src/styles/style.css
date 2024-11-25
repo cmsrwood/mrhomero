@@ -89,3 +89,11 @@ h1 {
     transform: scale(1.1);
     transition: all ease 0.5s;
 }
+
+.fsfooter{
+    font-size: 14px;
+}
+
+.fstext{
+    font-size: 16px;
+}

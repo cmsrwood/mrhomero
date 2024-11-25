@@ -5,6 +5,7 @@ import NavegacionDefault from '../../navigation/NavegacionDefault';
 import Spline from './Hamburguesa';
 import axios from 'axios';
 import Loader from '../../components/Loader';
+import Footer from '../../components/Footer';
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
@@ -142,6 +143,7 @@ export default function Ingresar() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

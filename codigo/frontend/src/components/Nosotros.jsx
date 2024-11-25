@@ -18,7 +18,7 @@ export default function Nosotros() {
                         <img src={img} width={250} height={250} />
                     </div>
                 </div>
-                <div className="border-bottom border-top border-2 py-5">
+                <div className=" border-top border-2 py-5">
                     <div className="d-flex justify-content-center pb-5">
                         <img src={banner} className='border border-2 rounded shadow-lg' width={800} height={350} />
                     </div>
@@ -36,7 +36,6 @@ export default function Nosotros() {
                             <img src={homero} alt="" width={470} height={250} className='border border-2 rounded shadow-lg nosotros-img' style={{ float: 'right' }} />
                         </div>
                     </div>
-
                     <div className="d-flex row align-items-center mx-5 py-5">
                         <div className="col-8">
                             <h5>METAS <span className='homero fs-4' > MR.HOMERO</span></h5>
@@ -46,7 +45,6 @@ export default function Nosotros() {
                             <img src={homero} alt="" width={470} height={250} className='border border-2 rounded shadow-lg nosotros-img' style={{ float: 'right' }} />
                         </div>
                     </div>
-
                     <div className="d-flex row align-items-center mx-5">
                         <div className="col-8">
                             <h5>COMIDA <span className='homero fs-4' > MR.HOMERO</span></h5>
@@ -56,9 +54,7 @@ export default function Nosotros() {
                             <img src={homero} alt="" width={470} height={250} className='border border-2 rounded shadow-lg nosotros-img' style={{ float: 'right' }} />
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     )
