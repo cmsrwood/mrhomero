@@ -23,7 +23,7 @@ export default function Clientes() {
         fetchData();
     }, []);
 
-    useEffect(() => {
+    useEffect(() => {       
         if (isDataUpdated) {
             const fetchData = async () => {
                 try {

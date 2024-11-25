@@ -1,14 +1,32 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import img from '../../assets/img/img.png'
 
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+
 export default function HistorialCompras() {
+
+    const [compras, setCompras] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get(`${BACKEND_URL}/api/clientes/mostrar`);
+                setClientes(res.data);
+                setIsDataUpdated(false);
+            } catch (error) {
+                console.error('Error al obtener clientes:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
     function cardHistorial() {
         return (
             <div className="row">
                 <div className="col col-sm-6">
                     <div className="container-card scrollbar" >
-                        <div className='border border-2 d-flex rounded mb-3'>
-                            <img className="card-img-top border m-3 rounded " src={img} alt="..." style={{ width: '150px', height: '150px' }} />
+                        <div className='d-flex rounded mb-3'>
+                            <img className="card-img-top m-3 rounded " src={img} alt="..." style={{ width: '150px', height: '150px' }} />
                             <div className="card-body ps-2 pt-2">
                                 <h1 className="card-title">Hamburguesa</h1>
                                 <h5 className="card-text py-2">Categoria: Hamburguesa</h5>
@@ -44,8 +62,6 @@ export default function HistorialCompras() {
                     {cardHistorial()}
                     {cardHistorial()}
                 </div>
-
-
             </div>
         </div>
     )
