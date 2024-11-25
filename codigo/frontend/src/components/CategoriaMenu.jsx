@@ -8,7 +8,7 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 export default function CategoriaMenu() {
 
     const token = localStorage.getItem('token');
-    const rol = JSON.parse(atob(token.split(".")[1])).rol;
+    const rol = token ? JSON.parse(atob(token.split(".")[1])).rol : 0;
     
     const location = useLocation();
     const categoriaId = token ? location.pathname.split("/")[3] : location.pathname.split("/")[2];
@@ -23,6 +23,8 @@ export default function CategoriaMenu() {
                 return `/cliente/producto/${idProducto}`
             case 2:
                 return `/empleado/producto/${idProducto}`
+            default:
+                return `/producto/${idProducto}`
         }
     }
 
