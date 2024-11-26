@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import { title } from 'process';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 export default function RecompensasCliente() {
@@ -54,7 +55,7 @@ export default function RecompensasCliente() {
       if (error.response) {
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
+          title: 'Error',
           text: error.response.data
         });
       }
@@ -72,7 +73,15 @@ export default function RecompensasCliente() {
           <div className="row scrollbar">
             {recompensas.map((recompensa) => (
               <div className="col-12 border p-5 my-3" key={recompensa.id_recomp}>
-                <form onSubmit={reclamarRecompensa(recompensa.id_recomp)}>
+                <form onSubmit={recompensa.recomp_num_puntos <= puntos ? reclamarRecompensa(recompensa.id_recomp) : (e) => {
+                  e.preventDefault();
+                  Swal.fire({
+                    title: `Te faltan ${recompensa.recomp_num_puntos - puntos} puntos para reclamar esta recompensa`,
+                    icon: 'error',
+                    showConfirmButton: true
+                  });
+                }}
+                >
                   <div className="row align-items-center">
                     <div className="col-2">
                       <img src={`/images/recompensas/${recompensa.recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
@@ -82,10 +91,10 @@ export default function RecompensasCliente() {
                       <p>{recompensa.recompensa_descripcion}</p>
                       <div className="progress position-relative" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                         <div className="progress-bar bg-warning" style={{ width: `${(puntos / recompensa.recomp_num_puntos) * 100}%` }}></div>
-                        <p className='fw-bold position-absolute top-50 end-50 translate-middle'>{puntos}/{recompensa.recomp_num_puntos}</p>
+                        <p className='fw-bold position-absolute top-50 end-50 translate-middle text-black'>{puntos}/{recompensa.recomp_num_puntos}</p>
                       </div>
                     </div>
-                    <div className="col-3">
+                    <div className={`col-3 text-center ${recompensa.recomp_num_puntos <= puntos ? "" : "d-none"}`}>
                       <button type="submit" className='btn btn-warning'>Reclamar recompensa</button>
                     </div>
                   </div>

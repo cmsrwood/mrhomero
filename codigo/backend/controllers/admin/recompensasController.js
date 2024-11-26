@@ -96,6 +96,10 @@ exports.reclamarRecompensa = (req, res) => {
             console.log(err);
             return res.status(500).send('Error al ingresar los datos');
         }
+        if (data.length === 0) {
+            return res.status(404).send('Recompensa no encontrada');
+        }
+
         else {
             db.query('INSERT INTO recompensas_obt (`id_recomp`, `id_user`) VALUES (?)', [values], (err) => {
                 if (err) {
@@ -103,12 +107,9 @@ exports.reclamarRecompensa = (req, res) => {
                     return res.status(500).send('Error al ingresar los datos');
                 } else {
 
-                    const values2 = [
-                        data[0].recomp_num_puntos,
-                        id_usuario
-                    ]
+                    const puntosRecompensa = data[0].recomp_num_puntos;
 
-                    db.query('UPDATE user_puntos SET user_puntos = user_puntos - ? WHERE id_user = ?', [values2], (err) => {
+                    db.query('UPDATE usuarios SET user_puntos = user_puntos - ? WHERE id_user = ?', [puntosRecompensa, id_usuario], (err) => {
                         if (err) {
                             console.log(err);
                             return res.status(500).send('Error al ingresar los datos');
