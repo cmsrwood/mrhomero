@@ -49,13 +49,13 @@ export default function RutaPublica() {
     if (userRole) {
         switch (userRole) {
             case 1:
-                return <Navigate to="/admin" />;
+                return <Navigate to="/admin/" />;
             case 2:
-                return <Navigate to="/empleado" />;
+                return <Navigate to="/empleado/" />;
             case 3:
-                return <Navigate to="/cliente" />;
+                return <Navigate to="/cliente/" />;
             default:
-                return <Navigate to="/ingresar" />;
+                return <Navigate to="/ingresar/" />;
         }
     }
 
