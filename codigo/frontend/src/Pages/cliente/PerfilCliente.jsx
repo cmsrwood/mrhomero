@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import img from '../../assets/img/img.png'
 import Swal from 'sweetalert2'
+import axios from 'axios'
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
+
 export default function PerfilCliente() {
+  
   return (
     <div>
       <div className="px-5">
@@ -10,10 +14,11 @@ export default function PerfilCliente() {
           <input type="file" className="form-control my-3" id="inputGroupFile01"></input>
           <h1>Usuario</h1>
           <div className="row ">
-            <div className="col-6">
-              <h2>Compras realizadas</h2>
-              <h3>0</h3>
-            </div>
+            <h2>Compras realizadas</h2>
+              <div key={compra.id_venta} className="col-6">
+                <h3>{compra.cantidad}</h3>
+              </div>
+          
             <div className="col-6">
               <h2>Puntos acumulados</h2>
               <h3>0</h3>
