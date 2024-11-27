@@ -46,7 +46,7 @@ export default function Menu() {
                     {categorias.map((categoria) => (
                         <div key={categoria.id_categoria} className="col">
                             <div className="card" key={categoria.id_categoria}>
-                                <Link to={rutaCategoria(rol, categoria.id_categoria)}>
+                                <Link to={rutaCategoria(rol, categoria.id_categoria)} className='text-decoration-none'>
                                     <div className="card text-center border-0">
                                         <img src={`/images/menu/categorias/${categoria.cat_foto}`} height={200} className="card-img-top" alt="..." />
                                         <div className="card-body">

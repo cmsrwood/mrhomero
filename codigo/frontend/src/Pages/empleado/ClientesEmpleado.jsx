@@ -55,67 +55,6 @@ export default function Clientes() {
                 cliente.user_email.toLowerCase().includes(term)
             );
         });
-
-    // Función para borrar cliente
-    const borrarCliente = async (id) => {
-        try {
-            const confirm = await Swal.fire({
-                title: '¿Estás seguro de borrar este cliente?',
-                text: "El usuario sera inactivado",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, borrar'
-            });
-
-            if (!confirm.isConfirmed) {
-                return;
-            }
-
-            const res = await axios.put(`${BACKEND_URL}/api/clientes/borrar/${id}`);
-
-            if (res.status === 200) {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data
-                });
-                setIsDataUpdated(true);
-            }
-        } catch (error) {
-            console.error('Error al eliminar cliente:', error);
-        }
-    };
-
-    // Función para restaurar cliente
-    const restaurarCliente = async (id) => {
-        try {
-            const confirm = await Swal.fire({
-                title: '¿Estás seguro de que desea restaurar este cliente?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, restaurar'
-            });
-
-            if (!confirm.isConfirmed) {
-                return;
-            }
-
-            const res = await axios.put(`${BACKEND_URL}/api/clientes/restaurar/${id}`);
-            if (res.status === 200) {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data
-                });
-                setIsDataUpdated(true);
-            }
-        } catch (error) {
-            console.error('Error al restaurar cliente:', error);
-        }
-    };
-
     // Manejo del input de búsqueda
     const handleSearch = (e) => {
         setSearchTerms(e.target.value);
@@ -142,7 +81,7 @@ export default function Clientes() {
                         <div className="col">
                             {/* Dropdown para filtrar por estado */}
                             <div className="dropdown">
-                                <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button className="btn btn-secondary dropdown-toggle btn-warning mt-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Estado
                                 </button>
                                 <ul className="dropdown-menu">
@@ -182,9 +121,9 @@ export default function Clientes() {
                                 <td>{cliente.user_email}</td>
                                 <td className={cliente.user_estado === 1 ? 'text-success' : 'text-danger'}>
                                     {cliente.user_estado === 1 ? 'Activo' : 'Inactivo'}
-                                </td>                                    
+                                </td>
                             </tr>
-                        ))} 
+                        ))}
                     </tbody>
                 </table>
             </div>

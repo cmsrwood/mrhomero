@@ -62,7 +62,7 @@ export default function Ingresar() {
             navigate('/admin/');
             break;
           case 2:
-            navigate('/empleado/');
+            navigate('/empleado/pedidos');
             break;
           case 3:
             navigate('/cliente/');

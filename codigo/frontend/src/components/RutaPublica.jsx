@@ -51,7 +51,7 @@ export default function RutaPublica() {
             case 1:
                 return <Navigate to="/admin/" />;
             case 2:
-                return <Navigate to="/empleado/" />;
+                return <Navigate to="/empleado/pedidos" />;
             case 3:
                 return <Navigate to="/cliente/" />;
             default:

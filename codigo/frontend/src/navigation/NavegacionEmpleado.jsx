@@ -18,7 +18,7 @@ export default function NavegacionAdmin() {
         <div className="d-flex position-relative">
             <div className='min-vh-100 bg-dark text-white border-end sidebar shadow' id="sidebar"></div>
             <div className='min-vh-100 bg-dark text-white border-end sidebar position-fixed shadow' id="sidebar">
-                <ul className=" pt-5 mt-4 pt-sm-5 mt-sm-5 list-unstyled">
+                <ul className=" pt-5 mt-4 pt-sm-5 mt-sm-4 list-unstyled">
 
                     <Link className={rutaActiva('ventas') || rutaActiva('pedidos') || rutaActiva('dashboard') ? `nav-link ps-3 py-2 d-flex bg-warning w-100 text-start text-dark justify-content-between` : `nav-link ps-3 py-2 d-flex justify-content-between`} data-bs-toggle="collapse" data-bs-target="#collapseVentas">
                         <div className="">

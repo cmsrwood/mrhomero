@@ -96,7 +96,6 @@ function App() {
             {/* Rutas para el empleado */}
             <Route element={<RutaPrivada requiredRole={2} />}>
               <Route element={<EmpleadoLayout />}>
-                <Route path="/empleado/" element={<IndexEmpleado />}></Route>
                 <Route path="/empleado/dashboard" element={<Dashboard />}></Route>
                 <Route path="/empleado/ventas" element={<Ventas />}></Route>
                 <Route path="/empleado/pedidos" element={<Pedidos />}></Route>
