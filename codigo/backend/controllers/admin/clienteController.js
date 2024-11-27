@@ -73,3 +73,18 @@ exports.restaurarCliente = (req, res) => {
         }
     });
 }
+exports.mostrarClientesByid = (req, res) => {
+    const id = req.params.id;
+
+    db.query('SELECT * FROM usuarios WHERE id_user = ?', [id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        }
+        if (results.length > 0) {
+            return res.status(200).send(results[0]); 
+        } else {
+            return res.status(404).send('Usuario no encontrado'); 
+        }
+    });
+};

@@ -8,6 +8,8 @@ router.get('/mostrarCuentaClientesUltimoMes', clienteController.mostrarCuentaCli
 router.put('/agregarPuntos/:id', clienteController.agregarPuntos);
 router.put('/borrar/:id', clienteController.borrarCliente);
 router.put('/restaurar/:id', clienteController.restaurarCliente);
+router.get('/mostrarByid/:id', clienteController.mostrarClientesByid);
+
 
 
 module.exports = router
