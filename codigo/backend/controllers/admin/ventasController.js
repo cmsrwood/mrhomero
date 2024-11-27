@@ -278,3 +278,25 @@ exports.restaurarVenta = (req, res) => {
         }
     });
 }
+
+exports.mostrarCompras = (req, res) => {
+    const id = req.params.id;
+    db.query(`
+        SELECT 
+            id_venta, 
+            venta_fecha, 
+            id_user, 
+            venta_metodo_pago, 
+            venta_total,
+            venta_estado
+        FROM ventas
+        WHERE id_user = ?
+    `, [id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send(results);
+        }
+    });
+};

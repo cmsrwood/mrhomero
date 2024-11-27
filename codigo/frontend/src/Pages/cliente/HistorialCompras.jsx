@@ -1,125 +1,149 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import img from '../../assets/img/img.png'
+import moment from 'moment'
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 export default function HistorialCompras() {
 
-    const [compras, setCompras] = useState([]);
-    const [clientes, setClientes] = useState([]);
     const [isDataUpdated, setIsDataUpdated] = useState(false);
-    const [id_compra, setIdCompra] = useState('');
+
+    const [compras, setCompras] = useState([]);
+    const [detallesVentas, setDetallesVentas] = useState({});
+    const [id_venta, setIdVenta] = useState(0);
+
+    const token = localStorage.getItem('token');
+    const idUsuario = JSON.parse(atob(token.split(".")[1])).id;
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [comprasRes, clientesRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/ventas/mostrar`),
-                    axios.get(`${BACKEND_URL}/api/clientes/mostrar`)
+                const [comprasRes] = await Promise.all([
+                    axios.get(`${BACKEND_URL}/api/ventas/mostrarCompras/${idUsuario}`),
                 ])
                 setCompras(comprasRes.data);
-                setClientes(clientesRes.data);
             } catch (error) {
                 console.log(error);
             }
             setIsDataUpdated(false);
         };
         fetchData();
-    }, [isDataUpdated]);
+    }, [isDataUpdated, idUsuario]);
 
-    const mostrarDetallesCompras = (id_compra) => {
-        setIdCompra(id_compra);
+    const mostrarDetalles = async (id_venta) => {
+        setIdVenta(id_venta);
         try {
-            const detalleVentares = axios.get(`${BACKEND_URL}/api/ventas/mostrarDetalleVenta/${id_compra}`);
-            console.log(res);
+            const detalleVentaRes = await axios.get(`${BACKEND_URL}/api/ventas/mostrarDetalleVenta/${id_venta}`);
+            const detallesConProducto = await Promise.all(
+                detalleVentaRes.data.map(async (detalle) => {
+                    const productoRes = await axios.get(`${BACKEND_URL}/api/productos/mostrarProducto/${detalle.id_producto}`);
+                    return { ...detalle, producto: productoRes.data };
+                })
+            );
+            setDetallesVentas((prevDetalles) => ({
+                ...prevDetalles,
+                [id_venta]: detallesConProducto
+            }));
         } catch (error) {
-            console.log(error);
+            console.error("Error al obtener detalles de venta:", error);
         }
+    };
+
+    const formatNumber = (value) => {
+        // Convertir el valor a cadena y eliminar caracteres no numéricos
+        const formattedValue = value.toString().replace(/\D/g, '');
+        // Añadir puntos como separadores de miles
+        return formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    };
+
+
+    function numeroDeMesANombre(mes) {
+        const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        return meses[mes];
     }
 
     return (
         <div>
             <div className="">
-                <div className="d-flex  justify-content-around">
+                <div className="text-center">
                     <h1 className="py-3">Historial de compras</h1>
-                    <h1 className="ps-5 py-3">Puntos ganados</h1>
                 </div>
-                <div className="row">
-                    <div className="col col-sm-6">
-                        {compras.map((compra) => (
-                            <div className="container-card scrollbar" key={compra.id_user}>
-                                <div className='d-flex rounded mb-3 border'>
-                                    <div className="card-body ps-2 pt-2">
-                                        <h1 className="card-title">Compra realizada</h1>
-                                        <h5 className="card-text py-2">Fecha</h5>
+                <div className="row row-cols-1 row-cols-sm-2 g-5">
+                    {compras.map((venta) => (
+                        <div className='col' key={venta.id_venta}>
+                            <div className="card p-0 shadow">
+                                <div className='card-header'>
+                                    {moment(venta.venta_fecha).format('DD')} de {numeroDeMesANombre(moment(venta.venta_fecha).month())}
+                                </div>
+                                <div className="card-body">
+                                    <div className='d-flex justify-content-between'>
+                                        <div className="text-center align-self-center">
+                                            <h1 className="card-title">${formatNumber(venta.venta_total)}</h1>
+                                        </div>
+                                        <div className="align-self-center">
+                                            <button className="btn btn-warning me-2" onClick={() => mostrarDetalles(venta.id_venta)} data-bs-toggle="modal" data-bs-target={`#modal_${venta.id_venta}`} aria-controls={`modal_${venta.id_venta}`} aria-expanded="false" >
+                                                Ver compra
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div className="card-price ps-2 pt-2 ">
-                                        <button type="button" className="my-2 btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-xl">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <table class="table table-striped">
+                                    <div>
+                                        {moment(venta.venta_fecha).format('HH:mm:ss')}
+                                    </div>
+                                    <div className="modal fade" id={`modal_${venta.id_venta}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div className="modal-dialog modal-xl">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Detalle de la compra</h1>
+                                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div className="modal-body">
+                                                    {detallesVentas[venta.id_venta] && detallesVentas[venta.id_venta].length > 0 ? (
+                                                        <table className="table table-striped table-hover border border-1">
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col">Cantidad</th>
                                                                     <th scope="col">Producto</th>
-                                                                    <th scope="col">Puntos</th>
                                                                     <th scope="col">Precio</th>
-                                                                    <th scope="col">Metodo Pago</th>
+                                                                    <th scope="col">Puntos</th>
+                                                                    <th scope='col'>Subtotal</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <th scope="row">1</th>
-                                                                    <td>Mark</td>
-                                                                    <td>Otto</td>
-                                                                    <td>@mdo</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">2</th>
-                                                                    <td>Jacob</td>
-                                                                    <td>Thornton</td>
-                                                                    <td>@fat</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">3</th>
-                                                                    <td colspan="2">Larry the Bird</td>
-                                                                    <td>@twitter</td>
-                                                                </tr>
+                                                                {detallesVentas[venta.id_venta].map((detalle) => (
+                                                                    <React.Fragment key={detalle.id_detalle}>
+                                                                        <tr key={detalle.id_detalle}>
+                                                                            <td>{detalle.cantidad_producto}</td>
+                                                                            <td>{detalle.producto.pro_nom}</td>
+                                                                            <td>{formatNumber(detalle.producto.pro_precio)}</td>
+                                                                            <td>{formatNumber(detalle.producto.pro_puntos)}</td>
+                                                                            <td className=''>{formatNumber(detalle.subtotal)}</td>
+                                                                        </tr>
+                                                                    </React.Fragment>
+                                                                ))}
                                                                 <tr className='fw-bold'>
-                                                                    <td>Total</td>
+                                                                    <td >Total:</td>
                                                                     <td></td>
                                                                     <td></td>
-                                                                    <td></td>
+                                                                    <td className='text-warning'>{formatNumber(detallesVentas[venta.id_venta].reduce((total, detalle) => total + detalle.producto.pro_puntos * detalle.cantidad_producto, 0))}</td>
+                                                                    <td className='text-warning'>{formatNumber(venta.venta_total)}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i></button>
-                                                    </div>
+                                                    ) : (
+                                                        <p>No hay detalles de la venta</p>
+                                                    )}
+                                                </div>
+                                                <div className="modal-footer">
+                                                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-lg"></i></button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        ))}
-
-                    </div>
-                    <div className="col col-sm-6">
-                        <h2 className="ps-4 py-2 d-flex justify-content-center" style={{ fontSize: '68px' }}>99</h2>
-                        <h3 className="ps-4 py-2 d-flex justify-content-center" style={{ fontSize: '50px' }}>Puntos</h3>
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

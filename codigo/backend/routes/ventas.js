@@ -3,6 +3,7 @@ const router = express.Router();
 const ventasController = require('../controllers/admin/ventasController');
 
 router.get('/mostrar', ventasController.mostrarVentas);
+router.get('/mostrarCompras/:id', ventasController.mostrarCompras);
 router.get('/mostrarDetalleVenta/:id', ventasController.mostrarDetalleVenta);
 router.get('/mostrarProductosMasVendidos/:ano/:mes', ventasController.mostrarProductosMasVendidos);
 router.get('/mostrarCuentaProductosVendidosPorMes/:ano/:mes', ventasController.mostrarCuentaProductosVendidosPorMes);
