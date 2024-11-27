@@ -370,7 +370,7 @@ export default function Pedidos() {
                             <tbody >
                               {filteredClients.map((cliente) => {
                                 return (
-                                  <tr className={cliente.id_user === userSelect.id_user ? "text-success" : "text-danger"} key={cliente.id_user}>
+                                  <tr key={cliente.id_user}>
                                     <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row">{cliente.id_user}</th>
                                     <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row">{cliente.user_nom}</th>
                                     <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row">{cliente.user_apels}</th>
