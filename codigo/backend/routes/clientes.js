@@ -9,7 +9,7 @@ router.put('/agregarPuntos/:id', clienteController.agregarPuntos);
 router.put('/borrar/:id', clienteController.borrarCliente);
 router.put('/restaurar/:id', clienteController.restaurarCliente);
 router.get('/mostrarByid/:id', clienteController.mostrarClientesByid);
-router.put('actualizar/:id', clienteController.upload, clienteController.actualizarCliente);
+router.put('/actualizar/:id', clienteController.upload, clienteController.actualizarCliente);
 
 
 

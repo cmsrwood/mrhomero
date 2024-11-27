@@ -55,7 +55,10 @@ exports.actualizarCliente = (req, res) => {
             }
         }
     }
-    );}
+    );
+}
+exports.upload = upload.single('foto');
+    
 
 exports.mostrarClientes = (req, res) => {
     db.query('SELECT * FROM usuarios WHERE id_rol = 3', (err, results) => {
@@ -138,9 +141,9 @@ exports.mostrarClientesByid = (req, res) => {
             return res.status(500).send('Error en el servidor');
         }
         if (results.length > 0) {
-            return res.status(200).send(results[0]); 
+            return res.status(200).send(results[0]);
         } else {
-            return res.status(404).send('Usuario no encontrado'); 
+            return res.status(404).send('Usuario no encontrado');
         }
     });
 };
