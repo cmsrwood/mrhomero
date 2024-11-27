@@ -370,12 +370,12 @@ export default function Pedidos() {
                             <tbody >
                               {filteredClients.map((cliente) => {
                                 return (
-                                  <tr className={cliente.id_user === userSelect.id_user ? "bg-success" : "bg-danger p-5 text-white"} key={cliente.id_user}>
-                                    <th scope="row">{cliente.id_user}</th>
-                                    <th scope="row">{cliente.user_nom}</th>
-                                    <th scope="row">{cliente.user_apels}</th>
-                                    <th scope="row">{cliente.user_email}</th>
-                                    <th scope="row"><i className="bi bi-plus-circle btn btn-success" onClick={() => handleAddClient(cliente)}></i></th>
+                                  <tr className={cliente.id_user === userSelect.id_user ? "text-success" : "text-danger"} key={cliente.id_user}>
+                                    <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row">{cliente.id_user}</th>
+                                    <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row">{cliente.user_nom}</th>
+                                    <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row">{cliente.user_apels}</th>
+                                    <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row">{cliente.user_email}</th>
+                                    <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row"><i className="bi bi-plus-circle btn btn-success" onClick={() => handleAddClient(cliente)}></i></th>
                                   </tr>
                                 )
                               })}
