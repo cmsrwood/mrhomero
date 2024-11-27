@@ -8,6 +8,9 @@ export default function RecompensasCliente() {
 
   const [puntos, setPuntos] = useState(0);
   const [recompensas, setRecompensas] = useState([]);
+  const [recompensasObtenidas, setRecompensasObtenidas] = useState([]);
+
+  const [mostrar, setMostrar] = useState('disponibles');
 
   const [isDataUpdated, setIsDataUpdated] = useState(false);
   const token = localStorage.getItem('token');
@@ -16,12 +19,14 @@ export default function RecompensasCliente() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [puntosRes, recompensasRes] = await Promise.all([
+        const [puntosRes, recompensasRes, recompensasObtenidasRes] = await Promise.all([
           axios.get(`${BACKEND_URL}/api/recompensas/mostrarPuntos/${idUsuario}`),
-          axios.get(`${BACKEND_URL}/api/recompensas/mostrar`)
+          axios.get(`${BACKEND_URL}/api/recompensas/mostrar`),
+          axios.get(`${BACKEND_URL}/api/recompensas/mostrar/${idUsuario}`)
         ]);
         setPuntos(puntosRes.data[0].user_puntos);
         setRecompensas(recompensasRes.data);
+        setRecompensasObtenidas(recompensasObtenidasRes.data);
       } catch (error) {
         console.log(error);
       }
@@ -62,6 +67,10 @@ export default function RecompensasCliente() {
     }
   }
 
+  function mostrarRecompensas(obtener) {
+    setMostrar(obtener);
+  }
+
   return (
     <div>
       <div className="">
@@ -69,40 +78,77 @@ export default function RecompensasCliente() {
           <h1>Recompensas</h1>
           <h2>Puntos obtenidos: {puntos}</h2>
         </div>
-        <div>
-          <div className="row scrollbar">
-            {recompensas.map((recompensa) => (
-              <div className="col-12 border p-5 my-3" key={recompensa.id_recomp}>
-                <form onSubmit={recompensa.recomp_num_puntos <= puntos ? reclamarRecompensa(recompensa.id_recomp) : (e) => {
-                  e.preventDefault();
-                  Swal.fire({
-                    title: `Te faltan ${recompensa.recomp_num_puntos - puntos} puntos para reclamar esta recompensa`,
-                    icon: 'error',
-                    showConfirmButton: true
-                  });
-                }}
-                >
-                  <div className="row align-items-center">
-                    <div className="col-2">
-                      <img src={`/images/recompensas/${recompensa.recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
-                    </div>
-                    <div className="col-7 px-5 align-content-center">
-                      <h2>{recompensa.recompensa_nombre}</h2>
-                      <p>{recompensa.recompensa_descripcion}</p>
-                      <div className="progress position-relative" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                        <div className="progress-bar bg-warning" style={{ width: `${(puntos / recompensa.recomp_num_puntos) * 100}%` }}></div>
-                        <p className='fw-bold position-absolute top-50 end-50 translate-middle text-black'>{puntos}/{recompensa.recomp_num_puntos}</p>
+        {mostrar == 'disponibles' ?
+          <div>
+            <div className="text-end">
+              <button className='btn btn-warning my-4' onClick={() => mostrarRecompensas('obtenidas')}>Ver recompensas disponibles</button>
+            </div>
+            <div>
+              <div className="row scrollbar">
+                {recompensas.map((recompensa) => (
+                  <div className="col-12 border p-5 my-3" key={recompensa.id_recomp}>
+                    <form onSubmit={recompensa.recomp_num_puntos <= puntos ? reclamarRecompensa(recompensa.id_recomp) : (e) => {
+                      e.preventDefault();
+                      Swal.fire({
+                        title: `Te faltan ${recompensa.recomp_num_puntos - puntos} puntos para reclamar esta recompensa`,
+                        icon: 'error',
+                        showConfirmButton: true
+                      });
+                    }}
+                    >
+                      <div className="row align-items-center">
+                        <div className="col-2">
+                          <img src={`/images/recompensas/${recompensa.recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
+                        </div>
+                        <div className="col-7 px-5 align-content-center">
+                          <h2>{recompensa.recompensa_nombre}</h2>
+                          <p>{recompensa.recompensa_descripcion}</p>
+                          <div className="progress position-relative" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            <div className="progress-bar bg-warning" style={{ width: `${(puntos / recompensa.recomp_num_puntos) * 100}%` }}></div>
+                            <p className='fw-bold position-absolute top-50 end-50 translate-middle text-black'>{puntos}/{recompensa.recomp_num_puntos}</p>
+                          </div>
+                        </div>
+                        <div className={`col-3 text-center ${recompensa.recomp_num_puntos <= puntos ? "" : "d-none"}`}>
+                          <button type="submit" className='btn btn-warning'>Reclamar recompensa</button>
+                        </div>
                       </div>
-                    </div>
-                    <div className={`col-3 text-center ${recompensa.recomp_num_puntos <= puntos ? "" : "d-none"}`}>
-                      <button type="submit" className='btn btn-warning'>Reclamar recompensa</button>
-                    </div>
+                    </form>
                   </div>
-                </form>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
-        </div>
+          :
+          <div>
+            <div className="text-end">
+              <button className='btn btn-warning my-4' onClick={() => mostrarRecompensas('disponibles')}>Ver recompensas disponibles</button>
+            </div>
+            <div>
+              <div className="row scrollbar">
+                {recompensasObtenidas.map((recompensa) => (
+                  <div className="col border p-5" key={recompensa.id_recomp_obt}>
+                    <form>
+                      <div className="row align-items-center">
+                        <div className="col-2">
+                          <img src={`/images/recompensas/${recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
+                        </div>
+                        <div className="col-7 px-5 align-content-center">
+                          <h2>{recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recompensa_nombre}</h2>
+                          <h2>{recompensa.codigo}</h2>
+                          <p>{recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recompensa_descripcion}</p>
+                        </div>
+                        <div className={`col-3 text-center ${recompensa.recomp_num_puntos <= puntos ? "" : "d-none"}`}>
+                          {recompensa.codigo}
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        }
+
       </div>
     </div>
   )

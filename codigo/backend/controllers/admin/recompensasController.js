@@ -40,6 +40,19 @@ exports.mostrarRecompensas = (req, res) => {
     })
 }
 
+exports.mostrarRecompensasPorUsuario = (req, res) => {
+    const id_usuario = req.params.id;
+    const q = "SELECT * FROM recompensas_obt WHERE id_user = ?";
+    db.query(q, [id_usuario], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send(results);
+        }
+    })
+}
+
 exports.mostrarPuntos = (req, res) => {
     const id = req.params.id;
     const q = "SELECT user_puntos FROM usuarios WHERE id_user = ?";
@@ -83,12 +96,20 @@ exports.crearRecompensa = (req, res) => {
     })
 }
 
+
 exports.reclamarRecompensa = (req, res) => {
+
     const id_recompensa = req.body.id_recompensa;
     const id_usuario = req.params.id_usuario;
+    function codigo() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
+
     const values = [
         id_recompensa,
-        id_usuario
+        id_usuario,
+        codigo()
     ];
 
     db.query("SELECT * FROM recompensas WHERE id_recomp = ?", [id_recompensa], (err, data) => {
@@ -101,7 +122,7 @@ exports.reclamarRecompensa = (req, res) => {
         }
 
         else {
-            db.query('INSERT INTO recompensas_obt (`id_recomp`, `id_user`) VALUES (?)', [values], (err) => {
+            db.query('INSERT INTO recompensas_obt (`id_recomp`, `id_user`, `codigo`) VALUES (?)', [values], (err) => {
                 if (err) {
                     console.log(err);
                     return res.status(500).send('Error al ingresar los datos');

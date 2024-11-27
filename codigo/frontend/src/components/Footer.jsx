@@ -1,5 +1,5 @@
 import React from "react";
-import img from '../../public/logo.png'
+import img from '/logo.png'
 import { Link } from "react-router-dom";
 import googlePlay from '../../src/assets/img/googlePlay.png'
 import appStore from '../../src/assets/img/appStore.png'
