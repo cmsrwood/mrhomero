@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import moment from 'moment'
+
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 export default function RecompensasCliente() {
@@ -70,11 +72,16 @@ export default function RecompensasCliente() {
     setMostrar(obtener);
   }
 
+  function mesANombre(mes) {
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    return meses[mes - 1];
+  }
+
   return (
     <div>
       <div className="">
         <div className="d-flex justify-content-between align-items-center">
-          <h1>Recompensas</h1>
+          <h1>Recompensas {mostrar == 'disponibles' ? 'disponibles' : 'obtenidas'}</h1>
           <h2>Puntos obtenidos: {puntos}</h2>
         </div>
         {mostrar == 'disponibles' ?
@@ -85,7 +92,7 @@ export default function RecompensasCliente() {
             <div>
               <div className="row scrollbar">
                 {recompensas.map((recompensa) => (
-                  <div className="col-12 border p-5 my-3" key={recompensa.id_recomp}>
+                  <div className="col-12 border p-5 my-2" key={recompensa.id_recomp}>
                     <form onSubmit={recompensa.recomp_num_puntos <= puntos ? reclamarRecompensa(recompensa.id_recomp) : (e) => {
                       e.preventDefault();
                       Swal.fire({
@@ -123,21 +130,22 @@ export default function RecompensasCliente() {
               <button className='btn btn-warning my-4' onClick={() => mostrarRecompensas('disponibles')}>Ver recompensas disponibles</button>
             </div>
             <div>
-              <div className="row scrollbar">
+              <div className="row mt-2 g-5 scrollbar">
                 {recompensasObtenidas.map((recompensa) => (
-                  <div className="col border p-5" key={recompensa.id_recomp_obt}>
+                  <div className="col-12 border my-2 p-5" key={recompensa.id_recomp_obt}>
                     <form>
                       <div className="row align-items-center">
                         <div className="col-2">
                           <img src={`/images/recompensas/${recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
                         </div>
-                        <div className="col-7 px-5 align-content-center">
+                        <div className="col-6 px-5 align-content-center">
                           <h2>{recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recompensa_nombre}</h2>
-                          <h2>{recompensa.codigo}</h2>
                           <p>{recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recompensa_descripcion}</p>
                         </div>
-                        <div className={`col-3 text-center ${recompensa.recomp_num_puntos <= puntos ? "" : "d-none"}`}>
-                          {recompensa.codigo}
+                        <div className={`col-4 text-center`}>
+                          <h2>Codigo para reclamar</h2>
+                          <h1>{recompensa.codigo}</h1>
+                          <p className='mt-3'>Lo reclamaste el dia {moment(recompensa.fecha_reclamo).format('DD')} de {mesANombre(moment(recompensa.fecha_reclamo).format('MM'))}</p>
                         </div>
                       </div>
                     </form>
@@ -147,7 +155,6 @@ export default function RecompensasCliente() {
             </div>
           </div>
         }
-
       </div>
     </div>
   )

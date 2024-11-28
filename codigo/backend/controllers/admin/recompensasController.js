@@ -2,6 +2,7 @@ const db = require('../../config/db');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const moment = require('moment');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -76,7 +77,6 @@ exports.crearRecompensa = (req, res) => {
     const descripcion = req.body.recompensa_descripcion;
     const puntos = req.body.recomp_num_puntos;
     const file = req.file;
-    console.log('Datos recibidos:', req.body);
 
     const q = "INSERT INTO recompensas(`recompensa_nombre`, `recompensa_descripcion`, `recomp_num_puntos`, `recomp_foto`) VALUES (?)";
     const values = [
@@ -96,20 +96,20 @@ exports.crearRecompensa = (req, res) => {
     })
 }
 
-
 exports.reclamarRecompensa = (req, res) => {
 
     const id_recompensa = req.body.id_recompensa;
     const id_usuario = req.params.id_usuario;
+    const fecha_reclamo = moment().format('YYYY-MM-DD HH:mm:ss');
     function codigo() {
         return Math.floor(100000 + Math.random() * 900000).toString();
     }
 
-
     const values = [
         id_recompensa,
         id_usuario,
-        codigo()
+        codigo(),
+        fecha_reclamo
     ];
 
     db.query("SELECT * FROM recompensas WHERE id_recomp = ?", [id_recompensa], (err, data) => {
@@ -122,7 +122,7 @@ exports.reclamarRecompensa = (req, res) => {
         }
 
         else {
-            db.query('INSERT INTO recompensas_obt (`id_recomp`, `id_user`, `codigo`) VALUES (?)', [values], (err) => {
+            db.query('INSERT INTO recompensas_obt (`id_recomp`, `id_user`, `codigo`, `fecha_reclamo`) VALUES (?)', [values], (err) => {
                 if (err) {
                     console.log(err);
                     return res.status(500).send('Error al ingresar los datos');
@@ -135,7 +135,7 @@ exports.reclamarRecompensa = (req, res) => {
                             console.log(err);
                             return res.status(500).send('Error al ingresar los datos');
                         } else {
-                            return res.status(200).send({ message: 'Recompensa reclamada correctamente' });
+                            return res.status(200).send({ title: 'Recompensa reclamada', message: `El codigo de la recompensa es: ${values[2]}` });
                         }
                     })
                 }

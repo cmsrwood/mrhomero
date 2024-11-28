@@ -58,9 +58,9 @@ export default function HistorialCompras() {
     };
 
 
-    function numeroDeMesANombre(mes) {
+    function mesANombre(mes) {
         const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        return meses[mes];
+        return meses[mes - 1];
     }
 
     return (
@@ -74,7 +74,7 @@ export default function HistorialCompras() {
                         <div className='col' key={venta.id_venta}>
                             <div className="card p-0 shadow">
                                 <div className='card-header'>
-                                    {moment(venta.venta_fecha).format('DD')} de {numeroDeMesANombre(moment(venta.venta_fecha).month())}
+                                    {moment(venta.venta_fecha).format('DD')} de {mesANombre(moment(venta.venta_fecha).format('MM'))}
                                 </div>
                                 <div className="card-body">
                                     <div className='d-flex justify-content-between'>
