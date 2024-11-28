@@ -174,7 +174,7 @@ exports.actualizarProducto = (req, res) => {
         const nombreFotoActualizado = file ? file.filename.toString() : productoActual.pro_foto;
 
         if (file && productoActual.pro_foto) {
-            eliminar(productoActual.pro_foto);
+            eliminarImagenProducto(productoActual.pro_foto);
         }
 
         const qUpdate = `UPDATE productos SET pro_nom = ?, pro_desp = ?, pro_precio = ?, pro_foto = ?, pro_puntos = ? WHERE id_producto = ?`;

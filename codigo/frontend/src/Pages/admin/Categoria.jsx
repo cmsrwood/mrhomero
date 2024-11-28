@@ -13,6 +13,8 @@ export default function Categoria() {
   const [productos, setProductos] = useState([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
   const [categoria, setCategoria] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,6 +77,7 @@ export default function Categoria() {
       ...productoSubir,
       imagen: e.target.files[0]
     })
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
   }
 
   const handleSubmit = async (e) => {
@@ -90,7 +93,7 @@ export default function Categoria() {
     try {
       const res = await axios.post(`${BACKEND_URL}/api/productos/crearProducto`, formData);
       if (res.status === 200) {
-        Swal.fire({icon : 'success', title: res.data.title, text: res.data.message});
+        Swal.fire({ icon: 'success', title: res.data.title, text: res.data.message });
         setProductoSubir({
           id_categoria: categoriaId,
           nombre: '',
@@ -103,6 +106,7 @@ export default function Categoria() {
         let modalInstance = bootstrap.Modal.getInstance(modalElement);
         // Cerrar el modal
         modalInstance.hide();
+        setImagePreview("");
         setIsDataUpdated(true);
       }
     } catch (error) {
@@ -136,6 +140,7 @@ export default function Categoria() {
 
   const handleFileChangeEdit = (e) => {
     setEditarProducto({ ...editarProducto, imagen: e.target.files[0] })
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
   }
 
   const handleSubmitEdit = async (id) => {
@@ -156,6 +161,7 @@ export default function Categoria() {
         const modalElement = document.getElementById('EditarModal');
         let modalInstance = bootstrap.Modal.getInstance(modalElement);
         modalInstance.hide();
+        setImagePreview("");
         setIsDataUpdated(true);
       }
     } catch (error) {
@@ -195,6 +201,9 @@ export default function Categoria() {
             <form onSubmit={handleSubmit}>
               <div className="modal-body">
                 <div className="row p-3">
+                  <div className="col-12">
+                    <img src={imagePreview ? imagePreview : `/images/menu/productos/${editarProducto.imagen}`} className="rounded mx-auto mb-4 d-block w-50"/>
+                  </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Imagen</label>
                     <input ref={fileInputRef} onChange={handleFileChange} className='form-control' type="file" accept='image/*' id='imagen' name='imagen' required />
@@ -270,7 +279,7 @@ export default function Categoria() {
                   <div className="row p-3">
                     <div className="col-12 mb-3">
                       {editarProducto.imagen ? (
-                        <img src={`/images/menu/productos/${editarProducto.imagen}`} className="img-fluid mb-3" alt="Imagen actual" height={100} />
+                        <img src={imagePreview ? imagePreview : `/images/menu/productos/${editarProducto.imagen}`} className="rounded mx-auto mb-4 d-block w-50" alt="Imagen actual" />
                       ) : null}
                       <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='imagen' name='imagen' />
                     </div>

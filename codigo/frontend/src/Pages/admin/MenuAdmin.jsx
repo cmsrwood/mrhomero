@@ -8,6 +8,7 @@ export default function MenuAdmin() {
 
   const [categorias, setCategorias] = useState([])
   const [isDataUpdated, setIsDataUpdated] = useState(false)
+  const [imagePreview, setImagePreview] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +41,7 @@ export default function MenuAdmin() {
   //Añade la imagen
   const handleFileChange = (e) => {
     setCategoria({ ...categoria, foto: e.target.files[0] });
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
   }
 
   //input de texto
@@ -62,7 +64,7 @@ export default function MenuAdmin() {
         categoria: '',
         foto: null
       });
-
+      setImagePreview('');
       setIsDataUpdated(true); // Actualiza el estado para volver a cargar los datos
       const modalElement = document.getElementById('categoriaAgregarModal');
       let modalInstance = bootstrap.Modal.getInstance(modalElement);
@@ -116,6 +118,7 @@ export default function MenuAdmin() {
 
   const handleFileChangeEdit = (e) => {
     setEditarCategoria({ ...editarCategoria, foto: e.target.files[0] })
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
   }
 
   //input de texto para editar
@@ -170,6 +173,9 @@ export default function MenuAdmin() {
               </div>
               <div className="modal-body">
                 <div className="row p-3">
+                  <div className="col-12">
+                    <img src={imagePreview ? imagePreview : null} className="rounded mx-auto d-block w-50" alt="..." />
+                  </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Imagen</label>
                     <input className='form-control' onChange={handleFileChange} ref={fileInputRef} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
@@ -223,7 +229,9 @@ export default function MenuAdmin() {
               <div className="modal-body">
                 <div className="row p-3">
                   <div className="col-12 mb-3">
-                    {editarCategoria.foto && <img src={`/images/menu/categorias/${editarCategoria.foto}`} className="w-50 mx-auto d-block mb-3" alt="" />}
+                    {editarCategoria.foto ? (
+                      <img src={imagePreview ? imagePreview : `/images/menu/categorias/${editarCategoria.foto}`} className="w-50 mx-auto d-block mb-3" alt="" />)
+                      : null}
                     <input className='form-control' onChange={handleFileChangeEdit} defaultValue={null} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
                   </div>
                   <div className="col-12 ">
