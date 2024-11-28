@@ -25,8 +25,8 @@ dist-ssr
 .env
 
 #No subir imagenes al public
-frontend/public/images/**/*.png
-frontend/public/images/**/*.jpg
-frontend/public/images/**/*.jpeg
-frontend/public/images/**
-
+/public/images/**/*.png
+/public/images/**/*.jpg
+/public/images/**/*.jpeg
+/public/images/**/*.gif
+/public/images/**/*.svg
