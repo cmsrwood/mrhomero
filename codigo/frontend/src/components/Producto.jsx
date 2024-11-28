@@ -10,6 +10,7 @@ export default function Producto() {
     const token = localStorage.getItem('token');
     const idProducto = token ? location.pathname.split("/")[3] : location.pathname.split("/")[2];
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
