@@ -240,7 +240,6 @@ export default function Proveedores() {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-
                             <div className="mb-3">
                                 <label htmlFor="recipient-name" className="col-form-label">Empresa:</label>
                                 <input type="text" className="form-control" id="recipient-name" name="prov_nombre_edit" value={proveedorEdit.prov_nombre_edit} onChange={handleEditChange} />

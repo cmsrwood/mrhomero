@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import img from '../../assets/img/img.png';
+import React, { useEffect, useState, useRef } from 'react';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axios from 'axios'
+import moment from 'moment';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function PerfilCliente() {
@@ -10,20 +10,14 @@ export default function PerfilCliente() {
 
   const token = localStorage.getItem('token');
   const id_user = JSON.parse(atob(token.split(".")[1])).id;
+  const rol = JSON.parse(atob(token.split(".")[1])).rol;
+  const [imagePreview, setImagePreview] = useState("");
 
-  const [user, setUser] = useState({
-    user_nom: '',
-    user_apels: '',
-    user_email: '',
-    user_tel: '',
-    user_foto: null,
-  });
   const [compras, setCompras] = useState([]);
-  
+
   const [editarUser, setEditarUser] = useState({
     user_nom: '',
     user_apels: '',
-    user_email: '',
     user_tel: '',
     user_foto: null,
   });
@@ -35,7 +29,7 @@ export default function PerfilCliente() {
           axios.get(`${BACKEND_URL}/api/clientes/mostrarByid/${id_user}`),
           axios.get(`${BACKEND_URL}/api/ventas/mostrarCompras/${id_user}`),
         ])
-        setUser(userRes.data);
+        setEditarUser(userRes.data);
         setCompras(comprasRes.data);
       } catch (error) {
         console.log(error);
@@ -45,22 +39,25 @@ export default function PerfilCliente() {
     fetchData();
   }, [isDataUpdated, id_user]);
 
-  const handleChange = (e) => {
+  const handleInputChangeEdit = (e) => {
     setEditarUser({ ...editarUser, [e.target.name]: e.target.value });
-    setIsDataUpdated(true);
   };
 
   const handleFileChange = (e) => {
-    setEditarUser({ ...editarUser, user_foto: e.target.files[0] });
-    setIsDataUpdated(true);
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setEditarUser({ ...editarUser, user_foto: selectedFile }); (selectedFile);
+      setImagePreview(URL.createObjectURL(selectedFile));
+    }
   };
 
+  const fileInputRef = useRef(null);
 
-  const handleEdit = async (id) => {
+  const handleEdit = async (e, id) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append('usuario_nombre', editarUser.user_nom);
     formData.append('usuario_apellidos', editarUser.user_apels);
-    formData.append('usuario_email', editarUser.user_email);
     formData.append('usuario_telefono', editarUser.user_tel);
 
     if (editarUser.user_foto) {
@@ -70,7 +67,8 @@ export default function PerfilCliente() {
     try {
       const res = await axios.put(`${BACKEND_URL}/api/clientes/actualizar/${id}`, formData);
       if (res.status === 200) {
-        Swal.fire('Exito', 'Cliente editado correctamente', 'success');
+        Swal.fire(res.data.title, res.data.message, 'success');
+        setImagePreview("");
         setIsDataUpdated(true);
       }
     } catch (error) {
@@ -78,71 +76,51 @@ export default function PerfilCliente() {
       Swal.fire('Error', error.response?.data || 'error');
     }
   }
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('user_nom', user.user_nom);
-    formData.append('user_apels', user.user_apels);
-    formData.append('user_email', user.user_email);
-    formData.append('user_tel', user.user_tel);
-    formData.append('user_foto', user.user_foto);
-    try {
-      const res = await axios.put(`${BACKEND_URL}/api/clientes/actualizar/${id_user}`, formData);
-      if (res.status === 200) {
-        Swal.fire({
-          title: 'Guardado',
-          text: 'Se han guardado los cambios',
-          icon: 'success',
-          confirmButtonText: 'Hecho'
-        });
-        setIsDataUpdated(true);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   return (
     <div>
       <div className="px-5">
-        <form action="" >
+        <form onSubmit={(e) => handleEdit(e, editarUser.id_user)}>
           <div className='align-items-center text-center pb-3 pt-3'>
-            <img src={`/images/clientes/${user.user_foto}`} height={300} alt="" className='rounded rounded-circle border border-3 px-3' />
-            <input type="file" className="form-control my-3" id="inputGroupFile01" onChange={handleFileChange}  name='user_foto'/>
-            <h1>{user.user_nom} {user.user_apels}</h1>
-            <div className="row">
+            <p>Cambia tu foto de perfil</p>
+            <img src={imagePreview ? imagePreview : `/images/clientes/${editarUser.user_foto}`} height={300} width={480} alt="" className='rounded-3 p-4' />
+            <p>{imagePreview ? '¡Tu siguiente foto!' : '¡Tu foto actual!'}</p>
+            <input ref={fileInputRef} onChange={handleFileChange} className='form-control mb-5' type="file" accept='image/*' id='imagen' name='imagen' />
+            <h1>{editarUser.user_nom} {editarUser.user_apels}</h1>
+            <h6 className='pb-4'>{`¡Estas registrado desde ${moment(editarUser.user_fecha_registro).format('DD/MM/YYYY')}!`}</h6>
+            <div className={rol == 3 ? "row" : "row d-none"}>
               <div className="col-6">
                 <h2>Compras realizadas</h2>
                 <h3>{compras.length}</h3>
               </div>
               <div className="col-6">
                 <h2>Puntos acumulados</h2>
-                <h3>{user.user_puntos}</h3>
+                <h3>{editarUser.user_puntos}</h3>
               </div>
             </div>
             <hr className='border border-3' />
           </div>
-          <div className='fs-5' key={user.id_user}>
+          <div className='fs-5' key={editarUser.id_user}>
             <h1> Información personal</h1>
             <hr className='border border-3' />
             <div className="row cols-2">
               <div className="col-6">
                 <label className='form-label '>Nombre</label>
-                <input type="text" className="form-control" onChange={handleChange} name="user_nom" placeholder={user.user_nom} value={editarUser.user_nom} required/>
+                <input type="text" className="form-control" onChange={handleInputChangeEdit} name="user_nom" value={editarUser.user_nom} />
               </div>
               <div className="col-6">
                 <label className='form-label '>Apellidos</label>
-                <input type="text" className="form-control" onChange={handleChange} name="user_apels" placeholder={user.user_apels} value={editarUser.user_apels} required />
+                <input type="text" className="form-control" onChange={handleInputChangeEdit} name="user_apels" value={editarUser.user_apels} />
               </div>
-              <div className="col-6">
+              <div className="col-6 mt-2">
                 <label className='form-label '>Email</label>
-                <input type="text" className="form-control" onChange={handleChange} name="user_email" placeholder={user.user_email}  value={editarUser.user_email} required/>
+                <input type="text" className="form-control" disabled value={editarUser.user_email} />
               </div>
               <div className="col-6 mt-2">
                 <label className='form-label '>Telefono</label>
-                <input type="text" className="form-control" onChange={handleChange} name="user_tel" placeholder={user.user_tel} value={editarUser.user_tel}  required/>
+                <input type="text" className="form-control" onChange={handleInputChangeEdit} name="user_tel" value={editarUser.user_tel} />
               </div>
-              <button type="submit" className="btn btn-warning w-100 mt-3" onClick={() => handleEdit(user.id_user)}>
+              <button type="submit" className="btn btn-warning w-100 mt-3">
                 <i className="bi bi-pencil-square"></i> Guardar cambios
               </button>
             </div>

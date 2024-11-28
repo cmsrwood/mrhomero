@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import { title } from 'process';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 export default function RecompensasCliente() {
@@ -81,7 +80,7 @@ export default function RecompensasCliente() {
         {mostrar == 'disponibles' ?
           <div>
             <div className="text-end">
-              <button className='btn btn-warning my-4' onClick={() => mostrarRecompensas('obtenidas')}>Ver recompensas disponibles</button>
+              <button className='btn btn-warning my-4' onClick={() => mostrarRecompensas('obtenidas')}>Ver recompensas obtenidas</button>
             </div>
             <div>
               <div className="row scrollbar">

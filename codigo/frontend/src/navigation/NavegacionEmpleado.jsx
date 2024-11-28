@@ -66,7 +66,6 @@ export default function NavegacionAdmin() {
                             </button>
                             <ul className="dropdown-menu">
                                 <li><Link className="dropdown-item" to="#">Mi perfil</Link></li>
-                                <li><Link className="dropdown-item" to="#">Configuración</Link></li>
                                 <li><Link className="dropdown-item text-danger" to="#" onClick={cerrarSesion}><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
                             </ul>
                         </div>

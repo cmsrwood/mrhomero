@@ -20,18 +20,18 @@ const upload = multer({ storage: storage });
 // Función para eliminar una imagen de la carpeta
 const eliminar = async (image) => {
     try {
-        const filePath = path.resolve(__dirname, `../../../frontend/public/images/clientes                                      /${image}`);
+        const filePath = path.resolve(__dirname, `../../../frontend/public/images/clientes/${image}`);
         await fs.promises.unlink(filePath);
     } catch (err) {
         console.error('Error eliminando imagen:', err);
     }
 };
+
 exports.actualizarCliente = (req, res) => {
     const id = req.params.id;
-    const nombre = req.body.user_nom;
-    const apellido = req.body.user_apels;
-    const email = req.body.user_email;
-    const telefono = req.body.user_tel;
+    const nombre = req.body.usuario_nombre;
+    const apellido = req.body.usuario_apellidos;
+    const telefono = req.body.usuario_telefono;
     const file = req.file || null;
 
     const qCliente = 'SELECT * FROM usuarios WHERE id_user = ?'
@@ -42,33 +42,31 @@ exports.actualizarCliente = (req, res) => {
         }
 
         const clienteActual = results[0];
-        const nombreActualizado = nombre || clienteActual.usuario_nombre;
-        const apellidoActualizado = apellido || clienteActual.usuario_apellidos;
-        const emailActualizado = email || clienteActual.usuario_email;
-        const telefonoActualizado = telefono || clienteActual.usuario_telefono;
+        const nombreActualizado = nombre || clienteActual.user_nom;
+        const apellidoActualizado = apellido || clienteActual.user_apels;
+        const telefonoActualizado = telefono || clienteActual.user_tel;
         const fotoActualizada = file ? file.filename.toString() : clienteActual.user_foto;
 
-        if (file && clienteActual.user_foto) {
-            eliminar(clienteActual.user_foto);
-        }
-
-        const q = 'UPDATE usuarios SET user_nom = ?, user_apels = ?, user_email = ?, user_tel = ?, user_foto = ? WHERE id_user = ?';
+        const q = 'UPDATE usuarios SET user_nom = ?, user_apels = ?, user_tel = ?, user_foto = ? WHERE id_user = ?';
 
         const values = [
             nombreActualizado,
             apellidoActualizado,
-            emailActualizado,
             telefonoActualizado,
             fotoActualizada,
             id
         ];
 
-        db.query(q, values, (err, results) => {
+        db.query(q, values, (err) => {
             if (err) {
                 console.log(err);
-                return res.status(500).send('Error al editar el usuario' + err.message);
+                return res.status(500).send('Error al editar el usuario' + err);
             } else {
-                return res.status(200).send('Cliente actualizado exitosamente');
+                eliminar(clienteActual.user_foto);
+                return res.status(200).send({
+                    title: 'Exito',
+                    message: 'Tus datos se han actualizado exitosamente',
+                });
             }
         })
     })
