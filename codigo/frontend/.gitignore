@@ -23,3 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+#No subir imagenes al public
+frontend/public/images/**/*.png
+frontend/public/images/**/*.jpg
+frontend/public/images/**/*.jpeg
+frontend/public/images/**
+
