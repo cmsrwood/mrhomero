@@ -16,7 +16,6 @@ export default function Dashboard() {
   //Traer datos
   const [ventas, setVentas] = useState([]);
   const [ventasMensuales, setVentasMensuales] = useState([]);
-  console.log(ventasMensuales);
   const [productosMasVendidos, setProductosMasVendidos] = useState([]);
   const [productosVendidosPorMes, setProductosVendidosPorMes] = useState(0);
   const [porcentajeProductos, setPorcentajeProductos] = useState(0);
@@ -28,6 +27,8 @@ export default function Dashboard() {
   const mesActual = moment().format('M');
   const [ano, setAno] = useState(anoActual);
   const [mes, setMes] = useState(mesActual);
+
+  const [tipoDeReporte, setTipoDeReporte] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,6 +66,10 @@ export default function Dashboard() {
   const handleMesChange = (event) => {
     setMes(event.target.value);
     setIsDataUpdated(true);
+  };
+
+  const handleReporteChange = (event) => {
+    setTipoDeReporte(event.target.value);
   };
 
   const diasMes = [];
@@ -123,12 +128,12 @@ export default function Dashboard() {
         </select>
       </div>
       <div className="d-flex w-100 justify-content-between my-3">
-        <select value={"x"} name="" id="" className='form-select me-2'>
-          <option disabled selected value="x">Seleccionar tipo de reporte</option>
-          <option value="1">Anual</option>
-          <option value="2">Mensual</option>
+        <select value={tipoDeReporte} onChange={handleReporteChange} name="" id="" className='form-select me-2'>
+          <option disabled selected value="">Seleccionar tipo de reporte</option>
+          <option value="anual">Anual</option>
+          <option value="mensual">Mensual</option>
         </select>
-        <a className='btn btn-danger me-2' target="_blank" href={`${BACKEND_URL}/api/ventas/crearReporte/${ano}/${mes}`}><i class="bi bi-filetype-pdf"></i></a>
+        <a className='btn btn-danger me-2' target="_blank" href={`${BACKEND_URL}/api/ventas/crearReporte/${ano}/${mes}`}><i className="bi bi-filetype-pdf"></i></a>
       </div>
       <div className="row g-5 my-3">
         <div className="col-12 px-5 text-center justify-content-center">
@@ -136,7 +141,7 @@ export default function Dashboard() {
         </div>
         <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary text-center shadow">
           <h3 className='pt-4'>Productos vendidos por mes</h3>
-          <h4 className>{productosVendidosPorMes || 0} Unidades</h4>
+          <h4>{productosVendidosPorMes || 0} Unidades</h4>
           <h4 className={`pb-4 ${porcentajeProductos < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeProductos <= 0 ? porcentajeProductos : '+' + porcentajeProductos || 0}% este mes</h4>
         </div>
         <div className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center shadow">

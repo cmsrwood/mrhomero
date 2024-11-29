@@ -15,15 +15,15 @@ export default function Empleados() {
     emp_email: '',
     emp_fecha_ingreso: '',
   })
- 
-  const[empEdit, setEmpEdit] = useState({
+
+  const [empEdit, setEmpEdit] = useState({
     emp_id: 0,
     emp_nom_edit: '',
     emp_apellidos_edit: '',
     emp_tel_edit: '',
     emp_email_edit: '',
     emp_fecha_ingreso: '',
-    
+
   })
   const [empleados, setEmpleados] = useState([])
   const [isDataUpdated, setIsDataUpdated] = useState(false)
@@ -37,8 +37,6 @@ export default function Empleados() {
       const res = await axios.put(`${BACKEND_URL}/api/empleados/crearEmpleado`, emp);
       if (res.status === 200) {
         Swal.fire('Empleado creado', res.data, 'success');
-        setIsDataUpdated(true);
-
         setEmp({
           emp_nom: '',
           emp_apellidos: '',
@@ -46,17 +44,19 @@ export default function Empleados() {
           emp_email: '',
           emp_fecha_ingreso: '',
         });
-      
-      const modalElement = document.getElementById('Añadir');
-      let modalInstance = bootstrap.Modal.getInstance(modalElement);
-      if (modalInstance) modalInstance.hide();
+        setIsDataUpdated(true);
+
+        const modalElement = document.getElementById('Añadir');
+        let modalInstance = bootstrap.Modal.getInstance(modalElement);
+        if (modalInstance) modalInstance.hide();
       }
     } catch (error) {
       console.log(error);
-      Swal.fire('Error', error.response.data, 'error');
-      if (error.response) {
-        Swal.fire('Error', error.response.data, 'error');
-      }
+      Swal.fire({
+        icon: 'error',
+        title: error.response.data.title,
+        text: error.response.data.message,
+      });
     }
   }
 
@@ -105,21 +105,21 @@ export default function Empleados() {
       emp_email_edit: empleado.user_email,
       emp_fecha_ingreso: empleado.user_fecha_registro
     });
-};
-const borrarEmpleado = async (id) => {
-  try {
-    const res = await axios.put(`${BACKEND_URL}/api/empleados/borrarEmpleado/${id}`);
-    if (res.status === 200) {
-      Swal.fire('Empleado eliminado', res.data, 'success');
-      setIsDataUpdated(true);
+  };
+  const borrarEmpleado = async (id) => {
+    try {
+      const res = await axios.put(`${BACKEND_URL}/api/empleados/borrarEmpleado/${id}`);
+      if (res.status === 200) {
+        Swal.fire('Empleado eliminado', res.data, 'success');
+        setIsDataUpdated(true);
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        Swal.fire('Error', error.response.data, 'error');
+      }
     }
-  } catch (error) {
-    console.log(error);
-    if (error.response) {
-      Swal.fire('Error', error.response.data, 'error');
-    }
-  }
-};
+  };
 
 
   return (
@@ -140,8 +140,7 @@ const borrarEmpleado = async (id) => {
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                  <form action=""
-                    onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit}>
                     <div className="row">
                       <div className="col-3">
                         <img src={img} height={200} className="card-img-top" alt="..." />
@@ -149,20 +148,19 @@ const borrarEmpleado = async (id) => {
                       <div className="col row" >
                         <div className="col">
                           <label htmlFor="floatingInput">Nombre</label>
-                          <input type="text" className="form-control my-2" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" name="emp_nom" onChange={handleChange}></input>
+                          <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" value={emp.emp_nom} className="form-control my-2" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" name="emp_nom" onChange={handleChange} />
                           <label htmlFor="floatingInput">Apellidos</label>
-                          <input type="text" className="form-control my-2" placeholder="Apellidos" aria-label="Username" aria-describedby="basic-addon1" name="emp_apellidos" onChange={handleChange}></input>
+                          <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" value={emp.emp_apellidos} className="form-control my-2" placeholder="Apellidos" aria-label="Username" aria-describedby="basic-addon1" name="emp_apellidos" onChange={handleChange} />
                           <label htmlFor="floatingInput">Telefono</label>
-                          <input type="text" className="form-control my-2" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1" name="emp_tel" onChange={handleChange}></input>
+                          <input type="text" pattern='^[0-9]+$' value={emp.emp_tel} className="form-control my-2" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1" name="emp_tel" onChange={handleChange} />
                         </div>
                         <div className="col">
                           <label htmlFor="floatingInput">Email</label>
-                          <input type="text" className="form-control my-2" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" name="emp_email" onChange={handleChange}></input>
-                        
+                          <input type="email" className="form-control my-2" value={emp.emp_email} placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" name="emp_email" onChange={handleChange} />
                         </div>
                         <div className="mt-2">
                           <label htmlFor="floatingInput">Fecha de ingreso</label>
-                          <input type="date" name="emp_fecha_ingreso" id="" className="form-control my-2" onChange={handleChange}/>
+                          <input type="date" name="emp_fecha_ingreso" value={emp.emp_fecha_ingreso} id="" className="form-control my-2" onChange={handleChange} />
                         </div>
                       </div>
                     </div>
@@ -202,35 +200,35 @@ const borrarEmpleado = async (id) => {
                 </div>
                 <div className="modal-body">
                   <form action="" onSubmit={handleEdit}>
-                  <div className="row">
-                    <div className="col-3">
-                      <img src={img} height={200} className="card-img-top" alt="..." />
+                    <div className="row">
+                      <div className="col-3">
+                        <img src={img} height={200} className="card-img-top" alt="..." />
+                      </div>
+                      <div className="col row" >
+                        <div className="col">
+                          <label htmlFor="floatingInput">Nombre</label>
+                          <input type="text" className="form-control my-2" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" name="emp_nom_edit" value={empEdit.emp_nom_edit} onChange={handleChangeEdit}></input>
+                          <label htmlFor="floatingInput">Apellidos</label>
+                          <input type="text" className="form-control my-2" placeholder="Apellidos" aria-label="Username" aria-describedby="basic-addon1" name="emp_apellidos_edit" value={empEdit.emp_apellidos_edit} onChange={handleChangeEdit}></input>
+                          <label htmlFor="floatingInput">Telefono</label>
+                          <input type="text" className="form-control my-2" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1" name="emp_tel_edit" value={empEdit.emp_tel_edit} onChange={handleChangeEdit}></input>
+                        </div>
+                        <div className="col">
+                          <label htmlFor="floatingInput">Email</label>
+                          <input type="email" disabled className="form-control my-2" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" name="emp_email_edit" value={empEdit.emp_email_edit} onChange={handleChangeEdit}></input>
+                        </div>
+                        <div className="mt-2">
+                          <label htmlFor="floatingInput">Fecha de ingreso</label>
+                          <p className="form-control my-2" >{empEdit.emp_fecha_ingreso}</p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="col row" >
-                      <div className="col">
-                        <label htmlFor="floatingInput">Nombre</label>
-                        <input type="text" className="form-control my-2" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" name="emp_nom_edit" value={empEdit.emp_nom_edit} onChange={handleChangeEdit}></input>
-                        <label htmlFor="floatingInput">Apellidos</label>
-                        <input type="text" className="form-control my-2" placeholder="Apellidos" aria-label="Username" aria-describedby="basic-addon1" name="emp_apellidos_edit" value={empEdit.emp_apellidos_edit} onChange={handleChangeEdit}></input>
-                        <label htmlFor="floatingInput">Telefono</label>
-                        <input type="text" className="form-control my-2" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1" name="emp_tel_edit" value={empEdit.emp_tel_edit} onChange={handleChangeEdit}></input>
-                      </div>
-                      <div className="col">
-                        <label htmlFor="floatingInput">Email</label>
-                        <input type="text" className="form-control my-2" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" name="emp_email_edit" value={empEdit.emp_email_edit} onChange={handleChangeEdit}></input>
-                      </div>
-                      <div className="mt-2">
-                        <label htmlFor="floatingInput">Fecha de ingreso</label>
-                       <p className="form-control my-2" >{empEdit.emp_fecha_ingreso}</p>
-                      </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                      <button type="submit" className="btn btn-warning" >Guardar cambios</button>
                     </div>
-                  </div>
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" className="btn btn-warning" >Guardar cambios</button>
-                  </div>
                   </form>
-                  
+
                 </div>
               </div>
             </div>

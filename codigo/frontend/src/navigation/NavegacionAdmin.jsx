@@ -73,7 +73,7 @@ export default function NavegacionAdmin() {
             </div>
             <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top shadow">
                 <div className="container-fluid">
-                    <Link className="navbar-brand text-warning homero-font fs-3" to="#">Mr. Homero</Link>
+                    <Link className="navbar-brand text-warning homero-font fs-3" to="/admin/">Mr. Homero</Link>
                     <small className='text-white d-none d-sm-block fw-bold'>Hola, Administrador</small>
                     <div className="d-flex">
                         <div className="dropdown pe-5 me-5">

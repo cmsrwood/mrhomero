@@ -2,7 +2,7 @@ const db = require('../../config/db');
 
 exports.mostrarEmpleados = (req, res) => {
 
-    db.query( `SELECT 
+    db.query(`SELECT 
             id_user,
             user_nom,
             user_apels,
@@ -31,8 +31,8 @@ exports.asignarRol = (req, res) => {
             console.log(err);
             return res.status(500).send('Error en el servidor');
         }
-        if (results.length < 0) {
-            return res.status(400).send('El usuario no existe');
+        if (results.length <= 0) {
+            return res.status(400).send({ title: `El usuario debe estar registrado en el sistema`, message: `El usuario ${correo} no existe` });
         }
         else {
             if (!nombre || !apellidos || !correo || !telefono || !fecha) {
@@ -88,7 +88,7 @@ exports.EliminarEmpleado = (req, res) => {
 
         }
         else {
-            return res.status(200).send('Cliente eliminado exitosamente');
+            return res.status(200).send('Empleado eliminado exitosamente');
         }
     });
 }

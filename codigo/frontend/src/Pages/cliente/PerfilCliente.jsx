@@ -5,7 +5,6 @@ import moment from 'moment';
 import imgDefault from '../../../public/logo.png'
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
-
 export default function PerfilCliente() {
 
   const [isDataUpdated, setIsDataUpdated] = useState(false);
@@ -20,7 +19,7 @@ export default function PerfilCliente() {
   const [editarUser, setEditarUser] = useState({
     user_nom: '',
     user_apels: '',
-    user_tel: '',
+    user_tel: 0,
     user_foto: null,
   });
 
@@ -60,7 +59,7 @@ export default function PerfilCliente() {
     const formData = new FormData();
     formData.append('usuario_nombre', editarUser.user_nom);
     formData.append('usuario_apellidos', editarUser.user_apels);
-    formData.append('usuario_telefono', editarUser.user_tel);
+    formData.append('usuario_telefono', editarUser.user_tel ? editarUser.user_tel : null);
 
     if (editarUser.user_foto) {
       formData.append('foto', editarUser.user_foto);
@@ -107,20 +106,20 @@ export default function PerfilCliente() {
             <hr className='border border-3' />
             <div className="row cols-2">
               <div className="col-6">
-                <label className='form-label '>Nombre</label>
-                <input type="text" className="form-control" onChange={handleInputChangeEdit} name="user_nom" value={editarUser.user_nom} />
+                <label className='form-label'>Nombre</label>
+                <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" className="form-control" onChange={handleInputChangeEdit} name="user_nom" value={editarUser.user_nom} />
               </div>
               <div className="col-6">
                 <label className='form-label '>Apellidos</label>
-                <input type="text" className="form-control" onChange={handleInputChangeEdit} name="user_apels" value={editarUser.user_apels} />
+                <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" className="form-control" onChange={handleInputChangeEdit} name="user_apels" value={editarUser.user_apels} />
               </div>
               <div className="col-6 mt-2">
                 <label className='form-label '>Email</label>
-                <input type="text" className="form-control" disabled value={editarUser.user_email} />
+                <input type="text" pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$' className="form-control" disabled value={editarUser.user_email} />
               </div>
               <div className="col-6 mt-2">
-                <label className='form-label '>Telefono</label>
-                <input type="text" className="form-control" onChange={handleInputChangeEdit} name="user_tel" value={editarUser.user_tel} />
+                <label className='form-label'>Telefono</label>
+                <input type="text" pattern='[0-9]{10}' className="form-control" onChange={handleInputChangeEdit} name="user_tel" value={editarUser.user_tel} />
               </div>
               <button type="submit" className="btn btn-warning w-100 mt-3">
                 <i className="bi bi-pencil-square"></i> Guardar cambios

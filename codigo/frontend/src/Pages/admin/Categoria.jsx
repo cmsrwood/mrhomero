@@ -202,7 +202,7 @@ export default function Categoria() {
               <div className="modal-body">
                 <div className="row p-3">
                   <div className="col-12">
-                    <img src={imagePreview ? imagePreview : `/images/menu/productos/${editarProducto.imagen}`} className="rounded mx-auto mb-4 d-block w-50"/>
+                    <img src={imagePreview ? imagePreview : `/images/menu/productos/${editarProducto.imagen}`} className="rounded mx-auto mb-4 d-block w-50" />
                   </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Imagen</label>
@@ -210,7 +210,7 @@ export default function Categoria() {
                   </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Nombre</label>
-                    <input value={productoSubir.nombre} onChange={handleChange} className='form-control' type="text" autoComplete='off' id='nombre' name='nombre' required />
+                    <input pattern="^[A-Za-zÁ-ÿÑñ\s]+$" value={productoSubir.nombre} onChange={handleChange} className='form-control' type="text" autoComplete='off' id='nombre' name='nombre' required />
                   </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Descripción</label>
@@ -286,7 +286,7 @@ export default function Categoria() {
 
                     <div className="col-12 mb-3">
                       <label htmlFor="floatingInput">Nombre</label>
-                      <input onChange={handleChangeEdit} value={editarProducto.nombre} className='form-control' type="text" autoComplete='off' id='nombre' name='nombre' required />
+                      <input pattern="^[A-Za-zÁ-ÿÑñ\s]+$" onChange={handleChangeEdit} value={editarProducto.nombre} className='form-control' type="text" autoComplete='off' id='nombre' name='nombre' required />
                     </div>
                     <div className="col-12 mb-3">
                       <label htmlFor="floatingInput">Descripción</label>
