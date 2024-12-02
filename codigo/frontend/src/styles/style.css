@@ -2,6 +2,12 @@
     --swiper-theme-color: #ffc107 !important;
 }
 
+* {
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 .homero-font {
     font-family: 'Homer Simpson Revised', sans-serif;
 }
@@ -18,7 +24,7 @@ h1 {
     color: #ffc107;
 }
 
-.bg-homero-nosotros{
+.bg-homero-nosotros {
     background-color: #f6f5f2;
 }
 
@@ -74,6 +80,7 @@ h1 {
 .hoverCursor:hover {
     cursor: pointer;
 }
+
 .scrollbar-nosotros {
     overflow-y: auto;
     max-height: 220px;
@@ -82,18 +89,19 @@ h1 {
 }
 
 .nosotros-img {
-    transition: all ease 0.5s;  
+    transition: all ease 0.5s;
 }
-.nosotros-img:hover{
+
+.nosotros-img:hover {
     cursor: pointer;
     transform: scale(1.1);
     transition: all ease 0.5s;
 }
 
-.fsfooter{
+.fsfooter {
     font-size: 14px;
 }
 
-.fstext{
+.fstext {
     font-size: 16px;
 }
