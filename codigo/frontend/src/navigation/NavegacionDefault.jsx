@@ -14,9 +14,9 @@ export default function NavegacionDefault() {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary shadow homero-font mb-5">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary shadow mb-5">
       <div className="container-fluid">
-        <Link className="navbar-brand text-warning fs-3 ps-2" to="/">Mr. Homero</Link>
+        <Link className="navbar-brand text-warning fs-3 ps-2 homero-font" to="/">Mr. Homero</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

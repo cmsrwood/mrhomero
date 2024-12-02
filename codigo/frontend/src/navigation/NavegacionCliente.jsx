@@ -24,10 +24,10 @@ export default function NavegacionCliente() {
         <div className="collapse navbar-collapse" id="navbarText">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           </ul>
-          <Link className={`nav-link mx-2 homero-font ${rutaActiva('nosotros')} fs-5`} to="/cliente/nosotros"><i className="bi bi-people-fill me-1 "></i>Nosotros</Link>
-          <Link className={`nav-link mx-2 homero-font ${rutaActiva('menu')} fs-5`} to="/cliente/menu"><i className="bi bi-list-ul me-1"></i>Menú</Link>
-          <Link className={`nav-link mx-2 homero-font ${rutaActiva('recompensas')} fs-5`} to="/cliente/recompensas"><i className="bi bi-gift me-1"></i>Recompensas</Link>
-          <Link className={`nav-link mx-2 homero-font ${rutaActiva('miscompras')} fs-5`} to="/cliente/miscompras"><i className="bi bi-clock-history me-1"></i>Mis compras</Link>
+          <Link className={`nav-link mx-2  ${rutaActiva('nosotros')} fs-5`} to="/cliente/nosotros"><i className="bi bi-people-fill me-1 "></i>Nosotros</Link>
+          <Link className={`nav-link mx-2  ${rutaActiva('menu')} fs-5`} to="/cliente/menu"><i className="bi bi-list-ul me-1"></i>Menú</Link>
+          <Link className={`nav-link mx-2  ${rutaActiva('recompensas')} fs-5`} to="/cliente/recompensas"><i className="bi bi-gift me-1"></i>Recompensas</Link>
+          <Link className={`nav-link mx-2  ${rutaActiva('miscompras')} fs-5`} to="/cliente/miscompras"><i className="bi bi-clock-history me-1"></i>Mis compras</Link>
           <div className="dropdown me-1 pe-5">
             <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i className="bi bi-person-square "></i>
