@@ -11,6 +11,4 @@ router.put('/restaurar/:id', clienteController.restaurarCliente);
 router.get('/mostrarByid/:id', clienteController.mostrarClientesByid);
 router.put('/actualizar/:id', clienteController.upload, clienteController.actualizarCliente);
 
-
-
 module.exports = router

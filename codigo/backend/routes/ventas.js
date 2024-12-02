@@ -10,6 +10,7 @@ router.get('/mostrarCuentaProductosVendidosPorMes/:ano/:mes', ventasController.m
 router.get('/mostrarVentasMensuales/:ano/:mes', ventasController.ventasMensuales);
 router.get('/mostrarVentasPorMes/:ano/:mes', ventasController.cantidadPrecioVentas);
 router.get('/crearReporte/:ano/:mes', ventasController.generarPDFVentasMensuales);
+router.get('/crearReporte/:ano', ventasController.generarPDFVentasAnuales);
 router.post('/crear', ventasController.crearVenta)
 router.post('/crearDetalleVenta', ventasController.crearDetalleVenta);
 router.put('/borrar/:id', ventasController.borrarVenta);

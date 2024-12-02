@@ -41,7 +41,19 @@ exports.mostrarRecompensas = (req, res) => {
     })
 }
 
-exports.mostrarRecompensasPorUsuario = (req, res) => {
+exports.mostrarRecompensasObtenidas = (req, res) => {
+    const q = "SELECT * FROM recompensas_obt";
+    db.query(q, (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send(results);
+        }
+    })
+}
+
+exports.mostrarRecompensasObtenidasPorUsuario = (req, res) => {
     const id_usuario = req.params.id;
     const q = "SELECT * FROM recompensas_obt WHERE id_user = ?";
     db.query(q, [id_usuario], (err, results) => {

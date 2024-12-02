@@ -179,40 +179,87 @@ const formatNumber = (value) => {
 
 async function generarPDF(doc, ventas, ano, mes) {
     const filePath = path.resolve(__dirname, `../../../frontend/public/logo.png`);
-    doc.font('Helvetica');
-    doc.image(filePath, 480, 60, { width: 80 })
-    doc.fontSize(20).text(`Reporte de Ventas Mensuales\n${mesANombre(mes)}/${ano}`, { align: 'center' });
-    doc.moveDown();
-    doc.fontSize(12).text(`Ventas del mes de ${mesANombre(mes)}/${ano}`, { align: 'start' });
-    doc.moveDown();
 
-    const diasMes = [];
+    /* Reporte de ventas mensuales */
 
-    for (let dia = 1; dia <= moment(`${ano}-${mes}-01`, "YYYY-MM").daysInMonth(); dia++) {
-        diasMes.push(dia);
+    if (mes && ano) {
+        doc.font('Helvetica');
+        doc.image(filePath, 480, 60, { width: 80 })
+        doc.fontSize(20).text(`Reporte de Ventas Mensuales\n${mesANombre(mes)}/${ano}`, { align: 'center' });
+        doc.moveDown();
+        doc.fontSize(12).text(`Ventas del mes de ${mesANombre(mes)}/${ano}`, { align: 'start' });
+        doc.moveDown();
+
+        const diasMes = [];
+
+        for (let dia = 1; dia <= moment(`${ano}-${mes}-01`, "YYYY-MM").daysInMonth(); dia++) {
+            diasMes.push(dia);
+        }
+
+        const ventasDiarias = diasMes.map(dia => {
+            const venta = ventas.find(venta => venta.dia == dia);
+            return {
+                dia: `${dia}/${mes}/${ano}`,
+                total_ventas: venta ? formatNumber(venta.total_ventas) : 'Sin ventas'
+            };
+        });
+
+        const table = {
+            headers: ["Fecha", "Total de ventas"],
+            rows: ventasDiarias.map(venta => [venta.dia, venta.total_ventas])
+        };
+
+        await doc.table(table, {
+            prepareHeader: () => doc.font("Helvetica-Bold").fontSize(10),
+            prepareRow: (row, indexColumn, indexRow, rectRow) => doc.font("Helvetica").fontSize(8)
+        });
+
+        doc.fontSize(12).text(`Total de ventas en mes ${mesANombre(mes)}/${ano}: ${formatNumber(ventas.reduce((total, venta) => total + venta.total_ventas, 0))}`, { align: 'end' });
+
+        doc.end();
     }
 
-    const ventasDiarias = diasMes.map(dia => {
-        const venta = ventas.find(venta => venta.dia == dia);
-        return {
-            dia: `${dia}/${mes}/${ano}`,
-            total_ventas: venta ? formatNumber(venta.total_ventas) : 'Sin ventas'
+    /* Reporte de ventas anuales */
+
+    else if (ano && !mes) {
+        doc.font('Helvetica');
+        doc.image(filePath, 480, 60, { width: 80 })
+        doc.fontSize(20).text(`Reporte de ventas ${ano}`, { align: 'center' });
+        doc.moveDown();
+        doc.moveDown();
+        doc.moveDown();
+
+        const meses = [];
+
+        for (let mes = 1; mes <= 12; mes++) {
+            meses.push(mes);
+        }
+
+        const ventasMensuales = meses.map(mes => {
+            const venta = ventas.find(venta => venta.mes == mes);
+            return {
+                mes: mesANombre(mes),
+                total_ventas: venta ? formatNumber(venta.total_ventas) : 'Sin ventas'
+            };
+        });
+
+        const table = {
+            headers: ["Mes", "Total de ventas"],
+            rows: ventasMensuales.map(venta => [venta.mes, venta.total_ventas])
         };
-    });
 
-    const table = {
-        headers: ["Fecha", "Total de ventas"],
-        rows: ventasDiarias.map(venta => [venta.dia, venta.total_ventas])
-    };
+        await doc.table(table, {
+            prepareHeader: () => doc.font("Helvetica-Bold").fontSize(10),
+            prepareRow: (row, indexColumn, indexRow, rectRow) => doc.font("Helvetica").fontSize(8)
+        });
 
-    await doc.table(table, {
-        prepareHeader: () => doc.font("Helvetica-Bold").fontSize(10),
-        prepareRow: (row, indexColumn, indexRow, rectRow) => doc.font("Helvetica").fontSize(8)
-    });
+        doc.fontSize(12).text(`Total de ventas en ${ano}: ${formatNumber(ventas.reduce((total, venta) => total + venta.total_ventas, 0))}`, { align: 'end' });
 
-    doc.fontSize(12).text(`Total de ventas en mes ${mesANombre(mes)}/${ano}: ${formatNumber(ventas.reduce((total, venta) => total + venta.total_ventas, 0))}`, { align: 'end' });
-
-    doc.end();
+        doc.end();
+    }
+    else {
+        console.log('Faltan parametros');
+    }
 }
 
 exports.generarPDFVentasMensuales = async (req, res) => {
@@ -232,7 +279,7 @@ exports.generarPDFVentasMensuales = async (req, res) => {
     doc.on('data', (data) => stream.write(data));
     doc.on('end', () => stream.end());
 
-    db.query(`SELECT 
+    db.query(`SELECT
             DATE_FORMAT(venta_fecha, '%d') AS dia,
             SUM(venta_total) AS total_ventas
             FROM ventas
@@ -244,6 +291,38 @@ exports.generarPDFVentasMensuales = async (req, res) => {
             return res.status(500).send({ error: 'Error en el servidor' });
         } else {
             generarPDF(doc, ventas, ano, mes);
+        }
+    });
+};
+
+exports.generarPDFVentasAnuales = async (req, res) => {
+
+    const ano = req.params.ano;
+
+    const doc = new pdfkitTable({ bufferPage: true });
+
+    const filename = `ventas_${ano}.pdf`;
+
+    const stream = res.writeHead(200, {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename=${filename}`
+    });
+
+    doc.on('data', (data) => stream.write(data));
+    doc.on('end', () => stream.end());
+
+    db.query(`SELECT 
+            DATE_FORMAT(venta_fecha, '%m') AS mes,
+            SUM(venta_total) AS total_ventas
+            FROM ventas
+            WHERE YEAR(venta_fecha) = ?
+            GROUP BY mes
+            ORDER BY mes;`, [ano], (err, ventas) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send({ error: 'Error en el servidor' });
+        } else {
+            generarPDF(doc, ventas, ano);
         }
     });
 

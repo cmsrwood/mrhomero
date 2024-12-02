@@ -133,7 +133,7 @@ export default function Dashboard() {
           <option value="anual">Anual</option>
           <option value="mensual">Mensual</option>
         </select>
-        <a className='btn btn-danger me-2' target="_blank" href={`${BACKEND_URL}/api/ventas/crearReporte/${ano}/${mes}`}><i className="bi bi-filetype-pdf"></i></a>
+        <a className='btn btn-danger me-2' target="_blank" href={tipoDeReporte == 'anual' ? `${BACKEND_URL}/api/ventas/crearReporte/${ano}` : `${BACKEND_URL}/api/ventas/crearReporte/${ano}/${mes}`}><i className="bi bi-filetype-pdf"></i></a>
       </div>
       <div className="row g-5 my-3">
         <div className="col-12 px-5 text-center justify-content-center">

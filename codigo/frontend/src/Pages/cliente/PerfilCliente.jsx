@@ -19,7 +19,7 @@ export default function PerfilCliente() {
   const [editarUser, setEditarUser] = useState({
     user_nom: '',
     user_apels: '',
-    user_tel: 0,
+    user_tel: null,
     user_foto: null,
   });
 
@@ -107,19 +107,19 @@ export default function PerfilCliente() {
             <div className="row cols-2">
               <div className="col-6">
                 <label className='form-label'>Nombre</label>
-                <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" className="form-control" onChange={handleInputChangeEdit} name="user_nom" value={editarUser.user_nom} />
+                <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" className="form-control" onChange={handleInputChangeEdit} name="user_nom" value={editarUser.user_nom} required />
               </div>
               <div className="col-6">
                 <label className='form-label '>Apellidos</label>
-                <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" className="form-control" onChange={handleInputChangeEdit} name="user_apels" value={editarUser.user_apels} />
+                <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" className="form-control" onChange={handleInputChangeEdit} name="user_apels" value={editarUser.user_apels} required />
               </div>
               <div className="col-6 mt-2">
                 <label className='form-label '>Email</label>
-                <input type="text" pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$' className="form-control" disabled value={editarUser.user_email} />
+                <input type="text" pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$' className="form-control" disabled value={editarUser.user_email} required />
               </div>
               <div className="col-6 mt-2">
                 <label className='form-label'>Telefono</label>
-                <input type="text" pattern='[0-9]{10}' className="form-control" onChange={handleInputChangeEdit} name="user_tel" value={editarUser.user_tel} />
+                <input type="text" pattern='[0-9]{10}' className="form-control" onChange={handleInputChangeEdit} name="user_tel" value={editarUser.user_tel ? editarUser.user_tel : ""} required />
               </div>
               <button type="submit" className="btn btn-warning w-100 mt-3">
                 <i className="bi bi-pencil-square"></i> Guardar cambios
