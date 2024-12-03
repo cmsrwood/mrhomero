@@ -49,6 +49,9 @@ export default function NavegacionAdmin() {
                     <Link to='/admin/recompensas' className={rutaActiva('recompensas') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-trophy"></i> <span className='d-none d-lg-inline'>Recompensas</span>
                     </Link>
+                    <Link to='/admin/recompensasObtenidas' className={rutaActiva('recompensasObtenidas') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <i className="bi bi-check-circle"></i> <span className='d-none d-lg-inline'>Recompensas obtenidas</span>
+                    </Link>
                     <Link to='/admin/clientes' className={rutaActiva('clientes') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-people"></i> <span className='d-none d-lg-inline'>Clientes</span>
                     </Link>

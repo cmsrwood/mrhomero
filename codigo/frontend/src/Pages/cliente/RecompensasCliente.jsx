@@ -39,6 +39,19 @@ export default function RecompensasCliente() {
   const reclamarRecompensa = (id_recompensa) => async (e) => {
     e.preventDefault();
     try {
+      const confirm = await Swal.fire({
+        title: '¿Estas seguro de reclamar esta recompensa?',
+        text: "No podrás recuperar tus puntos",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'No, cancelar',
+        confirmButtonText: 'Si, reclamar'
+      });
+      if (!confirm.isConfirmed) {
+        return;
+      }
       const res = await axios.get(`${BACKEND_URL}/api/recompensas/mostrarPuntos/${idUsuario}`);
       setPuntos(res.data[0].user_puntos);
       setIsDataUpdated(true);

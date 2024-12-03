@@ -3,6 +3,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
+const { title } = require('process');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -30,7 +31,7 @@ const eliminar = async (image) => {
 
 //Mostar todas las recompensas
 exports.mostrarRecompensas = (req, res) => {
-    const q = "SELECT * FROM recompensas";
+    const q = "SELECT * FROM recompensas ORDER BY id_recomp DESC";
     db.query(q, (err, results) => {
         if (err) {
             console.log(err);
@@ -42,7 +43,7 @@ exports.mostrarRecompensas = (req, res) => {
 }
 
 exports.mostrarRecompensasObtenidas = (req, res) => {
-    const q = "SELECT * FROM recompensas_obt";
+    const q = "SELECT * FROM recompensas_obt where estado = 1 ORDER BY id_recomp_obt DESC";
     db.query(q, (err, results) => {
         if (err) {
             console.log(err);
@@ -55,7 +56,7 @@ exports.mostrarRecompensasObtenidas = (req, res) => {
 
 exports.mostrarRecompensasObtenidasPorUsuario = (req, res) => {
     const id_usuario = req.params.id;
-    const q = "SELECT * FROM recompensas_obt WHERE id_user = ?";
+    const q = "SELECT * FROM recompensas_obt WHERE id_user = ? and estado = 1 ORDER BY id_recomp_obt DESC";
     db.query(q, [id_usuario], (err, results) => {
         if (err) {
             console.log(err);
@@ -200,7 +201,54 @@ exports.actualizarRecompensa = (req, res) => {
             }
         })
     })
+}
 
+exports.validarRecompensa = (req, res) => {
+    const id = req.params.id;
+    const codigo = req.body.codigo;
+
+    const q = "SELECT * FROM recompensas_obt WHERE id_recomp_obt = ?";
+
+    db.query(q, [id], (err, data) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error al ingresar los datos');
+        } else {
+            if (data.length === 0) {
+                return res.status(404).send('Recompensa no encontrada');
+            }
+
+            else {
+                const recompensa = data[0];
+                console.log(recompensa);
+                console.log(req.body);
+
+                if (recompensa.estado == 0) {
+                    return res.status(404).send({ title: 'Recompensa ya validada', message: 'La recompensa ya ha sido validada' });
+                }
+
+                if (recompensa.codigo !== codigo) {
+                    return res.status(404).send({ title: 'Codigo incorrecto', message: `El codigo que proporcionaste no es valido ` });
+                }
+
+                q2 = "UPDATE recompensas_obt SET estado = 0 WHERE id_recomp_obt = ? AND codigo = ?";
+
+                db.query(q2, [id, codigo], (err) => {
+                    if (err) {
+                        console.log(err);
+                        return res.status(500).send('Error al ingresar los datos');
+                    } else {
+                        if (err) {
+                            console.log(err);
+                            return res.status(500).send('Error al ingresar los datos');
+                        } else {
+                            return res.status(200).send({ title: 'Recompensa validada correctamente', message: '¡Ya puedes entregar la recompensa al cliente!' });
+                        }
+                    }
+                })
+            }
+        }
+    })
 }
 
 exports.eliminarRecompensa = (req, res) => {
