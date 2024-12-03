@@ -1,57 +1,52 @@
-import React, { useState } from 'react'
+import React, { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom';
-import Gestionhoras from '../admin/Gestionhoras';
+import axios from 'axios'
+import Gestionhoras from './Gestionhoras';
 import img from '../../assets/img/img.png'
-import NavegacionAdmin from '../../navigation/NavegacionAdmin'
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+
 
 
 
 export default function HorasEmpleados() {
-  const [showGestionhoras, setShowGestionhoras] = useState(false);
+  const [empleados, setEmpleados]=useState([])
+  const[isDataUpdated, setIsDataUpdated] = useState(false)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [empleadosRes] = await Promise.all([
+          axios.get(`${BACKEND_URL}/api/empleados/mostrarEmpleados`),
+        ]);
+        setEmpleados(empleadosRes.data);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsDataUpdated(false);
+    };
+    fetchData();
+  }, [isDataUpdated]);
 
 
-  function Horas() {
+  
     return (
-      <div className="card text-center p-2">
+      <div className="row row-cols-1 row-cols-md-2 g-4">
+      {empleados.map((empleado)=>(
+        <div className="col card text-center p-2" key={empleado.id_user}>
         <img src={img} height={200} className="card-img-top" alt="..." />
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-center">
-            <h3 className="card-title" >Empleado</h3>
+            <h3 className="card-title" >{empleado.user_nom} {empleado.user_apels}</h3>
             <p className="card-text">Horario de trabajo</p>
           </div>
 
         </div>
-        <Link onClick={() => setShowGestionhoras(true)} type="button" className="btn btn-warning ms-2"><i className="bi bi-info-circle"></i> Información</Link>
+        <Link to={'../admin/gestionhoras'} type="button" className="btn btn-warning ms-2"><i className="bi bi-info-circle"></i> Información</Link>
       </div>
+      ))}
+      </div>
+      
     )
-  }
-  return (
-    <div className=''>
-      {!showGestionhoras ?
-        <div className="">
-          <h1>Horas Empleados</h1>
-          <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
-            <div className="col my-2">
-              <Horas />
-            </div>
-            <div className="col my-2">
-              <Horas />
-            </div>
-            <div className="col my-2">
-              <Horas />
-            </div>
-            <div className="col my-2">
-              <Horas />
-            </div>
-            <div className="col my-2">
-              <Horas />
-            </div>
-            <div className="col my-2">
-              <Horas />
-            </div>
-          </div>
-        </div>
-        : <Gestionhoras />}
-    </div>
-  )
+  
+  
 }
