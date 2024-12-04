@@ -93,3 +93,29 @@ exports.EliminarEmpleado = (req, res) => {
     });
 }
 
+exports.MostrarHorasEmpleadoMes = (req, res) => {
+
+    const mes = req.params.mes;
+    const ano = req.params.ano;
+    const idEmpleado = req.params.id;
+
+    db.query(`SELECT
+                DATE_FORMAT(hora_inicio, '%Y-%m-%d %H:%i:%s') AS hora_inicio,
+                DATE_FORMAT(hora_fin, '%Y-%m-%d %H:%i:%s') AS hora_fin,
+                FROM empleados_horas
+                WHERE MONTH(hora_inicio) = ?
+                AND YEAR(hora_inicio) = ?
+                AND MONTH(hora_fin) = ?
+                AND YEAR(hora_fin) = ?
+                AND id_user = ?
+                GROUP BY dia
+                ORDER BY dia; `, [mes, ano, mes, ano, idEmpleado], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send({ error: 'Error en el servidor' });
+        } else {
+            return res.status(200).send(results);
+        }
+    });
+}
+

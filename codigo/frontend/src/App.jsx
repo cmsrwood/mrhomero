@@ -92,7 +92,7 @@ function App() {
                 <Route path="/admin/horasempleados" element={<HorasEmpleados />}></Route>
                 <Route path="/admin/proveedores" element={<Proveedores />}></Route>
                 <Route path="/admin/perfil" element={<PerfilCliente />}></Route>
-                <Route path="/admin/gestionhoras" element={<Gestionhoras/>}></Route>
+                <Route path="/admin/gestionhoras/:id" element={<Gestionhoras/>}></Route>
               </Route>
             </Route>
 

@@ -37,11 +37,11 @@ export default function HorasEmpleados() {
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-center">
             <h3 className="card-title" >{empleado.user_nom} {empleado.user_apels}</h3>
-            <p className="card-text">Horario de trabajo</p>
+            <h3 className="card-title" >{empleado.user_tel}</h3>
           </div>
 
         </div>
-        <Link to={'../admin/gestionhoras'} type="button" className="btn btn-warning ms-2"><i className="bi bi-info-circle"></i> Información</Link>
+        <Link to={`/admin/gestionhoras/${empleado.id_user}`} type="button" className="btn btn-warning ms-2"><i className="bi bi-info-circle"></i> Información</Link>
       </div>
       ))}
       </div>
