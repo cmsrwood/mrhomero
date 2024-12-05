@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-11-2024 a las 23:29:37
+-- Tiempo de generación: 05-12-2024 a las 20:32:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -115,6 +115,19 @@ INSERT INTO `detalle_ventas` (`id_detalle`, `id_venta`, `id_producto`, `cantidad
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `empleados_horas`
+--
+
+CREATE TABLE `empleados_horas` (
+  `id_horas` int(11) NOT NULL,
+  `hora_inicio` datetime DEFAULT NULL,
+  `hora_fin` datetime DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `inventario`
 --
 
@@ -158,18 +171,6 @@ INSERT INTO `productos` (`id_producto`, `pro_nom`, `pro_desp`, `pro_precio`, `pr
 (6, 'Hamburguesa mega', 'aksjflkwajflkwajl', '20000', 'producto_1731961477804.png', '20', 4),
 (7, 'Choriperro maximoo', 'dawfwa', '24000', 'producto_1732132542212.png', '24', 6),
 (8, 'Hamburguesa poderosa', 'a', '24000', 'producto_1732563837587.png', '24', 4);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `productos_imgs`
---
-
-CREATE TABLE `productos_imgs` (
-  `id_pro_img` int(11) NOT NULL,
-  `id_producto` int(11) NOT NULL,
-  `image` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -278,7 +279,7 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `user_fecha_registro`, `id_rol`, `user_estado`) VALUES
 (1, 'admin', 'admin', 'admin@gmail.com', NULL, 0, NULL, '$2a$10$ryatX/igKMkGPSkbfq8s4e5lRevbYJhh1g25cajrc82xgDku4csG2', NULL, NULL, '2024-10-03 19:40:47', 1, 0),
 (2, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 20, NULL, '$2a$10$nIXpxd3AQdOvYUMAfHDc5.JLn6vPen5cVJdXVTcnpBWY8k6k7cB2.', NULL, NULL, '2024-10-03 19:42:26', 3, 1),
-(3, 'Bryam', 'Castañeda Cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$qOzxrB0nP7fXMiZfMf/HauFihRmIDijfE5P9Ky4i5nh..JsMkt/3i', NULL, NULL, '2024-10-03 19:42:50', 3, 1),
+(3, 'Bryam', 'Cuervo', 'bryamccuervo2004@gmail.com', '3216547862', 0, NULL, '$2a$10$qOzxrB0nP7fXMiZfMf/HauFihRmIDijfE5P9Ky4i5nh..JsMkt/3i', NULL, NULL, '2024-11-12 00:00:00', 2, 1),
 (4, 'Johan Sebastian', 'Muñoz Contreras', 'sebastianmc@gmail.com', NULL, 120, NULL, '$2a$10$IzZaYGl2ZLZAEdiGEtAM6.4.luREWPjnusfy6uLxlaIIxRFyx52Ja', NULL, NULL, '2024-10-03 19:43:23', 3, 1);
 
 -- --------------------------------------------------------
@@ -312,7 +313,7 @@ INSERT INTO `ventas` (`id_venta`, `venta_fecha`, `id_user`, `venta_metodo_pago`,
 ('venta_5406794c-4e24-418d-a4e0-9b22ccbb9b0b', '2024-11-19 15:27:00', 4, 'Efectivo', 20000, 1),
 ('venta_7f35b298-8ead-436f-8dab-3e1d36168b1f', '2024-11-21 17:10:17', 2, 'Efectivo', 24000, 1),
 ('venta_8436eb60-baa2-46cc-b7f9-06c2bf824681', '2024-11-20 14:56:08', 4, 'Efectivo', 48000, 1),
-('venta_8c164781-94eb-40db-860e-26b05e4101ca', '2024-11-25 14:49:32', 4, 'Efectivo', 120000, 1),
+('venta_8c164781-94eb-40db-860e-26b05e4101ca', '2024-11-25 14:49:32', 4, 'Efectivo', 120000, 0),
 ('venta_9a7b76e5-69f2-4c3f-8aae-dd8d14cd70bc', '2024-11-19 15:36:52', NULL, 'Efectivo', 20000, 0),
 ('venta_bc4cd0e5-377f-4439-8581-edf2f4cef9a5', '2024-11-19 15:31:47', 4, 'Efectivo', 131000, 1),
 ('venta_c6233c32-408e-4410-9636-00203e8de4c1', '2024-09-12 15:24:46', NULL, 'Efectivo', 80000, 0),
@@ -343,6 +344,13 @@ ALTER TABLE `detalle_ventas`
   ADD KEY `detalle_ventas_producto` (`id_producto`);
 
 --
+-- Indices de la tabla `empleados_horas`
+--
+ALTER TABLE `empleados_horas`
+  ADD PRIMARY KEY (`id_horas`),
+  ADD KEY `empleados` (`id_user`);
+
+--
 -- Indices de la tabla `inventario`
 --
 ALTER TABLE `inventario`
@@ -356,13 +364,6 @@ ALTER TABLE `inventario`
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`id_producto`),
   ADD KEY `categoria` (`id_categoria`);
-
---
--- Indices de la tabla `productos_imgs`
---
-ALTER TABLE `productos_imgs`
-  ADD PRIMARY KEY (`id_pro_img`),
-  ADD KEY `product_id` (`id_producto`);
 
 --
 -- Indices de la tabla `proveedores`
@@ -428,10 +429,16 @@ ALTER TABLE `detalle_ventas`
   MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
+-- AUTO_INCREMENT de la tabla `empleados_horas`
+--
+ALTER TABLE `empleados_horas`
+  MODIFY `id_horas` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
@@ -481,6 +488,12 @@ ALTER TABLE `detalle_ventas`
   ADD CONSTRAINT `id_venta` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id_venta`);
 
 --
+-- Filtros para la tabla `empleados_horas`
+--
+ALTER TABLE `empleados_horas`
+  ADD CONSTRAINT `empleados` FOREIGN KEY (`id_user`) REFERENCES `usuarios` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `inventario`
 --
 ALTER TABLE `inventario`
@@ -492,12 +505,6 @@ ALTER TABLE `inventario`
 --
 ALTER TABLE `productos`
   ADD CONSTRAINT `categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `productos_imgs`
---
-ALTER TABLE `productos_imgs`
-  ADD CONSTRAINT `producto imagenes` FOREIGN KEY (`id_pro_img`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `recompensas_obt`
