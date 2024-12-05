@@ -12,13 +12,13 @@ export default function Footer() {
                     <img src={img} width={80} />
                 </div>
                 <div className="row">
-                    <div className="col-3">
+                    <div className="col-12 col-sm-3">
                         <p className="fsfooter">
                             <span className="fw-bold fstext"> Mr. Homero: La receta del sabor que te hará volver por más.</span><br />
                             Disfruta de nuestras irresistibles hamburguesas, perros calientes, papas crocantes, bebidas refrescantes y mucho más. ¡El sabor único de Mr. Homero te espera! Conoce nuestro menú y vive una experiencia deliciosa.
                         </p>
                     </div>
-                    <div className="col-3">
+                    <div className="col-12 col-sm-3">
                         <p className="fsfooter">
                             <span className="fw-bold fstext">Contacto</span> <br />
                             Cl. 25 Sur #6-30, San Cristóbal <br />
@@ -28,7 +28,7 @@ export default function Footer() {
                             <Link to={""} className="text-decoration-none text-reset">Trabaja con nosotros</Link><br />
                         </p>
                     </div>
-                    <div className="col-3">
+                    <div className="col-12 col-sm-3">
                         <p className="fsfooter">
                             <span className="fw-bold fstext">Quienes Somos</span> <br />
                             <Link to={"/nosotros"} className="text-decoration-none text-reset">Nosotros</Link>
@@ -39,7 +39,7 @@ export default function Footer() {
                             Sabados de 10:00 a 18:00
                         </p>
                     </div>
-                    <div className="col-3">
+                    <div className="col-12 col-sm-3">
                         <p className="fsfooter">
                             <span className="fw-bold fstext">Descarga nuestra APP</span> <br />
                         </p>

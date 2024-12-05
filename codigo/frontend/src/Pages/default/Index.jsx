@@ -10,10 +10,13 @@ export default function IndexDefault() {
     <div className=''>
       <div className="container">
         <div className="row py-5">
-          <div className="col-8">
-            <h1 className='fw-bold'>SI LO QUE BUSCAS ES SABOR</h1>
-            <h1 className='fw-bold'>MR. HOMERO ES EL MEJOR</h1>
-            <p className='w-75 py-2' style={{ fontSize: 17, lineHeight: 1.8 }}>¡Descubre el sabor que buscas con MrHomero! En nuestra app, puedes pedir las hamburguesas más deliciosas y tu comida rápida favorita en minutos. ¡Rápido, fácil y con entregas que te harán volver por más! ¿Antojo de una burger perfecta? ¡Descárgala ahora y disfruta el mejor sabor al alcance de tu mano!</p>
+          <div className="col-12 col-sm-8 ">
+            <h1 className='fw-bold d-none d-sm-block'>SI LO QUE BUSCAS ES SABOR</h1>
+            <h1 className='fw-bold d-none d-sm-block'>MR. HOMERO ES EL MEJOR</h1>
+            {/* Responsive */}
+            <h1 className='fw-bold d-block d-sm-none fs-1'>MR. HOMERO ES EL MEJOR</h1>
+            <h1 className='fw-bold d-block d-sm-none fs-1'>SI LO QUE BUSCAS ES SABOR</h1>
+            <p className='w-100 w-sm-75 py-2' style={{ fontSize: 17, lineHeight: 1.8 }}>¡Descubre el sabor que buscas con MrHomero! En nuestra app, puedes pedir las hamburguesas más deliciosas y tu comida rápida favorita en minutos. ¡Rápido, fácil y con entregas que te harán volver por más! ¿Antojo de una burger perfecta? ¡Descárgala ahora y disfruta el mejor sabor al alcance de tu mano!</p>
             <Link to={'/registrar'}>
               <button className='btn btn-warning me-3' style={{ width: 150 }}>Registrate</button>
             </Link>
@@ -21,21 +24,21 @@ export default function IndexDefault() {
               <button className='btn btn-outline-warning' style={{ width: 150 }}>Inicia Sesión</button>
             </Link>
           </div>
-          <div className="col-4">
-            <img src={logo} width={300} height={300} />
+          <div className="col-12 col-sm-4 order-first order-sm-last text-center">
+            <img src={logo} className='img-fluid' width={300} height={300} />
           </div>
         </div>
       </div>
       <div id="carouselExample" className="carousel slide mb-5">
         <div className="carousel-inner d-flex">
           <div className="carousel-item active">
-            <img src={img} className="d-block m-auto" style={{ objectFit: 'cover', maxHeight: 500, width: 1320 }} alt="..." />
+            <img src={img} className="d-block m-auto img-fluid" style={{ objectFit: 'cover', maxHeight: 500, width: 1320 }} alt="..." />
           </div>
           <div className="carousel-item">
-            <img src={img} className="d-block m-auto" style={{ objectFit: 'cover', maxHeight: 500, width: 1320 }} alt="..." />
+            <img src={img} className="d-block m-auto img-fluid" style={{ objectFit: 'cover', maxHeight: 500, width: 1320 }} alt="..." />
           </div>
           <div className="carousel-item">
-            <img src={img} className="d-block m-auto" style={{ objectFit: 'cover', maxHeight: 500, width: 1320 }} alt="..." />
+            <img src={img} className="d-block m-auto img-fluid" style={{ objectFit: 'cover', maxHeight: 500, width: 1320 }} alt="..." />
           </div>
         </div>
         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">

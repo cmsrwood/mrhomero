@@ -9,12 +9,12 @@ export default function Nosotros() {
     return (
         <div className="">
             <div className="container">
-                <div className="row d-flex justify-content-center mb-5 ps-5">
-                    <div className="col-8  fw-bold d-block align-content-center ">
+                <div className="row justify-content-center mb-5 ps-5">
+                    <div className="col-12 col-sm-8  fw-bold d-block align-content-center ">
                         <h2>SI LO QUE BUSCAS ES SABOR </h2>
                         <h2><span className='homero'>MR. HOMERO</span> ES LO MEJOR.</h2>
                     </div>
-                    <div className="col-4 text-center">
+                    <div className="col-12 col-sm-4 text-center">
                         <img src={img} width={250} height={250} />
                     </div>
                 </div>
