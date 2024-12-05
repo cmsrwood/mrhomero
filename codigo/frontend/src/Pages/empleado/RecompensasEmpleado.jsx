@@ -14,6 +14,7 @@ export default function RecompensasAdmin() {
 
   const [recompensas, setRecompensas] = useState([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
+  const [imagePreview, setImagePreview] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -113,6 +114,7 @@ export default function RecompensasAdmin() {
 
   const handleFileChangeEdit = (e) => {
     setEditarRecompensa({ ...editarRecompensa, foto_edit: e.target.files[0] })
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
   }
 
   const handleInputChangeEdit = (e) => {
@@ -136,6 +138,7 @@ export default function RecompensasAdmin() {
         const modalElement = document.getElementById('recompensaEditarModal');
         let modalInstance = bootstrap.Modal.getInstance(modalElement);
         modalInstance.hide();
+        setImagePreview("");
         setIsDataUpdated(true);
       }
     } catch (error) {
@@ -261,9 +264,7 @@ export default function RecompensasAdmin() {
               <div className="conatiner">
                 <div className="row">
                   <div className="col-3 m-3 ps-3 pt-2">
-                    {editarRecompensa.foto_edit ? (
-                      <img src={`/images/recompensas/${editarRecompensa.foto_edit}`} className="img-fluid mb-3" alt="Imagen actual" height={100} />
-                    ) : null}
+                      <img src={imagePreview ? imagePreview : `/images/recompensas/${editarRecompensa.foto_edit}`} className="img-fluid mb-3" alt="Imagen actual" height={100} />
                     <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='foto' name='foto' />
                   </div>
                   <div className="col">

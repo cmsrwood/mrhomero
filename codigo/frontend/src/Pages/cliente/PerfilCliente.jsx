@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios'
 import moment from 'moment';
-import imgDefault from '../../../public/logo.png'
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function PerfilCliente() {
@@ -84,7 +83,7 @@ export default function PerfilCliente() {
         <form onSubmit={(e) => handleEdit(e, editarUser.id_user)}>
           <div className='align-items-center text-center pb-3 pt-3'>
             <p>Cambia tu foto de perfil</p>
-            <img src={imagePreview ? imagePreview : imgDefault} height={300} width={480} alt="" className='rounded-3 p-4' />
+            <img src={imagePreview ? imagePreview : `/images/clientes/${editarUser.user_foto}`} height={300} width={480} alt="" className='rounded-3 p-4' />
             <p>{imagePreview ? '¡Tu siguiente foto!' : '¡Tu foto actual!'}</p>
             <input ref={fileInputRef} onChange={handleFileChange} className='form-control mb-5' type="file" accept='image/*' id='imagen' name='imagen' />
             <h1>{editarUser.user_nom} {editarUser.user_apels}</h1>
