@@ -53,6 +53,9 @@ export default function NavegacionAdmin() {
                     <Link to='/empleado/proveedores' className={rutaActiva('proveedores') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
                         <i className="bi bi-basket3"></i> <span className='d-none d-lg-inline'>Proveedores</span>
                     </Link>
+                    <Link to='/empleado/horas' className={rutaActiva('horas') ? `nav-link ps-3 py-2 d-block bg-warning w-100 text-start text-dark` : `nav-link ps-3 py-2 d-block`}>
+                        <i className="bi bi-clock"></i> <span className='d-none d-lg-inline'>Horas</span>
+                    </Link>
                 </ul>
             </div>
             <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top shadow">
@@ -65,7 +68,7 @@ export default function NavegacionAdmin() {
                                 <i className="bi bi-person-square "></i>
                             </button>
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="#">Mi perfil</Link></li>
+                                <li><Link className="dropdown-item" to="/empleado/perfil">Mi perfil</Link></li>
                                 <li><Link className="dropdown-item text-danger" to="#" onClick={cerrarSesion}><i className="bi bi-box-arrow-right"></i> Cerrar sesión</Link></li>
                             </ul>
                         </div>

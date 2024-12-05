@@ -7,19 +7,23 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 export default function Gestionhoras() {
     const params = useParams();
     const id = params.id
-    console.log(id)
+    const [isDataUpdated, setIsDataUpdated] = useState(false);
+
+    //Datos a traer
     const [horas, setHoras] = useState([]);
+
     const [horasExtra, setHorasExtra] = useState([]);
     const [horasEsperadas, setHorasEsperadas] = useState(0);
+
     const anoActual = moment().format('YYYY');
     const mesActual = moment().format('M');
-    const[ano, setAno] = useState(anoActual);
-    const[mes, setMes] = useState(mesActual);
-    const[isDataUpdated, setIsDataUpdated] = useState(false);
+    const [ano, setAno] = useState(anoActual);
+    const [mes, setMes] = useState(mesActual);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [horasRes, horasExtraRes, horasEsperadasRes] = await Promise.all([
+                const [horasRes] = await Promise.all([
                     axios.get(`${BACKEND_URL}/api/empleados/mostrarHorasEmpleadoMes/${id}/${ano}/${mes}`),
                 ]);
                 setHoras(horasRes.data);
@@ -29,11 +33,44 @@ export default function Gestionhoras() {
             setIsDataUpdated(false);
         };
         fetchData();
-    })
+    }, [isDataUpdated, id, ano, mes]);
+
+    const handleAnoChange = (event) => {
+        setAno(event.target.value);
+        setIsDataUpdated(true);
+    };
+
+    const handleMesChange = (event) => {
+        setMes(event.target.value);
+        setIsDataUpdated(true);
+    };
     return (
         <div>
             <div className="">
                 <h1>Gestion de Horas</h1>
+                <div className='row w-100 justify-content-between my-3'>
+                    <select value={ano} onChange={handleAnoChange} name="" id="" className="form-select col-12 col-sm mx-2">
+                        <option value={anoActual}>{anoActual}</option>
+                        <option value={anoActual - 1}>{anoActual - 1}</option>
+                        <option value={anoActual - 1}>{anoActual - 2}</option>
+                        <option value={anoActual - 1}>{anoActual - 3}</option>
+                        <option value={anoActual - 1}>{anoActual - 4}</option>
+                    </select>
+                    <select value={mes} onChange={handleMesChange} name="" id="" className="form-select col-12 col-sm mx-2">
+                        <option value="1">Enero</option>
+                        <option value="2">Febrero</option>
+                        <option value="3">Marzo</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Mayo</option>
+                        <option value="6">Junio</option>
+                        <option value="7">Julio</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Septiembre</option>
+                        <option value="10">Octubre</option>
+                        <option value="11">Noviembre</option>
+                        <option value="12">Diciembre</option>
+                    </select>
+                </div>
                 <div className="row cols-3 my-4">
                     <h2 className='col'> <i className="bi bi-clock-history fs-1 col-4 me-2"></i>Horas esperadas: 666</h2>
                     <h2 className='col'> <i className="bi bi-clock fs-1 col-4 me-2"></i>Horas registradas: 120</h2>
@@ -50,56 +87,14 @@ export default function Gestionhoras() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Lunes</td>
-                                <td>12:12 AM</td>
-                                <td>12:12 PM</td>
-
-                            </tr>
-                            <tr>
-                                <th scope="row">2 </th>
-                                <td>Martes</td>
-                                <td>12:12 AM</td>
-                                <td>12:12 PM</td>
-
-                            </tr>
-                            <tr>
-                                <th scope="row">3 </th>
-                                <td>Miercoles</td>
-                                <td>12:12 AM</td>
-                                <td>12:12 PM</td>
-
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>Jueves</td>
-                                <td>12:12 AM</td>
-                                <td>12:12 PM</td>
-
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>Viernes</td>
-                                <td>12:12 AM</td>
-                                <td>12:12 PM</td>
-
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>Sabado</td>
-                                <td>12:12 AM</td>
-                                <td>12:12 PM</td>
-
-                            </tr>
-                            <tr>
-                                <th scope="row">7</th>
-                                <td>Domingo</td>
-                                <td>12:12 AM</td>
-                                <td>12:12 PM</td>
-
-                            </tr>
-
+                            {horas.map((hora) => (
+                                <tr key={hora.id_horas}>
+                                    <th scope="row">1</th>
+                                    <td>Lunes</td>
+                                    <td>{hora.hora_inicio}</td>
+                                    <td>{hora.hora_fin}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

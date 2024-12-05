@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Buscador from '../../components/Buscador'
 import Swal from 'sweetalert2'
-import img from '../../assets/img/img.png'
 import axios from 'axios'
+import img from '../../assets/img/img.png'
+
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 
@@ -23,7 +24,7 @@ export default function Empleados() {
     emp_tel_edit: '',
     emp_email_edit: '',
     emp_fecha_ingreso: '',
-
+    emp_foto_edit: null,
   })
   const [empleados, setEmpleados] = useState([])
   const [isDataUpdated, setIsDataUpdated] = useState(false)
@@ -103,7 +104,8 @@ export default function Empleados() {
       emp_apellidos_edit: empleado.user_apels,
       emp_tel_edit: empleado.user_tel,
       emp_email_edit: empleado.user_email,
-      emp_fecha_ingreso: empleado.user_fecha_registro
+      emp_fecha_ingreso: empleado.user_fecha_registro,
+      emp_foto_edit: empleado.user_foto
     });
   };
   const borrarEmpleado = async (id) => {
@@ -202,7 +204,7 @@ export default function Empleados() {
                   <form action="" onSubmit={handleEdit}>
                     <div className="row">
                       <div className="col-3">
-                        <img src={img} height={200} className="card-img-top" alt="..." />
+                        <img src={`/images/clientes/${empEdit.emp_foto_edit}`} height={200} className="card-img-top" alt="..." />
                       </div>
                       <div className="col row" >
                         <div className="col">

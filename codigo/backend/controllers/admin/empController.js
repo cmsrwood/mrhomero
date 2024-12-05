@@ -8,6 +8,7 @@ exports.mostrarEmpleados = (req, res) => {
             user_apels,
             user_email,
             user_tel,
+            user_foto,
             DATE_FORMAT(user_fecha_registro, '%Y-%m-%d') AS user_fecha_registro FROM usuarios WHERE id_rol = 2`, (err, results) => {
 
         if (err) {
@@ -100,21 +101,65 @@ exports.MostrarHorasEmpleadoMes = (req, res) => {
     const idEmpleado = req.params.id;
 
     db.query(`SELECT
-                DATE_FORMAT(hora_inicio, '%Y-%m-%d %H:%i:%s') AS hora_inicio,
+                DATE_FORMAT(hora_inicio, ' %Y-%m-%d %H:%i:%s') AS hora_inicio,
                 DATE_FORMAT(hora_fin, '%Y-%m-%d %H:%i:%s') AS hora_fin,
+                fecha
                 FROM empleados_horas
                 WHERE MONTH(hora_inicio) = ?
                 AND YEAR(hora_inicio) = ?
                 AND MONTH(hora_fin) = ?
                 AND YEAR(hora_fin) = ?
                 AND id_user = ?
-                GROUP BY dia
-                ORDER BY dia; `, [mes, ano, mes, ano, idEmpleado], (err, results) => {
+                GROUP BY fecha
+                ORDER BY fecha; `, [mes, ano, mes, ano, idEmpleado], (err, results) => {
         if (err) {
             console.log(err);
             return res.status(500).send({ error: 'Error en el servidor' });
         } else {
             return res.status(200).send(results);
+        }
+    });
+}
+exports.horaInicio = (req, res) => {
+    const idEmpleado = req.params.id;
+    const horaInicio = req.body.hora_inicio;
+    const fecha = req.body.fecha;
+
+    db.query('INSERT INTO empleados_horas (id_user,fecha, hora_inicio) VALUES (?,?, ?)', [idEmpleado, fecha, horaInicio], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send('Horas agregadas exitosamente');
+        }
+    }
+    );
+}
+exports.horaFin = (req, res) => {
+    const idEmpleado = req.params.id;
+    const horaFin = req.body.hora_fin;
+    const fecha = req.body.fecha;
+
+    db.query('UPDATE empleados_horas SET hora_fin = ? WHERE id_user = ? AND fecha = ?', [horaFin, idEmpleado, fecha], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send('Horas agregadas exitosamente');
+        }
+    }
+    );
+}
+exports.horasDia = (req, res) => {
+    const idEmpleado = req.params.id;
+    const fecha = req.params.fecha;
+
+    db.query('SELECT * FROM empleados_horas WHERE id_user = ? AND fecha = ?', [idEmpleado, fecha], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send(results[0]);
         }
     });
 }

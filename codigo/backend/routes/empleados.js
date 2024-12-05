@@ -8,6 +8,9 @@ router.put('/crearEmpleado', empController.asignarRol);
 router.put('/actualizarEmpleado/:id', empController.EditarEmpleado);
 router.put('/borrarEmpleado/:id', empController.EliminarEmpleado);
 router.get('/mostrarHorasEmpleadoMes/:id/:ano/:mes', empController.MostrarHorasEmpleadoMes);
+router.get('/horasDia/:id/:fecha', empController.horasDia);
+router.post('/horaInicio/:id', empController.horaInicio);
+router.post('/horaFin/:id', empController.horaFin);
 
 
 module.exports = router
