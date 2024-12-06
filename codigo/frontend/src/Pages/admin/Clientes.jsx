@@ -49,9 +49,9 @@ export default function Clientes() {
         })
         .filter(cliente => {
             const term = searchTerm.toLowerCase();
+            const nombreCompleto = `${cliente.user_nom} ${cliente.user_apels}`.toLowerCase();
             return (
-                cliente.user_nom.toLowerCase().includes(term) ||
-                cliente.user_apels.toLowerCase().includes(term) ||
+                nombreCompleto.includes(term) ||
                 cliente.user_email.toLowerCase().includes(term)
             );
         });

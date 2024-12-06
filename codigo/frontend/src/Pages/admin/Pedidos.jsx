@@ -102,9 +102,9 @@ export default function Pedidos() {
   // Funciones para la busqueda de usuario
   const filteredClients = mostrarClientes.filter(cliente => {
     const term = searchTerm.toLowerCase();
+    const nombreCompleto = `${cliente.user_nom} ${cliente.user_apels}`.toLowerCase();
     return (
-      cliente.user_nom.toLowerCase().includes(term) ||
-      cliente.user_apels.toLowerCase().includes(term) ||
+      nombreCompleto.toLowerCase().includes(term) ||
       cliente.user_email.toLowerCase().includes(term)
     )
   })

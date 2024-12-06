@@ -38,7 +38,7 @@ export default function Horas() {
       await axios.post(`${BACKEND_URL}/api/empleados/horaInicio/${id}`, { hora_inicio, fecha });
       Swal.fire({
         icon: 'success',
-        title: 'Hora de inicio registrada',
+        title: 'Hora de turno en progreso...',
         showConfirmButton: false,
         timer: 1500
       })
@@ -53,7 +53,7 @@ export default function Horas() {
       await axios.post(`${BACKEND_URL}/api/empleados/horaFin/${id}`, { hora_fin, fecha });
       Swal.fire({
         icon: 'success',
-        title: 'Hora de fin registrada, gracias por trabajar hoy',
+        title: 'Turno registrado, gracias por trabajar con nosotros.',
         showConfirmButton: false,
         timer: 1500
       })
@@ -63,33 +63,57 @@ export default function Horas() {
     }
   };
 
+  function mesANombre(mes) {
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    return meses[mes - 1];
+  }
+
   return (
     <div>
-      <h1>Horas Empleados</h1>
+      <h1>Control de tiempo</h1>
       {horas.length === 0 ?
         <div>
-          <p>No hay horas registradas hoy</p>
-          <button onClick={agregarHoraInicio} type='submit' className='btn btn-success'>Hora de inicio </button>
+          <h3 className='text-center py-3'>No hay horas registradas hoy</h3>
+          <button onClick={agregarHoraInicio} type='submit' className='btn btn-success mx-3 w-25 d-block mx-auto'>Iniciar turno</button>
         </div>
         :
         <div>
           {horas.hora_fin === null ?
             <div>
-              <div className="card">
+              <div className="card w-75 mx-auto mt-4">
+                <div className="card-header">
+                  <span>Fecha: {moment().format('DD')} de {mesANombre(moment().format('M'))} del {moment().format('YYYY')}</span>
+                </div>
                 <div className="card-body d-flex justify-content-between align-items-center">
-                  <div className="">
-                    <h5 className="card-title">Hora de inicio: {horas.hora_inicio}</h5>
-                    <button onClick={agregarHoraFin} type='submit' className='btn btn-danger ms-3'>Hora de fin</button>
+                  <div className="row">
+                    <div className="col-12">
+                      <h5 className="card-title pb-2">Hora de inicio: {horas.hora_inicio}</h5>
+                      <h5>Hora de fin: Trabajando...</h5>
+                    </div>
                   </div>
-                  <div className="">
-                    <h5>Hora de fin:</h5>
+                  <div className="row">
+                    <div className="col">
+                      <button onClick={agregarHoraFin} type='submit' className='btn btn-danger d-block mx-auto'>Terminar turno</button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             :
             <div>
-              Gracias por trabajar hoy
+              <div className="card w-75 mx-auto mt-4">
+                <div className="card-header">
+                  <span>Fecha: {moment().format('DD')} de {mesANombre(moment().format('M'))} del {moment().format('YYYY')}</span>
+                </div>
+                <div className="card-body d-flex justify-content-between align-items-center">
+                  <div className="">
+                    <h5 className="card-title">Hora de inicio: {horas.hora_inicio}</h5>
+                  </div>
+                  <div className="">
+                    <h5>Hora de fin: {horas.hora_fin}</h5>
+                  </div>
+                </div>
+              </div>
             </div>
           }
         </div>

@@ -49,10 +49,12 @@ export default function Ventas() {
     .sort(Filtro.fecha ? (a, b) => new Date(b.venta_fecha) - new Date(a.venta_fecha) : (a, b) => new Date(a.venta_fecha) - new Date(b.venta_fecha))
     .filter(venta => {
       const term = searchTerm.toLowerCase();
+      const nombreCompleto = `${clientes.find(cliente => cliente.id_user === venta.id_user)?.user_nom} ${clientes.find(cliente => cliente.id_user === venta.id_user)?.user_apels}`
       return (
         venta.venta_metodo_pago.toLowerCase().includes(term) ||
         venta.venta_fecha.toLowerCase().includes(term) ||
-        venta.venta_total.toString().toLowerCase().includes(term)
+        venta.venta_total.toString().toLowerCase().includes(term) ||
+        nombreCompleto.toString().toLowerCase().includes(term)
       );
     }
     );
