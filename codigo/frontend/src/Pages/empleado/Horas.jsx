@@ -33,7 +33,7 @@ export default function Horas() {
   }, [isDataUpdated, id, fecha]);
 
   const agregarHoraInicio = async () => {
-    const hora_inicio = moment().format(' HH:mm:ss');
+    const hora_inicio = moment().format('YYYY-MM-DD HH:mm:ss');
     try {
       await axios.post(`${BACKEND_URL}/api/empleados/horaInicio/${id}`, { hora_inicio, fecha });
       Swal.fire({
@@ -48,7 +48,7 @@ export default function Horas() {
     }
   };
   const agregarHoraFin = async () => {
-    const hora_fin = moment().format(' HH:mm:ss');
+    const hora_fin = moment().format('YYYY-MM-DD HH:mm:ss');
     try {
       await axios.post(`${BACKEND_URL}/api/empleados/horaFin/${id}`, { hora_fin, fecha });
       Swal.fire({

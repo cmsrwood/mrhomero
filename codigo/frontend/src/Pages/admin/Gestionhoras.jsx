@@ -44,6 +44,13 @@ export default function Gestionhoras() {
         setMes(event.target.value);
         setIsDataUpdated(true);
     };
+
+    function diaEspanol(dia){
+        const dias  = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+        return dias[dia - 1];
+    }
+
+
     return (
         <div>
             <div className="">
@@ -90,9 +97,9 @@ export default function Gestionhoras() {
                             {horas.map((hora) => (
                                 <tr key={hora.id_horas}>
                                     <th scope="row">1</th>
-                                    <td>Lunes</td>
-                                    <td>{hora.hora_inicio}</td>
-                                    <td>{hora.hora_fin}</td>
+                                    <td>{diaEspanol(moment(hora.fecha).format('d'))}</td>
+                                    <td>{moment(hora.hora_inicio).format('hh:mm:ss')}</td>
+                                    <td>{moment(hora.hora_fin).format('hh:mm:ss')}</td>
                                 </tr>
                             ))}
                         </tbody>
