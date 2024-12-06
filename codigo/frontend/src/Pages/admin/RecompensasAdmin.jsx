@@ -41,6 +41,7 @@ export default function RecompensasAdmin() {
 
   const handleFileChange = (e) => {
     setRecompensa({ ...recompensa, foto: e.target.files[0] });
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
   }
 
   const handleInputChange = (e) => {
@@ -67,6 +68,7 @@ export default function RecompensasAdmin() {
         });
       }
 
+      setImagePreview('');
       setIsDataUpdated(true);
     } catch (error) {
       console.log(error);
@@ -188,7 +190,7 @@ export default function RecompensasAdmin() {
               <div className="container">
                 <div className="row">
                   <div className="col-3 m-3 ps-3 pt-2">
-                    <img src={img} height={200} width={280} className='card-img-center border mb-4' alt="..." />
+                    <img src={imagePreview || img} height={200} width={280} className='card-img-center border mb-4' alt="..." />
                     <input ref={fileInputRef} className='form-control' onChange={handleFileChange} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
                   </div>
                   <div className="col ms-3">

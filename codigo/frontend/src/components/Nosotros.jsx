@@ -19,39 +19,36 @@ export default function Nosotros() {
                     </div>
                 </div>
                 <div className=" border-top border-2 py-5">
-                    <div className="d-flex justify-content-center pb-5">
-                        <img src={banner} className='border border-2 rounded shadow-lg' width={800} height={350} />
-                    </div>
                     <div className="d-flex row align-items-center mx-5">
-                        <div className="col-8">
+                        <div className="col-12 col-sm-8 text-center text-sm-start">
                             <h5>SOBRE <span className='homero fs-4' > MR.HOMERO</span></h5>
-                            <p className='scrollbar-nosotros w-75'> Lorem ipsum d align-content-centerolor sit amet consectetur adipisicing elit. Esse et aliquam recusandae labore doloribus, incidunt, aspernatur inventore tenetur amet quisquam, ab delectus. Sint quod, esse accusantium natus mollitia qui eos.
+                            <p className='scrollbar-nosotros'> Lorem ipsum d align-content-centerolor sit amet consectetur adipisicing elit. Esse et aliquam recusandae labore doloribus, incidunt, aspernatur inventore tenetur amet quisquam, ab delectus. Sint quod, esse accusantium natus mollitia qui eos.
                                 Lorem ipsum d align-content-centerolor sit amet consectetur adipisicing elit. Esse et aliquam recusandae labore doloribus, incidunt, aspernatur inventore tenetur amet quisquam, ab delectus. Sint quod, esse accusantium natus mollitia qui eos.
                                 Lorem ipsum d align-content-centerolor sit amet consectetur adipisicing elit. Esse et aliquam recusandae labore doloribus, incidunt, aspernatur inventore tenetur amet quisquam, ab delectus. Sint quod, esse accusantium natus mollitia qui eos.
                                 Lorem ipsum d align-content-centerolor sit amet consectetur adipisicing elit. Esse et aliquam recusandae labore doloribus, incidunt, aspernatur inventore tenetur amet quisquam, ab delectus. Sint quod, esse accusantium natus mollitia qui eos.
                                 Lorem ipsum d align-content-centerolor sit amet consectetur adipisicing elit. Esse et aliquam recusandae labore doloribus, incidunt, aspernatur inventore tenetur amet quisquam, ab delectus. Sint quod, esse accusantium natus mollitia qui eos.
                             </p>
                         </div>
-                        <div className="col-4">
-                            <img src={homero} alt="" width={470} height={250} className='border border-2 rounded shadow-lg nosotros-img' style={{ float: 'right' }} />
+                        <div className="col-12 col-sm-4 text-center">
+                            <img src={homero} alt="" className='border border-2 rounded shadow-lg nosotros-img img-fluid' style={{ float: 'right' }} />
                         </div>
                     </div>
                     <div className="d-flex row align-items-center mx-5 py-5">
-                        <div className="col-8">
+                        <div className="col-12 col-sm-8 text-center text-sm-end order-first order-sm-last">
                             <h5>METAS <span className='homero fs-4' > MR.HOMERO</span></h5>
-                            <p className='scrollbar-nosotros w-75'> Lorem ipsum d align-content-centerolor sit amet consectetur adipisicing elit. Esse et aliquam recusandae labore doloribus, incidunt, aspernatur inventore tenetur amet quisquam, ab delectus. Sint quod, esse accusantium natus mollitia qui eos.</p>
+                            <p className='scrollbar-nosotros'> Lorem ipsum d align-content-centerolor sit amet consectetur adipisicing elit. Esse et aliquam recusandae labore doloribus, incidunt, aspernatur inventore tenetur amet quisquam, ab delectus. Sint quod, esse accusantium natus mollitia qui eos.</p>
                         </div>
-                        <div className="col-4">
-                            <img src={homero} alt="" width={470} height={250} className='border border-2 rounded shadow-lg nosotros-img' style={{ float: 'right' }} />
+                        <div className="col-12 col-sm-4">
+                            <img src={homero} alt="" className='border border-2 rounded shadow-lg nosotros-img img-fluid' style={{ float: 'right' }} />
                         </div>
                     </div>
                     <div className="d-flex row align-items-center mx-5">
-                        <div className="col-8">
+                        <div className="col-12 col-sm-8 text-center text-sm-start" >
                             <h5>COMIDA <span className='homero fs-4' > MR.HOMERO</span></h5>
-                            <p className='scrollbar-nosotros w-75'> Lorem ipsum d align-content-centerolor sit amet consectetur adipisicing elit. Esse et aliquam recusandae labore doloribus, incidunt, aspernatur inventore tenetur amet quisquam, ab delectus. Sint quod, esse accusantium natus mollitia qui eos.</p>
+                            <p className='scrollbar-nosotros'> Lorem ipsum d align-content-centerolor sit amet consectetur adipisicing elit. Esse et aliquam recusandae labore doloribus, incidunt, aspernatur inventore tenetur amet quisquam, ab delectus. Sint quod, esse accusantium natus mollitia qui eos.</p>
                         </div>
-                        <div className="col-4">
-                            <img src={homero} alt="" width={470} height={250} className='border border-2 rounded shadow-lg nosotros-img' style={{ float: 'right' }} />
+                        <div className="col-12 col-sm-4">
+                            <img src={homero} alt="" className='border border-2 rounded shadow-lg nosotros-img img-fluid' style={{ float: 'right' }} />
                         </div>
                     </div>
                 </div>

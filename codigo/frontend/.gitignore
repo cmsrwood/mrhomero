@@ -30,3 +30,4 @@ dist-ssr
 /public/images/**/*.jpeg
 /public/images/**/*.gif
 /public/images/**/*.svg
+/public/images/**/*.webp

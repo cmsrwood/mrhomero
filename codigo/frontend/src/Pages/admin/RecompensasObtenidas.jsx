@@ -13,6 +13,25 @@ export default function RecompensasObtenidas() {
     const [recompensasObtenidas, setRecompensasObtenidas] = useState([]);
     const [clientes, setClientes] = useState([]);
 
+    const [searchTerm, setSearchTerms] = useState('');
+
+    const handleSearch = (e) => {
+        setSearchTerms(e.target.value);
+    }
+
+    const recompensasObtenidasFiltradas = recompensasObtenidas
+        .filter(recompensasObtenida => {
+            const term = searchTerm.toLowerCase();
+            return (
+                recompensas.find(recompensa => recompensa.id_recomp === recompensasObtenida.id_recomp).recompensa_nombre.toLowerCase().includes(term) ||
+                recompensas.find(recompensa => recompensa.id_recomp === recompensasObtenida.id_recomp).recompensa_descripcion.toLowerCase().includes(term) ||
+                clientes.find(cliente => cliente.id_user === recompensasObtenida.id_user).user_nom.toLowerCase().includes(term) ||
+                clientes.find(cliente => cliente.id_user === recompensasObtenida.id_user).user_apels.toLowerCase().includes(term) ||
+                recompensasObtenida.fecha_reclamo.toString().includes(term)
+            );
+        }
+        );
+
     const [recompensaAValidar, setRecompensaAValidar] = useState({
         id_recomp_obt: '',
         id_recomp: '',
@@ -86,21 +105,31 @@ export default function RecompensasObtenidas() {
     return (
         <div>
             <div>
+                <div className="input-group">
+                    <input
+                        type="search"
+                        className="form-control form-control-lg ps-5 w-100"
+                        placeholder="Buscar recompensa..."
+                        value={searchTerm}
+                        onChange={handleSearch}
+                    />
+                    <i className={`bi bi-search position-absolute top-50 translate-middle-y ms-3 text-secondary`}></i>
+                </div>
                 <div className="row mt-2 g-5 scrollbar">
-                    {recompensasObtenidas.map((recompensa) => (
-                        <div className="col-12 border my-2 p-5" key={recompensa.id_recomp_obt}>
+                    {recompensasObtenidasFiltradas.map((recompensaObtenida) => (
+                        <div className="col-12 border my-2 p-5" key={recompensaObtenida.id_recomp_obt}>
                             <div className="row align-items-center">
                                 <div className="col-2">
-                                    <img src={`/images/recompensas/${recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
+                                    <img src={`/images/recompensas/${recompensas.find(recompensa => recompensa.id_recomp == recompensaObtenida.id_recomp).recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
                                 </div>
                                 <div className="col-6 px-5 align-content-center">
-                                    <h2>{recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recompensa_nombre}</h2>
-                                    <p>{recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recompensa_descripcion}</p>
-                                    <p className='text-warning'>{clientes.find(cliente => cliente.id_user == recompensa.id_user).user_nom} {clientes.find(cliente => cliente.id_user == recompensa.id_user).user_apels}</p>
-                                    <p className=''>{moment(recompensa.fecha_obtencion).format('DD/MM/YYYY HH:mm')}</p>
+                                    <h2>{recompensas.find(recompensa => recompensa.id_recomp == recompensaObtenida.id_recomp).recompensa_nombre}</h2>
+                                    <p>{recompensas.find(recompensa => recompensa.id_recomp == recompensaObtenida.id_recomp).recompensa_descripcion}</p>
+                                    <p className='text-warning'>{clientes.find(cliente => cliente.id_user == recompensaObtenida.id_user).user_nom} {clientes.find(cliente => cliente.id_user == recompensaObtenida.id_user).user_apels}</p>
+                                    <p className=''>{moment(recompensaObtenida.fecha_reclamo).format('DD/MM/YYYY HH:mm')}</p>
                                 </div>
                                 <div className={`col-4 text-center`}>
-                                    <button type="button" className="btn btn-warning" data-bs-toggle="modal" onClick={() => mostrarModal(recompensa)} data-bs-target={`#modalValidar`}>
+                                    <button type="button" className="btn btn-warning" data-bs-toggle="modal" onClick={() => mostrarModal(recompensaObtenida)} data-bs-target={`#modalValidar`}>
                                         Validar recompensa
                                     </button>
                                 </div>

@@ -139,6 +139,7 @@ export default function MenuAdmin() {
         const modalElement = document.getElementById('categoriaEditarModal');
         let modalInstance = bootstrap.Modal.getInstance(modalElement);
         modalInstance.hide();
+        setImagePreview('');
         setIsDataUpdated(true);
       }
     } catch (error) {
