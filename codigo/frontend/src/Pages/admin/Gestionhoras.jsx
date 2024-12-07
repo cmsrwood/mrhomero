@@ -87,8 +87,8 @@ export default function Gestionhoras() {
                     <table className="table border fs-4 text-center table-striped table-responsive ">
                         <thead>
                             <tr>
-                                <th scope="col"> id</th>
-                                <th>Dia</th>
+                                <th scope='col'>Dia</th>
+                                <th scope="col">Fecha</th>
                                 <th scope="col">Inicio</th>
                                 <th scope="col">Fin</th>
                             </tr>
@@ -96,10 +96,10 @@ export default function Gestionhoras() {
                         <tbody>
                             {horas.map((hora) => (
                                 <tr key={hora.id_horas}>
-                                    <th scope="row">1</th>
                                     <td>{diaEspanol(moment(hora.fecha).format('d'))}</td>
-                                    <td>{moment(hora.hora_inicio).format('hh:mm:ss')}</td>
-                                    <td>{moment(hora.hora_fin).format('hh:mm:ss')}</td>
+                                    <th scope="row">{moment(hora.fecha).format('DD-MM-YYYY')}</th>
+                                    <td>{moment(hora.hora_inicio).format('hh:mm:ss A')}</td>
+                                    <td>{moment(hora.hora_fin).format('hh:mm:ss A')}</td>
                                 </tr>
                             ))}
                         </tbody>
