@@ -87,7 +87,7 @@ export default function Horas() {
                 <div className="card-body d-flex justify-content-between align-items-center">
                   <div className="row">
                     <div className="col-12">
-                      <h5 className="card-title pb-2">Hora de inicio: {horas.hora_inicio}</h5>
+                      <h5 className="card-title pb-2">Hora de inicio: {moment(horas.hora_inicio).format('HH:mm:ss')}</h5>
                       <h5>Hora de fin: Trabajando...</h5>
                     </div>
                   </div>
@@ -107,10 +107,10 @@ export default function Horas() {
                 </div>
                 <div className="card-body d-flex justify-content-between align-items-center">
                   <div className="">
-                    <h5 className="card-title">Hora de inicio: {horas.hora_inicio}</h5>
+                    <h5 className="card-title pb-2">Hora de inicio: {moment(horas.hora_inicio).format('HH:mm:ss')}</h5>
                   </div>
                   <div className="">
-                    <h5>Hora de fin: {horas.hora_fin}</h5>
+                    <h5>Hora de fin: {moment(horas.hora_fin).format('HH:mm:ss')}</h5>
                   </div>
                 </div>
               </div>
