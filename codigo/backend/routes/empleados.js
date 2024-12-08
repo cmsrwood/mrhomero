@@ -11,6 +11,8 @@ router.get('/mostrarHorasEmpleadoMes/:id/:ano/:mes', empController.MostrarHorasE
 router.get('/horasDia/:id/:fecha', empController.horasDia);
 router.post('/horaInicio/:id', empController.horaInicio);
 router.post('/horaFin/:id', empController.horaFin);
+router.get('/horasPorMes/:id/:ano/:mes', empController.horasPorMes);
+
 
 
 module.exports = router

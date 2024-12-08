@@ -11,6 +11,7 @@ export default function Gestionhoras() {
 
     //Datos a traer
     const [horas, setHoras] = useState([]);
+    const [horasTotales, setHorasTotales] = useState([]);
 
     const [horasExtra, setHorasExtra] = useState([]);
     const [horasEsperadas, setHorasEsperadas] = useState(0);
@@ -23,10 +24,12 @@ export default function Gestionhoras() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [horasRes] = await Promise.all([
+                const [horasRes, horasTotalesRes] = await Promise.all([
                     axios.get(`${BACKEND_URL}/api/empleados/mostrarHorasEmpleadoMes/${id}/${ano}/${mes}`),
+                    axios.get(`${BACKEND_URL}/api/empleados/horasPorMes/${id}/${ano}/${mes}`)
                 ]);
                 setHoras(horasRes.data);
+                setHorasTotales(horasTotalesRes.data[0].horas);
             } catch (error) {
                 console.log(error);
             }
@@ -79,8 +82,8 @@ export default function Gestionhoras() {
                     </select>
                 </div>
                 <div className="row cols-3 my-4">
-                    <h2 className='col'> <i className="bi bi-clock-history fs-1 col-4 me-2"></i>Horas esperadas: 666</h2>
-                    <h2 className='col'> <i className="bi bi-clock fs-1 col-4 me-2"></i>Horas registradas: 120</h2>
+                    <h2 className='col'> <i className="bi bi-clock-history fs-1 col-4 me-2"></i>Horas esperadas: 52</h2>
+                    <h2 className='col'> <i className="bi bi-clock fs-1 col-4 me-2"></i>Horas registradas: {horasTotales? horasTotales : 0} </h2>
                     <h2 className='col'> <i className="bi bi-stopwatch fs-1 col-4 me-2"></i>Horas extra: 30 </h2>
                 </div>
                 <div className="table-responsive">

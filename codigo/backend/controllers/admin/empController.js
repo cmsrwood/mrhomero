@@ -164,3 +164,18 @@ exports.horasDia = (req, res) => {
     });
 }
 
+exports.horasPorMes = (req, res) => {
+    const idEmpleado = req.params.id;
+    const mes = req.params.mes;
+    const ano = req.params.ano;
+
+    db.query('SELECT SUM(HOUR(hora_fin) - HOUR(hora_inicio)) as horas from  empleados_horas WHERE MONTH(fecha) = ? AND YEAR(fecha) = ? AND id_user = ?', [mes, ano, idEmpleado], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send(results);
+        }
+    });
+}
+
