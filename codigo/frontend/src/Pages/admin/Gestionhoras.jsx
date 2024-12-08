@@ -13,8 +13,8 @@ export default function Gestionhoras() {
     const [horas, setHoras] = useState([]);
     const [horasTotales, setHorasTotales] = useState([]);
 
-    const [horasExtra, setHorasExtra] = useState([]);
-    const [horasEsperadas, setHorasEsperadas] = useState(0);
+    const [horasEsperadas, setHorasEsperadas] = useState(48);
+    const [horasExtra, setHorasExtra] = useState(0);
 
     const anoActual = moment().format('YYYY');
     const mesActual = moment().format('M');
@@ -30,6 +30,7 @@ export default function Gestionhoras() {
                 ]);
                 setHoras(horasRes.data);
                 setHorasTotales(horasTotalesRes.data[0].horas);
+                setHorasExtra(horasTotalesRes.data[0].horas - horasEsperadas);
             } catch (error) {
                 console.log(error);
             }
@@ -48,8 +49,8 @@ export default function Gestionhoras() {
         setIsDataUpdated(true);
     };
 
-    function diaEspanol(dia){
-        const dias  = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+    function diaEspanol(dia) {
+        const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
         return dias[dia - 1];
     }
 
@@ -82,9 +83,9 @@ export default function Gestionhoras() {
                     </select>
                 </div>
                 <div className="row cols-3 my-4">
-                    <h2 className='col'> <i className="bi bi-clock-history fs-1 col-4 me-2"></i>Horas esperadas: 52</h2>
-                    <h2 className='col'> <i className="bi bi-clock fs-1 col-4 me-2"></i>Horas registradas: {horasTotales? horasTotales : 0} </h2>
-                    <h2 className='col'> <i className="bi bi-stopwatch fs-1 col-4 me-2"></i>Horas extra: 30 </h2>
+                    <h2 className='col'> <i className="bi bi-clock-history fs-1 col-4 me-2"></i>Horas esperadas: {horasEsperadas}</h2>
+                    <h2 className='col'> <i className="bi bi-clock fs-1 col-4 me-2"></i>Horas registradas: {horasTotales ? horasTotales : 0} </h2>
+                    <h2 className='col'> <i className="bi bi-stopwatch fs-1 col-4 me-2"></i>Horas extra: {horasExtra > 0 ? horasExtra : 0} </h2>
                 </div>
                 <div className="table-responsive">
                     <table className="table border fs-4 text-center table-striped table-responsive ">
