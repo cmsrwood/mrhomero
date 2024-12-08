@@ -20,6 +20,28 @@ exports.mostrarEmpleados = (req, res) => {
         }
     });
 }
+
+exports.mostrarEmpleadoId = (req, res) => {
+
+    db.query(`SELECT 
+            id_user,
+            user_nom,
+            user_apels,
+            user_email,
+            user_tel,
+            user_foto,
+            DATE_FORMAT(user_fecha_registro, '%Y-%m-%d') AS user_fecha_registro FROM usuarios WHERE id_rol = 2`, (err, results) => {
+
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        }
+        else {
+            return res.status(200).send(results);
+        }
+    });
+}
+
 exports.asignarRol = (req, res) => {
     const nombre = req.body.emp_nom;
     const apellidos = req.body.emp_apellidos;

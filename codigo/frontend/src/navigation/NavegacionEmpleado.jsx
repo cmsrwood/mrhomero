@@ -1,11 +1,19 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import useTema from '../hooks/useTema';
 import useCerrarSesion from '../hooks/useCerrarSesion';
+import axios from 'axios';
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+
 
 export default function NavegacionAdmin() {
+    const token = localStorage.getItem('token');
+    const id = JSON.parse(atob(token.split(".")[1])).id;
     const { tema, cambiarTema } = useTema();
     const cerrarSesion = useCerrarSesion();
+    const [empleado, setEmpleado] = useState({});
+    console.log(empleado)
+    const [isDataUpdated, setIsDataUpdated] = useState(false);
 
     const location = useLocation();
     const ruta = location.pathname.split("/")[2];
@@ -13,6 +21,24 @@ export default function NavegacionAdmin() {
     function rutaActiva(link) {
         return ruta === link ? "text-warning" : "";
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [empleadoRes] = await Promise.all([
+                    axios.get(`${BACKEND_URL}/api/empleados/mostrarEmpleadoId/${id}`),
+                ]);
+                const empleadoCorrecto = empleadoRes.data.find(
+                    (emp) => emp.id_user === id
+                );
+                setEmpleado(empleadoCorrecto);
+            } catch (error) {
+                console.log(error);
+            }
+            setIsDataUpdated(false);
+        };
+        fetchData();
+    }, [isDataUpdated, id]);
 
     return (
         <div className="d-flex position-relative">
@@ -61,7 +87,7 @@ export default function NavegacionAdmin() {
             <nav className=" bg-dark navbar navbar-expand-lg border-bottom fixed-top shadow">
                 <div className="container-fluid">
                     <Link className="navbar-brand text-warning homero-font fs-3" to="#">Mr. Homero</Link>
-                    <small className='text-white d-none d-sm-block fw-bold'>Hola, Empleado</small>
+                    <small className='text-white d-none d-sm-block fw-bold'>Hola, {empleado.user_nom}</small>
                     <div className="d-flex">
                         <div className="dropdown pe-5 me-5">
                             <button className="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
