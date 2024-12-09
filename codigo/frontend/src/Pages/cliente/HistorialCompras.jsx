@@ -64,8 +64,7 @@ export default function HistorialCompras() {
     }
 
     return (
-        <div>
-            <div className="">
+            <div className="container">
                 <div className="text-center">
                     <h1 className="py-3">Historial de compras</h1>
                 </div>
@@ -146,6 +145,5 @@ export default function HistorialCompras() {
                     ))}
                 </div>
             </div>
-        </div>
     )
 }

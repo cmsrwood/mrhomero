@@ -30,14 +30,14 @@ exports.mostrarEmpleadoId = (req, res) => {
             user_email,
             user_tel,
             user_foto,
-            DATE_FORMAT(user_fecha_registro, '%Y-%m-%d') AS user_fecha_registro FROM usuarios WHERE id_rol = 2`, (err, results) => {
+            DATE_FORMAT(user_fecha_registro, '%Y-%m-%d') AS user_fecha_registro FROM usuarios WHERE id_rol = 2 AND id_user = ${req.params.id}`, (err, results) => {
 
         if (err) {
             console.log(err);
             return res.status(500).send('Error en el servidor');
         }
         else {
-            return res.status(200).send(results);
+            return res.status(200).send(results[0]);
         }
     });
 }

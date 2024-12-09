@@ -91,7 +91,7 @@ export default function RecompensasCliente() {
   }
 
   return (
-    <div>
+    <div className="py-5 container">
       <div className="">
         <div className="d-flex justify-content-between align-items-center">
           <h1>Recompensas {mostrar == 'disponibles' ? 'disponibles' : 'obtenidas'}</h1>

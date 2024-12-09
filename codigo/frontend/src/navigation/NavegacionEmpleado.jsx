@@ -9,6 +9,7 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 export default function NavegacionAdmin() {
     const token = localStorage.getItem('token');
     const id = JSON.parse(atob(token.split(".")[1])).id;
+    
     const { tema, cambiarTema } = useTema();
     const cerrarSesion = useCerrarSesion();
     const [empleado, setEmpleado] = useState({});
@@ -28,10 +29,7 @@ export default function NavegacionAdmin() {
                 const [empleadoRes] = await Promise.all([
                     axios.get(`${BACKEND_URL}/api/empleados/mostrarEmpleadoId/${id}`),
                 ]);
-                const empleadoCorrecto = empleadoRes.data.find(
-                    (emp) => emp.id_user === id
-                );
-                setEmpleado(empleadoCorrecto);
+                setEmpleado(empleadoRes.data);
             } catch (error) {
                 console.log(error);
             }
