@@ -220,8 +220,6 @@ exports.validarRecompensa = (req, res) => {
 
             else {
                 const recompensa = data[0];
-                console.log(recompensa);
-                console.log(req.body);
 
                 if (recompensa.estado == 0) {
                     return res.status(404).send({ title: 'Recompensa ya validada', message: 'La recompensa ya ha sido validada' });

@@ -26,6 +26,8 @@ const Footer = lazy(() => import("./components/Footer"));
 const IndexCliente = lazy(() => import("./Pages/cliente/IndexCliente"));
 const HistorialCompras = lazy(() => import("./Pages/cliente/HistorialCompras"));
 const MenuCliente = lazy(() => import("./Pages/cliente/MenuCliente"));
+const CategoriaCliente = lazy(() => import("./Pages/cliente/CategoriaCliente"));
+const ProductoCliente = lazy(() => import("./Pages/cliente/ProductoCliente"));
 const PerfilCliente = lazy(() => import("./Pages/cliente/PerfilCliente"));
 const RecompensasCliente = lazy(() => import("./Pages/cliente/RecompensasCliente"));
 const NosotrosCliente = lazy(() => import("./Pages/cliente/NosotrosCliente"));
@@ -93,7 +95,7 @@ function App() {
                 <Route path="/admin/horasempleados" element={<HorasEmpleados />}></Route>
                 <Route path="/admin/proveedores" element={<Proveedores />}></Route>
                 <Route path="/admin/perfil" element={<PerfilCliente />}></Route>
-                <Route path="/admin/gestionhoras/:id" element={<Gestionhoras/>}></Route>
+                <Route path="/admin/gestionhoras/:id" element={<Gestionhoras />}></Route>
               </Route>
             </Route>
 
@@ -126,8 +128,8 @@ function App() {
                 <Route path="/cliente/perfil" element={<PerfilCliente />}></Route>
                 <Route path="/cliente/recompensas" element={<RecompensasCliente />}></Route>
                 <Route path="/cliente/nosotros" element={<NosotrosCliente />}></Route>
-                <Route path="/cliente/categoria/:id" element={<CategoriaMenu />}></Route>
-                <Route path="/cliente/producto/:id" element={<Producto />}></Route>
+                <Route path="/cliente/categoria/:id" element={<CategoriaCliente />}></Route>
+                <Route path="/cliente/producto/:id" element={<ProductoCliente />}></Route>
               </Route>
             </Route>
             <Route path="*" element={<Error />}></Route>

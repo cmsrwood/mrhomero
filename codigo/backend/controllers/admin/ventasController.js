@@ -43,7 +43,6 @@ exports.mostrarProductosMasVendidos = (req, res) => {
 
     db.query(`SELECT p.pro_nom,
                 p.pro_foto,
-                p.pro_nom   ,
                 SUM(dv.cantidad_producto) AS cantidad_vendida
                 FROM detalle_ventas dv
                 JOIN productos p ON dv.id_producto = p.id_producto
@@ -379,3 +378,25 @@ exports.mostrarCompras = (req, res) => {
         }
     });
 };
+
+exports.mostrarProductosMasCompradosPorCliente = (req, res) => {
+
+    const id = req.params.id;
+
+    db.query(`SELECT p.pro_nom,
+                p.pro_foto,
+                SUM(dv.cantidad_producto) AS cantidad_vendida
+                FROM detalle_ventas dv
+                JOIN productos p ON dv.id_producto = p.id_producto
+                JOIN ventas v ON dv.id_venta = v.id_venta
+                WHERE v.id_user = ?
+                GROUP BY p.pro_nom
+                ORDER BY cantidad_vendida DESC;`, [id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send({ error: 'Error en el servidor' });
+        } else {
+            return res.status(200).send(results);
+        }
+    });
+}

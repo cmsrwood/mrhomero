@@ -186,8 +186,9 @@ export default function Dashboard() {
                 }}
                 className="mySwiper"
               >
-                {productosMasVendidos.map((producto) => {
+                {productosMasVendidos.map((producto, index) => {
                   return (
+                    index < 10 &&
                     <SwiperSlide key={producto.pro_foto}>
                       <div className="wow animate__animated animate__fadeInRight">
                         <div className="card text-center shadow">

@@ -42,11 +42,11 @@ export default function IndexDefault() {
           </div>
         </div>
         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-          <span className="text-warning fs-5" aria-hidden="true"><i class="bi bi-caret-left-square"></i></span>
+          <span className="text-warning fs-5" aria-hidden="true"><i className="bi bi-caret-left-square"></i></span>
           <span className="visually-hidden">Previous</span>
         </button>
         <button className="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-          <span className="text-warning fs-5" aria-hidden="true"><i class="bi bi-caret-right-square"></i></span>
+          <span className="text-warning fs-5" aria-hidden="true"><i className="bi bi-caret-right-square"></i></span>
           <span className="visually-hidden">Next</span>
         </button>
       </div>

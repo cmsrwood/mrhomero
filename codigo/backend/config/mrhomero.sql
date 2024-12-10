@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-12-2024 a las 01:19:00
+-- Tiempo de generación: 11-12-2024 a las 00:33:11
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,11 +38,11 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`) VALUES
-(1, 'Salchipapas', 'categoria_1731958115615.png'),
-(3, 'Choripan', 'categoria_1731958154747.png'),
-(4, 'Hambuguesas', 'categoria_1731958170082.png'),
-(5, 'Otros', 'categoria_1731958185282.png'),
-(6, 'Choriperro', 'categoria_1732132518723.png');
+(1, 'Salchipapas', 'categoria_1733864264136.png'),
+(3, 'Choripan', 'categoria_1733864270413.png'),
+(4, 'Hambuguesas', 'categoria_1733864276106.png'),
+(5, 'Otros', 'categoria_1733864282223.png'),
+(6, 'Choriperro', 'categoria_1733864287991.png');
 
 -- --------------------------------------------------------
 
@@ -110,7 +110,18 @@ INSERT INTO `detalle_ventas` (`id_detalle`, `id_venta`, `id_producto`, `cantidad
 (26, 'venta_081bbb9b-7018-43db-a890-98113df95eaf', 1, 1, '24000', '24000'),
 (27, 'venta_081bbb9b-7018-43db-a890-98113df95eaf', 3, 1, '20000', '20000'),
 (28, 'venta_7f35b298-8ead-436f-8dab-3e1d36168b1f', 1, 1, '24000', '24000'),
-(29, 'venta_8c164781-94eb-40db-860e-26b05e4101ca', 1, 5, '24000', '120000');
+(29, 'venta_8c164781-94eb-40db-860e-26b05e4101ca', 1, 5, '24000', '120000'),
+(30, 'venta_dd02f2c1-cd2b-40ef-ab67-89529a614a5f', 1, 1, '24000', '24000'),
+(31, 'venta_4ce7da67-bc23-40fe-b63f-8329a33d8e4a', 8, 1, '24000', '24000'),
+(32, 'venta_4ce7da67-bc23-40fe-b63f-8329a33d8e4a', 6, 1, '20000', '20000'),
+(33, 'venta_4ce7da67-bc23-40fe-b63f-8329a33d8e4a', 4, 1, '23000', '23000'),
+(34, 'venta_4ce7da67-bc23-40fe-b63f-8329a33d8e4a', 5, 1, '20000', '20000'),
+(35, 'venta_e489f37c-b677-437c-86ad-477356119f58', 4, 1, '23000', '23000'),
+(36, 'venta_e489f37c-b677-437c-86ad-477356119f58', 3, 1, '20000', '20000'),
+(37, 'venta_960bb2ff-3861-4e4c-b078-083640eb4ac4', 7, 1, '24000', '24000'),
+(38, 'venta_960bb2ff-3861-4e4c-b078-083640eb4ac4', 4, 1, '23000', '23000'),
+(39, 'venta_d9ccd8d6-3b23-410c-a4d4-1a311c20fccf', 5, 8, '20000', '160000'),
+(40, 'venta_e2da8a71-8399-4336-8570-970c64225da2', 6, 10, '20000', '200000');
 
 -- --------------------------------------------------------
 
@@ -125,6 +136,13 @@ CREATE TABLE `empleados_horas` (
   `hora_fin` datetime DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `empleados_horas`
+--
+
+INSERT INTO `empleados_horas` (`id_horas`, `fecha`, `hora_inicio`, `hora_fin`, `id_user`) VALUES
+(1, '2024-12-07', '2024-12-07 12:51:01', '2024-12-07 23:51:03', 3);
 
 -- --------------------------------------------------------
 
@@ -164,14 +182,14 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id_producto`, `pro_nom`, `pro_desp`, `pro_precio`, `pro_foto`, `pro_puntos`, `id_categoria`) VALUES
-(1, 'Salchipapa hipermega', 'skjalfjslk', '24000', 'producto_1731958927037.png', '24', 1),
-(2, 'Choriperro especial', 'Descripcion', '24000', 'producto_1731959887383.png', '24', 3),
-(3, 'Choriperro maximo', 'safsaf', '20000', 'producto_1731959901628.png', '20', 3),
-(4, 'Choriperro sencillo', 'dksajflk', '23000', 'producto_1731959924701.png', '23', 3),
-(5, 'Hamburguesas queso doble', 'wawga', '20000', 'producto_1731961468602.png', '20', 4),
-(6, 'Hamburguesa mega', 'aksjflkwajflkwajl', '20000', 'producto_1731961477804.png', '20', 4),
-(7, 'Choriperro maximoo', 'dawfwa', '24000', 'producto_1732132542212.png', '24', 6),
-(8, 'Hamburguesa poderosa', 'a', '24000', 'producto_1732563837587.png', '24', 4);
+(1, 'Salchipapa hipermega', 'skjalfjslk', '24000', 'producto_1733864297463.png', '24', 1),
+(2, 'Choriperro especial', 'Descripcion', '24000', 'producto_1733864305978.png', '24', 3),
+(3, 'Choriperro maximo', 'safsaf', '20000', 'producto_1733864314739.png', '20', 3),
+(4, 'Choriperro sencillo', 'dksajflk', '23000', 'producto_1733864325496.png', '23', 3),
+(5, 'Hamburguesas queso doble', 'wawga', '20000', 'producto_1733864333858.png', '20', 4),
+(6, 'Hamburguesa mega', 'aksjflkwajflkwajl', '20000', 'producto_1733864338795.png', '20', 4),
+(7, 'Choriperro maximo', 'dawfwa', '24000', 'producto_1733865487195.png', '24', 6),
+(8, 'Hamburguesa poderosa', 'a', '24000', 'producto_1733864357093.png', '24', 4);
 
 -- --------------------------------------------------------
 
@@ -215,7 +233,7 @@ CREATE TABLE `recompensas` (
 --
 
 INSERT INTO `recompensas` (`id_recomp`, `recompensa_nombre`, `recompensa_descripcion`, `recomp_num_puntos`, `recomp_foto`) VALUES
-(1, 'Peluche', 'Peluche god', 50, 'recompensa_1732746157668.jpg');
+(1, 'Peluche homero millonarios', 'Peluche god', 50, 'recompensa_1733633527220.png');
 
 -- --------------------------------------------------------
 
@@ -228,8 +246,18 @@ CREATE TABLE `recompensas_obt` (
   `id_recomp` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `codigo` varchar(6) NOT NULL,
+  `fecha_reclamo` datetime NOT NULL,
   `estado` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `recompensas_obt`
+--
+
+INSERT INTO `recompensas_obt` (`id_recomp_obt`, `id_recomp`, `id_user`, `codigo`, `fecha_reclamo`, `estado`) VALUES
+(1, 1, 2, '983566', '2024-12-10 17:25:44', 0),
+(2, 1, 2, '774782', '2024-12-10 17:30:55', 0),
+(3, 1, 2, '282871', '2024-12-10 17:31:14', 1);
 
 -- --------------------------------------------------------
 
@@ -278,9 +306,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `user_fecha_registro`, `id_rol`, `user_estado`) VALUES
-(1, 'admin', 'admin', 'admin@gmail.com', NULL, 0, NULL, '$2a$10$ryatX/igKMkGPSkbfq8s4e5lRevbYJhh1g25cajrc82xgDku4csG2', NULL, NULL, '2024-10-03 19:40:47', 1, 0),
-(2, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', NULL, 20, NULL, '$2a$10$nIXpxd3AQdOvYUMAfHDc5.JLn6vPen5cVJdXVTcnpBWY8k6k7cB2.', NULL, NULL, '2024-10-03 19:42:26', 3, 1),
-(3, 'Bryam', 'Cuervo', 'bryamccuervo2004@gmail.com', '3216547862', 0, 'cliente_1733448497585.jpg', '$2a$10$qOzxrB0nP7fXMiZfMf/HauFihRmIDijfE5P9Ky4i5nh..JsMkt/3i', NULL, NULL, '2024-05-12 00:00:00', 2, 1),
+(1, 'admin', 'admin', 'admin@gmail.com', '3138975212', 0, 'cliente_1733864469332.png', '$2a$10$ryatX/igKMkGPSkbfq8s4e5lRevbYJhh1g25cajrc82xgDku4csG2', NULL, NULL, '2024-10-03 19:40:47', 1, 0),
+(2, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', '3138975212', 384, 'cliente_1733865242635.png', '$2a$10$nIXpxd3AQdOvYUMAfHDc5.JLn6vPen5cVJdXVTcnpBWY8k6k7cB2.', NULL, NULL, '2024-10-03 19:42:26', 3, 1),
+(3, 'Bryam', 'Cuervo', 'bryamccuervo2004@gmail.com', '3216547862', 0, 'cliente_1733633499094.png', '$2a$10$qOzxrB0nP7fXMiZfMf/HauFihRmIDijfE5P9Ky4i5nh..JsMkt/3i', NULL, NULL, '2024-05-12 00:00:00', 2, 1),
 (4, 'Johan Sebastian', 'Muñoz Contreras', 'sebastianmc@gmail.com', NULL, 120, NULL, '$2a$10$IzZaYGl2ZLZAEdiGEtAM6.4.luREWPjnusfy6uLxlaIIxRFyx52Ja', NULL, NULL, '2024-10-03 19:43:23', 3, 1);
 
 -- --------------------------------------------------------
@@ -311,13 +339,19 @@ INSERT INTO `ventas` (`id_venta`, `venta_fecha`, `id_user`, `venta_metodo_pago`,
 ('venta_48998611-292e-484d-9a0b-ab8fefeb6d04', '2024-11-18 15:34:49', NULL, 'Nequi', 23000, 0),
 ('venta_49b667a1-8046-47c4-89fc-c69af8996c7a', '2024-11-18 15:24:55', NULL, 'Efectivo', 80000, 0),
 ('venta_4cda8a38-d74f-4028-b34c-175b3406b360', '2024-11-19 15:23:30', 4, 'Efectivo', 24000, 1),
+('venta_4ce7da67-bc23-40fe-b63f-8329a33d8e4a', '2024-12-10 16:15:51', 2, 'Efectivo', 87000, 1),
 ('venta_5406794c-4e24-418d-a4e0-9b22ccbb9b0b', '2024-11-19 15:27:00', 4, 'Efectivo', 20000, 1),
 ('venta_7f35b298-8ead-436f-8dab-3e1d36168b1f', '2024-11-21 17:10:17', 2, 'Efectivo', 24000, 1),
 ('venta_8436eb60-baa2-46cc-b7f9-06c2bf824681', '2024-11-20 14:56:08', 4, 'Efectivo', 48000, 1),
-('venta_8c164781-94eb-40db-860e-26b05e4101ca', '2024-11-25 14:49:32', 4, 'Efectivo', 120000, 0),
+('venta_8c164781-94eb-40db-860e-26b05e4101ca', '2024-11-25 14:49:32', 4, 'Efectivo', 120000, 1),
+('venta_960bb2ff-3861-4e4c-b078-083640eb4ac4', '2024-12-10 16:16:54', NULL, 'Efectivo', 47000, 1),
 ('venta_9a7b76e5-69f2-4c3f-8aae-dd8d14cd70bc', '2024-11-19 15:36:52', NULL, 'Efectivo', 20000, 0),
 ('venta_bc4cd0e5-377f-4439-8581-edf2f4cef9a5', '2024-11-19 15:31:47', 4, 'Efectivo', 131000, 1),
 ('venta_c6233c32-408e-4410-9636-00203e8de4c1', '2024-09-12 15:24:46', NULL, 'Efectivo', 80000, 0),
+('venta_d9ccd8d6-3b23-410c-a4d4-1a311c20fccf', '2024-12-10 16:17:43', 2, 'Efectivo', 160000, 1),
+('venta_dd02f2c1-cd2b-40ef-ab67-89529a614a5f', '2024-12-10 16:15:40', 2, 'Efectivo', 24000, 1),
+('venta_e2da8a71-8399-4336-8570-970c64225da2', '2024-12-10 18:15:34', 2, 'Efectivo', 200000, 1),
+('venta_e489f37c-b677-437c-86ad-477356119f58', '2024-12-10 16:16:29', 2, 'Efectivo', 43000, 1),
 ('venta_fbdfdb70-0a0a-47db-8aa2-0f3f4fa6b89e', '2024-11-19 15:25:30', 4, 'Efectivo', 23000, 1);
 
 --
@@ -427,13 +461,13 @@ ALTER TABLE `categorias_inv`
 -- AUTO_INCREMENT de la tabla `detalle_ventas`
 --
 ALTER TABLE `detalle_ventas`
-  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados_horas`
 --
 ALTER TABLE `empleados_horas`
-  MODIFY `id_horas` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_horas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `inventario`
@@ -463,7 +497,7 @@ ALTER TABLE `recompensas`
 -- AUTO_INCREMENT de la tabla `recompensas_obt`
 --
 ALTER TABLE `recompensas_obt`
-  MODIFY `id_recomp_obt` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_recomp_obt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
