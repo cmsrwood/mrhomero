@@ -79,7 +79,7 @@ export default function PerfilCliente() {
 
   return (
     <div>
-      <div className="px-5">
+      <div className="p-5">
         <form onSubmit={(e) => handleEdit(e, editarUser.id_user)}>
           <div className='align-items-center text-center pb-3 pt-3'>
             <p>Cambia tu foto de perfil</p>

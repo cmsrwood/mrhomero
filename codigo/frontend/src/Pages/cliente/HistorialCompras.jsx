@@ -64,9 +64,9 @@ export default function HistorialCompras() {
     }
 
     return (
-            <div className="container">
+            <div className="py-5">
                 <div className="text-center">
-                    <h1 className="py-3">Historial de compras</h1>
+                    <h1 className="pb-3">Historial de compras</h1>
                 </div>
                 <div className="row row-cols-1 row-cols-sm-2 g-5">
                     {compras.map((venta) => (

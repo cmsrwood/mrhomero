@@ -3,7 +3,7 @@ import Menu from '../../components/Menu'
 
 export default function MenuCliente() {
   return (
-    <div>
+    <div className="py-5">
       <Menu />
     </div>
   )

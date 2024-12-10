@@ -8,7 +8,7 @@ const ClienteLayout = () => {
     return (
         <div className="">
             <NavegacionCliente />
-            <div className=''>
+            <div className='container'>
                 <Outlet />
                 <Footer />
             </div>
