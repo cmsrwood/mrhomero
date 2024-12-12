@@ -1,5 +1,3 @@
-const db = require('../../config/db');
-
 exports.mostrarProveedores = (req, res) => {
     db.query("SELECT * FROM proveedores", (err, results) => {
         if (err) {

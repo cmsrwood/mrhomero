@@ -1,4 +1,3 @@
-const db = require('../../config/db');
 
 exports.mostrarInventario = (req, res) => {
     db.query(`

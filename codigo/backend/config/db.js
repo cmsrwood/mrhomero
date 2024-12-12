@@ -1,5 +1,4 @@
 const mysql = require('mysql');
-const nodemailer = require('nodemailer');
 
 /* Conectar a la base de datos */
 const db = mysql.createPool({

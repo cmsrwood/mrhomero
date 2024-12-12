@@ -1,4 +1,3 @@
-const db = require('../../config/db');
 
 exports.mostrarEmpleados = (req, res) => {
 

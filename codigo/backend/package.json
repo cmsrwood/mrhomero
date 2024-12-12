@@ -25,5 +25,10 @@
     "pdfkit": "^0.15.1",
     "pdfkit-table": "^0.1.99",
     "uuid": "^10.0.0"
+  },
+  "apiPaths": {
+    "usuarios": "/api/usuarios",
+    "tienda": "/api/tienda",
+    "auth": "/api/auth"
   }
 }
