@@ -1,1 +1,0 @@
-Digramas de procesos para el cliente
