@@ -9,6 +9,9 @@ const productosController = require('../controllers/productosController');
 const invController = require('../controllers/invController');
 const recompensasController = require('../controllers/recompensasController');
 
+// Middlewares
+const { validateMenu } = require('../middlewares/validateMenu');
+
 //Controladores para Ventas
 
 router.get('/ventas/', ventasController.mostrarVentas);
@@ -44,9 +47,9 @@ router.delete('/proveedores/borrar/:id', provController.borrarProveedor);
 router.get('/categorias/', menuController.mostrarCategorias);
 router.get('/categorias/:id', menuController.mostrarCategoria);
 
-router.post('/categorias/crear', menuController.crearCategoria);
+router.post('/categorias/crear', validateMenu, menuController.crearCategoria);
 
-router.put('/categorias/actualizar/:id', menuController.actualizarCategoria);
+router.put('/categorias/actualizar/:id', validateMenu, menuController.actualizarCategoria);
 
 router.delete('/categorias/eliminar/:id', menuController.eliminarCategoria);
 

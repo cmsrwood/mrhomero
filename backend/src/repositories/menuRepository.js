@@ -1,10 +1,9 @@
-const db = require('../config/db');
 
 // Consulta todas las categorias
 exports.mostrarCategorias = async () => {
     return new Promise((resolve, reject) => {
         const q = `SELECT * FROM categorias`;
-        db.query(q, (error, results) => {
+        global.db.query(q, (error, results) => {
             if (error) reject(error)
             resolve(results)
         });
@@ -15,7 +14,7 @@ exports.mostrarCategorias = async () => {
 exports.mostrarCategoria = async (id) => {
     return new Promise((resolve, reject) => {
         const q = `SELECT * FROM categorias WHERE id_categoria = ?`;
-        db.query(q, [id], (error, results) => {
+        global.db.query(q, [id], (error, results) => {
             if (error) reject(error)
             resolve(results)
         });
@@ -26,7 +25,7 @@ exports.mostrarCategoria = async (id) => {
 const verificarNombre = async (categoria) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM categorias WHERE cat_nom = ?";
-        db.query(q, [categoria], (error, results) => {
+        global.db.query(q, [categoria], (error, results) => {
             if (error) reject(error)
             resolve(results.length > 0);
         });
@@ -49,7 +48,7 @@ exports.crearCategoria = async (categoria, foto) => {
         const q = "INSERT INTO categorias (`cat_nom`, `cat_foto`) VALUES (?)";
         const values = [categoria, foto];
 
-        db.query(q, [values], (err, results) => {
+        global.db.query(q, [values], (err, results) => {
             if (err) reject(err);
             resolve({
                 message: "La categoría se ha creado correctamente"
@@ -62,7 +61,7 @@ exports.crearCategoria = async (categoria, foto) => {
 const traerCategoria = async (id) => {
     return new Promise((resolve, reject) => {
         const qSelect = "SELECT cat_nom, cat_foto FROM categorias WHERE id_categoria = ?";
-        db.query(qSelect, [id], (err, results) => {
+        global.db.query(qSelect, [id], (err, results) => {
             if (err) reject(err)
             resolve(results[0])
         })
@@ -83,14 +82,14 @@ exports.actualizarCategoria = async (id, foto, categoria) => {
                 status: 400
             });
         }
-        
+
         const nombreActualizado = categoria || categoriaActual.cat_nom;
         const nombreFotoActualizado = foto ? foto : categoriaActual.cat_foto;
 
         const qUpdate = "UPDATE categorias SET cat_nom = ?, cat_foto = ? WHERE id_categoria = ?";
         const values = [nombreActualizado, nombreFotoActualizado, id];
 
-        db.query(qUpdate, values, (err) => {
+        global.db.query(qUpdate, values, (err) => {
             if (err) reject(err);
             resolve({
                 message: "La categoría se ha actualizado correctamente"
@@ -103,7 +102,7 @@ exports.actualizarCategoria = async (id, foto, categoria) => {
 exports.eliminarCategoria = async (id) => {
     return new Promise((reject, resolve) => {
         const q = "DELETE FROM categorias WHERE id_categoria = ?";
-        db.query(q, [id], (err) => {
+        global.db.query(q, [id], (err) => {
             if (err) reject(err)
             resolve({
                 message: "La categoría se ha eliminado correctamente"
