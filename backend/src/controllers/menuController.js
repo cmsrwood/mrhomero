@@ -1,54 +1,52 @@
 const menuServices = require('../services/menuServices');
 
 // Mostrar una categoría
-exports.mostrarCategorias = async (req, res) => {
+exports.mostrarCategorias = async (req, res, next) => {
     try {
         const categorias = await menuServices.mostrarCategorias();
         res.status(200).json(categorias);
     } catch (error) {
-        res.status(500).send({ error: 'Error obteniendo categorías' });
+        next(error)
     }
 };
 
 // Mostrar una categoría
-exports.mostrarCategoria = async (req, res) => {
+exports.mostrarCategoria = async (req, res, next) => {
     try {
         const response = await menuServices.mostrarCategoria(req.params.id);
         res.status(200).json(response);
-    } catch {
-        res.status(500).send({ error: 'Error obteniendo categoría' });
+    } catch (error) {
+        next(error)
     }
 };
 
 // Crear una nueva categoría
-exports.crearCategoria = async (req, res) => {
+exports.crearCategoria = async (req, res, next) => {
     try {
         const response = await menuServices.crearCategoria(req.body.categoria, req.body.foto);
-        res.status(response.status || 200).send(response.error);
+        res.status(201).json(response)
     } catch (error) {
-        console.log(error);
-        res.status(500).send({ error: 'Error creando categoría' });
+        next(error)
     }
 };
 
 
 // Actualizar una categoría
-exports.actualizarCategoria = async (req, res) => {
+exports.actualizarCategoria = async (req, res, next) => {
     try {
         const response = await menuServices.actualizarCategoria(req.params.id, req.body.foto, req.body.categoria);
-        res.status(response.status || 200).send(response.error);
-    } catch {
-        console.log(error);
-        res.status(500).send({ error: 'Error actualizando categoría' });
+        res.status(204).json(response)
+    } catch (error) {
+        next(error)
     }
 };
 
 // Eliminar una categoría
-exports.eliminarCategoria = async (req, res) => {
+exports.eliminarCategoria = async (req, res, next) => {
     try {
         const response = await menuServices.eliminarCategoria(req.params.id);
-        res.status(200).json(response);
-    } catch {
-        res.status(500).send({ error: 'Error eliminando categoría' });
+        res.status(200).json(response)
+    } catch (error) {
+        next(error)
     }
 };

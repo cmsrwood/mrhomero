@@ -1,143 +1,46 @@
-const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
-const { error } = require('console');
-
-//PRODUCTOS
-const storageProductos = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadPath = path.resolve(__dirname, '../../../frontend/public/images/menu/productos/');
-        cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-        const ext = file.originalname.split(".").pop();
-        cb(null, `producto_${Date.now()}.${ext}`);
-    }
-})
-
-const upload = multer({ storage: storageProductos })
-
-exports.uploadProducto = upload.single('imagen');
-
-//Eliminar de carpeta de productos 
-
-const eliminarImagenProducto = async (image) => {
-    try {
-        const filePath = path.resolve(__dirname, `../../../frontend/public/images/menu/productos/${image}`);
-        await fs.promises.unlink(filePath);
-    } catch (err) {
-        console.error('Error eliminando imagen:', err);
-    }
-};
-
-//Mostrar todos los productos
+const productosServices = require('../services/productosServices');
 
 exports.mostrarProductos = (req, res) => {
-    const q = "SELECT * FROM productos";
-    db.query(q, (err, results) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send('Error en el servidor');
-        } else {
-            return res.status(200).send(results);
-        }
-    });
+    try {
+        const response = productosServices.mostrarProductos();
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).send({ error: 'Error obteniendo productos' });
+    }
 };
 
 // Mostrar todos los productos por categoria
 
 exports.mostrarProductosPorcategoria = (req, res) => {
-    const id = req.params.id;
-    const q = "SELECT * FROM productos where id_categoria = ?";
-    db.query(q, [id], (err, results) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send('Error en el servidor');
-        } else {
-            return res.status(200).send(results);
-        }
-    });
+    try {
+        const response = productosServices.mostrarProductosPorCategoria(req.params.id);
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).send({ error: 'Error obteniendo productos por categoria' });
+    }
 };
 
 // Mostrar un solo producto
 exports.mostrarProducto = (req, res) => {
-    const id = req.params.id;
-    const q = "SELECT * FROM productos WHERE id_producto = ?";
-
-    db.query(q, [id], (err, results) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).json({ message: 'Error en el servidor', error: err });
-        }
-
-        if (results.length === 0) {
-            return res.status(404).json({ message: 'Producto no encontrado' });
-        }
-
-        return res.status(200).json(results[0]);
-    });
+    try {
+        const response = productosServices.mostrarProducto(req.params.id);
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).send({ error: 'Error obteniendo producto' });
+    }
 };
 
 
 // Crear un nuevo producto
 exports.crearProducto = (req, res) => {
-    const id_categoria = req.body.id_categoria;
-    const nombre = req.body.nombre;
-    const descripcion = req.body.descripcion;
-    const precio = req.body.precio;
-    const file = req.file;
-    const puntos = req.body.puntos;
+try {
+    const response = productosServices.crearProducto(req.body.nombre, req.body.descripcion, req.body.precio, req.body.foto, req.body.puntos, req.body.id_categoria);
+    res.status(200).send(response)
+} catch(error) {
+    res.status(500).send({ error: 'Error creando producto' });
+}
 
-    if (!nombre || !descripcion || !precio || !file || !puntos || !id_categoria) {
-        return res.status(400).send('Debes completar todos los campos.');
-    } else if (!nombre) {
-        return res.status(400).send('Ingrese el nombre del producto.');
-    }
-    else if (!descripcion) {
-        return res.status(400).send('Ingrese la descripción del producto.');
-    }
-    else if (!puntos) {
-        return res.status(400).send('Ingrese la cantidad de puntos.');
-    }
-    else if (!file) {
-        return res.status(400).send('Inserte una imagen.');
-    }
-    else if (!puntos) {
-        return res.status(400).send('Ingrese la cantidad de puntos.');
-    }
-    else if (!id_categoria) {
-        return res.status(400).send('Seleccione una categoría.');
-    }
 
-    const verificarNombre = "SELECT * FROM productos WHERE pro_nom = ?";
-    db.query(verificarNombre, [nombre], (err, results) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send({ error: err, title: 'Error en el servidor', message: 'Intente nuevamente' });
-        }
-        if (results.length > 0) {
-            return res.status(400).send({ error : err, title: 'El producto ya existe', message: 'Cambia el nombre del producto' });
-        }
-
-        const q = "INSERT INTO productos (`pro_nom`, `pro_desp`, `pro_precio`, `pro_foto`, `pro_puntos`, `id_categoria`) VALUES (?)";
-        const values = [
-            nombre,
-            descripcion,
-            precio,
-            file.filename.toString(),
-            puntos,
-            id_categoria
-        ];
-
-        db.query(q, [values], (err) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).send({ error: err, title: 'Error en el servidor', message: 'Intente nuevamente' });
-            }
-
-            return res.status(200).send({title : "Producto creado", message : "El producto se ha creado correctamente"});
-        });
-    });
 };
 
 // Actualizar una categoría
