@@ -25,6 +25,10 @@ const createApp = () => {
 
     app.use('/api', routes);
 
+    app.get('/', (req, res) => {
+        res.send('API de Mr. Homero');
+    });
+
     // Manejo de errores global
 
     app.use(errorHandler);

@@ -40,6 +40,17 @@ exports.mostrarRecompensas = (req, res) => {
         }
     })
 }
+exports.mostrarRecompensa = (req, res) => {
+    const q = "SELECT * FROM recompensas ORDER BY id_recompensa";
+    db.query(q, (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error en el servidor');
+        } else {
+            return res.status(200).send(results);
+        }
+    })
+}
 
 exports.mostrarRecompensasObtenidas = (req, res) => {
     const q = "SELECT * FROM recompensas_obt where estado = 1 ORDER BY id_recomp_obt DESC";

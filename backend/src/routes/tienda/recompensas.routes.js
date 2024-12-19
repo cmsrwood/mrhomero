@@ -9,6 +9,6 @@ router.post('/recompensas/crear', recompensasController.crearRecompensa);
 
 router.put('/recompensas/actualizar/:id', recompensasController.actualizarRecompensa);
 
-router.delete('/recompensas/borrar/:id', recompensasController.borrarRecompensa);
+router.delete('/recompensas/borrar/:id', recompensasController.eliminarRecompensa);
 
 module.exports = router
