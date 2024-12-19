@@ -1,10 +1,6 @@
-const express = require('express');
-const cors = require('cors');
 const connectDB = require('./src/config/db');
 const createApp = require('./src/app');
 const port = process.env.PORT || 4400;
-
-const app = express();
 
 const startServer = async () => {
     try {
