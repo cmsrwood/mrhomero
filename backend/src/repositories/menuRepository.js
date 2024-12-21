@@ -34,12 +34,9 @@ exports.verificarNombre = async (categoria) => {
 
 // Crear una nueva categoria
 exports.crearCategoria = async (categoria, foto) => {
-
     return new Promise((resolve, reject) => {
-
         const q = "INSERT INTO categorias (`cat_nom`, `cat_foto`) VALUES (?)";
         const values = [categoria, foto];
-
         global.db.query(q, [values], (err, results) => {
             if (err) reject(err);
             resolve({
