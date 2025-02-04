@@ -32,14 +32,26 @@ exports.verificarNombre = async (categoria) => {
     })
 }
 
+exports.verificarProductosPorCategoria = async (id) => {
+    return new Promise((resolve, reject) => {
+        const q = "SELECT * FROM productos WHERE id_categoria = ?";
+        global.db.query(q, [id], (error, results) => {
+            if (error) reject(error)
+            resolve(results.length > 0);
+        });
+    })
+}
+
 // Crear una nueva categoria
-exports.crearCategoria = async (categoria, foto) => {
+exports.crearCategoria = async (categoria) => {
     return new Promise((resolve, reject) => {
         const q = "INSERT INTO categorias (`cat_nom`, `cat_foto`) VALUES (?)";
-        const values = [categoria, foto];
+        const values = [categoria.nombre, categoria.foto];
         global.db.query(q, [values], (err, results) => {
             if (err) reject(err);
             resolve({
+                id: results.insertId,
+                categoria: categoria,
                 message: "La categoría se ha creado correctamente"
             })
         })
@@ -47,24 +59,26 @@ exports.crearCategoria = async (categoria, foto) => {
 }
 
 // Actualizar una categoria
-exports.actualizarCategoria = async (id, foto, categoria) => {
+exports.actualizarCategoria = async (id, categoria) => {
     return new Promise((resolve, reject) => {
         const qUpdate = "UPDATE categorias SET cat_nom = ?, cat_foto = ? WHERE id_categoria = ?";
-        const values = [categoria, foto, id];
-        global.db.query(qUpdate, values, (err) => {
+        const values = [categoria.nombre, categoria.foto, id];
+        global.db.query(qUpdate, values, (err, results) => {
             if (err) reject(err);
             resolve({
+                id: results.insertId,
+                categoria: categoria,
                 message: "La categoría se ha actualizado correctamente"
             })
         })
     })
 }
 
-// Eliminar una categoria
-exports.eliminarCategoria = async (id) => {
+// Borrar una categoria
+exports.borrarCategoria = async (id) => {
     return new Promise((resolve, reject) => {
         const q = "DELETE FROM categorias WHERE id_categoria = ?";
-        global.db.query(q, [id], (err) => {
+        global.db.query(q, [id], (err, results) => {
             if (err) reject(err)
             resolve({
                 message: "La categoría se ha eliminado correctamente"

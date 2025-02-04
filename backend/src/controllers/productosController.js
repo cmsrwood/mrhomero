@@ -35,7 +35,7 @@ exports.mostrarProducto = async (req, res, next) => {
 // Crear un nuevo producto
 exports.crearProducto = async (req, res) => {
     try {
-        const response = await productosServices.crearProducto(req.body.nombre, req.body.descripcion, req.body.precio, req.body.foto, req.body.puntos, req.body.id_categoria);
+        const response = await productosServices.crearProducto(req.body);
         res.status(200).send(response)
     } catch (error) {
         res.status(500).send({ error: 'Error creando producto' });
@@ -47,7 +47,7 @@ exports.crearProducto = async (req, res) => {
 // Actualizar una categoría
 exports.actualizarProducto = async (req, res, next) => {
     try {
-        const response = await productosServices.actualizarProducto(req.params.id, req.body.nombre, req.body.descripcion, req.body.precio, req.body.foto, req.body.puntos);
+        const response = await productosServices.actualizarProducto(req.params.id, req.body);
         res.status(200).send(response)
     } catch (error) {
         next(error)
@@ -55,9 +55,9 @@ exports.actualizarProducto = async (req, res, next) => {
 };
 
 // Borrar un producto
-exports.borrarProducto = (req, res) => {
+exports.borrarProducto = async (req, res, next) => {
     try {
-        const response = productosServices.eliminarProducto(req.params.id);
+        const response = await productosServices.eliminarProducto(req.params.id);
         res.status(200).send(response)
     } catch (error) {
         next(error)

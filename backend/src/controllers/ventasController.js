@@ -6,14 +6,7 @@ const path = require('path');
 
 exports.mostrarVentas = (req, res) => {
     db.query(`
-        SELECT 
-            id_venta, 
-            DATE_FORMAT(venta_fecha, '%Y-%m-%d / %H:%i:%s') AS venta_fecha, 
-            id_user, 
-            venta_metodo_pago, 
-            venta_total,
-            venta_estado
-        FROM ventas
+        
     `, (err, results) => {
         if (err) {
             console.log(err);
