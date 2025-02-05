@@ -38,7 +38,7 @@ exports.crearProducto = async (req, res) => {
         const response = await productosServices.crearProducto(req.body);
         res.status(200).send(response)
     } catch (error) {
-        res.status(500).send({ error: 'Error creando producto' });
+        next(error)
     }
 
 

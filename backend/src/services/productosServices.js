@@ -46,6 +46,7 @@ exports.actualizarProducto = async (id, producto) => {
 exports.eliminarProducto = async (id) => {
     const existe = await this.mostrarProducto(id);
     if (existe.length <= 0) throw new NotFoundError('El producto no existe');
+
     const response = await productosRepository.eliminarProducto(id);
     return response
 }

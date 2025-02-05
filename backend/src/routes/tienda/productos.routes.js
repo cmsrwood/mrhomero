@@ -10,7 +10,7 @@ router.get('/categoria/:id', productosController.mostrarProductosPorcategoria);
 
 router.post('/crear', validateProducto, productosController.crearProducto);
 
-router.put('/actualizar/:id', productosController.actualizarProducto);
+router.put('/actualizar/:id', validateProducto, productosController.actualizarProducto);
 
 router.delete('/borrar/:id', productosController.borrarProducto);
 

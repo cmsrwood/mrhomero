@@ -16,6 +16,18 @@ exports.mostrarInventario = async () => {
     })
 }
 
+//Servicio para mostrar un producto del inventario
+exports.mostrarProductoInventario = async (id) => {
+    return new Promise((resolve, reject) => {
+        const q = "SELECT * FROM `inventario` WHERE `id_producto_inv` = ?";
+        const values = [id]
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err)
+            resolve(results)
+        })
+    })
+}
+
 //Se verifica si el nombre del producto ya existe
 exports.verificarNombre = async (nombre) => {
     return new Promise((resolve, reject) => {
@@ -40,13 +52,75 @@ exports.crearInventario = async (inventario) => {
             inventario.cantidad_min,
             inventario.id_proveedor
         ];
-        global.db.query(q, [values], (err, results) => { 
+        global.db.query(q, [values], (err, results) => {
             if (err) reject(err)
             resolve({
                 id: results.insertId,
                 inventario: inventario,
                 message: "Se ha guardado con exito el producto."
             })
+        })
+    })
+}
+
+//Actualizar productos del inventario
+exports.actualizarInventario = async (id, inventario) => {
+    return new Promise((resolve, reject) => {
+        const q = "UPDATE inventario SET inv_nombre = ?, id_categoria_inv = ?, inv_cantidad = ?, inv_fecha_ing = ?, inv_fecha_cad = ?, inv_cantidad_min = ? , id_proveedor = ? WHERE id_producto_inv = ?";
+        const values = [
+            inventario.nombre,
+            inventario.id_categoria,
+            inventario.cantidad,
+            inventario.fecha_ingreso,
+            inventario.fecha_caducidad,
+            inventario.cantidad_min,
+            inventario.id_proveedor,
+            id
+        ];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err)
+            resolve({
+                id: inventario.id,
+                inventario: inventario,
+                message: "Se ha actualizado con exito el producto."
+            })
+        })
+    })
+}
+
+//Borrar productos del inventario
+exports.borrarProductoInventario = async (id) => {
+    return new Promise((resolve, reject) => {
+        const q = "DELETE FROM inventario WHERE id_producto_inv = ?";
+        const values = [id];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err)
+            resolve({
+                id: id,
+                message: "Se ha eliminado con exito el producto."
+            })
+        })
+    })
+}
+
+//Mostrar categorias de los productos
+exports.mostrarCategorias = async () => {
+    return new Promise((resolve, reject) => {
+        const q = "SELECT * FROM categorias_inv";
+        global.db.query(q, (err, results) => {
+            if (err) reject(err)
+            resolve(results)
+        })
+    })
+}
+
+//Mostrar proveedores de los productos
+exports.mostrarProveedores = async () => {
+    return new Promise((resolve, reject) => {
+        const q = "SELECT * FROM proveedores";
+        global.db.query(q, (err, results) => {
+            if (err) reject(err)
+            resolve(results)
         })
     })
 }
