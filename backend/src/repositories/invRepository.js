@@ -9,8 +9,8 @@ exports.mostrarInventario = async () => {
             venta_total,
             venta_estado        
         FROM ventas`;
-        global.db.query(q, (error, results) => {
-            if (error) reject(error)
+        global.db.query(q, (err, results) => {
+            if (err) reject(err)
             resolve(results)
         })
     })

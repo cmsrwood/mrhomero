@@ -12,8 +12,8 @@ class NotFoundError extends HttpError {
     }
 }
 
-class ExistNameCategoriaError extends HttpError{
-    constructor(message = 'La categoria ya existe') {
+class ExistNameError extends HttpError{
+    constructor(message = 'El nombre ya esta en uso') {
         super(400, message);
     }
 }
@@ -21,5 +21,5 @@ class ExistNameCategoriaError extends HttpError{
 module.exports = {
     BadRequestError,
     NotFoundError,
-    ExistNameCategoriaError
+    ExistNameError
 };

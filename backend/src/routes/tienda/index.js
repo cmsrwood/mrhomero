@@ -8,11 +8,11 @@ const proveedoresRoutes = require('./proveedores.routes')
 const ventasRoutes = require('./ventas.routes')
 const recompensasRoutes = require('./recompensas.routes')
 
-router.use('/inventario', inventarioRoutes);
-router.use('/productos', productosRoutes);
-router.use('/categorias', categoriasRoutes);
+router.use('/inventario', inventarioRoutes); //Listo
+router.use('/productos', productosRoutes); //Listo
+router.use('/categorias', categoriasRoutes); //Listo
 router.use('/proveedores', proveedoresRoutes);
-router.use('/ventas', ventasRoutes);
+router.use('/ventas', ventasRoutes); //Proceso
 router.use('/recompensas', recompensasRoutes);
 
 module.exports = router

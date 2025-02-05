@@ -1,4 +1,4 @@
-const { ExistNameCategoriaError, NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
+const { ExistNameError, NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
 const menuRepository = require('../repositories/menuRepository');
 
 
@@ -18,7 +18,7 @@ exports.mostrarCategoria = async (id) => {
 exports.crearCategoria = async (categoria) => {
     //Verificar si la categoria ya existe
     const existe = await menuRepository.verificarNombre(categoria.nombre);
-    if (existe) throw new ExistNameCategoriaError();
+    if (existe) throw new ExistNameError();
 
     const response = await menuRepository.crearCategoria(categoria);
     return response;
@@ -30,7 +30,7 @@ exports.actualizarCategoria = async (id, categoria) => {
     const existe2 = await menuRepository.verificarNombre(categoria.nombre);
 
     if (existe.length <= 0) throw new NotFoundError('La categoria no existe');
-    if (existe2) throw new ExistNameCategoriaError();
+    if (existe2) throw new ExistNameError();
     const reponse = await menuRepository.actualizarCategoria(id, categoria);
     return reponse
 }

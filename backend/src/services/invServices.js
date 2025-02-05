@@ -1,5 +1,5 @@
 const inventarioRepository = require('../repositories/invRepository');
-const { NotFoundError, ExistNameCategoriaError } = require('../errors/ExceptionErrors');
+const { NotFoundError, ExistNameError } = require('../errors/ExceptionErrors');
 
 // Servicio para mostrar el inventario
 exports.mostrarInventario = async () => {
@@ -13,8 +13,8 @@ exports.mostrarProductoInventario = async (id) => {
 
 // Servicio para crear un producto en el inventario
 exports.crearInventario = async (inventario) => {
-    const existe = await inventarioRepository.verificarNombre(inventario.inv_nombre);
-    if (existe) throw new ExistNameCategoriaError("El producto ya existe");
+    const existe = await inventarioRepository.verificarNombre(inventario.nombre);
+    if (existe) throw new ExistNameError("El producto ya existe");
     return await inventarioRepository.crearInventario(inventario);
 }
 
@@ -26,7 +26,7 @@ exports.actualizarInventario = async (id, inventario) => {
     const existe = await inventarioRepository.verificarNombre(inventario.nombre);
 
     if (repetir <= 0) throw new NotFoundError('El producto no existe');
-    if (existe) throw new ExistNameCategoriaError('Hay un producto con el mismo nombre');
+    if (existe) throw new ExistNameError('Hay un producto con el mismo nombre');
 
     const response = await inventarioRepository.actualizarInventario(id, inventario);
     return response
@@ -43,11 +43,11 @@ exports.borrarProductoInventario = async (id) => {
 }
 
 // Servicio para mostrar las categorias
-exports.mostrarCategorias = async () => { 
+exports.mostrarCategorias = async () => {
     return await inventarioRepository.mostrarCategorias();
 }
 
 // Servicio para mostrar los proveedores
-exports.mostrarProveedores = async () => { 
+exports.mostrarProveedores = async () => {
     return await inventarioRepository.mostrarProveedores();
 }
