@@ -13,6 +13,6 @@ router.use('/productos', productosRoutes); //Listo
 router.use('/categorias', categoriasRoutes); //Listo
 router.use('/proveedores', proveedoresRoutes); //Listo
 router.use('/ventas', ventasRoutes); //Proceso
-router.use('/recompensas', recompensasRoutes); //proceso
+router.use('/recompensas', recompensasRoutes); //Listo
 
 module.exports = router

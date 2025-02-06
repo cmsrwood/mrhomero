@@ -42,7 +42,7 @@ exports.crearRecompensa = async (recompensa) => {
 }
 
 // Servicio para actualizar una recompensa
-exports.actualizarRecompensa = async (id, recompensa) => { 
+exports.actualizarRecompensa = async (id, recompensa) => {
     const existe = await recompensasRepository.mostrarRecompensa(id)
     if (existe <= 0) throw new NotFoundError('La recompensa no existe');
     const response = await recompensasRepository.actualizarRecompensa(id, recompensa);
@@ -50,9 +50,40 @@ exports.actualizarRecompensa = async (id, recompensa) => {
 }
 
 // Servicio para eliminar una recompensa
-exports.eliminarRecompensa = async (id) => { 
+exports.eliminarRecompensa = async (id) => {
     const existe = await recompensasRepository.mostrarRecompensa(id);
     if (existe <= 0) throw new NotFoundError('La recompensa no existe');
     const response = await recompensasRepository.eliminarRecompensa(id);
     return response;
+}
+
+// Servicio para reclamar una recompensa
+exports.reclamarRecompensa = async (id_recompensa, id_usuario) => {
+    // Verificar si la recompensa existe
+    const recompensa = await recompensasRepository.mostrarRecompensa(id_recompensa);
+    if (recompensa <= 0) throw new NotFoundError('La recompensa no existe');
+
+    // Generar codigo de validación
+    const codigo = Math.floor(100000 + Math.random() * 900000).toString();
+    await recompensasRepository.insertarRecompensaObtenida(id_recompensa, id_usuario, codigo);
+
+    // Actualizar puntos del usuario
+    const puntosRecompensa = recompensa[0].recomp_num_puntos;
+    const response = await recompensasRepository.actualizarPuntos(id_usuario, puntosRecompensa);
+    return response;
+}
+
+// Servicio para validar una recompensa
+exports.validarRecompensa = async (id, codigo) => {
+    //Verifica si la recompensa existe
+    const recompensa = await recompensasRepository.mostrarRecompensasObtenidas(id);
+    if (recompensa <= 0) throw new NotFoundError('La recompensa no existe');
+
+    //Recoge todos los datos de la recompensa
+    const datosRecompensa = recompensa[0]
+    if (datosRecompensa.codigo !== codigo) throw new NotFoundError('El código no es válido');
+    if (datosRecompensa.estado === 0) throw new NotFoundError('La recompensa ya fue validada');
+    const response = await recompensasRepository.validarCodigoRecompensa(id, codigo);
+    return response;
+
 }

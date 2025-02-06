@@ -10,6 +10,8 @@ router.get('/recompensasUsuario/:id', recompensasController.mostrarRecompensasOb
 router.get('/puntosUsuario/:id', recompensasController.mostrarPuntos);
 
 router.post('/crear', validateRecompensa, recompensasController.crearRecompensa);
+router.post('/validar/:id', recompensasController.validarRecompensa);
+router.post('/reclamar/:id', recompensasController.reclamarRecompensa);
 
 router.put('/actualizar/:id', validateRecompensa, recompensasController.actualizarRecompensa);
 
