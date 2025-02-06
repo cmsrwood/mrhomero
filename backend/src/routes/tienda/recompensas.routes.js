@@ -1,14 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const recompensasController = require('../../controllers/recompensasController');
+const validateRecompensa = require('../../middlewares/validateRecompensa');
 
-router.get('/recompensas/', recompensasController.mostrarRecompensas);
-router.get('/recompensas/:id', recompensasController.mostrarRecompensa);
+router.get('/', recompensasController.mostrarRecompensas);
+router.get('/:id', recompensasController.mostrarRecompensa);
+router.get('/recompensasObtenidas', recompensasController.mostrarRecompensasObtenidas);
+router.get('/recompensasUsuario/:id', recompensasController.mostrarRecompensasObtenidasPorUsuario);
+router.get('/puntosUsuario/:id', recompensasController.mostrarPuntos);
 
-router.post('/recompensas/crear', recompensasController.crearRecompensa);
+router.post('/crear', validateRecompensa, recompensasController.crearRecompensa);
 
-router.put('/recompensas/actualizar/:id', recompensasController.actualizarRecompensa);
+router.put('/actualizar/:id', validateRecompensa, recompensasController.actualizarRecompensa);
 
-router.delete('/recompensas/borrar/:id', recompensasController.eliminarRecompensa);
+router.delete('/borrar/:id', recompensasController.eliminarRecompensa);
 
 module.exports = router

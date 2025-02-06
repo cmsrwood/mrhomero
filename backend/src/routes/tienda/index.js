@@ -11,8 +11,8 @@ const recompensasRoutes = require('./recompensas.routes')
 router.use('/inventario', inventarioRoutes); //Listo
 router.use('/productos', productosRoutes); //Listo
 router.use('/categorias', categoriasRoutes); //Listo
-router.use('/proveedores', proveedoresRoutes);
+router.use('/proveedores', proveedoresRoutes); //Listo
 router.use('/ventas', ventasRoutes); //Proceso
-router.use('/recompensas', recompensasRoutes);
+router.use('/recompensas', recompensasRoutes); //proceso
 
 module.exports = router
