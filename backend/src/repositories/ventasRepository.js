@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 // Mostrar una venta
 exports.mostrarVenta = async (id) => {
     return new Promise((resolve, reject) => {
-        const q = `SELECT * FROM ventas WHERE id_venta = ${id}`;
+        const q = `SELECT * FROM ventas WHERE id_venta = '${id}'`;
         global.db.query(q, (err, results) => {
             if (err) reject(err);
             resolve(results);
@@ -25,7 +25,7 @@ exports.mostrarVentas = async () => {
 // Mostrar detalle de venta
 exports.mostrarDetalleVenta = async (id) => {
     return new Promise((resolve, reject) => {
-        const q = `SELECT * FROM detalle_ventas WHERE id_venta = ${id}`;
+        const q = `SELECT * FROM detalle_ventas WHERE id_venta = '${id}'`;
         global.db.query(q, (err, results) => {
             if (err) reject(err);
             resolve(results);
@@ -34,7 +34,7 @@ exports.mostrarDetalleVenta = async (id) => {
 }
 
 // Mostrar productos mas vendidos
-exports.mostrarProductosMasVendidos = async (mes, ano) => {
+exports.mostrarProductosMasVendidos = async (ano, mes) => {
     return new Promise((resolve, reject) => {
         const q = `SELECT p.pro_nom,
                 p.pro_foto,

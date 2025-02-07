@@ -1,5 +1,15 @@
 const ventasServices = require('../services/ventasServices');
 
+
+exports.mostrarVenta = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const response = await ventasServices.mostrarVenta(id);
+        return res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
 exports.mostrarVentas = async (req, res, next) => {
     try {
         const ventas = await ventasServices.mostrarVentas();
@@ -21,7 +31,9 @@ exports.mostrarDetalleVenta = async (req, res, next) => {
 
 exports.mostrarProductosMasVendidos = async (req, res, next) => {
     try {
-        const response = await ventasServices.mostrarProductosMasVendidos();
+        const ano = req.params.ano;
+        const mes = req.params.mes;
+        const response = await ventasServices.mostrarProductosMasVendidos(ano, mes);
         return res.status(200).json(response);
     } catch (error) {
         next(error);
@@ -30,7 +42,9 @@ exports.mostrarProductosMasVendidos = async (req, res, next) => {
 
 exports.mostrarCuentaProductosVendidosPorMes = async (req, res, next) => {
     try {
-        const response = await ventasServices.mostrarCuentaProductosVendidosPorMes();
+        const ano = req.params.ano;
+        const mes = req.params.mes;
+        const response = await ventasServices.mostrarCuentaProductosVendidosPorMes(ano, mes);
         return res.status(200).json(response);
     } catch (error) {
         next(error);
@@ -39,7 +53,7 @@ exports.mostrarCuentaProductosVendidosPorMes = async (req, res, next) => {
 
 exports.cantidadPrecioVentas = async (req, res, next) => {
     try {
-        const response = await ventasServices.cantidadPrecioVentas();
+        const response = await ventasServices.cantidadPrecioVentas(ano, mes);
         return res.status(200).json(response);
     } catch (error) {
         next(error);
@@ -48,7 +62,7 @@ exports.cantidadPrecioVentas = async (req, res, next) => {
 
 exports.ventasMensuales = async (req, res, next) => {
     try {
-        const response = await ventasServices.ventasMensuales();
+        const response = await ventasServices.ventasMensuales(ano, mes);
         return res.status(200).json(response);
     } catch (error) {
         next(error);

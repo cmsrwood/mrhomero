@@ -100,23 +100,43 @@ async function generarPDF(doc, ventas, ano, mes) {
     }
 }
 
+exports.mostrarVenta = async (id) => {
+    return await ventasRepository.mostrarVenta(id);
+};
+
 exports.mostrarVentas = async (ano, mes) => {
     return await ventasRepository.mostrarVentas(ano, mes);
 };
 
-exports.mostrarDetalleVenta = async (ano, mes) => {
-    return await ventasRepository.mostrarDetalleVenta(ano, mes);
+exports.mostrarDetalleVenta = async (id) => {
+
+    const response = await ventasRepository.mostrarDetalleVenta(id);
+
+    if (response.length <= 0) throw new NotFoundError(`No se encontraron detalles de la venta con el id: ${id}`);
+
+    return response;
 };
 
 exports.mostrarProductosMasVendidos = async (ano, mes) => {
-    return await ventasRepository.mostrarProductosMasVendidos(ano, mes);
+
+    const response = await ventasRepository.mostrarProductosMasVendidos(ano, mes);
+
+    if (response.length <= 0) throw new NotFoundError(`No se encontraron productos vendidos en el mes de ${mesANombre(mes)} / ${ano}`);
+
+    return response;
 };
 
-exports.mostrarCuentaProductosVendidosPorMes = async (ano) => {
-    return await ventasRepository.mostrarCuentaProductosVendidosPorMes(ano);
+exports.mostrarCuentaProductosVendidosPorMes = async (ano, mes) => {
+
+    const response = await ventasRepository.mostrarCuentaProductosVendidosPorMes(ano, mes);
+
+    if (response.length <= 0) throw new NotFoundError(`No se encontraron productos vendidos en el mes de ${mesANombre(mes)} / ${ano}`);
+
+    return response;
 }
 
 exports.cantidadPrecioVentas = async (ano, mes) => {
+
     return await ventasRepository.cantidadPrecioVentas(ano, mes);
 }
 
@@ -188,6 +208,10 @@ exports.mostrarProductosMasCompradosPorCliente = async (id) => {
 
     if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
 
-    return await ventasRepository.mostrarProductosMasCompradosPorCliente(id);
+    const response = await ventasRepository.mostrarProductosMasCompradosPorCliente(id);
+
+    if (response.length <= 0) throw new NotFoundError('No se encontraron productos vendidos por el cliente');
+
+    return response;
 
 }
