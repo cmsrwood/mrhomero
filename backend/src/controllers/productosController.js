@@ -35,8 +35,9 @@ exports.mostrarProducto = async (req, res, next) => {
 // Crear un nuevo producto
 exports.crearProducto = async (req, res) => {
     try {
-        const response = await productosServices.crearProducto(req.body);
-        res.status(200).send(response)
+        const producto = req.body
+        const response = await productosServices.crearProducto(producto);
+        res.status(200).json(response)
     } catch (error) {
         next(error)
     }
@@ -48,7 +49,7 @@ exports.crearProducto = async (req, res) => {
 exports.actualizarProducto = async (req, res, next) => {
     try {
         const response = await productosServices.actualizarProducto(req.params.id, req.body);
-        res.status(200).send(response)
+        res.status(200).json(response)
     } catch (error) {
         next(error)
     }
@@ -58,7 +59,7 @@ exports.actualizarProducto = async (req, res, next) => {
 exports.borrarProducto = async (req, res, next) => {
     try {
         const response = await productosServices.eliminarProducto(req.params.id);
-        res.status(200).send(response)
+        res.status(200).json(response)
     } catch (error) {
         next(error)
     }

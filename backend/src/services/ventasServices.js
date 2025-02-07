@@ -2,6 +2,7 @@ const pdfkitTable = require('pdfkit-table');
 const path = require('path');
 const moment = require('moment');
 const ventasRepository = require('../repositories/ventasRepository');
+const clientesRepository = require('../repositories/clientesRepository');
 const { NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
 
 // Función para obtener el nombre del mes
@@ -124,11 +125,16 @@ exports.ventasMensuales = async (ano) => {
 }
 
 exports.crearVenta = async (venta) => {
+
+    const existe = await clientesRepository.mostrarCliente(venta.id_user);
+
+    if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
+
     return await ventasRepository.crearVenta(venta);
 };
 
 exports.generarPDFVentasMensuales = async (ano, mes) => {
-    const ventas = await ventasRepository.generarPDFVentasMensuales(mes, ano);
+    const ventas = await ventasRepository.generarPDFVentasMensuales(ano, mes);
 
     const doc = new pdfkitTable({ bufferPage: true });
 
@@ -138,7 +144,7 @@ exports.generarPDFVentasMensuales = async (ano, mes) => {
 };
 
 exports.generarPDFVentasAnuales = async (ano) => {
-    const ventas = await ventasRepository.generarPDFVentasDiarias(ano);
+    const ventas = await ventasRepository.generarPDFVentasAnual(ano);
 
     const doc = new pdfkitTable({ bufferPage: true });
 
@@ -146,3 +152,42 @@ exports.generarPDFVentasAnuales = async (ano) => {
 
     return doc;
 };
+
+exports.borrarVenta = async (id) => {
+
+    const existe = await ventasRepository.mostrarVenta(id);
+
+    if (existe.length <= 0) throw new NotFoundError('La venta no existe');
+
+    return await ventasRepository.borrarVenta(id);
+};
+
+exports.restaurarVenta = async (id) => {
+
+    const existe = await ventasRepository.mostrarVenta(id);
+
+    if (existe.length <= 0) throw new NotFoundError('La venta no existe');
+
+    return await ventasRepository.restaurarVenta(id);
+
+};
+
+exports.mostrarCompras = async (id) => {
+
+    const existe = await clientesRepository.mostrarCliente(id);
+
+    if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
+
+    return await ventasRepository.mostrarCompras(id);
+
+};
+
+exports.mostrarProductosMasCompradosPorCliente = async (id) => {
+
+    const existe = await clientesRepository.mostrarCliente(id);
+
+    if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
+
+    return await ventasRepository.mostrarProductosMasCompradosPorCliente(id);
+
+}

@@ -1,3 +1,16 @@
+const { v4: uuidv4 } = require('uuid');
+
+// Mostrar una venta
+exports.mostrarVenta = async (id) => {
+    return new Promise((resolve, reject) => {
+        const q = `SELECT * FROM ventas WHERE id_venta = ${id}`;
+        global.db.query(q, (err, results) => {
+            if (err) reject(err);
+            resolve(results);
+        });
+    })
+}
+
 // Mostrar ventas
 exports.mostrarVentas = async () => {
     return new Promise((resolve, reject) => {
@@ -89,23 +102,23 @@ exports.ventasMensuales = async (mes, ano) => {
 }
 
 // Crear venta
-exports.crearVenta = async (id, venta) => {
+exports.crearVenta = async (venta) => {
     return new Promise((resolve, reject) => {
 
+        const id_venta = `venta_${uuidv4()}`;
         const q = `INSERT INTO ventas (id_venta, venta_fecha, id_user, venta_metodo_pago, venta_total) VALUES (?)`;
 
         const values = [
-            id,
+            id_venta,
             venta.venta_fecha,
             venta.id_user,
             venta.venta_metodo_pago,
             venta.venta_total
         ];
-
         global.db.query(q, [values], (err, results) => {
             if (err) reject(err);
             resolve({
-                id: id,
+                id: id_venta,
                 venta: venta,
                 message: "Venta creada exitosamente",
             });
@@ -138,7 +151,7 @@ exports.crearDetalleVenta = async (detalle) => {
     })
 }
 
-exports.generarPDFVentasMensuales = async (mes, ano) => {
+exports.generarPDFVentasMensuales = async (ano, mes) => {
     return new Promise((resolve, reject) => {
         const q = `SELECT 
                 DATE_FORMAT(venta_fecha, '%d') AS dia, 

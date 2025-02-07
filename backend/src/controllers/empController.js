@@ -12,10 +12,10 @@ exports.mostrarEmpleados = (req, res) => {
 
         if (err) {
             console.log(err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
         }
         else {
-            return res.status(200).send(results);
+            return res.status(200).json(results);
         }
     });
 }
@@ -33,10 +33,10 @@ exports.mostrarEmpleadoId = (req, res) => {
 
         if (err) {
             console.log(err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
         }
         else {
-            return res.status(200).send(results[0]);
+            return res.status(200).json(results[0]);
         }
     });
 }
@@ -51,21 +51,21 @@ exports.asignarRol = (req, res) => {
     db.query('SELECT * FROM usuarios WHERE user_email = ?', [correo], (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
         }
         if (results.length <= 0) {
-            return res.status(400).send({ title: `El usuario debe estar registrado en el sistema`, message: `El usuario ${correo} no existe` });
+            return res.status(400).json({ title: `El usuario debe estar registrado en el sistema`, message: `El usuario ${correo} no existe` });
         }
         else {
             if (!nombre || !apellidos || !correo || !telefono || !fecha) {
-                return res.status(400).send('Todos los campos son obligatorios');
+                return res.status(400).json('Todos los campos son obligatorios');
             }
             db.query("UPDATE usuarios SET id_rol = 2, user_nom = ?, user_apels = ?, user_email = ?, user_tel = ?, user_fecha_registro = ? WHERE user_email = ?", [nombre, apellidos, correo, telefono, fecha, correo], (err) => {
                 if (err) {
                     console.log(err);
-                    return res.status(500).send('Error en el servidor');
+                    return res.status(500).json('Error en el servidor');
                 } else {
-                    return res.status(200).send('Empleado creado exitosamente');
+                    return res.status(200).json('Empleado creado exitosamente');
                 }
             });
         }
@@ -81,21 +81,21 @@ exports.EditarEmpleado = (req, res) => {
     db.query('SELECT * FROM usuarios WHERE user_email = ?', [correo], (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
         }
         if (results.length < 0) {
-            return res.status(400).send('El usuario no existe');
+            return res.status(400).json('El usuario no existe');
         }
         else {
             if (!nombre || !apellidos || !correo || !telefono || !fecha) {
-                return res.status(400).send('Todos los campos son obligatorios');
+                return res.status(400).json('Todos los campos son obligatorios');
             }
             db.query("UPDATE usuarios SET id_rol = 2, user_nom = ?, user_apels = ?, user_email = ?, user_tel = ?, user_fecha_registro = ? WHERE user_email = ?", [nombre, apellidos, correo, telefono, fecha, correo], (err) => {
                 if (err) {
                     console.log(err);
-                    return res.status(500).send('Error en el servidor');
+                    return res.status(500).json('Error en el servidor');
                 } else {
-                    return res.status(200).send('Empleado creado exitosamente');
+                    return res.status(200).json('Empleado creado exitosamente');
                 }
             });
         }
@@ -106,11 +106,11 @@ exports.EliminarEmpleado = (req, res) => {
     db.query('UPDATE usuarios SET id_rol = 3  WHERE id_user = ?', [id], (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
 
         }
         else {
-            return res.status(200).send('Empleado eliminado exitosamente');
+            return res.status(200).json('Empleado eliminado exitosamente');
         }
     });
 }
@@ -135,9 +135,9 @@ exports.MostrarHorasEmpleadoMes = (req, res) => {
                 ORDER BY fecha; `, [mes, ano, mes, ano, idEmpleado], (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(500).send({ error: 'Error en el servidor' });
+            return res.status(500).json({ error: 'Error en el servidor' });
         } else {
-            return res.status(200).send(results);
+            return res.status(200).json(results);
         }
     });
 }
@@ -149,9 +149,9 @@ exports.horaInicio = (req, res) => {
     db.query('INSERT INTO empleados_horas (id_user,fecha, hora_inicio) VALUES (?,?, ?)', [idEmpleado, fecha, horaInicio], (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
         } else {
-            return res.status(200).send('Horas agregadas exitosamente');
+            return res.status(200).json('Horas agregadas exitosamente');
         }
     }
     );
@@ -164,9 +164,9 @@ exports.horaFin = (req, res) => {
     db.query('UPDATE empleados_horas SET hora_fin = ? WHERE id_user = ? AND fecha = ?', [horaFin, idEmpleado, fecha], (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
         } else {
-            return res.status(200).send('Horas agregadas exitosamente');
+            return res.status(200).json('Horas agregadas exitosamente');
         }
     }
     );
@@ -178,9 +178,9 @@ exports.horasDia = (req, res) => {
     db.query('SELECT * FROM empleados_horas WHERE id_user = ? AND fecha = ?', [idEmpleado, fecha], (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
         } else {
-            return res.status(200).send(results[0]);
+            return res.status(200).json(results[0]);
         }
     });
 }
@@ -193,9 +193,9 @@ exports.horasPorMes = (req, res) => {
     db.query('SELECT SUM(HOUR(hora_fin) - HOUR(hora_inicio)) as horas from  empleados_horas WHERE MONTH(fecha) = ? AND YEAR(fecha) = ? AND id_user = ?', [mes, ano, idEmpleado], (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
         } else {
-            return res.status(200).send(results);
+            return res.status(200).json(results);
         }
     });
 }

@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const clienteController = require('../../controllers/clienteController');
+const { validateCliente } = require('../../middlewares/validateCliente')
 
-router.get('/clientes/', clienteController.mostrarClientes);
-router.get('/clientes/:id', clienteController.mostrarClientesByid);
-router.get('/clientes/mostrarCuentaClientesUltimoMes', clienteController.mostrarCuentaClientesUltimoMes);
-router.put('/clientes/agregarPuntos/:id', clienteController.agregarPuntos);
-router.put('/clientes/borrar/:id', clienteController.borrarCliente);
-router.put('/clientes/restaurar/:id', clienteController.restaurarCliente);
-router.put('/clientes/actualizar/:id', clienteController.upload, clienteController.actualizarCliente);
+router.get('/', clienteController.mostrarClientes);
+router.get('/:id', clienteController.mostrarCliente);
+router.get('/mostrarCuentaClientesUltimoMes', clienteController.mostrarCuentaClientesUltimoMes);
+
+router.put('/agregarPuntos/:id', clienteController.agregarPuntos);
+router.put('/borrar/:id', clienteController.borrarCliente);
+router.put('/restaurar/:id', clienteController.restaurarCliente);
+router.put('/actualizar/:id',validateCliente, clienteController.actualizarCliente);
+
 
 
 module.exports = router;

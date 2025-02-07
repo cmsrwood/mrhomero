@@ -21,18 +21,18 @@ exports.ingresar = (req, res) => {
     const password = req.body.password;
 
     if (!email || !password) {
-        return res.status(400).send('Por favor, ingrese email y contraseña');
+        return res.status(400).json('Por favor, ingrese email y contraseña');
     }
 
     // Buscar el usuario en la base de datos
     db.query('SELECT * FROM usuarios WHERE user_email = ?', [email], (err, results) => {
         if (err) {
             console.error('Error en la consulta:', err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
         }
 
         if (results.length === 0) {
-            return res.status(400).send('Usuario no encontrado');
+            return res.status(400).json('Usuario no encontrado');
         }
 
         const user = results[0];
@@ -46,7 +46,7 @@ exports.ingresar = (req, res) => {
             return res.status(200).json({ token: token, rol: user.id_rol, email: user.user_email });
         } else {
             //inicio de sesion incorrecto
-            return res.status(400).send('Contraseña incorrecta');
+            return res.status(400).json('Contraseña incorrecta');
         }
     });
 };
@@ -55,17 +55,17 @@ exports.validarToken = (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
-        return res.status(403).send('Token no proporcionado');
+        return res.status(403).json('Token no proporcionado');
     }
 
     jwt.verify(token, secret, (err, decoded) => {
         if (err) {
             console.error("Error al verificar el token:", err);
-            return res.status(401).send('Error al verificar el token');
+            return res.status(401).json('Error al verificar el token');
         }
 
         req.user = decoded;
-        res.send({ rol: decoded.rol });
+        res.json({ rol: decoded.rol });
     });
 };
 
@@ -80,19 +80,19 @@ exports.registrar = (req, res) => {
     db.query("SELECT * FROM usuarios WHERE user_email = ?", [email], (err, result) => {
 
         if (err) {
-            return res.status(500).send(err)
+            return res.status(500).json(err)
         }
 
         else if (result.length > 0) {
-            return res.status(400).send("El usuario ya existe")
+            return res.status(400).json("El usuario ya existe")
         }
 
         else if (password !== confirmPassword) {
-            return res.status(400).send('Las contraseñas no coinciden');
+            return res.status(400).json('Las contraseñas no coinciden');
         }
 
         else if (password.length < 8) {
-            return res.status(400).send('La contraseña debe tener al menos 8 caracteres');
+            return res.status(400).json('La contraseña debe tener al menos 8 caracteres');
         }
 
         else {
@@ -107,9 +107,9 @@ exports.registrar = (req, res) => {
             ]
             db.query(q, values, (err) => {
                 if (err) {
-                    return res.status(500).send(err)
+                    return res.status(500).json(err)
                 }
-                return res.status(200).send("Usuario creado con exito")
+                return res.status(200).json("Usuario creado con exito")
             })
         }
     })
@@ -125,11 +125,11 @@ exports.recuperar = (req, res) => {
     db.query('SELECT * FROM usuarios WHERE user_email = ?', [email], (err, results) => {
         if (err) {
             console.error('Error en la consulta:', err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
         }
 
         if (results.length === 0) {
-            return res.status(400).send('Usuario no encontrado');
+            return res.status(400).json('Usuario no encontrado');
         }
 
         const user = results[0];
@@ -163,7 +163,7 @@ exports.recuperar = (req, res) => {
                 `,
             };
 
-            transporter.sendMail(mailOptions, (error) => {
+            transporter.jsonMail(mailOptions, (error) => {
                 if (error) {
                     return res.status(500).json({ message: 'Error al enviar el correo electrónico' });
                 }
@@ -182,15 +182,15 @@ exports.resetPassword = (req, res) => {
     db.query('SELECT * FROM usuarios WHERE user_reset_code = ? AND user_reset_code_expiration > ?', [verificationCode, fechaActual], (err, results) => {
         if (err) {
             console.error('Error en la consulta:', err);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json('Error en el servidor');
         }
 
         else if (newPassword !== confirmPassword) {
-            return res.status(400).send('Las contraseñas no coinciden');
+            return res.status(400).json('Las contraseñas no coinciden');
         }
 
         else if (results.length === 0) {
-            return res.status(400).send('Código de verificación inválido, expirado o usuario no encontrado');
+            return res.status(400).json('Código de verificación inválido, expirado o usuario no encontrado');
         }
 
         const user = results[0];
@@ -198,8 +198,8 @@ exports.resetPassword = (req, res) => {
 
         // Actualizar la contraseña y eliminar el código de verificación
         db.query('UPDATE usuarios SET user_pass = ?, user_reset_code = NULL, user_reset_code_expiration = NULL WHERE id_user = ?', [hashPassword, user.id_user], (err) => {
-            if (err) return res.status(500).send('Error al actualizar la contraseña');
-            res.status(200).send('Contraseña restablecida con éxito');
+            if (err) return res.status(500).json('Error al actualizar la contraseña');
+            res.status(200).json('Contraseña restablecida con éxito');
         });
     });
 };
