@@ -1,44 +1,21 @@
+const empServices = require('../services/empleadosServices');
 
-exports.mostrarEmpleados = (req, res) => {
-
-    db.query(`SELECT 
-            id_user,
-            user_nom,
-            user_apels,
-            user_email,
-            user_tel,
-            user_foto,
-            DATE_FORMAT(user_fecha_registro, '%Y-%m-%d') AS user_fecha_registro FROM usuarios WHERE id_rol = 2`, (err, results) => {
-
-        if (err) {
-            console.log(err);
-            return res.status(500).json('Error en el servidor');
-        }
-        else {
-            return res.status(200).json(results);
-        }
-    });
+exports.mostrarEmpleados = async (req, res, next) => {
+    try {
+        const response = await empServices.mostrarEmpleados();
+        res.status(200).json(response)
+    } catch (error) {
+        next(error)
+    }
 }
 
-exports.mostrarEmpleadoId = (req, res) => {
-
-    db.query(`SELECT 
-            id_user,
-            user_nom,
-            user_apels,
-            user_email,
-            user_tel,
-            user_foto,
-            DATE_FORMAT(user_fecha_registro, '%Y-%m-%d') AS user_fecha_registro FROM usuarios WHERE id_rol = 2 AND id_user = ${req.params.id}`, (err, results) => {
-
-        if (err) {
-            console.log(err);
-            return res.status(500).json('Error en el servidor');
-        }
-        else {
-            return res.status(200).json(results[0]);
-        }
-    });
+exports.mostrarEmpleado = async (req, res, next) => {
+    try {
+        const response = await empServices.mostrarEmpleado(req.params.id);
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
 }
 
 exports.asignarRol = (req, res) => {
