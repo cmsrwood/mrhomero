@@ -1,25 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const ventasController = require('../../controllers/ventasController');
-const { validarAnoMes, validarAno, validarId, validarVenta } = require('../../middlewares/validateVentas');
+const { validateAnoMes, validateAno, validateIdVenta, validateVenta, validateDetalleVenta } = require('../../middlewares/validateVentas');
+const { validateId } = require('../../middlewares/validateGeneral');
 
+// Rutas para ventas
 
+// Get
 router.get('/', ventasController.mostrarVentas);
-router.get('/:id', ventasController.mostrarVenta);
-router.get('/cliente/:id', validarId, ventasController.mostrarCompras);
+router.get('/:id', validateIdVenta, ventasController.mostrarVenta);
+router.get('/cliente/:id', validateId, ventasController.mostrarCompras);
 router.get('/detalle/:id', ventasController.mostrarDetalleVenta);
-router.get('/ProductosMasVendidos/:ano/:mes', validarAnoMes, ventasController.mostrarProductosMasVendidos);
-router.get('/ProductosMasCompradosPorCliente/:id', validarId, ventasController.mostrarProductosMasCompradosPorCliente);
-router.get('/CuentaProductosVendidosPorMes/:ano/:mes', validarAnoMes, ventasController.mostrarCuentaProductosVendidosPorMes);
-router.get('/VentasMensuales/:ano/:mes', validarAnoMes, ventasController.ventasMensuales);
-router.get('/VentasPorMes/:ano/:mes', validarAnoMes, ventasController.cantidadPrecioVentas);
-router.get('/crearReporte/:ano/:mes', validarAnoMes, ventasController.generarPDFVentasMensuales);
-router.get('/crearReporte/:ano', validarAno, ventasController.generarPDFVentasAnuales);
+router.get('/productosMasVendidos/:ano/:mes', validateAnoMes, ventasController.mostrarProductosMasVendidos);
+router.get('/productosMasCompradosPorCliente/:id', validateId, ventasController.mostrarProductosMasCompradosPorCliente);
+router.get('/cuentaProductosVendidosPorMes/:ano/:mes', validateAnoMes, ventasController.mostrarCuentaProductosVendidosPorMes);
+router.get('/ventasAnuales/:ano/:mes', validateAnoMes, ventasController.ventasAnuales);
+router.get('/ventasMensuales/:ano/:mes', validateAnoMes, ventasController.ventasMensuales);
+router.get('/reporte/:ano/:mes', validateAnoMes, ventasController.generarPDFVentasMensuales);
+router.get('/reporte/:ano', validateAno, ventasController.generarPDFVentasAnuales);
 
-router.post('/crear', validarVenta, ventasController.crearVenta)
-router.post('/crearDetalleVenta', ventasController.crearDetalleVenta);
+// Post
+router.post('/crear', validateVenta, ventasController.crearVenta)
+router.post('/crearDetalleVenta', validateDetalleVenta, ventasController.crearDetalleVenta);
 
-router.put('/borrar/:id', validarId, ventasController.borrarVenta);
-router.put('/restaurar/:id', validarId, ventasController.restaurarVenta);
+// Put
+router.put('/borrar/:id', ventasController.borrarVenta);
+router.put('/restaurar/:id', ventasController.restaurarVenta);
 
 module.exports = router

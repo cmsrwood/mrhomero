@@ -3,47 +3,56 @@ const path = require('path');
 const moment = require('moment');
 const ventasRepository = require('../repositories/ventasRepository');
 const clientesRepository = require('../repositories/clientesRepository');
+const productosRepository = require('../repositories/productosRepository');
+
 const { NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
 
-// Función para obtener el nombre del mes
+// Convierte el número del mes a su nombre en español
 function mesANombre(mes) {
-    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const meses = [
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
     return meses[mes - 1];
 }
 
-// Función para formatear el número
+// Formatea un número separando los miles con puntos
 const formatNumber = (value) => {
     const formattedValue = value.toString().replace(/\D/g, '');
     return formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
 
-// Función para generar el PDF
+// Genera el contenido del PDF
 async function generarPDF(doc, ventas, ano, mes) {
     const filePath = path.resolve(__dirname, `../../../frontend/public/logo.png`);
 
-    // PDF de ventas diarias
+    // Reporte de ventas diarias para un mes específico
     if (mes && ano) {
         doc.font('Helvetica');
-        doc.image(filePath, 480, 60, { width: 80 })
-        doc.fontSize(20).text(`Reporte de Ventas Mensuales\n${mesANombre(mes)}/${ano}`, { align: 'center' });
+        doc.image(filePath, 480, 60, { width: 80 });
+        doc.fontSize(20)
+            .text(`Reporte de Ventas Mensuales\n${mesANombre(mes)}/${ano}`, { align: 'center' });
         doc.moveDown();
-        doc.fontSize(12).text(`Ventas del mes de ${mesANombre(mes)}/${ano}`, { align: 'start' });
+        doc.fontSize(12)
+            .text(`Ventas del mes de ${mesANombre(mes)}/${ano}`, { align: 'start' });
         doc.moveDown();
 
+        // Array con todos los días del mes
         const diasMes = [];
-
         for (let dia = 1; dia <= moment(`${ano}-${mes}-01`, "YYYY-MM").daysInMonth(); dia++) {
             diasMes.push(dia);
         }
 
+        // Mapea la data para cada día
         const ventasDiarias = diasMes.map(dia => {
-            const venta = ventas.find(venta => venta.dia == dia);
+            const venta = ventas.find(v => v.dia == dia);
             return {
                 dia: `${dia}/${mes}/${ano}`,
                 total_ventas: venta ? formatNumber(venta.total_ventas) : 'Sin ventas'
             };
         });
 
+        // Configuración de la tabla en el PDF
         const table = {
             headers: ["Fecha", "Total de ventas"],
             rows: ventasDiarias.map(venta => [venta.dia, venta.total_ventas])
@@ -51,33 +60,36 @@ async function generarPDF(doc, ventas, ano, mes) {
 
         await doc.table(table, {
             prepareHeader: () => doc.font("Helvetica-Bold").fontSize(10),
-            prepareRow: (row, indexColumn, indexRow, rectRow) => doc.font("Helvetica").fontSize(8)
+            prepareRow: () => doc.font("Helvetica").fontSize(8)
         });
 
-        doc.fontSize(12).text(`Total de ventas en mes ${mesANombre(mes)}/${ano}: ${formatNumber(ventas.reduce((total, venta) => total + venta.total_ventas, 0))}`, { align: 'end' });
+        const totalVentas = ventas.reduce((total, venta) => total + venta.total_ventas, 0);
+        doc.fontSize(12)
+            .text(`Total de ventas en mes ${mesANombre(mes)}/${ano}: ${formatNumber(totalVentas)}`, { align: 'end' });
 
         doc.end();
     }
-
-    // PDF de ventas mensuales
+    // Reporte de ventas mensuales para un año completo
     else if (ano && !mes) {
         doc.font('Helvetica');
-        doc.image(filePath, 480, 60, { width: 80 })
-        doc.fontSize(20).text(`Reporte de ventas ${ano}`, { align: 'center' });
+        doc.image(filePath, 480, 60, { width: 80 });
+        doc.fontSize(20)
+            .text(`Reporte de ventas ${ano}`, { align: 'center' });
         doc.moveDown();
         doc.moveDown();
         doc.moveDown();
 
+        // Array con los 12 meses
         const meses = [];
-
-        for (let mes = 1; mes <= 12; mes++) {
-            meses.push(mes);
+        for (let m = 1; m <= 12; m++) {
+            meses.push(m);
         }
 
-        const ventasMensuales = meses.map(mes => {
-            const venta = ventas.find(venta => venta.mes == mes);
+        // Mapea la data para cada mes
+        const ventasMensuales = meses.map(mesNum => {
+            const venta = ventas.find(v => v.mes == mesNum);
             return {
-                mes: mesANombre(mes),
+                mes: mesANombre(mesNum),
                 total_ventas: venta ? formatNumber(venta.total_ventas) : 'Sin ventas'
             };
         });
@@ -89,129 +101,144 @@ async function generarPDF(doc, ventas, ano, mes) {
 
         await doc.table(table, {
             prepareHeader: () => doc.font("Helvetica-Bold").fontSize(10),
-            prepareRow: (row, indexColumn, indexRow, rectRow) => doc.font("Helvetica").fontSize(8)
+            prepareRow: () => doc.font("Helvetica").fontSize(8)
         });
 
-        doc.fontSize(12).text(`Total de ventas en ${ano}: ${formatNumber(ventas.reduce((total, venta) => total + venta.total_ventas, 0))}`, { align: 'end' });
+        const totalVentas = ventas.reduce((total, venta) => total + venta.total_ventas, 0);
+        doc.fontSize(12)
+            .text(`Total de ventas en ${ano}: ${formatNumber(totalVentas)}`, { align: 'end' });
 
         doc.end();
     } else {
-        throw new BadRequestError('No se proporcionó un mes o un año válido.');
+        throw new BadRequestError('No se proporcionó un mes o un año válido.');
     }
 }
 
-exports.mostrarVenta = async (id) => {
-    return await ventasRepository.mostrarVenta(id);
-};
-
+// Mostrar ventas
 exports.mostrarVentas = async (ano, mes) => {
-    return await ventasRepository.mostrarVentas(ano, mes);
+    const response = await ventasRepository.mostrarVentas(ano, mes);
+    if (response.length <= 0)
+        throw new NotFoundError(`No se encontraron ventas en el mes de ${mesANombre(mes)} / ${ano}`);
+    return response;
 };
 
+// Mostrar una venta
+exports.mostrarVenta = async (id) => {
+    const response = await ventasRepository.mostrarVenta(id);
+    if (response.length <= 0) throw new NotFoundError(`No se encontraron ventas con el id: ${id}`);
+    return response;
+};
+
+// Mostrar compras de un cliente
+exports.mostrarCompras = async (id) => {
+    const cliente = await clientesRepository.mostrarCliente(id);
+    if (cliente.length <= 0) throw new NotFoundError('El cliente no existe');
+
+    const response = await ventasRepository.mostrarCompras(id);
+    if (response.length <= 0)
+        throw new NotFoundError(`No se encontraron compras del cliente con el id: ${id}`);
+    return response;
+};
+
+// Mostrar detalles de una venta
 exports.mostrarDetalleVenta = async (id) => {
-
     const response = await ventasRepository.mostrarDetalleVenta(id);
-
-    if (response.length <= 0) throw new NotFoundError(`No se encontraron detalles de la venta con el id: ${id}`);
-
+    if (response.length <= 0)
+        throw new NotFoundError(`No se encontraron detalles de la venta con el id: ${id}`);
     return response;
 };
 
+// Mostrar productos mas vendidos
 exports.mostrarProductosMasVendidos = async (ano, mes) => {
-
     const response = await ventasRepository.mostrarProductosMasVendidos(ano, mes);
-
-    if (response.length <= 0) throw new NotFoundError(`No se encontraron productos vendidos en el mes de ${mesANombre(mes)} / ${ano}`);
-
+    if (response.length <= 0)
+        throw new NotFoundError(`No se encontraron productos vendidos en el mes de ${mesANombre(mes)} / ${ano}`);
     return response;
 };
 
+// Mostrar productos mas vendidos por cliente
+exports.mostrarProductosMasCompradosPorCliente = async (id) => {
+    const existe = await clientesRepository.mostrarCliente(id);
+    if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
+    const response = await ventasRepository.mostrarProductosMasCompradosPorCliente(id);
+    if (response.length <= 0)
+        throw new NotFoundError('No se encontraron productos vendidos por el cliente');
+    return response;
+};
+
+// Mostrar productos mas vendidos por mes
 exports.mostrarCuentaProductosVendidosPorMes = async (ano, mes) => {
-
     const response = await ventasRepository.mostrarCuentaProductosVendidosPorMes(ano, mes);
+    if (response.cantidad <= 0)
+        throw new NotFoundError(`No se encontraron productos vendidos en el mes de ${mesANombre(mes)} / ${ano}`);
+    return response;
+};
 
-    if (response.length <= 0) throw new NotFoundError(`No se encontraron productos vendidos en el mes de ${mesANombre(mes)} / ${ano}`);
-
+// Mostrar ventas anuales
+exports.VentasAnuales = async (ano, mes) => {
+    const response = await ventasRepository.VentasAnuales(ano, mes);
+    if (response.cantidad <= 0)
+        throw new NotFoundError(`No se encontraron productos vendidos en el mes de ${mesANombre(mes)} / ${ano}`);
     return response;
 }
 
-exports.cantidadPrecioVentas = async (ano, mes) => {
+// Mostrar ventas mensuales
+exports.ventasMensuales = async (ano, mes) => {
+    const response = await ventasRepository.ventasMensuales(ano, mes);
+    if (response.length <= 0)
+        throw new NotFoundError(`No se encontraron ventas en el mes de ${mesANombre(mes)} / ${ano}`);
+    return response;
+};
 
-    return await ventasRepository.cantidadPrecioVentas(ano, mes);
-}
+// Generar PDF de ventas anuales
+exports.generarPDFVentasAnuales = async (ano) => {
+    const ventas = await ventasRepository.generarPDFVentasAnual(ano);
+    const doc = new pdfkitTable({ bufferPages: true });
+    await generarPDF(doc, ventas, ano);
+    return doc;
+};
 
-exports.ventasMensuales = async (ano) => {
-    return await ventasRepository.ventasMensuales(ano);
-}
+// Generar PDF de ventas mensuales
+exports.generarPDFVentasMensuales = async (ano, mes) => {
+    const ventas = await ventasRepository.generarPDFVentasMensuales(ano, mes);
+    const doc = new pdfkitTable({ bufferPages: true });
+    await generarPDF(doc, ventas, ano, mes);
+    return doc;
+};
 
+// Crear una venta
 exports.crearVenta = async (venta) => {
-
     const existe = await clientesRepository.mostrarCliente(venta.id_user);
-
     if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
-
     return await ventasRepository.crearVenta(venta);
 };
 
-exports.generarPDFVentasMensuales = async (ano, mes) => {
-    const ventas = await ventasRepository.generarPDFVentasMensuales(ano, mes);
+// Crear un detalle de venta
+exports.crearDetalleVenta = async (detalle_venta) => {
 
-    const doc = new pdfkitTable({ bufferPage: true });
+    const existeProducto = await productosRepository.mostrarProducto(detalle_venta.id_producto);
+    if (existeProducto.length <= 0) throw new NotFoundError('El producto no existe');
 
-    await generarPDF(doc, ventas, ano, mes);
+    const existe = await ventasRepository.mostrarVenta(detalle_venta.id_venta);
+    if (existe.length <= 0) throw new NotFoundError('La venta no existe');
 
-    return doc;
+    return await ventasRepository.crearDetalleVenta(detalle_venta);
 };
 
-exports.generarPDFVentasAnuales = async (ano) => {
-    const ventas = await ventasRepository.generarPDFVentasAnual(ano);
-
-    const doc = new pdfkitTable({ bufferPage: true });
-
-    await generarPDF(doc, ventas, ano);
-
-    return doc;
-};
-
+// Borrar una venta
 exports.borrarVenta = async (id) => {
-
     const existe = await ventasRepository.mostrarVenta(id);
-
     if (existe.length <= 0) throw new NotFoundError('La venta no existe');
 
-    return await ventasRepository.borrarVenta(id);
+    const response = await ventasRepository.borrarVenta(id);
+    return response
 };
 
+// Restaurar una venta
 exports.restaurarVenta = async (id) => {
-
     const existe = await ventasRepository.mostrarVenta(id);
-
     if (existe.length <= 0) throw new NotFoundError('La venta no existe');
 
-    return await ventasRepository.restaurarVenta(id);
-
+    const response = await ventasRepository.restaurarVenta(id);
+    return response
 };
-
-exports.mostrarCompras = async (id) => {
-
-    const existe = await clientesRepository.mostrarCliente(id);
-
-    if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
-
-    return await ventasRepository.mostrarCompras(id);
-
-};
-
-exports.mostrarProductosMasCompradosPorCliente = async (id) => {
-
-    const existe = await clientesRepository.mostrarCliente(id);
-
-    if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
-
-    const response = await ventasRepository.mostrarProductosMasCompradosPorCliente(id);
-
-    if (response.length <= 0) throw new NotFoundError('No se encontraron productos vendidos por el cliente');
-
-    return response;
-
-}

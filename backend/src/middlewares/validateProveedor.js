@@ -1,10 +1,37 @@
-const validateProveedor = (req, res, next) => { 
+const { BadRequestError } = require('../errors/ExceptionErrors');
+
+const validateProveedor = (req, res, next) => {
     const { empresa, direccion, encargado, telefono, correo } = req.body;
-    if (!empresa) return res.status(400).json({ message: 'Ingrese el nombre de la empresa' });
-    else if (!direccion) return res.status(400).json({ message: 'Ingrese la dirección de la empresa' });
-    else if (!encargado) return res.status(400).json({ message: 'Ingrese el nombre del encargado' });
-    else if (!telefono) return res.status(400).json({ message: 'Ingrese el teléfono de contacto' });
-    else if (!correo) return res.status(400).json({ message: 'Ingrese el correo de contacto' });
+
+    const err = [];
+
+    if (!empresa) {
+        err.push('Falta paramétro: empresa');
+    }
+
+    if (!direccion) {
+        err.push('Falta paramétro: direccion');
+    }
+
+    if (!encargado) {
+        err.push('Falta paramétro: encargado');
+    }
+
+    if (!telefono) {
+        err.push('Falta paramétro: telefono');
+    }
+
+    if (isNaN(telefono)) {
+        err.push('El paramétro telefono debe ser un número');
+    }
+
+    if (!correo) {
+        err.push('Falta paramétro: correo');
+    }
+
+    if (err.length > 0) {
+        throw new BadRequestError(err);
+    }
     next();
 }
 

@@ -1,0 +1,33 @@
+const e = require('cors');
+const { BadRequestError } = require('../errors/ExceptionErrors');
+
+const validateEmpleado = (req, res, next) => {
+    const err = [];
+    console.log(err)
+    const { nombre, apellido, email, telefono } = req.body;
+
+    if (!nombre) {
+        err.push('Falta paramétro: nombre,');
+    }
+
+    if (!apellido) {
+        err.push('Falta paramétro: apellido,');
+    }
+
+    if (!email) {
+        err.push('Falta paramétro: email,');
+    }
+
+    if (!telefono) {
+        err.push('Falta paramétro: telefono,');
+    }
+
+    if (err.length > 0) {
+        throw new BadRequestError(err.join('\n'));
+    }
+
+
+    next();
+}
+
+module.exports = { validateEmpleado };

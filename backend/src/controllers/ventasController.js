@@ -1,15 +1,6 @@
 const ventasServices = require('../services/ventasServices');
 
-
-exports.mostrarVenta = async (req, res, next) => {
-    try {
-        const id = req.params.id;
-        const response = await ventasServices.mostrarVenta(id);
-        return res.status(200).json(response);
-    } catch (error) {
-        next(error);
-    }
-}
+// Mostrar todas las ventas
 exports.mostrarVentas = async (req, res, next) => {
     try {
         const ventas = await ventasServices.mostrarVentas();
@@ -19,6 +10,29 @@ exports.mostrarVentas = async (req, res, next) => {
     }
 }
 
+// Mostrar una venta
+exports.mostrarVenta = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const response = await ventasServices.mostrarVenta(id);
+        return res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
+// Mostrar compras de un cliente
+exports.mostrarCompras = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const response = await ventasServices.mostrarCompras(id);
+        return res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Mostrar detalles de una venta
 exports.mostrarDetalleVenta = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -29,6 +43,7 @@ exports.mostrarDetalleVenta = async (req, res, next) => {
     }
 };
 
+// Mostrar productos mas vendidos
 exports.mostrarProductosMasVendidos = async (req, res, next) => {
     try {
         const ano = req.params.ano;
@@ -40,6 +55,18 @@ exports.mostrarProductosMasVendidos = async (req, res, next) => {
     }
 }
 
+// Mostrar productos mas vendidos por cliente
+exports.mostrarProductosMasCompradosPorCliente = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const response = await ventasServices.mostrarProductosMasCompradosPorCliente(id);
+        return res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
+// Mostrar productos mas vendidos por mes
 exports.mostrarCuentaProductosVendidosPorMes = async (req, res, next) => {
     try {
         const ano = req.params.ano;
@@ -51,17 +78,23 @@ exports.mostrarCuentaProductosVendidosPorMes = async (req, res, next) => {
     }
 }
 
-exports.cantidadPrecioVentas = async (req, res, next) => {
+// Mostrar ventas anuales
+exports.ventasAnuales = async (req, res, next) => {
     try {
-        const response = await ventasServices.cantidadPrecioVentas(ano, mes);
+        const ano = req.params.ano;
+        const mes = req.params.mes;
+        const response = await ventasServices.VentasAnuales(ano, mes);
         return res.status(200).json(response);
     } catch (error) {
         next(error);
     }
 }
 
+// Mostrar ventas mensuales
 exports.ventasMensuales = async (req, res, next) => {
     try {
+        const ano = req.params.ano;
+        const mes = req.params.mes;
         const response = await ventasServices.ventasMensuales(ano, mes);
         return res.status(200).json(response);
     } catch (error) {
@@ -69,6 +102,39 @@ exports.ventasMensuales = async (req, res, next) => {
     }
 }
 
+// Generar PDF de ventas anuales
+exports.generarPDFVentasAnuales = async (req, res, next) => {
+    try {
+        const { ano } = req.params;
+        const doc = await ventasServices.generarPDFVentasAnuales(ano);
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=reporte_ventas.pdf');
+
+        doc.pipe(res);
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Generar PDF de ventas mensuales
+exports.generarPDFVentasMensuales = async (req, res, next) => {
+    try {
+        const { ano, mes } = req.params;
+        const doc = await ventasServices.generarPDFVentasMensuales(ano, mes);
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=reporte_ventas.pdf');
+
+        doc.pipe(res);
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Crear una venta
 exports.crearVenta = async (req, res, next) => {
     try {
         const venta = req.body;
@@ -79,6 +145,7 @@ exports.crearVenta = async (req, res, next) => {
     }
 }
 
+// Crear un detalle de venta
 exports.crearDetalleVenta = async (req, res, next) => {
     try {
         const detalleVenta = req.body;
@@ -89,28 +156,7 @@ exports.crearDetalleVenta = async (req, res, next) => {
     }
 }
 
-
-exports.generarPDFVentasMensuales = async (req, res, next) => {
-    try {
-        const ano = req.params.ano;
-        const mes = req.params.mes;
-        const response = await ventasServices.generarPDFVentasMensuales(ano, mes);
-        return res.status(200).json(response);
-    } catch (error) {
-        next(error);
-    }
-};
-
-exports.generarPDFVentasAnuales = async (req, res, next) => {
-    try {
-        const ano = req.params.ano;
-        const response = await ventasServices.generarPDFVentasAnuales(ano);
-        return res.status(200).json(response);
-    } catch (error) {
-        next(error);
-    }
-};
-
+// Borrar una venta
 exports.borrarVenta = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -121,30 +167,11 @@ exports.borrarVenta = async (req, res, next) => {
     }
 }
 
+// Restaurar una venta
 exports.restaurarVenta = async (req, res, next) => {
     try {
         const id = req.params.id;
         const response = await ventasServices.restaurarVenta(id);
-        return res.status(200).json(response);
-    } catch (error) {
-        next(error);
-    }
-}
-
-exports.mostrarCompras = async (req, res, next) => {
-    try {
-        const id = req.params.id;
-        const response = await ventasServices.mostrarCompras(id);
-        return res.status(200).json(response);
-    } catch (error) {
-        next(error);
-    }
-};
-
-exports.mostrarProductosMasCompradosPorCliente = async (req, res, next) => {
-    try {
-        const id = req.params.id;
-        const response = await ventasServices.mostrarProductosMasCompradosPorCliente(id);
         return res.status(200).json(response);
     } catch (error) {
         next(error);

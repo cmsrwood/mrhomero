@@ -1,13 +1,49 @@
+const { BadRequestError } = require('../errors/ExceptionErrors');
+
 const validateInventario = (req, res, next) => {
     const { nombre, id_categoria, fecha_ingreso, fecha_caducidad, cantidad, cantidad_min, id_proveedor } = req.body;
-    if (!nombre) return res.status(400).json({ message: 'Ingrese el nombre del producto' });
-    else if (!id_categoria) return res.status(400).json({ message: 'Seleccione una categoría' });
-    else if (!fecha_ingreso) return res.status(400).json({ message: 'Ingrese la fecha de ingreso' });
-    else if (!fecha_caducidad) return res.status(400).json({ message: 'Ingrese la fecha de caducidad' });
-    else if (!cantidad) return res.status(400).json({ message: 'Ingrese la cantidad' });
-    else if (!cantidad_min) return res.status(400).json({ message: 'Ingrese la cantidad mínima' });
-    else if (!id_proveedor) return res.status(400).json({ message: 'Seleccione un proveedor' });
-    next();
+
+    const err = [];
+
+    if (!nombre) {
+        err.push('Falta parámetro: nombre');
+    }
+
+    if (!id_categoria) {
+        err.push('Falta parámetro: id_categoria');
+    }
+
+    if (isNaN(id_categoria)) {
+        err.push('El parámetro id_categoria debe ser un numero');
+    }
+
+    if (id_categoria <= 0) {
+        err.push('El parámetro id_categoria debe ser mayor a 0');
+    }
+
+    if (!fecha_ingreso) {
+        err.push('Falta parámetro: fecha_ingreso');
+    }
+
+    if (!fecha_caducidad) {
+        err.push('Falta parámetro: fecha_caducidad');
+    }
+
+    if (!cantidad) {
+        err.push('Falta parámetro: cantidad');
+    }
+
+    if (!cantidad_min) {
+        err.push('Falta parámetro: cantidad_min');
+    }
+
+    if (!id_proveedor) {
+        err.push('Falta parámetro: id_proveedor');
+    }
+
+    if (err.length > 0) {
+        throw new BadRequestError(err);
+    }
 }
 
 module.exports = { validateInventario }

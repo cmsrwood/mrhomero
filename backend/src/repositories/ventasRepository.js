@@ -1,16 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
 
-// Mostrar una venta
-exports.mostrarVenta = async (id) => {
-    return new Promise((resolve, reject) => {
-        const q = `SELECT * FROM ventas WHERE id_venta = '${id}'`;
-        global.db.query(q, (err, results) => {
-            if (err) reject(err);
-            resolve(results);
-        });
-    })
-}
-
 // Mostrar ventas
 exports.mostrarVentas = async () => {
     return new Promise((resolve, reject) => {
@@ -22,11 +11,47 @@ exports.mostrarVentas = async () => {
     })
 }
 
+// Mostrar una venta
+exports.mostrarVenta = async (id) => {
+    return new Promise((resolve, reject) => {
+        const q = `SELECT * FROM ventas WHERE id_venta = ?`;
+        const values = [id];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err);
+            resolve(results);
+        });
+    })
+}
+
+
+// Mostrar compras
+exports.mostrarCompras = async (id) => {
+    return new Promise((resolve, reject) => {
+        const q = `
+        SELECT 
+            id_venta, 
+            venta_fecha, 
+            id_user, 
+            venta_metodo_pago, 
+            venta_total,
+            venta_estado
+        FROM ventas
+        WHERE id_user = ?
+        `;
+        const values = [id];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err);
+            resolve(results);
+        });
+    })
+}
+
 // Mostrar detalle de venta
 exports.mostrarDetalleVenta = async (id) => {
     return new Promise((resolve, reject) => {
-        const q = `SELECT * FROM detalle_ventas WHERE id_venta = '${id}'`;
-        global.db.query(q, (err, results) => {
+        const q = `SELECT * FROM detalle_ventas WHERE id_venta = ?`;
+        const values = [id];
+        global.db.query(q, values, (err, results) => {
             if (err) reject(err);
             resolve(results);
         });
@@ -42,11 +67,36 @@ exports.mostrarProductosMasVendidos = async (ano, mes) => {
                 FROM detalle_ventas dv
                 JOIN productos p ON dv.id_producto = p.id_producto
                 JOIN ventas v ON dv.id_venta = v.id_venta
-                WHERE MONTH(v.venta_fecha) = ${mes}
-                AND YEAR(v.venta_fecha) = ${ano}
+                WHERE YEAR(v.venta_fecha) = ?
+                AND MONTH(v.venta_fecha) = ?
                 GROUP BY p.pro_nom
                 ORDER BY cantidad_vendida DESC;`;
-        global.db.query(q, (err, results) => {
+
+        const values = [ano, mes];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err);
+            resolve(results);
+        });
+    })
+}
+
+
+// Mostrar productos mas comprados por cliente
+exports.mostrarProductosMasCompradosPorCliente = async (id) => {
+    return new Promise((resolve, reject) => {
+        const q = `
+        SELECT 
+            p.pro_nom, 
+            SUM(dv.cantidad_producto) AS cantidad_vendida
+        FROM detalle_ventas dv
+        JOIN ventas v ON dv.id_venta = v.id_venta
+        JOIN productos p ON dv.id_producto = p.id_producto
+        WHERE v.id_user = ?
+        GROUP BY p.pro_nom
+        ORDER BY cantidad_vendida DESC;
+    `;
+        const values = [id];
+        global.db.query(q, values, (err, results) => {
             if (err) reject(err);
             resolve(results);
         });
@@ -54,52 +104,97 @@ exports.mostrarProductosMasVendidos = async (ano, mes) => {
 }
 
 // Mostrar cantidad de productos vendidos por mes
-exports.mostrarCuentaProductosVendidosPorMes = async (mes, ano) => {
+exports.mostrarCuentaProductosVendidosPorMes = async (ano, mes) => {
     return new Promise((resolve, reject) => {
         const q = `SELECT
                 SUM(dv.cantidad_producto) AS cantidad
                 FROM detalle_ventas dv
                 JOIN ventas v ON dv.id_venta = v.id_venta
-                WHERE MONTH(v.venta_fecha) = ${mes}
-                AND YEAR(v.venta_fecha) = ${ano};`;
-        global.db.query(q, (err, results) => {
+                WHERE YEAR(v.venta_fecha) = ?
+                AND MONTH(v.venta_fecha) = ?;`;
+
+        const values = [ano, mes];
+        global.db.query(q, values, (err, results) => {
             if (err) reject(err);
-            resolve(results);
+            resolve(results[0]);
         });
     })
 }
 
 // Mostrar cantidad y precio de ventas
-exports.cantidadPrecioVentas = async (mes, ano) => {
+exports.VentasAnuales = async (ano, mes) => {
     return new Promise((resolve, reject) => {
         const q = `SELECT
                 SUM(venta_total) AS total
                 FROM ventas
-                WHERE MONTH(venta_fecha) = ${mes}
-                AND YEAR(venta_fecha) = ${ano};`;
-        global.db.query(q, (err, results) => {
+                WHERE YEAR(venta_fecha) = ?
+                AND MONTH(venta_fecha) = ?`;
+
+        const values = [ano, mes];
+
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err);
+            resolve(results[0]);
+        });
+    })
+}
+
+// Mostrar ventas mensuales
+exports.ventasMensuales = async (ano, mes) => {
+    return new Promise((resolve, reject) => {
+        const q = `SELECT 
+                DATE_FORMAT(venta_fecha, '%d') AS dia, 
+                SUM(venta_total) AS total_ventas
+                FROM ventas
+                WHERE YEAR(venta_fecha) = ? AND MONTH(venta_fecha) = ?
+                GROUP BY dia
+                ORDER BY dia;`;
+        const values = [ano, mes];
+        global.db.query(q, values, (err, results) => {
             if (err) reject(err);
             resolve(results);
         });
     })
 }
 
-// Mostrar ventas mensuales
-exports.ventasMensuales = async (mes, ano) => {
+// Generar PDF de ventas anuales
+exports.generarPDFVentasAnual = async (ano) => {
     return new Promise((resolve, reject) => {
         const q = `SELECT 
-                DATE_FORMAT(venta_fecha, '%d') AS dia, 
+                MONTH(venta_fecha) AS mes, 
                 SUM(venta_total) AS total_ventas
                 FROM ventas
-                WHERE MONTH(venta_fecha) = ${mes} AND YEAR(venta_fecha) = ${ano}
-                GROUP BY dia
-                ORDER BY dia;`;
-        global.db.query(q, (err, results) => {
+                WHERE YEAR(venta_fecha) = ?
+                GROUP BY mes
+                ORDER BY mes;`;
+
+        const values = [ano];
+        global.db.query(q, values, (err, results) => {
             if (err) reject(err);
             resolve(results);
         });
     })
 }
+
+// Generar PDF de ventas mensuales
+exports.generarPDFVentasMensuales = async (ano, mes) => {
+    return new Promise((resolve, reject) => {
+        const q = `SELECT 
+                DATE_FORMAT(venta_fecha, '%d') AS dia, 
+                SUM(venta_total) AS total_ventas
+                FROM ventas
+                WHERE YEAR(venta_fecha) = ? AND MONTH(venta_fecha) = ?
+                GROUP BY dia
+                ORDER BY dia;`;
+
+        const values = [ano, mes];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err);
+            resolve(results);
+        });
+    })
+}
+
 
 // Crear venta
 exports.crearVenta = async (venta) => {
@@ -107,7 +202,6 @@ exports.crearVenta = async (venta) => {
 
         const id_venta = `venta_${uuidv4()}`;
         const q = `INSERT INTO ventas (id_venta, venta_fecha, id_user, venta_metodo_pago, venta_total) VALUES (?)`;
-
         const values = [
             id_venta,
             venta.venta_fecha,
@@ -151,94 +245,32 @@ exports.crearDetalleVenta = async (detalle) => {
     })
 }
 
-exports.generarPDFVentasMensuales = async (ano, mes) => {
-    return new Promise((resolve, reject) => {
-        const q = `SELECT 
-                DATE_FORMAT(venta_fecha, '%d') AS dia, 
-                SUM(venta_total) AS total_ventas
-                FROM ventas
-                WHERE MONTH(venta_fecha) = ${mes} AND YEAR(venta_fecha) = ${ano}
-                GROUP BY dia
-                ORDER BY dia;`;
-        global.db.query(q, (err, results) => {
-            if (err) reject(err);
-            resolve(results);
-        });
-    })
-}
-
-exports.generarPDFVentasAnual = async (ano) => {
-    return new Promise((resolve, reject) => {
-        const q = `SELECT 
-                MONTH(venta_fecha) AS mes, 
-                SUM(venta_total) AS total_ventas
-                FROM ventas
-                WHERE YEAR(venta_fecha) = ${ano}
-                GROUP BY mes
-                ORDER BY mes;`;
-        global.db.query(q, (err, results) => {
-            if (err) reject(err);
-            resolve(results);
-        });
-    })
-}
-
+// Borrar venta
 exports.borrarVenta = async (id) => {
     return new Promise((resolve, reject) => {
-        const q = `UPDATE ventas SET venta_estado = 0  WHERE id_venta = ${id}`;
-        global.db.query(q, (err, results) => {
+        const q = `UPDATE ventas SET venta_estado = 0  WHERE id_venta = ?`;
+        const values = [id];
+        global.db.query(q, values, (err, results) => {
             if (err) reject(err);
-            resolve(results);
+            resolve({
+                id: id,
+                message: "Venta eliminada exitosamente",
+            })
         });
     })
 }
 
+// Restaurar venta
 exports.restaurarVenta = async (id) => {
     return new Promise((resolve, reject) => {
-        const q = `UPDATE ventas SET venta_estado = 1  WHERE id_venta = ${id}`;
-        global.db.query(q, (err, results) => {
+        const q = `UPDATE ventas SET venta_estado = 1  WHERE id_venta = ?`;
+        const values = [id];
+        global.db.query(q, values, (err, results) => {
             if (err) reject(err);
-            resolve(results);
-        });
-    })
-}
-
-exports.mostrarCompras = async (id) => {
-    return new Promise((resolve, reject) => {
-        const q = `
-        SELECT 
-            id_venta, 
-            venta_fecha, 
-            id_user, 
-            venta_metodo_pago, 
-            venta_total,
-            venta_estado
-        FROM ventas
-        WHERE id_user = ${id}
-    `;
-        global.db.query(q, (err, results) => {
-            if (err) reject(err);
-            resolve(results);
-        });
-    })
-}
-
-exports.mostrarProductosMasCompradosPorCliente = async (id) => {
-    return new Promise((resolve, reject) => {
-        const q = `
-        SELECT 
-            p.pro_nom, 
-            SUM(dv.cantidad_producto) AS cantidad_vendida
-        FROM detalle_ventas dv
-        JOIN ventas v ON dv.id_venta = v.id_venta
-        JOIN productos p ON dv.id_producto = p.id_producto
-        WHERE v.id_user = ${id}
-        GROUP BY p.pro_nom
-        ORDER BY cantidad_vendida DESC;
-    `;
-        global.db.query(q, (err, results) => {
-            if (err) reject(err);
-            resolve(results);
+            resolve({
+                id: id,
+                message: "Venta restaurada exitosamente",
+            })
         });
     })
 }

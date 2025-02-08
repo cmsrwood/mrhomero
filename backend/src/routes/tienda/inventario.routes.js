@@ -4,16 +4,19 @@ const invController = require('../../controllers/invController');
 const { validateInventario } = require('../../middlewares/validateInv');
 const { validate } = require('uuid');
 
-// Controlador para el inventario
+//Get
 router.get('/', invController.mostrarInventario);
 router.get('/:id', invController.mostrarProductoInventario);
 router.get('/categorias', invController.mostrarCategorias);
 router.get('/proveedores', invController.mostrarProveedores);
 
+//Post
 router.post('/crear', validateInventario, invController.crearInventario);
 
+//Put
 router.put('/actualizar/:id', validateInventario, invController.actualizarInventario);
 
+//Delete
 router.delete('/borrar/:id', invController.borrarProductoInventario);
 
 module.exports = router

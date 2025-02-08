@@ -22,11 +22,11 @@ exports.mostrarEmpleado = async (id) => {
 }
 
 // Traer un usuario por su email
-exports.traerUsuarioPorEmail = async (email) => { 
-    return new Promise((resolve, reject) => { 
+exports.traerUsuarioPorEmail = async (email) => {
+    return new Promise((resolve, reject) => {
         const q = "SELECT * FROM usuarios WHERE user_email = ?";
         const value = [email];
-        global.db.query(q, value, (err, results) => { 
+        global.db.query(q, value, (err, results) => {
             if (err) reject(err)
             resolve(results)
         })
@@ -34,8 +34,119 @@ exports.traerUsuarioPorEmail = async (email) => {
 }
 
 // Pasar un usuario a un empleado
-exports.crearEmpleado = async () => { 
+exports.actualizarEmpleado = async (empleado) => {
     return new Promise((resolve, reject) => {
-        const q = {}
+        const q = "UPDATE usuarios SET id_rol = 2, user_nom = ?, user_apels = ?, user_email = ?, user_tel = ?, user_fecha_registro = ? WHERE user_email = ?";
+        const values = [
+            empleado.nombre,
+            empleado.apellido,
+            empleado.email,
+            empleado.telefono,
+            empleado.registro,
+            empleado.email
+        ];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err)
+            resolve({
+                mesagge: "Empleado creado exitosamente",
+            })
+        })
+    })
+}
+
+// Eliminar un empleado
+exports.borrarEmpleado = async (id) => {
+    return new Promise((resolve, reject) => {
+        const q = "UPDATE usuarios SET id_rol = 3  WHERE id_user = ?";
+        const value = [
+            id
+        ];
+        global.db.query(q, value, (err, results) => {
+            if (err) reject(err)
+            resolve({
+                mesagge: "Empleado eliminado exitosamente",
+            })
+        })
+    })
+}
+
+// Mostrar las horas de un empleado
+exports.MostrarHorasEmpleadoMes = async (mes, ano, id) => {
+    return new Promise((resolve, reject) => {
+        const q = "SELECT DATE_FORMAT(hora_inicio, ' %Y-%m-%d %H:%i:%s') AS hora_inicio, DATE_FORMAT(hora_fin, '%Y-%m-%d %H:%i:%s') AS hora_fin, fecha FROM empleados_horas WHERE MONTH(hora_inicio) = ? AND YEAR(hora_inicio) = ? AND MONTH(hora_fin) = ? AND YEAR(hora_fin) = ? AND id_user = ? GROUP BY fecha ORDER BY fecha;";
+        const values = [
+            mes,
+            ano,
+            mes,
+            ano,
+            id
+        ]
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err)
+            resolve(results)
+        })
+    })
+}
+
+// Registrar la hora de inicio
+exports.horaInicio = async (id, fecha, hora) => {
+    return new Promise((resolve, reject) => {
+        const q = "INSERT INTO empleados_horas (id_user, fecha, hora_inicio) VALUES (?)";
+        const values = [
+            id,
+            fecha,
+            hora
+        ];
+        global.db.query(q, [values], (err, results) => {
+            if (err) reject(err)
+            resolve(results)
+        })
+    })
+}
+
+// Mostrar la hora de salida de un empleado
+exports.horaFin = async (id, fecha, horaFin) => {
+    return new Promise((resolve, reject) => {
+        const q = "UPDATE empleados_horas SET hora_fin = ? WHERE id_user = ? AND fecha = ?";
+        const values = [
+            horaFin,
+            id,
+            fecha
+        ];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err)
+            resolve(results)
+        })
+    })
+}
+
+// Mostrar las horas por dia de un empleado
+exports.horaDia = async (id, fecha) => {
+    return new Promise((resolve, reject) => {
+        const q = "SELECT * FROM empleados_horas WHERE id_user = ? AND fecha = ?";
+        const values = [
+            id,
+            fecha
+        ];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err)
+            resolve(results)
+        })
+    })
+}
+
+//Muestra las horas trabajadas por mes
+exports.horasPorMes = async (id, mes, ano) => {
+    return new Promise((resolve, reject) => {
+        const q = "SELECT SUM(HOUR(hora_fin) - HOUR(hora_inicio)) as horas from  empleados_horas WHERE MONTH(fecha) = ? AND YEAR(fecha) = ? AND id_user = ?";
+        const values = [
+            mes,
+            ano,
+            id
+        ];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err)
+            resolve(results)
+        })
     })
 }

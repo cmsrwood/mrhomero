@@ -1,13 +1,23 @@
+const { BadRequestError } = require('../errors/ExceptionErrors');
+
 const validateRecompensa = (req, res, next) => {
     const { nombre, puntos, foto } = req.body;
+
+    const err = [];
     if (!nombre) {
-        return res.status(400).json({ message: 'Falta rellenar el nombre' });
+        err.push('Falta paramétro: nombre');
     }
-    else if (!puntos) {
-        return res.status(400).json({ message: 'Faltan rellenar los puntos' });
+    if (!puntos) {
+        err.push('Falta paramétro: puntos');
     }
-    else if (!foto) {
-        return res.status(400).json({ message: 'Falta adjuntar una foto' });
+    if (isNaN(puntos)) {
+        err.push('El paramétro puntos debe ser un número');
+    }
+    if (!foto) {
+        err.push('Falta paramétro: foto');
+    }
+    if (err.length > 0) {
+        throw new BadRequestError(err);
     }
     next();
 }
