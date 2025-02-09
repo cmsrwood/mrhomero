@@ -20,6 +20,7 @@ exports.crearProveedor = async (req, res, next) => {
     }
 }
 
+// Controlador para actualizar un proveedor
 exports.actualizarProveedor = async (req, res, next) => {
     try {
         const response = await proveedoresServices.actualizarProveedor(req.params.id, req.body);
@@ -29,9 +30,10 @@ exports.actualizarProveedor = async (req, res, next) => {
     }
 }
 
-exports.borrarProveedor = async (req, res, next) => {
+// Controlador para eliminar un proveedor
+exports.eliminarProveedor = async (req, res, next) => {
     try {
-        const response = await proveedoresServices.borrarProveedor(req.params.id);
+        const response = await proveedoresServices.eliminarProveedor(req.params.id);
         res.status(200).json(response);
     } catch (error) {
         next(error);

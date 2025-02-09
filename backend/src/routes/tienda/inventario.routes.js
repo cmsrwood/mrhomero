@@ -17,6 +17,6 @@ router.post('/crear', validateInventario, invController.crearInventario);
 router.put('/actualizar/:id', validateInventario, invController.actualizarInventario);
 
 //Delete
-router.delete('/borrar/:id', invController.borrarProductoInventario);
+router.delete('/eliminar/:id', invController.eliminarProductoInventario);
 
 module.exports = router

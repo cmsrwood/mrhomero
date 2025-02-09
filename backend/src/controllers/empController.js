@@ -1,6 +1,6 @@
 const empServices = require('../services/empleadosServices');
 
-// Mostrar todos los empleado
+// Controlador para mostrar todos los empleado
 exports.mostrarEmpleados = async (req, res, next) => {
     try {
         const response = await empServices.mostrarEmpleados();
@@ -10,7 +10,7 @@ exports.mostrarEmpleados = async (req, res, next) => {
     }
 }
 
-// Mostrar un solo empleado
+// Controlador para mostrar un solo empleado
 exports.mostrarEmpleado = async (req, res, next) => {
     try {
         const response = await empServices.mostrarEmpleado(req.params.id);
@@ -20,7 +20,7 @@ exports.mostrarEmpleado = async (req, res, next) => {
     }
 }
 
-// Actualizar empleado
+// Controlador para actualizar empleado
 exports.actualizarEmpleado = async (req, res, next) => {
     try {
         const empleado = req.body;
@@ -31,18 +31,18 @@ exports.actualizarEmpleado = async (req, res, next) => {
     }
 }
 
-// Borrar empleado
-exports.borrarEmpleado = async (req, res, next) => {
+// Controlador para eliminar empleado
+exports.eliminarEmpleado = async (req, res, next) => {
     try {
         const idEmpleado = req.params.id
-        const response = await empServices.borrarEmpleado(idEmpleado);
+        const response = await empServices.eliminarEmpleado(idEmpleado);
         res.status(200).json(response);
     } catch (error) {
         next(error)
     }
 }
 
-// Mostrar las horas de un empleado
+// Controlador para mostrar las horas de un empleado
 exports.MostrarHorasEmpleadoMes = async (req, res, next) => {
     try {
         const mes = req.params.mes;
@@ -55,7 +55,7 @@ exports.MostrarHorasEmpleadoMes = async (req, res, next) => {
     }
 }
 
-// Mostrar la hora de inicio de un empleado
+// Controlador para mostrar la hora de inicio de un empleado
 exports.horaInicio = async (req, res, next) => {
     try {
         const idEmpleado = req.params.id;
@@ -68,7 +68,7 @@ exports.horaInicio = async (req, res, next) => {
     }
 }
 
-// Mostrar la hora de salida de un empleado
+// Controlador para mostrar la hora de salida de un empleado
 exports.horaFin = async (req, res, next) => {
     try {
         const idEmpleado = req.params.id;
@@ -81,7 +81,7 @@ exports.horaFin = async (req, res, next) => {
     }
 }
 
-
+// Controlador para mostrar las horas de un empleado
 exports.horasDia = async (req, res, next) => {
     try {
         const idEmpleado = req.params.id;
@@ -93,7 +93,7 @@ exports.horasDia = async (req, res, next) => {
     }
 }
 
-// Horas trabajadas por mes de un empleado
+// Controlador para mostrar las horas trabajadas por mes de un empleado
 exports.horasPorMes = async (req, res, next) => {
     try {
         const idEmpleado = req.params.id;
@@ -105,4 +105,3 @@ exports.horasPorMes = async (req, res, next) => {
         next(error)
     }
 }
-

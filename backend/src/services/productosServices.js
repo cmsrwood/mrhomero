@@ -9,7 +9,7 @@ exports.mostrarProductos = async () => {
 // Servicio para mostrar productos por categoria
 exports.mostrarProductosPorCategoria = async (id) => {
     const existe = await productosRepository.mostrarProductosPorCategoria(id);
-    if (existe.length <= 0) throw new NotFoundError('El producto no existe');
+    if (existe.length <= 0) throw new NotFoundError('La categoria no existe');
     return existe
 }
 

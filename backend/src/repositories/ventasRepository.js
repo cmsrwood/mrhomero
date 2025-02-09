@@ -245,8 +245,8 @@ exports.crearDetalleVenta = async (detalle) => {
     })
 }
 
-// Borrar venta
-exports.borrarVenta = async (id) => {
+// eliminar venta
+exports.eliminarVenta = async (id) => {
     return new Promise((resolve, reject) => {
         const q = `UPDATE ventas SET venta_estado = 0  WHERE id_venta = ?`;
         const values = [id];

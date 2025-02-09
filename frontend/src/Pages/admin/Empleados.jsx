@@ -108,9 +108,9 @@ export default function Empleados() {
       emp_foto_edit: empleado.user_foto
     });
   };
-  const borrarEmpleado = async (id) => {
+  const eliminaEmpleado = async (id) => {
     try {
-      const res = await axios.put(`${BACKEND_URL}/api/empleados/borrarEmpleado/${id}`);
+      const res = await axios.put(`${BACKEND_URL}/api/empleados/eliminaEmpleado/${id}`);
       if (res.status === 200) {
         Swal.fire('Empleado eliminado', res.data, 'success');
         setIsDataUpdated(true);
@@ -187,7 +187,7 @@ export default function Empleados() {
               </div>
               <div className="d-flex">
                 <button type="button" className="btn btn-warning ms-2 w-50" data-bs-toggle="modal" data-bs-target="#Gestionar" onClick={() => OpenEditModal(empleado)}><i className="bi bi-plus-circle"></i> Gestionar</button>
-                <button type="button" className="btn btn-danger ms-2 w-50" onClick={() => borrarEmpleado(empleado.id_user)}> <i className="bi bi-trash"></i> Eliminar </button>
+                <button type="button" className="btn btn-danger ms-2 w-50" onClick={() => eliminaEmpleado(empleado.id_user)}> <i className="bi bi-trash"></i> Eliminar </button>
               </div>
             </div>
           ))}

@@ -24,7 +24,7 @@ router.post('/crear', validateVenta, ventasController.crearVenta)
 router.post('/crearDetalleVenta', validateDetalleVenta, ventasController.crearDetalleVenta);
 
 // Put
-router.put('/borrar/:id', ventasController.borrarVenta);
+router.put('/eliminar/:id', ventasController.eliminarVenta);
 router.put('/restaurar/:id', ventasController.restaurarVenta);
 
 module.exports = router

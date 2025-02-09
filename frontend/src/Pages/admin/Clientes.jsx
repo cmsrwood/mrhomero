@@ -23,7 +23,7 @@ export default function Clientes() {
         fetchData();
     }, []);
 
-    useEffect(() => {       
+    useEffect(() => {
         if (isDataUpdated) {
             const fetchData = async () => {
                 try {
@@ -56,24 +56,24 @@ export default function Clientes() {
             );
         });
 
-    // Función para borrar cliente
-    const borrarCliente = async (id) => {
+    // Función para eliminar cliente
+    const eliminaCliente = async (id) => {
         try {
             const confirm = await Swal.fire({
-                title: '¿Estás seguro de borrar este cliente?',
+                title: '¿Estás seguro de eliminar este cliente?',
                 text: "El usuario sera inactivado",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, borrar'
+                confirmButtonText: 'Sí, eliminar'
             });
 
             if (!confirm.isConfirmed) {
                 return;
             }
 
-            const res = await axios.put(`${BACKEND_URL}/api/clientes/borrar/${id}`);
+            const res = await axios.put(`${BACKEND_URL}/api/clientes/eliminar/${id}`);
 
             if (res.status === 200) {
                 Swal.fire({
@@ -186,7 +186,7 @@ export default function Clientes() {
                                 </td>
                                 <td>
                                     {cliente.user_estado === 1
-                                        ? <button type="button" className="btn btn-danger" onClick={() => borrarCliente(cliente.id_user)} ><i className="bi bi-trash"></i></button>
+                                        ? <button type="button" className="btn btn-danger" onClick={() => eliminaCliente(cliente.id_user)} ><i className="bi bi-trash"></i></button>
                                         : <button type="button" className="btn btn-success" onClick={() => restaurarCliente(cliente.id_user)} ><i className="bi bi-arrow-counterclockwise"></i></button>}
                                 </td>
                             </tr>

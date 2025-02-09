@@ -1,4 +1,4 @@
-// Mostrar todos los proveedores
+// Repositorio para mostrar todos los proveedores
 exports.mostrarProveedores = async () => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM proveedores";
@@ -9,7 +9,7 @@ exports.mostrarProveedores = async () => {
     })
 }
 
-// Mostrar un proveedor
+// Repositorio para mostrar un proveedor
 exports.mostrarProveedor = async (id) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM proveedores WHERE id_proveedor = ?";
@@ -21,7 +21,7 @@ exports.mostrarProveedor = async (id) => {
     })
 }
 
-// Crear proveedor
+// Repositorio para crear proveedor
 exports.crearProveedor = async (proveedor) => {
     return new Promise((resolve, reject) => {
         const q = "INSERT INTO proveedores (`prov_nombre`, `prov_direccion`, `prov_contacto_nombre`, `prov_contacto_telefono`, `prov_contacto_email`) VALUES (?)";
@@ -43,7 +43,7 @@ exports.crearProveedor = async (proveedor) => {
     })
 }
 
-// Actualizar proveedor
+// Repositorio para actualizar proveedor
 exports.actualizarProveedor = async (id, proveedor) => {
     return new Promise((resolve, reject) => {
         const q = "UPDATE proveedores SET prov_nombre = ?, prov_direccion = ?, prov_contacto_nombre = ?, prov_contacto_telefono = ?, prov_contacto_email = ? WHERE id_proveedor = ?";
@@ -66,12 +66,12 @@ exports.actualizarProveedor = async (id, proveedor) => {
     })
 }
 
-// Borrar proveedor
-exports.borrarProveedor = async (id) => { 
-    return new Promise((resolve, reject) => { 
+// Repositorio para eliminar proveedor
+exports.eliminarProveedor = async (id) => {
+    return new Promise((resolve, reject) => {
         const q = "DELETE FROM proveedores WHERE id_proveedor = ?";
         const values = [id];
-        global.db.query(q, values, (err, results) => { 
+        global.db.query(q, values, (err, results) => {
             if (err) reject(err)
             resolve({
                 id: id,

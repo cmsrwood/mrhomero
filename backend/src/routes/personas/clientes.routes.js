@@ -10,7 +10,7 @@ router.get('/mostrarCuentaClientesUltimoMes', clienteController.mostrarCuentaCli
 
 // Put
 router.put('/agregarPuntos/:id', clienteController.agregarPuntos);
-router.put('/borrar/:id', clienteController.borrarCliente);
+router.put('/eliminar/:id', clienteController.eliminarCliente);
 router.put('/restaurar/:id', clienteController.restaurarCliente);
 router.put('/actualizar/:id', validateCliente, clienteController.actualizarCliente);
 

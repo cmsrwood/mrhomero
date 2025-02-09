@@ -109,21 +109,21 @@ export default function Inventario() {
   };
 
 
-  const borrarInventario = async (id) => {
+  const eliminaInventario = async (id) => {
     try {
       const confirm = await Swal.fire({
-        title: '¿Estas seguro de borrar este ingrediente?',
+        title: '¿Estas seguro de eliminar este ingrediente?',
         text: "No podrás revertir esta acción",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, borrar'
+        confirmButtonText: 'Sí, eliminar'
       });
       if (!confirm.isConfirmed) {
         return;
       }
-      const res = await axios.delete(`${BACKEND_URL}/api/inventario/borrar/${id}`);
+      const res = await axios.delete(`${BACKEND_URL}/api/inventario/eliminar/${id}`);
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',
@@ -285,7 +285,7 @@ export default function Inventario() {
                     <td className=''>
                       <div className="d-flex justify-content-betwee">
                         <button type="button" className="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#ModalEditProducto" onClick={() => openEditModal(ingrediente)}><i className="bi bi-pencil"></i></button>
-                        <button type="button" className="btn btn-danger" onClick={() => borrarInventario(ingrediente.id_producto_inv)}><i className="bi bi-trash"></i></button>
+                        <button type="button" className="btn btn-danger" onClick={() => eliminaInventario(ingrediente.id_producto_inv)}><i className="bi bi-trash"></i></button>
                       </div>
                     </td>
                   </tr>

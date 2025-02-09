@@ -1,4 +1,4 @@
-// Mostrar a todos los empleados
+// Repositorio para mostrar a todos los empleados
 exports.mostrarEmpleados = async () => {
     return new Promise((resolve, reject) => {
         const q = "SELECT id_user, user_nom, user_apels, user_email, user_tel, user_foto, DATE_FORMAT(user_fecha_registro, '%Y-%m-%d') AS user_fecha_registro FROM usuarios WHERE id_rol = 2";
@@ -9,7 +9,7 @@ exports.mostrarEmpleados = async () => {
     })
 }
 
-//Mostrar a un empleado por el ID
+// Repositorio para mostrar a un empleado por el ID
 exports.mostrarEmpleado = async (id) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT id_user, user_nom, user_apels, user_email, user_tel,user_foto, DATE_FORMAT(user_fecha_registro, '%Y-%m-%d') AS user_fecha_registro FROM usuarios WHERE id_rol = 2 AND id_user = ?";
@@ -21,7 +21,7 @@ exports.mostrarEmpleado = async (id) => {
     })
 }
 
-// Traer un usuario por su email
+// Repositorio para traer un usuario por su email
 exports.traerUsuarioPorEmail = async (email) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM usuarios WHERE user_email = ?";
@@ -33,7 +33,7 @@ exports.traerUsuarioPorEmail = async (email) => {
     })
 }
 
-// Pasar un usuario a un empleado
+// Repositorio para pasar un usuario a un empleado
 exports.actualizarEmpleado = async (empleado) => {
     return new Promise((resolve, reject) => {
         const q = "UPDATE usuarios SET id_rol = 2, user_nom = ?, user_apels = ?, user_email = ?, user_tel = ?, user_fecha_registro = ? WHERE user_email = ?";
@@ -54,8 +54,8 @@ exports.actualizarEmpleado = async (empleado) => {
     })
 }
 
-// Eliminar un empleado
-exports.borrarEmpleado = async (id) => {
+// Repositorio para eliminar un empleado
+exports.eliminarEmpleado = async (id) => {
     return new Promise((resolve, reject) => {
         const q = "UPDATE usuarios SET id_rol = 3  WHERE id_user = ?";
         const value = [
@@ -70,7 +70,7 @@ exports.borrarEmpleado = async (id) => {
     })
 }
 
-// Mostrar las horas de un empleado
+// Repositorio para mostrar las horas de un empleado
 exports.MostrarHorasEmpleadoMes = async (mes, ano, id) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT DATE_FORMAT(hora_inicio, ' %Y-%m-%d %H:%i:%s') AS hora_inicio, DATE_FORMAT(hora_fin, '%Y-%m-%d %H:%i:%s') AS hora_fin, fecha FROM empleados_horas WHERE MONTH(hora_inicio) = ? AND YEAR(hora_inicio) = ? AND MONTH(hora_fin) = ? AND YEAR(hora_fin) = ? AND id_user = ? GROUP BY fecha ORDER BY fecha;";
@@ -88,7 +88,7 @@ exports.MostrarHorasEmpleadoMes = async (mes, ano, id) => {
     })
 }
 
-// Registrar la hora de inicio
+// Repositorio para registrar la hora de inicio
 exports.horaInicio = async (id, fecha, hora) => {
     return new Promise((resolve, reject) => {
         const q = "INSERT INTO empleados_horas (id_user, fecha, hora_inicio) VALUES (?)";
@@ -104,7 +104,7 @@ exports.horaInicio = async (id, fecha, hora) => {
     })
 }
 
-// Mostrar la hora de salida de un empleado
+// Repositorio para mostrar la hora de salida de un empleado
 exports.horaFin = async (id, fecha, horaFin) => {
     return new Promise((resolve, reject) => {
         const q = "UPDATE empleados_horas SET hora_fin = ? WHERE id_user = ? AND fecha = ?";
@@ -120,7 +120,7 @@ exports.horaFin = async (id, fecha, horaFin) => {
     })
 }
 
-// Mostrar las horas por dia de un empleado
+// Repositorio para mostrar las horas por dia de un empleado
 exports.horaDia = async (id, fecha) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM empleados_horas WHERE id_user = ? AND fecha = ?";
@@ -135,7 +135,7 @@ exports.horaDia = async (id, fecha) => {
     })
 }
 
-//Muestra las horas trabajadas por mes
+// Repositorio para mostrar las horas trabajadas por mes
 exports.horasPorMes = async (id, mes, ano) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT SUM(HOUR(hora_fin) - HOUR(hora_inicio)) as horas from  empleados_horas WHERE MONTH(fecha) = ? AND YEAR(fecha) = ? AND id_user = ?";

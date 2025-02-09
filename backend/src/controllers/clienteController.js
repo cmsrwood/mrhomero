@@ -1,89 +1,81 @@
 const clientesServices = require('../services/clientesServices')
 
-exports.actualizarCliente = async (req, res, next) => {
+// Controlador para mostrar un solo cliente
+exports.mostrarCliente = async (req, res, next) => {
     try {
-        const response = await clientesServices.actualizarCliente(req.params.id, req.body);
+        const id = req.params.id;
+        const response = await clientesServices.mostrarCliente(id);
+        res.status(200).json(response);
+    } catch (err) {
+        next(err)
+    }
+
+};
+
+//Controlador para mostrar todos los clientes
+exports.mostrarClientes = async (req, res, next) => {
+    try {
+        const response = await clientesServices.mostrarClientes();
+        res.status(200).json(response);
+    } catch (error) {
+        next(error)
+    }
+};
+
+//Controlador para mostrar los clientes del ultimo mes
+exports.mostrarCuentaClientesUltimoMes = async (req, res,next) => {
+    try {
+        const response = await clientesServices.mostrarClientesUltimoMes();
+        res.status(200).json(response);
+    } catch (err) {
+        next(err)
+    }
+};
+
+
+
+// Controlador para agregar puntos
+exports.agregarPuntos = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const puntos = req.body.user_puntos;
+        const response = await clientesServices.agregarPuntos(id, puntos);
         res.status(200).json(response)
     } catch (err) {
         next(err)
     }
 };
 
-exports.mostrarClientes = async (req, res, next) => {
+// Controlador para actualizar un cliente
+exports.actualizarCliente = async (req, res, next) => {
     try {
-        const clientes = await clientesServices.mostrarClientes();
-        res.status(200).json(clientes);
-    } catch (error) {
-        next(error)
-    }
-};
-
-exports.mostrarCuentaClientesUltimoMes = (req, res) => {
-    db.query('SELECT * FROM usuarios WHERE id_rol = 3 AND MONTH(user_fecha_registro) = MONTH(CURRENT_DATE) AND YEAR(user_fecha_registro) = YEAR(CURRENT_DATE)', (err, results) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).json('Error en el servidor');
-        }
-        else {
-            return res.status(200).json(results);
-        }
-    });
-}
-
-exports.agregarPuntos = (req, res) => {
-    const id = req.params.id;
-    const puntos = req.body.puntos;
-
-    db.query('UPDATE usuarios SET user_puntos = user_puntos + ? WHERE id_user = ?', [puntos, id], (err, results) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).json('Error en el servidor');
-
-        }
-        else {
-            return res.status(200).json({
-                message: 'Puntos agregados exitosamente',
-            });
-        }
-    });
-}
-
-exports.borrarCliente = (req, res) => {
-    const id = req.params.id;
-
-    db.query('UPDATE usuarios SET user_estado = 0  WHERE id_user = ?', [id], (err, results) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).json('Error en el servidor');
-
-        }
-        else {
-            return res.status(200).json('Cliente eliminado exitosamente');
-        }
-    });
-}
-
-
-exports.restaurarCliente = (req, res) => {
-    const id = req.params.id;
-
-    db.query('UPDATE usuarios SET user_estado = 1  WHERE id_user = ?', [id], (err, results) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).json('Error en el servidor');
-
-        }
-        else {
-            return res.status(200).json('Cliente restaurado exitosamente');
-        }
-    });
-}
-exports.mostrarCliente = async (req, res, next) => {
-    try {
-        const response = await clientesServices.mostrarCliente(req.params.id);
-        res.status(200).json(response);
+        const id = req.params.id;
+        const cliente = req.body;
+        const response = await clientesServices.actualizarCliente(id, cliente);
+        res.status(200).json(response)
     } catch (err) {
         next(err)
     }
+};
 
+// Controlador para eliminar un cliente
+exports.eliminarCliente = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const response = await clientesServices.eliminarCliente(id);
+        res.status(200).json(response)
+    } catch (err) {
+        next(err)
+    }
+};
+
+// Controlador para restaurar un cliente
+exports.restaurarCliente = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const reponse = await clientesServices.restaurarCliente(id);
+        res.status(200).json(response)
+    } catch (err) {
+        next(err)
+    }
 };

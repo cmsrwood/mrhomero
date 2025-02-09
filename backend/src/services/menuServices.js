@@ -36,11 +36,11 @@ exports.actualizarCategoria = async (id, categoria) => {
 }
 
 //Servicio para eliminar una categoria
-exports.borrarCategoria = async (id) => {
+exports.eliminarCategoria = async (id) => {
     const existe = await this.mostrarCategoria(id)
     const verificarProductosPorCategoria = await menuRepository.verificarProductosPorCategoria(id);
     if (verificarProductosPorCategoria) throw new BadRequestError('Elimina los productos antes de eliminar la categoria');
     if (!existe) throw new NotFoundError('La categoria no existe');
-    const response = await menuRepository.borrarCategoria(id);
+    const response = await menuRepository.eliminarCategoria(id);
     return response
 }

@@ -1,6 +1,6 @@
 const ventasServices = require('../services/ventasServices');
 
-// Mostrar todas las ventas
+// Controlador para mostrar todas las ventas
 exports.mostrarVentas = async (req, res, next) => {
     try {
         const ventas = await ventasServices.mostrarVentas();
@@ -10,7 +10,7 @@ exports.mostrarVentas = async (req, res, next) => {
     }
 }
 
-// Mostrar una venta
+// Controlador para mostrar una venta
 exports.mostrarVenta = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -21,7 +21,7 @@ exports.mostrarVenta = async (req, res, next) => {
     }
 }
 
-// Mostrar compras de un cliente
+// Controlador para mostrar compras de un cliente
 exports.mostrarCompras = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -32,7 +32,7 @@ exports.mostrarCompras = async (req, res, next) => {
     }
 };
 
-// Mostrar detalles de una venta
+// Controlador para mostrar detalles de una venta
 exports.mostrarDetalleVenta = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -43,7 +43,7 @@ exports.mostrarDetalleVenta = async (req, res, next) => {
     }
 };
 
-// Mostrar productos mas vendidos
+// Controlador para mostrar productos mas vendidos
 exports.mostrarProductosMasVendidos = async (req, res, next) => {
     try {
         const ano = req.params.ano;
@@ -55,7 +55,7 @@ exports.mostrarProductosMasVendidos = async (req, res, next) => {
     }
 }
 
-// Mostrar productos mas vendidos por cliente
+// Controlador para mostrar productos mas vendidos por cliente
 exports.mostrarProductosMasCompradosPorCliente = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -66,7 +66,7 @@ exports.mostrarProductosMasCompradosPorCliente = async (req, res, next) => {
     }
 }
 
-// Mostrar productos mas vendidos por mes
+// Controlador para mostrar productos mas vendidos por mes
 exports.mostrarCuentaProductosVendidosPorMes = async (req, res, next) => {
     try {
         const ano = req.params.ano;
@@ -78,7 +78,7 @@ exports.mostrarCuentaProductosVendidosPorMes = async (req, res, next) => {
     }
 }
 
-// Mostrar ventas anuales
+// Controlador para mostrar ventas anuales
 exports.ventasAnuales = async (req, res, next) => {
     try {
         const ano = req.params.ano;
@@ -90,7 +90,7 @@ exports.ventasAnuales = async (req, res, next) => {
     }
 }
 
-// Mostrar ventas mensuales
+// Controlador para mostrar ventas mensuales
 exports.ventasMensuales = async (req, res, next) => {
     try {
         const ano = req.params.ano;
@@ -102,7 +102,7 @@ exports.ventasMensuales = async (req, res, next) => {
     }
 }
 
-// Generar PDF de ventas anuales
+// Controlador para generar PDF de ventas anuales
 exports.generarPDFVentasAnuales = async (req, res, next) => {
     try {
         const { ano } = req.params;
@@ -118,7 +118,7 @@ exports.generarPDFVentasAnuales = async (req, res, next) => {
     }
 };
 
-// Generar PDF de ventas mensuales
+// Controlador para generar PDF de ventas mensuales
 exports.generarPDFVentasMensuales = async (req, res, next) => {
     try {
         const { ano, mes } = req.params;
@@ -134,7 +134,7 @@ exports.generarPDFVentasMensuales = async (req, res, next) => {
     }
 };
 
-// Crear una venta
+// Controlador para crear una venta
 exports.crearVenta = async (req, res, next) => {
     try {
         const venta = req.body;
@@ -145,7 +145,7 @@ exports.crearVenta = async (req, res, next) => {
     }
 }
 
-// Crear un detalle de venta
+// Controlador para crear un detalle de venta
 exports.crearDetalleVenta = async (req, res, next) => {
     try {
         const detalleVenta = req.body;
@@ -156,18 +156,18 @@ exports.crearDetalleVenta = async (req, res, next) => {
     }
 }
 
-// Borrar una venta
-exports.borrarVenta = async (req, res, next) => {
+// Controlador para eliminar una venta
+exports.eliminarVenta = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const response = await ventasServices.borrarVenta(id);
+        const response = await ventasServices.eliminarVenta(id);
         return res.status(200).json(response);
     } catch (error) {
         next(error);
     }
 }
 
-// Restaurar una venta
+// Controlador para restaurar una venta
 exports.restaurarVenta = async (req, res, next) => {
     try {
         const id = req.params.id;

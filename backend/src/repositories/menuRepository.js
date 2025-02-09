@@ -1,5 +1,5 @@
 
-// Consulta todas las categorias
+// Repositorio para mostrar todas las categorias
 exports.mostrarCategorias = async () => {
     return new Promise((resolve, reject) => {
         const q = `SELECT * FROM categorias`;
@@ -10,7 +10,7 @@ exports.mostrarCategorias = async () => {
     })
 }
 
-// Consulta por categoria
+// Repositorio para mostrar una categoria
 exports.mostrarCategoria = async (id) => {
     return new Promise((resolve, reject) => {
         const q = `SELECT * FROM categorias WHERE id_categoria = ?`;
@@ -21,7 +21,7 @@ exports.mostrarCategoria = async (id) => {
     })
 }
 
-// Verificar si la categoria ya existe
+// Repositorio para verificar si la categoria ya existe
 exports.verificarNombre = async (categoria) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM categorias WHERE cat_nom = ?";
@@ -32,6 +32,7 @@ exports.verificarNombre = async (categoria) => {
     })
 }
 
+// Repositorio para verificar si la categoria tiene productos
 exports.verificarProductosPorCategoria = async (id) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM productos WHERE id_categoria = ?";
@@ -42,7 +43,7 @@ exports.verificarProductosPorCategoria = async (id) => {
     })
 }
 
-// Crear una nueva categoria
+// Repositorio para crear una categoria
 exports.crearCategoria = async (categoria) => {
     return new Promise((resolve, reject) => {
         const q = "INSERT INTO categorias (`cat_nom`, `cat_foto`) VALUES (?)";
@@ -58,7 +59,7 @@ exports.crearCategoria = async (categoria) => {
     })
 }
 
-// Actualizar una categoria
+// Repositorio para actualizar una categoria
 exports.actualizarCategoria = async (id, categoria) => {
     return new Promise((resolve, reject) => {
         const qUpdate = "UPDATE categorias SET cat_nom = ?, cat_foto = ? WHERE id_categoria = ?";
@@ -74,8 +75,8 @@ exports.actualizarCategoria = async (id, categoria) => {
     })
 }
 
-// Borrar una categoria
-exports.borrarCategoria = async (id) => {
+// Repositorio para eliminar una categoria
+exports.eliminarCategoria = async (id) => {
     return new Promise((resolve, reject) => {
         const q = "DELETE FROM categorias WHERE id_categoria = ?";
         global.db.query(q, [id], (err, results) => {

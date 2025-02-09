@@ -81,13 +81,13 @@ export default function MenuAdmin() {
   const deleteCategory = async (id) => {
     try {
       const confirm = await Swal.fire({
-        title: '¿Estas seguro de borrar esta categoría?',
+        title: '¿Estas seguro de eliminar esta categoría?',
         text: "No podrás revertir esta acción",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, borrar'
+        confirmButtonText: 'Sí, eliminar'
       });
       if (!confirm.isConfirmed) {
         return;

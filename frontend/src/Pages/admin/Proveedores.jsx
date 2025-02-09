@@ -129,21 +129,21 @@ export default function Proveedores() {
         });
     };
 
-    const borrar = async (id) => {
+    const eliminar = async (id) => {
         try {
             const confirm = await Swal.fire({
-                title: '¿Estas seguro de borrar este proveedor?',
+                title: '¿Estas seguro de eliminar este proveedor?',
                 text: "No podrás revertir esta acción",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, borrar'
+                confirmButtonText: 'Sí, eliminar'
             });
             if (!confirm.isConfirmed) {
                 return;
             }
-            const res = await axios.delete(`${BACKEND_URL}/api/proveedores/borrarProveedor/${id}`);
+            const res = await axios.delete(`${BACKEND_URL}/api/proveedores/eliminaProveedor/${id}`);
             if (res.status === 200) {
                 Swal.fire('Proveedor eliminado', res.data, 'success');
                 setIsDataUpdated(true);
@@ -226,7 +226,7 @@ export default function Proveedores() {
                             <td><a className='btn btn-success' href={`tel:${proveedor.prov_contacto_telefono}`}><i className='bi bi-telephone'></i> {proveedor.prov_contacto_telefono}</a></td>
                             <td>{proveedor.prov_contacto_email}</td>
                             <td><button className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditarProv" onClick={() => { OpenEditModal(proveedor) }}><i className="bi bi-pencil-square"></i></button></td>
-                            <td><button className="btn btn-danger" onClick={() => { borrar(proveedor.id_proveedor) }}><i className="bi bi-trash"></i></button></td>
+                            <td><button className="btn btn-danger" onClick={() => { eliminar(proveedor.id_proveedor) }}><i className="bi bi-trash"></i></button></td>
                         </tr>
                     ))}
                 </tbody>

@@ -1,7 +1,7 @@
 const empRepository = require('../repositories/empleadosRepository');
 const { NotFoundError } = require('../errors/ExceptionErrors');
 
-// Servicios para mostrar empleados
+// Servicio para mostrar empleados
 exports.mostrarEmpleados = async () => {
     const response = await empRepository.mostrarEmpleados();
     return response;
@@ -24,14 +24,14 @@ exports.actualizarEmpleado = async (empleado) => {
 }
 
 // Servicio para eliminar un empleado
-exports.borrarEmpleado = async (id) => {
+exports.eliminarEmpleado = async (id) => {
     const empleado = await empRepository.mostrarEmpleado(id);
     if (empleado.length <= 0) throw new NotFoundError('El empleado no existe');
-    const response = await empRepository.borrarEmpleado(id);
+    const response = await empRepository.eliminarEmpleado(id);
     return response;
 }
 
-// Servicios para mostrar las horas de un empleado
+// Servicio para mostrar las horas de un empleado
 exports.MostrarHorasEmpleadoMes = async (mes, ano, id) => {
     const empleado = await empRepository.mostrarEmpleado(id);
     if (empleado.length <= 0) throw new NotFoundError('El empleado no existe');
@@ -40,26 +40,26 @@ exports.MostrarHorasEmpleadoMes = async (mes, ano, id) => {
     return response;
 }
 
-// Servicios para mostrar las horas de un empleado
+// Servicio para mostrar las horas de un empleado
 exports.horaInicio = async (id, fecha, hora) => {
     const response = await empRepository.horaInicio(id, fecha, hora);
     return response;
 }
 
-// Servicios para mostrar la hora de salida de un empleado
+// Servicio para mostrar la hora de salida de un empleado
 exports.horaFin = async (id, fecha, horaFin) => {
     const response = await empRepository.horaFin(id, fecha, horaFin);
     return response;
 }
 
-// servicio para ver las hora por dia de un empleado
+// Servicio para ver las hora por dia de un empleado
 exports.horaDia = async (id, fecha) => {
     const response = await empRepository.horaDia(id, fecha);
     return response;
 }
 
 // Servicio para mostrar las horas trabajadaspor mes de un empleado
-exports.horasPorMes = async (id, mes, ano) => { 
+exports.horasPorMes = async (id, mes, ano) => {
     const response = await empRepository.horasPorMes(id, mes, ano);
     return response;
 }

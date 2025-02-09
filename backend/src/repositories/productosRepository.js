@@ -1,4 +1,4 @@
-// Mostrar todos los productos
+// Repositorio para mostrar todos los productos
 exports.mostrarProductos = async () => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM productos";
@@ -9,7 +9,7 @@ exports.mostrarProductos = async () => {
     })
 }
 
-// Mostrar los productos por categoria
+// Repositorio para mostrar los productos por categoria
 exports.mostrarProductosPorCategoria = async (id) => {
     return new Promise((resolve, reject) => {
         const q = `SELECT * FROM productos where id_categoria = ?`;
@@ -20,18 +20,18 @@ exports.mostrarProductosPorCategoria = async (id) => {
     })
 }
 
-// Mostrar un producto
+// Repositorio para mostrar un producto
 exports.mostrarProducto = async (id) => {
     return new Promise((resolve, reject) => {
         const q = `SELECT * FROM productos WHERE id_producto = ?`;
         global.db.query(q, [id], (err, results) => {
             if (err) reject(err)
-            resolve(results);
+            resolve(results[0]);
         });
     })
 }
 
-// Verificar si el nombre del producto ya existe
+// Repositorio para verificar si el nombre del producto ya existe
 exports.verificarNombre = async (nombre) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM productos WHERE pro_nom = ?";
@@ -42,7 +42,7 @@ exports.verificarNombre = async (nombre) => {
     })
 }
 
-// Crear un producto
+// Repositorio para crear un producto
 exports.crearProducto = async (producto) => {
     return new Promise((resolve, reject) => {
         const q = "INSERT INTO productos (`pro_nom`, `pro_desp`, `pro_precio`, `pro_foto`, `pro_puntos`, `id_categoria`) VALUES (?)";
@@ -66,8 +66,7 @@ exports.crearProducto = async (producto) => {
     })
 }
 
-// Actualizar un producto
-
+// Repositorio para actualizar un producto
 exports.actualizarProducto = async (id, producto) => {
     return new Promise((resolve, reject) => {
         const qUpdate = `UPDATE productos SET pro_nom = ?, pro_desp = ?, pro_precio = ?, pro_foto = ?, pro_puntos = ? WHERE id_producto = ?`;
@@ -90,14 +89,14 @@ exports.actualizarProducto = async (id, producto) => {
     })
 }
 
-// Eliminar un producto
+// Repositorio para eliminar un producto
 exports.eliminarProducto = async (id) => {
     return new Promise((resolve, reject) => {
         const q = "DELETE FROM productos WHERE id_producto = ?";
         global.db.query(q, [id], (err, results) => {
             if (err) reject(err)
             resolve({
-                message: "El producto se ha eliminado correctamente"
+                message: "El producto se ha borrado correctamente"
             })
         });
     })

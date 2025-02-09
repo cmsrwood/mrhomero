@@ -506,7 +506,7 @@ export default function Pedidos() {
                                 </div>
                                 <div className="d-flex justify-content-between">
                                   {/* Boton de eliminar cantidad de precio */}
-                                  <button className="btn btn-danger w-25" data-bs-dismiss="modal" onClick={handleClearInput}> Borrar</button>
+                                  <button className="btn btn-danger w-25" data-bs-dismiss="modal" onClick={handleClearInput}> eliminar</button>
                                   <button className="btn btn-primary w-25" data-bs-dismiss="modal" onClick={handleDeleteLastDigit}><i className="fa-solid fa-delete-left"></i></button>
                                 </div>
                                 {/* Botones de Cantidad de precio */}

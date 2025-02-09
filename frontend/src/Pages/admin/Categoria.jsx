@@ -33,19 +33,19 @@ export default function Categoria() {
     fetchData();
   }, [isDataUpdated, categoriaId]);
 
-  const borrarProducto = async (id) => {
+  const eliminarProducto = async (id) => {
     try {
       const confirm = await Swal.fire({
-        title: '¿Estás seguro de borrar este producto?',
+        title: '¿Estás seguro de eliminar este producto?',
         text: "No podrás revertir esta operación",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, borrar'
+        confirmButtonText: 'Sí, eliminar'
       });
       if (confirm.isConfirmed) {
-        const res = await axios.delete(`${BACKEND_URL}/api/productos/borrarProducto/${id}`);
+        const res = await axios.delete(`${BACKEND_URL}/api/productos/eliminarProducto/${id}`);
         if (res.status === 200) {
           Swal.fire('Producto eliminado', res.data, 'success');
           setIsDataUpdated(true);
@@ -258,9 +258,9 @@ export default function Categoria() {
                 <div className="col">
                   <button type="button" className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#EditarModal" onClick={() => openEditModal(producto)}><i className="bi bi-pencil-square"></i> Editar</button>
                 </div>
-                {/* Botón para borrar */}
+                {/* Botón para eliminar */}
                 <div className="col">
-                  <button type="button" className="btn btn-danger w-100" onClick={() => borrarProducto(producto.id_producto)}><i className="bi bi-trash"></i> Eliminar</button>
+                  <button type="button" className="btn btn-danger w-100" onClick={() => eliminarProducto(producto.id_producto)}><i className="bi bi-trash"></i> Eliminar</button>
                 </div>
               </div>
             </div>

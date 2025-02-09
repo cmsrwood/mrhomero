@@ -17,7 +17,7 @@ router.post('/horaFin/:id', validateId, empController.horaFin);
 
 // Put
 router.put('/actualizar', validateEmpleado, empController.actualizarEmpleado);
-router.put('/borrar/:id', validateId, empController.borrarEmpleado);
+router.put('/eliminar/:id', validateId, empController.eliminarEmpleado);
 
 
 module.exports = router;

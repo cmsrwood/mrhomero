@@ -57,23 +57,23 @@ export default function Ventas() {
         }
         );
 
-    const borrarVenta = async (id) => {
+    const eliminaVenta = async (id) => {
         try {
             const confirm = await Swal.fire({
-                title: '¿Estás seguro de borrar esta venta?',
+                title: '¿Estás seguro de eliminar esta venta?',
                 text: "La venta será eliminada",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, borrar'
+                confirmButtonText: 'Sí, eliminar'
             });
 
             if (!confirm.isConfirmed) {
                 return;
             }
 
-            const res = await axios.put(`${BACKEND_URL}/api/ventas/borrar/${id}`);
+            const res = await axios.put(`${BACKEND_URL}/api/ventas/eliminar/${id}`);
 
             if (res.status === 200) {
                 Swal.fire({
@@ -221,7 +221,7 @@ export default function Ventas() {
                                                 <i className='bi bi-eye'></i>
                                             </button>
                                             {venta.venta_estado === 1
-                                                ? <button type="button" className="btn btn-danger" onClick={() => borrarVenta(venta.id_venta)}><i className="bi bi-trash"></i></button>
+                                                ? <button type="button" className="btn btn-danger" onClick={() => eliminaVenta(venta.id_venta)}><i className="bi bi-trash"></i></button>
                                                 : <button type="button" className="btn btn-success" onClick={() => restaurarVenta(venta.id_venta)}><i className="bi bi-arrow-counterclockwise"></i></button>}
                                         </td>
                                     </tr>

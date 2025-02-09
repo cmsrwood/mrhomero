@@ -14,6 +14,6 @@ router.post('/crear', validateMenu, menuController.crearCategoria);
 router.put('/actualizar/:id', validateMenu, menuController.actualizarCategoria);
 
 // Delete
-router.delete('/borrar/:id', menuController.borrarCategoria);
+router.delete('/eliminar/:id', menuController.eliminarCategoria);
 
 module.exports = router

@@ -13,6 +13,6 @@ router.post('/crear', validateProveedor, provController.crearProveedor);
 router.put('/actualizar/:id', validateProveedor, provController.actualizarProveedor);
 
 //Delete
-router.delete('/borrar/:id', provController.borrarProveedor);
+router.delete('/eliminar/:id', provController.eliminarProveedor);
 
 module.exports = router

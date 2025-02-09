@@ -147,13 +147,13 @@ export default function RecompensasAdmin() {
   const eliminarRecompensa = async (id) => {
     try {
       const confirm = await Swal.fire({
-        title: '¿Estas seguro de borrar esta recompensa?',
+        title: '¿Estas seguro de eliminar esta recompensa?',
         text: "No podrás revertir estaacción",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, borrar'
+        confirmButtonText: 'Sí, eliminar'
       })
       if (!confirm.isConfirmed) {
         return;

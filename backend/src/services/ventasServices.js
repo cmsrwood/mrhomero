@@ -114,7 +114,7 @@ async function generarPDF(doc, ventas, ano, mes) {
     }
 }
 
-// Mostrar ventas
+// Servicios para mostrar ventas
 exports.mostrarVentas = async (ano, mes) => {
     const response = await ventasRepository.mostrarVentas(ano, mes);
     if (response.length <= 0)
@@ -122,14 +122,14 @@ exports.mostrarVentas = async (ano, mes) => {
     return response;
 };
 
-// Mostrar una venta
+// Servicios para mostrar una venta
 exports.mostrarVenta = async (id) => {
     const response = await ventasRepository.mostrarVenta(id);
     if (response.length <= 0) throw new NotFoundError(`No se encontraron ventas con el id: ${id}`);
     return response;
 };
 
-// Mostrar compras de un cliente
+// Servicios para mostrar compras de un cliente
 exports.mostrarCompras = async (id) => {
     const cliente = await clientesRepository.mostrarCliente(id);
     if (cliente.length <= 0) throw new NotFoundError('El cliente no existe');
@@ -140,7 +140,7 @@ exports.mostrarCompras = async (id) => {
     return response;
 };
 
-// Mostrar detalles de una venta
+// Servicios para mostrar detalles de una venta
 exports.mostrarDetalleVenta = async (id) => {
     const response = await ventasRepository.mostrarDetalleVenta(id);
     if (response.length <= 0)
@@ -148,7 +148,7 @@ exports.mostrarDetalleVenta = async (id) => {
     return response;
 };
 
-// Mostrar productos mas vendidos
+// Servicios para mostrar productos mas vendidos
 exports.mostrarProductosMasVendidos = async (ano, mes) => {
     const response = await ventasRepository.mostrarProductosMasVendidos(ano, mes);
     if (response.length <= 0)
@@ -156,7 +156,7 @@ exports.mostrarProductosMasVendidos = async (ano, mes) => {
     return response;
 };
 
-// Mostrar productos mas vendidos por cliente
+// Servicios para mostrar productos mas vendidos por cliente
 exports.mostrarProductosMasCompradosPorCliente = async (id) => {
     const existe = await clientesRepository.mostrarCliente(id);
     if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
@@ -166,7 +166,7 @@ exports.mostrarProductosMasCompradosPorCliente = async (id) => {
     return response;
 };
 
-// Mostrar productos mas vendidos por mes
+// Servicios para mostrar productos mas vendidos por mes
 exports.mostrarCuentaProductosVendidosPorMes = async (ano, mes) => {
     const response = await ventasRepository.mostrarCuentaProductosVendidosPorMes(ano, mes);
     if (response.cantidad <= 0)
@@ -174,7 +174,7 @@ exports.mostrarCuentaProductosVendidosPorMes = async (ano, mes) => {
     return response;
 };
 
-// Mostrar ventas anuales
+// Servicios para mostrar ventas anuales
 exports.VentasAnuales = async (ano, mes) => {
     const response = await ventasRepository.VentasAnuales(ano, mes);
     if (response.cantidad <= 0)
@@ -182,7 +182,7 @@ exports.VentasAnuales = async (ano, mes) => {
     return response;
 }
 
-// Mostrar ventas mensuales
+// Servicios para mostrar ventas mensuales
 exports.ventasMensuales = async (ano, mes) => {
     const response = await ventasRepository.ventasMensuales(ano, mes);
     if (response.length <= 0)
@@ -190,7 +190,7 @@ exports.ventasMensuales = async (ano, mes) => {
     return response;
 };
 
-// Generar PDF de ventas anuales
+// Servicios para generar PDF de ventas anuales
 exports.generarPDFVentasAnuales = async (ano) => {
     const ventas = await ventasRepository.generarPDFVentasAnual(ano);
     const doc = new pdfkitTable({ bufferPages: true });
@@ -198,7 +198,7 @@ exports.generarPDFVentasAnuales = async (ano) => {
     return doc;
 };
 
-// Generar PDF de ventas mensuales
+// Servicios para generar PDF de ventas mensuales
 exports.generarPDFVentasMensuales = async (ano, mes) => {
     const ventas = await ventasRepository.generarPDFVentasMensuales(ano, mes);
     const doc = new pdfkitTable({ bufferPages: true });
@@ -206,14 +206,14 @@ exports.generarPDFVentasMensuales = async (ano, mes) => {
     return doc;
 };
 
-// Crear una venta
+// Servicios para crear una venta
 exports.crearVenta = async (venta) => {
     const existe = await clientesRepository.mostrarCliente(venta.id_user);
     if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
     return await ventasRepository.crearVenta(venta);
 };
 
-// Crear un detalle de venta
+// Servicios para crear un detalle de venta
 exports.crearDetalleVenta = async (detalle_venta) => {
 
     const existeProducto = await productosRepository.mostrarProducto(detalle_venta.id_producto);
@@ -225,16 +225,16 @@ exports.crearDetalleVenta = async (detalle_venta) => {
     return await ventasRepository.crearDetalleVenta(detalle_venta);
 };
 
-// Borrar una venta
-exports.borrarVenta = async (id) => {
+// Servicios para eliminar una venta
+exports.eliminarVenta = async (id) => {
     const existe = await ventasRepository.mostrarVenta(id);
     if (existe.length <= 0) throw new NotFoundError('La venta no existe');
 
-    const response = await ventasRepository.borrarVenta(id);
+    const response = await ventasRepository.eliminarVenta(id);
     return response
 };
 
-// Restaurar una venta
+// Servicios para restaurar una venta
 exports.restaurarVenta = async (id) => {
     const existe = await ventasRepository.mostrarVenta(id);
     if (existe.length <= 0) throw new NotFoundError('La venta no existe');

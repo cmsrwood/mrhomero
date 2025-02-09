@@ -161,23 +161,23 @@ export default function RecompensasAdmin() {
   const eliminarRecompensa = async (id) => {
     try {
       const confirm = await Swal.fire({
-        title: '¿Estas seguro de borrar esta recompensa?',
+        title: '¿Estas seguro de eliminar esta recompensa?',
         text: "No podrás revertir estaacción",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, borrar'
+        confirmButtonText: 'Sí, eliminar'
       })
-      if(!confirm.isConfirmed) {
+      if (!confirm.isConfirmed) {
         return;
-    }
-    
-    const res = await axios.delete(`${BACKEND_URL}/api/recompensas/eliminarRecompensa/${id}`);
-    if (res.status === 200) {
-      Swal.fire('Exito', 'Recompensa eliminada correctamente', 'success');
-      setIsDataUpdated(true);
-    }
+      }
+
+      const res = await axios.delete(`${BACKEND_URL}/api/recompensas/eliminarRecompensa/${id}`);
+      if (res.status === 200) {
+        Swal.fire('Exito', 'Recompensa eliminada correctamente', 'success');
+        setIsDataUpdated(true);
+      }
     } catch (error) {
       console.log(error);
       Swal.fire('Error', error.response?.data || 'error');
@@ -264,7 +264,7 @@ export default function RecompensasAdmin() {
               <div className="conatiner">
                 <div className="row">
                   <div className="col-3 m-3 ps-3 pt-2">
-                      <img src={imagePreview ? imagePreview : `/images/recompensas/${editarRecompensa.foto_edit}`} className="img-fluid mb-3" alt="Imagen actual" height={100} />
+                    <img src={imagePreview ? imagePreview : `/images/recompensas/${editarRecompensa.foto_edit}`} className="img-fluid mb-3" alt="Imagen actual" height={100} />
                     <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='foto' name='foto' />
                   </div>
                   <div className="col">

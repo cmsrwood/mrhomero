@@ -1,6 +1,6 @@
 const recompensasServices = require('../services/recompensasServices');
 
-// Mostar todas las recompensas
+// Controlador para mostrar todas las recompensas
 exports.mostrarRecompensas = async (req, res, next) => {
     try {
         const response = await recompensasServices.mostrarRecompensas();
@@ -10,7 +10,7 @@ exports.mostrarRecompensas = async (req, res, next) => {
     }
 }
 
-// Mostrar una recompensa
+// Controlador para mostrar una recompensa
 exports.mostrarRecompensa = async (req, res, next) => {
     try {
         const response = await recompensasServices.mostrarRecompensa(req.params.id);
@@ -20,7 +20,7 @@ exports.mostrarRecompensa = async (req, res, next) => {
     }
 }
 
-// Mostrar recompensas obtenidas
+// Controlador para mostrar recompensas obtenidas
 exports.mostrarRecompensasObtenidas = async (req, res, next) => {
     try {
         const response = await recompensasServices.mostrarRecompensasObtenidas();
@@ -30,7 +30,7 @@ exports.mostrarRecompensasObtenidas = async (req, res, next) => {
     }
 }
 
-// Mostrar recompensas obtenidas por usuario
+// Controlador para mostrar recompensas obtenidas por usuario
 exports.mostrarRecompensasObtenidasPorUsuario = async (req, res, next) => {
     try {
         const response = await recompensasServices.mostrarRecompensasObtenidasPorUsuario(req.params.id);
@@ -40,7 +40,7 @@ exports.mostrarRecompensasObtenidasPorUsuario = async (req, res, next) => {
     }
 }
 
-// Mostrar puntos por usuario
+// Controlador para mostrar puntos por usuario
 exports.mostrarPuntos = async (req, res, next) => {
     try {
         const response = await recompensasServices.mostrarPuntos(req.params.id);
@@ -51,7 +51,7 @@ exports.mostrarPuntos = async (req, res, next) => {
     }
 }
 
-// Crear una nueva recompensa
+// Controlador para crear una nueva recompensa
 exports.crearRecompensa = async (req, res, next) => {
     try {
         const response = await recompensasServices.crearRecompensa(req.body)
@@ -61,7 +61,7 @@ exports.crearRecompensa = async (req, res, next) => {
     }
 }
 
-// Actualizar una recompensa
+// Controlador para actualizar una recompensa
 exports.actualizarRecompensa = async (req, res, next) => {
     try {
         const response = await recompensasServices.actualizarRecompensa(req.params.id, req.body);
@@ -71,7 +71,7 @@ exports.actualizarRecompensa = async (req, res, next) => {
     }
 }
 
-// Eliminar una recompensa
+// Controlador para eliminar una recompensa
 exports.eliminarRecompensa = async (req, res, next) => {
     try {
         const response = await recompensasServices.eliminarRecompensa(req.params.id);
@@ -81,7 +81,7 @@ exports.eliminarRecompensa = async (req, res, next) => {
     }
 }
 
-// Reclamar una recompensa
+// Controlador para reclamar una recompensa
 exports.reclamarRecompensa = async (req, res, next) => {
     try {
         const response = await recompensasServices.reclamarRecompensa(req.body.id_recompensa, req.params.id);
@@ -91,7 +91,7 @@ exports.reclamarRecompensa = async (req, res, next) => {
     }
 }
 
-// Validar recompensa
+// Controlador para validar recompensa
 exports.validarRecompensa = async (req, res, next) => {
     try {
         const response = await recompensasServices.validarRecompensa(req.params.id, req.body.codigo);

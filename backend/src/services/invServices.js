@@ -32,13 +32,13 @@ exports.actualizarInventario = async (id, inventario) => {
     return response
 }
 
-// Servicio para borrar un producto en el inventario
-exports.borrarProductoInventario = async (id) => {
+// Servicio para eliminar un producto en el inventario
+exports.eliminarProductoInventario = async (id) => {
     //se verifica si el producto existe
     const existe = await this.mostrarProductoInventario(id);
     if (existe.length <= 0) throw new NotFoundError('El producto no existe');
 
-    const response = await inventarioRepository.borrarProductoInventario(id);
+    const response = await inventarioRepository.eliminarProductoInventario(id);
     return response
 }
 

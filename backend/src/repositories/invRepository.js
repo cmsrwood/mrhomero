@@ -1,4 +1,4 @@
-//mostrar inventario
+// Repositorio para mostrar inventario
 exports.mostrarInventario = async () => {
     return new Promise((resolve, reject) => {
         const q = `SELECT 
@@ -16,7 +16,7 @@ exports.mostrarInventario = async () => {
     })
 }
 
-//Servicio para mostrar un producto del inventario
+// Repositorio para mostrar un producto del inventario
 exports.mostrarProductoInventario = async (id) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM `inventario` WHERE `id_producto_inv` = ?";
@@ -28,7 +28,7 @@ exports.mostrarProductoInventario = async (id) => {
     })
 }
 
-//Se verifica si el nombre del producto ya existe
+// Repositorio para verificar si el nombre del producto ya existe
 exports.verificarNombre = async (nombre) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM inventario WHERE inv_nombre = ?";
@@ -39,7 +39,7 @@ exports.verificarNombre = async (nombre) => {
     })
 }
 
-//Crear productos para el inventario
+// Repositorio para crear productos para el inventario
 exports.crearInventario = async (inventario) => {
     return new Promise((resolve, reject) => {
         const q = "INSERT INTO inventario (inv_nombre, id_categoria_inv, inv_cantidad, inv_fecha_ing, inv_fecha_cad, inv_cantidad_min, id_proveedor) VALUES (?)";
@@ -63,7 +63,7 @@ exports.crearInventario = async (inventario) => {
     })
 }
 
-//Actualizar productos del inventario
+// Repositorio para actualizar productos del inventario
 exports.actualizarInventario = async (id, inventario) => {
     return new Promise((resolve, reject) => {
         const q = "UPDATE inventario SET inv_nombre = ?, id_categoria_inv = ?, inv_cantidad = ?, inv_fecha_ing = ?, inv_fecha_cad = ?, inv_cantidad_min = ? , id_proveedor = ? WHERE id_producto_inv = ?";
@@ -88,8 +88,8 @@ exports.actualizarInventario = async (id, inventario) => {
     })
 }
 
-//Borrar productos del inventario
-exports.borrarProductoInventario = async (id) => {
+// Repositorio para eliminar productos del inventario
+exports.eliminarProductoInventario = async (id) => {
     return new Promise((resolve, reject) => {
         const q = "DELETE FROM inventario WHERE id_producto_inv = ?";
         const values = [id];
@@ -103,7 +103,7 @@ exports.borrarProductoInventario = async (id) => {
     })
 }
 
-//Mostrar categorias de los productos
+// Repositorio para mostrar categorias de los productos
 exports.mostrarCategorias = async () => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM categorias_inv";
@@ -114,7 +114,7 @@ exports.mostrarCategorias = async () => {
     })
 }
 
-//Mostrar proveedores de los productos
+// Repositorio para mostrar proveedores de los productos
 exports.mostrarProveedores = async () => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM proveedores";

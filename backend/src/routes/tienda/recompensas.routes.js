@@ -19,6 +19,6 @@ router.post('/reclamar/:id', recompensasController.reclamarRecompensa);
 router.put('/actualizar/:id', validateRecompensa, recompensasController.actualizarRecompensa);
 
 //Delete
-router.delete('/borrar/:id', recompensasController.eliminarRecompensa);
+router.delete('/eliminar/:id', recompensasController.eliminarRecompensa);
 
 module.exports = router
