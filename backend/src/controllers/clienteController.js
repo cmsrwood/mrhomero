@@ -73,7 +73,7 @@ exports.eliminarCliente = async (req, res, next) => {
 exports.restaurarCliente = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const reponse = await clientesServices.restaurarCliente(id);
+        const response = await clientesServices.restaurarCliente(id);
         res.status(200).json(response)
     } catch (err) {
         next(err)

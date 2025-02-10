@@ -18,7 +18,7 @@ exports.mostrarCliente = async (id) => {
 // Servicio para mostrar clientes del ultimo mes
 exports.mostrarClientesUltimoMes = async () => {
     const response = await clientesRepository.mostrarClientesUltimoMes();
-    if(response.length <= 0) throw new NotFoundError("No se encontraron clientes");
+    if (response.length <= 0) throw new NotFoundError("No se encontraron clientes");
     return response
 }
 
@@ -50,5 +50,6 @@ exports.restaurarCliente = async (id) => {
 exports.agregarPuntos = async (id, puntos) => {
     const existe = await this.mostrarCliente(id);
     if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
-    const response = await clientesRepository.agregarPuntos(id,punt)
+    const response = await clientesRepository.agregarPuntos(id, puntos)
+    return response
 }
