@@ -1,14 +1,18 @@
 // Repositorio para mostrar inventario
 exports.mostrarInventario = async () => {
     return new Promise((resolve, reject) => {
-        const q = `SELECT 
-            id_venta, 
-            DATE_FORMAT(venta_fecha, '%Y-%m-%d / %H:%i:%s') AS venta_fecha, 
-            id_user, 
-            venta_metodo_pago, 
-            venta_total,
-            venta_estado        
-        FROM ventas`;
+        const q = `
+        SELECT 
+            id_producto_inv, 
+            inv_nombre, 
+            id_categoria_inv, 
+            DATE_FORMAT(inv_fecha_ing, '%Y-%m-%d') AS inv_fecha_ing, 
+            DATE_FORMAT(inv_fecha_cad, '%Y-%m-%d') AS inv_fecha_cad, 
+            inv_cantidad, 
+            inv_cantidad_min, 
+            id_proveedor 
+        FROM inventario
+    `;
         global.db.query(q, (err, results) => {
             if (err) reject(err)
             resolve(results)
@@ -44,12 +48,12 @@ exports.crearInventario = async (inventario) => {
     return new Promise((resolve, reject) => {
         const q = "INSERT INTO inventario (inv_nombre, id_categoria_inv, inv_cantidad, inv_fecha_ing, inv_fecha_cad, inv_cantidad_min, id_proveedor) VALUES (?)";
         const values = [
-            inventario.nombre,
-            inventario.id_categoria,
-            inventario.cantidad,
-            inventario.fecha_ingreso,
-            inventario.fecha_caducidad,
-            inventario.cantidad_min,
+            inventario.inv_nombre,
+            inventario.id_categoria_inv,
+            inventario.inv_cantidad,
+            inventario.inv_fecha_ing,
+            inventario.inv_fecha_cad,
+            inventario.inv_cantidad_min,
             inventario.id_proveedor
         ];
         global.db.query(q, [values], (err, results) => {
@@ -57,7 +61,7 @@ exports.crearInventario = async (inventario) => {
             resolve({
                 id: results.insertId,
                 inventario: inventario,
-                message: "Se ha guardado con exito el producto."
+                message: "El producto se ha creado con exito."
             })
         })
     })
@@ -68,12 +72,12 @@ exports.actualizarInventario = async (id, inventario) => {
     return new Promise((resolve, reject) => {
         const q = "UPDATE inventario SET inv_nombre = ?, id_categoria_inv = ?, inv_cantidad = ?, inv_fecha_ing = ?, inv_fecha_cad = ?, inv_cantidad_min = ? , id_proveedor = ? WHERE id_producto_inv = ?";
         const values = [
-            inventario.nombre,
-            inventario.id_categoria,
-            inventario.cantidad,
-            inventario.fecha_ingreso,
-            inventario.fecha_caducidad,
-            inventario.cantidad_min,
+            inventario.inv_nombre,
+            inventario.id_categoria_inv,
+            inventario.inv_cantidad,
+            inventario.inv_fecha_ing,
+            inventario.inv_fecha_cad,
+            inventario.inv_cantidad_min,
             inventario.id_proveedor,
             id
         ];
@@ -82,7 +86,7 @@ exports.actualizarInventario = async (id, inventario) => {
             resolve({
                 id: inventario.id,
                 inventario: inventario,
-                message: "Se ha actualizado con exito el producto."
+                message: "El producto se ha actualizado con exito."
             })
         })
     })
@@ -97,7 +101,7 @@ exports.eliminarProductoInventario = async (id) => {
             if (err) reject(err)
             resolve({
                 id: id,
-                message: "Se ha eliminado con exito el producto."
+                message: "El producto se ha eliminado con exito."
             })
         })
     })
@@ -113,15 +117,3 @@ exports.mostrarCategorias = async () => {
         })
     })
 }
-
-// Repositorio para mostrar proveedores de los productos
-exports.mostrarProveedores = async () => {
-    return new Promise((resolve, reject) => {
-        const q = "SELECT * FROM proveedores";
-        global.db.query(q, (err, results) => {
-            if (err) reject(err)
-            resolve(results)
-        })
-    })
-}
-

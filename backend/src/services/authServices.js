@@ -7,6 +7,9 @@ const secret = process.env.JWT_SECRET || 'secret';
 const nodemailer = require('nodemailer');
 const moment = require('moment');
 
+const util = require('util');
+const verifyAsync = util.promisify(jwt.verify);
+
 // Configuración de transporte de nodemailer para enviar correos electrónicos
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -40,15 +43,16 @@ exports.ingresar = async (user) => {
     }
 }
 
+// Servicio para validar el token
 exports.validarToken = async (token) => {
-
-    jwt.verify(token, secret, (err, decoded) => {
-        if (err) {
-            console.error("Error al verificar el token:", err);
-            return res.status(401).json('Error al verificar el token');
-        }
-
-        return { token: token, rol: decoded.rol };
-    });
+    try {
+        const decoded = await verifyAsync(token, secret);
+        return {
+            rol: decoded.rol,
+            decoded: decoded
+        };
+    } catch (err) {
+        console.error("Error al verificar el token:", err);
+        throw new BadRequestError('Token inválido');
+    }
 };
-

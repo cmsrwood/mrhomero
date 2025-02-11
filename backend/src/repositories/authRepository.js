@@ -12,3 +12,26 @@ exports.ingresar = async (user) => {
         });
     });
 }
+
+exports.traerClientePorEmail = async (email) => {
+    return new Promise((resolve, reject) => {
+        const q = "SELECT * FROM usuarios WHERE user_email = ?";
+        const values = [
+            email
+        ];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err);
+            resolve(results);
+        });
+    });
+}
+
+exports.registrar = async (user) => {
+    return new Promise((resolve, reject) => {
+        const q = "INSERT INTO usuarios SET ?";
+        global.db.query(q, user, (err, results) => {
+            if (err) reject(err);
+            resolve(results);
+        });
+    });
+}

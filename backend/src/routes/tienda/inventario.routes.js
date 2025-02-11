@@ -7,8 +7,8 @@ const { validate } = require('uuid');
 //Get
 router.get('/', invController.mostrarInventario);
 router.get('/:id', invController.mostrarProductoInventario);
-router.get('/categorias', invController.mostrarCategorias);
-router.get('/proveedores', invController.mostrarProveedores);
+router.get('/categorias/mostrar', invController.mostrarCategorias);
+router.get('/proveedores/mostrar', invController.mostrarProveedores);
 
 //Post
 router.post('/crear', validateInventario, invController.crearInventario);

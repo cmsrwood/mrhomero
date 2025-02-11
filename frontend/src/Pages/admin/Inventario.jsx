@@ -21,9 +21,9 @@ export default function Inventario() {
     const fetchData = async () => {
       try {
         const [inventarioRes, categoriasRes, proveedoresRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/inventario/mostrar`),
-          axios.get(`${BACKEND_URL}/api/inventario/categorias`),
-          axios.get(`${BACKEND_URL}/api/inventario/proveedores`)
+          axios.get(`${BACKEND_URL}/api/tienda/inventario/`),
+          axios.get(`${BACKEND_URL}/api/tienda/inventario/categorias/mostrar`),
+          axios.get(`${BACKEND_URL}/api/tienda/inventario/proveedores/mostrar`)
         ]);
         setInventario(inventarioRes.data);
         setCategorias(categoriasRes.data);
@@ -66,12 +66,14 @@ export default function Inventario() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${BACKEND_URL}/api/inventario/crear`, ingrediente);
-      Swal.fire({
-        icon: 'success',
-        title: res.data,
-      });
+      const res = await axios.post(`${BACKEND_URL}/api/tienda/inventario/crear`, ingrediente);
+      console.log(ingrediente);
+
       if (res.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: res.data.message,
+        });
         setIsDataUpdated(true);
 
         // Resetear el formulario a valores vacíos después de crear el ingrediente
@@ -97,7 +99,7 @@ export default function Inventario() {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: err.response.data,
+        text: err.response.data.message,
       });
     }
   };
@@ -109,7 +111,7 @@ export default function Inventario() {
   };
 
 
-  const eliminaInventario = async (id) => {
+  const eliminarInventario = async (id) => {
     try {
       const confirm = await Swal.fire({
         title: '¿Estas seguro de eliminar este ingrediente?',
@@ -123,11 +125,11 @@ export default function Inventario() {
       if (!confirm.isConfirmed) {
         return;
       }
-      const res = await axios.delete(`${BACKEND_URL}/api/inventario/eliminar/${id}`);
+      const res = await axios.delete(`${BACKEND_URL}/api/tienda/inventario/eliminar/${id}`);
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',
-          title: res.data
+          title: res.data.message
         });
         setIsDataUpdated(true);
       }
@@ -136,7 +138,7 @@ export default function Inventario() {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: error.response.data
+        text: error.response.message
       });
     }
   };
@@ -153,11 +155,11 @@ export default function Inventario() {
         confirmButtonText: 'Sí, editar'
       });
       if (confirm.isConfirmed) {
-        const res = await axios.put(`${BACKEND_URL}/api/inventario/actualizar/${id}`, ingredienteEditar);
+        const res = await axios.put(`${BACKEND_URL}/api/tienda/inventario/actualizar/${id}`, ingredienteEditar);
         if (res.status === 200) {
           Swal.fire({
             icon: 'success',
-            title: res.data
+            title: res.data.message
           });
           setIsDataUpdated(true);
 
@@ -174,7 +176,7 @@ export default function Inventario() {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: error.response.data
+        text: error.response.data.message
       });
     }
   };
@@ -285,7 +287,7 @@ export default function Inventario() {
                     <td className=''>
                       <div className="d-flex justify-content-betwee">
                         <button type="button" className="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#ModalEditProducto" onClick={() => openEditModal(ingrediente)}><i className="bi bi-pencil"></i></button>
-                        <button type="button" className="btn btn-danger" onClick={() => eliminaInventario(ingrediente.id_producto_inv)}><i className="bi bi-trash"></i></button>
+                        <button type="button" className="btn btn-danger" onClick={() => eliminarInventario(ingrediente.id_producto_inv)}><i className="bi bi-trash"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -361,7 +363,6 @@ export default function Inventario() {
                         <option key={prov.id_proveedor} value={prov.id_proveedor}>{prov.prov_nombre}</option>
                       ))}
                     </select>
-
                   </div>
                 </form>
               </div>

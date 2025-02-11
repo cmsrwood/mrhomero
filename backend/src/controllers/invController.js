@@ -13,7 +13,8 @@ exports.mostrarInventario = async (req, res, next) => {
 // Controlador para mostrar un producto del inventario
 exports.mostrarProductoInventario = async (req, res, next) => {
     try {
-        const producto = await invServices.mostrarProductoInventario(req.params.id);
+        const id = req.params.id
+        const producto = await invServices.mostrarProductoInventario(id);
         res.status(200).json(producto)
     } catch (error) {
         next(error)
@@ -44,7 +45,8 @@ exports.mostrarProveedores = async (req, res, next) => {
 // Controlador para crear un producto en el inventario
 exports.crearInventario = async (req, res, next) => {
     try {
-        const response = await invServices.crearInventario(req.body);
+        const inventario = req.body
+        const response = await invServices.crearInventario(inventario);
         res.status(200).json(response);
     } catch (error) {
         next(error)
@@ -54,7 +56,9 @@ exports.crearInventario = async (req, res, next) => {
 // Controlador para actualizar un producto en el inventario
 exports.actualizarInventario = async (req, res, next) => {
     try {
-        const response = await invServices.actualizarInventario(req.params.id, req.body);
+        const id = req.params.id
+        const inventario = req.body
+        const response = await invServices.actualizarInventario(id, inventario);
         res.status(200).json(response);
     } catch (error) {
         next(error)
@@ -64,7 +68,8 @@ exports.actualizarInventario = async (req, res, next) => {
 // Controlador para eliminar un producto en el inventario
 exports.eliminarProductoInventario = async (req, res, next) => {
     try {
-        const response = await invServices.eliminarProductoInventario(req.params.id);
+        const id = req.params.id
+        const response = await invServices.eliminarProductoInventario(id);
         res.status(200).json(response);
     } catch (error) {
         next(error)

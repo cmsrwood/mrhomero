@@ -32,6 +32,7 @@ exports.validarToken = async (req, res, next) => {
     try {
         const token = req.headers.authorization?.split(" ")[1];
         const response = await authServices.validarToken(token);
+        req.user = response.decoded
         return res.status(200).json(response);
     } catch (error) {
         next(error)
