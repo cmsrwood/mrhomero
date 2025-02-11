@@ -16,58 +16,27 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-exports.ingresar = (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
+const authServices = require('../services/authServices');
 
-    if (!email || !password) {
-        return res.status(400).json('Por favor, ingrese email y contraseña');
+exports.ingresar = async (req, res, next) => {
+    try {
+        const user = req.body
+        const respose = await authServices.ingresar(user);
+        return res.status(200).json(respose);
+    } catch (error) {
+        next(error)
     }
-
-    // Buscar el usuario en la base de datos
-    db.query('SELECT * FROM usuarios WHERE user_email = ?', [email], (err, results) => {
-        if (err) {
-            console.error('Error en la consulta:', err);
-            return res.status(500).json('Error en el servidor');
-        }
-
-        if (results.length === 0) {
-            return res.status(400).json('Usuario no encontrado');
-        }
-
-        const user = results[0];
-
-        // Verificar la contraseña
-        if (bcrypt.compareSync(password, user.user_pass)) {
-            // Generar el token JWT
-            const token = jwt.sign({ id: user.id_user, rol: user.id_rol }, secret);
-
-            // Enviar el token y el rol de usuario
-            return res.status(200).json({ token: token, rol: user.id_rol, email: user.user_email });
-        } else {
-            //inicio de sesion incorrecto
-            return res.status(400).json('Contraseña incorrecta');
-        }
-    });
 };
 
-exports.validarToken = (req, res) => {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-        return res.status(403).json('Token no proporcionado');
+exports.validarToken = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization?.split(" ")[1];
+        const response = await authServices.validarToken(token);
+        return res.status(200).json(response);
+    } catch (error) {
+        next(error)
     }
-
-    jwt.verify(token, secret, (err, decoded) => {
-        if (err) {
-            console.error("Error al verificar el token:", err);
-            return res.status(401).json('Error al verificar el token');
-        }
-
-        req.user = decoded;
-        res.json({ rol: decoded.rol });
-    });
-};
+}
 
 exports.registrar = (req, res) => {
 
