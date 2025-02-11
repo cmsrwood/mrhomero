@@ -21,7 +21,7 @@ export default function Horas() {
     const fetchData = async () => {
       try {
         const [horasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/empleados/horasDia/${id}/${fecha}`),
+          axios.get(`${BACKEND_URL}/api/personas/empleados/horasDia/${id}/${fecha}`),
         ]);
         setHoras(horasRes.data);
       } catch (error) {
@@ -35,7 +35,7 @@ export default function Horas() {
   const agregarHoraInicio = async () => {
     const hora_inicio = moment().format('YYYY-MM-DD HH:mm:ss');
     try {
-      await axios.post(`${BACKEND_URL}/api/empleados/horaInicio/${id}`, { hora_inicio, fecha });
+      await axios.post(`${BACKEND_URL}/api/personas/empleados/horaInicio/${id}`, { hora_inicio, fecha });
       Swal.fire({
         icon: 'success',
         title: 'Hora de turno en progreso...',
@@ -50,7 +50,7 @@ export default function Horas() {
   const agregarHoraFin = async () => {
     const hora_fin = moment().format('YYYY-MM-DD HH:mm:ss');
     try {
-      await axios.post(`${BACKEND_URL}/api/empleados/horaFin/${id}`, { hora_fin, fecha });
+      await axios.post(`${BACKEND_URL}/api/personas/empleados/horaFin/${id}`, { hora_fin, fecha });
       Swal.fire({
         icon: 'success',
         title: 'Turno registrado, gracias por trabajar con nosotros.',

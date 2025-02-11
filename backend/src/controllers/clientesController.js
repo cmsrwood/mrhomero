@@ -23,9 +23,9 @@ exports.mostrarClientes = async (req, res, next) => {
 };
 
 //Controlador para mostrar los clientes del ultimo mes
-exports.mostrarCuentaClientesUltimoMes = async (req, res,next) => {
+exports.cuentaClientesUltimoMes = async (req, res, next) => {
     try {
-        const response = await clientesServices.mostrarClientesUltimoMes();
+        const response = await clientesServices.cuentaClientesUltimoMes();
         res.status(200).json(response);
     } catch (err) {
         next(err)

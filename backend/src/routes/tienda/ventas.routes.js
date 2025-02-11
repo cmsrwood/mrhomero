@@ -14,7 +14,7 @@ router.get('/detalle/:id', ventasController.mostrarDetalleVenta);
 router.get('/productosMasVendidos/:ano/:mes', validateAnoMes, ventasController.mostrarProductosMasVendidos);
 router.get('/productosMasCompradosPorCliente/:id', validateId, ventasController.mostrarProductosMasCompradosPorCliente);
 router.get('/cuentaProductosVendidosPorMes/:ano/:mes', validateAnoMes, ventasController.mostrarCuentaProductosVendidosPorMes);
-router.get('/ventasAnuales/:ano/:mes', validateAnoMes, ventasController.ventasAnuales);
+router.get('/cuentaVentasMes/:ano/:mes', validateAnoMes, ventasController.cuentaVentasMes);
 router.get('/ventasMensuales/:ano/:mes', validateAnoMes, ventasController.ventasMensuales);
 router.get('/reporte/:ano/:mes', validateAnoMes, ventasController.generarPDFVentasMensuales);
 router.get('/reporte/:ano', validateAno, ventasController.generarPDFVentasAnuales);

@@ -13,8 +13,6 @@ router.post('/crear', validateProducto, productosController.crearProducto);
 
 //Put
 router.put('/actualizar/:id', validateProducto, productosController.actualizarProducto);
-
-//Delete
-router.delete('/eliminar/:id', productosController.eliminarProducto);
+router.put('/eliminar/:id', productosController.eliminarProducto);
 
 module.exports = router;

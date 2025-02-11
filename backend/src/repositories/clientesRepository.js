@@ -21,11 +21,11 @@ exports.mostrarCliente = async (id) => {
     })
 }
 // Repositorio para mostrar clientes de la ultima semana
-exports.mostrarClientesUltimoMes = async () => {
-    return new Promise((resolve,reject) => {
+exports.cuentaClientesUltimoMes = async () => {
+    return new Promise((resolve, reject) => {
         const q = `SELECT * FROM usuarios WHERE id_rol = 3 AND MONTH(user_fecha_registro) = MONTH(CURRENT_DATE) AND YEAR(user_fecha_registro) = YEAR(CURRENT_DATE)`;
-        global.db.query(q, (err,results) => {
-            if(err) reject(err)
+        global.db.query(q, (err, results) => {
+            if (err) reject(err)
             resolve(results)
         });
     })
@@ -68,7 +68,7 @@ exports.actualizarCliente = async (id, cliente) => {
 exports.eliminarCliente = async (id) => {
     return new Promise((resolve, reject) => {
         const q = `UPDATE usuarios SET user_estado = 0  WHERE id_user = ?`;
-        global.db.query(q, (err, results) => {
+        global.db.query(q, [id], (err, results) => {
             if (err) reject(err);
             resolve({
                 message: "El cliente se ha borrado correctamente"
@@ -81,7 +81,7 @@ exports.eliminarCliente = async (id) => {
 exports.restaurarCliente = async (id) => {
     return new Promise((resolve, reject) => {
         const q = `UPDATE usuarios SET user_estado = 1  WHERE id_user = ?`;
-        global.db.query(q, (err, results) => {
+        global.db.query(q, [id], (err, results) => {
             if (err) reject(err);
             resolve({
                 message: " El cliente se ha restaurado correctamente "

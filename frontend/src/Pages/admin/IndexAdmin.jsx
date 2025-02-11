@@ -14,8 +14,8 @@ export default function IndexAdmin() {
     const fetchData = async () => {
       try {
         const [clientesRes, clientesUltimoMesRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/clientes/mostrar`),
-          axios.get(`${BACKEND_URL}/api/clientes/mostrarCuentaClientesUltimoMes`)
+          axios.get(`${BACKEND_URL}/api/personas/clientes/`),
+          axios.get(`${BACKEND_URL}/api/personas/clientes/reportes/cuentaClientesUltimoMes`)
         ]);
         setClientes(clientesRes.data);
         setClientesUltimoMes(clientesUltimoMesRes.data);

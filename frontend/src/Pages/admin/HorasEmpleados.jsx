@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios'
-import Gestionhoras from './Gestionhoras';
-import img from '../../assets/img/img.png'
+
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
-
-
-
 
 export default function HorasEmpleados() {
   const [empleados, setEmpleados] = useState([])
@@ -16,7 +12,7 @@ export default function HorasEmpleados() {
     const fetchData = async () => {
       try {
         const [empleadosRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/empleados/mostrarEmpleados`),
+          axios.get(`${BACKEND_URL}/api/personas/empleados/`),
         ]);
         setEmpleados(empleadosRes.data);
       } catch (error) {

@@ -16,7 +16,7 @@ exports.mostrarCategoria = async (id) => {
         const q = `SELECT * FROM categorias WHERE id_categoria = ?`;
         global.db.query(q, [id], (error, results) => {
             if (error) reject(error)
-            resolve(results)
+            resolve(results[0])
         });
     })
 }

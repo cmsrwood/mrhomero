@@ -3,7 +3,10 @@ const productosRepository = require('../repositories/productosRepository');
 
 // Servicio para mostrar todos los productos
 exports.mostrarProductos = async () => {
-    return await productosRepository.mostrarProductos();
+    const response = await productosRepository.mostrarProductos();
+
+    if (response.length <= 0) throw new NotFoundError('No se encontraron productos');
+    return response
 }
 
 // Servicio para mostrar productos por categoria

@@ -9,17 +9,6 @@ exports.mostrarProductos = async () => {
     })
 }
 
-// Repositorio para mostrar los productos por categoria
-exports.mostrarProductosPorCategoria = async (id) => {
-    return new Promise((resolve, reject) => {
-        const q = `SELECT * FROM productos where id_categoria = ?`;
-        global.db.query(q, [id], (err, results) => {
-            if (err) reject(err)
-            resolve(results)
-        });
-    })
-}
-
 // Repositorio para mostrar un producto
 exports.mostrarProducto = async (id) => {
     return new Promise((resolve, reject) => {
@@ -31,10 +20,21 @@ exports.mostrarProducto = async (id) => {
     })
 }
 
+// Repositorio para mostrar los productos por categoria
+exports.mostrarProductosPorCategoria = async (id) => {
+    return new Promise((resolve, reject) => {
+        const q = `SELECT * FROM productos where id_categoria = ?`;
+        global.db.query(q, [id], (err, results) => {
+            if (err) reject(err)
+            resolve(results)
+        });
+    })
+}
+
 // Repositorio para verificar si el nombre del producto ya existe
 exports.verificarNombre = async (nombre) => {
     return new Promise((resolve, reject) => {
-        const q = "SELECT * FROM productos WHERE pro_nom = ?";
+        const q = "SELECT * FROM productos WHERE pro_nom = ? AND pro_estado = 1";
         global.db.query(q, [nombre], (err, results) => {
             if (err) reject(err)
             resolve(results.length > 0);
@@ -92,7 +92,7 @@ exports.actualizarProducto = async (id, producto) => {
 // Repositorio para eliminar un producto
 exports.eliminarProducto = async (id) => {
     return new Promise((resolve, reject) => {
-        const q = "DELETE FROM productos WHERE id_producto = ?";
+        const q = "UPDATE productos SET pro_estado = 0 WHERE id_producto = ?";
         global.db.query(q, [id], (err, results) => {
             if (err) reject(err)
             resolve({

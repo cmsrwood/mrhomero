@@ -4,13 +4,13 @@ const { BadRequestError } = require('../errors/ExceptionErrors');
 const validateEmpleado = (req, res, next) => {
     const err = [];
     console.log(err)
-    const { nombre, apellido, email, telefono } = req.body;
+    const { nombre, apellidos, email, telefono } = req.body;
 
     if (!nombre) {
         err.push('Falta paramétro: nombre,');
     }
 
-    if (!apellido) {
+    if (!apellidos) {
         err.push('Falta paramétro: apellido,');
     }
 

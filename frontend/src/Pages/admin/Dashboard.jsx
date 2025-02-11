@@ -34,13 +34,13 @@ export default function Dashboard() {
     const fetchData = async () => {
       try {
         const [ventasRes, ventasMensualesRes, productosMasVendidosRes, productosVendidosPorMesRes, productosVendidosMesAnteriorRes, totalProductosVentasRes, totalProductosVentasMesAnteriorRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/ventas/mostrar`),
-          axios.get(`${BACKEND_URL}/api/ventas/mostrarVentasMensuales/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/ventas/mostrarProductosMasVendidos/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/ventas/mostrarCuentaProductosVendidosPorMes/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/ventas/mostrarCuentaProductosVendidosPorMes/${ano}/${mes - 1}`),
-          axios.get(`${BACKEND_URL}/api/ventas/mostrarVentasPorMes/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/ventas/mostrarVentasPorMes/${ano}/${mes - 1}`)
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/`),
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/ventasMensuales/${ano}/${mes}`),
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/mostrarProductosMasVendidos/${ano}/${mes}`),
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaProductosVendidosPorMes/${ano}/${mes}`),
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaProductosVendidosPorMes/${ano}/${mes - 1}`),
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaVentasMes/${ano}/${mes}`),
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaVentasMes/${ano}/${mes - 1}`)
         ]);
         setVentas(ventasRes.data);
         setVentasMensuales(ventasMensualesRes.data);

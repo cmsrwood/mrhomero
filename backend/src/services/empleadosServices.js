@@ -15,6 +15,17 @@ exports.mostrarEmpleado = async (id) => {
 }
 
 // Servicio para actualizar un empleado
+exports.crearEmpleado = async (empleado) => {
+    const empleadoEmail = await empRepository.traerUsuarioPorEmail(empleado.email);
+    if (empleadoEmail.length <= 0) throw new NotFoundError('Usuario no encontrado. Debe estar registrado en el sistema');
+
+    if (empleadoEmail[0].id_rol == 2) throw new NotFoundError('El email esta registrado como empleado');
+
+    const response = await empRepository.crearEmpleado(empleado);
+    return response
+}
+
+//Servicio para actualizar un empleado
 exports.actualizarEmpleado = async (empleado) => {
     const empleadoEmail = await empRepository.traerUsuarioPorEmail(empleado.email);
     if (empleadoEmail.length <= 0) throw new NotFoundError('Usuario no encontrado. Debe estar registrado en el sistema');
@@ -53,8 +64,8 @@ exports.horaFin = async (id, fecha, horaFin) => {
 }
 
 // Servicio para ver las hora por dia de un empleado
-exports.horaDia = async (id, fecha) => {
-    const response = await empRepository.horaDia(id, fecha);
+exports.horasDia = async (id, fecha) => {
+    const response = await empRepository.horasDia(id, fecha);
     return response;
 }
 

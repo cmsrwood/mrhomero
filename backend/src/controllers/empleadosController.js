@@ -21,9 +21,20 @@ exports.mostrarEmpleado = async (req, res, next) => {
 }
 
 // Controlador para actualizar empleado
-exports.actualizarEmpleado = async (req, res, next) => {
+exports.crearEmpleado = async (req, res, next) => {
     try {
         const empleado = req.body;
+        const response = await empServices.crearEmpleado(empleado);
+        res.status(200).json(response);
+    } catch (error) {
+        next(error)
+    }
+}
+
+// Controlador para actualizar empleado
+exports.actualizarEmpleado = async (req, res, next) => {
+    try {
+        const empleado = req.body
         const response = await empServices.actualizarEmpleado(empleado);
         res.status(200).json(response);
     } catch (error) {

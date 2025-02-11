@@ -14,14 +14,14 @@ export default function Categoria() {
   const [isDataUpdated, setIsDataUpdated] = useState(false);
   const [categoria, setCategoria] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
-
+  const [estadoFiltro, setEstadoFiltro] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [productosRes, categoriaRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/productos/mostrarProductos/${categoriaId}`),
-          axios.get(`${BACKEND_URL}/api/menu/mostrarCategoria/${categoriaId}`),
+          axios.get(`${BACKEND_URL}/api/tienda/productos/categoria/${categoriaId}`),
+          axios.get(`${BACKEND_URL}/api/tienda/categorias/${categoriaId}`),
         ]);
         setProductos(productosRes.data);
         setCategoria(categoriaRes.data);
@@ -32,6 +32,35 @@ export default function Categoria() {
     };
     fetchData();
   }, [isDataUpdated, categoriaId]);
+
+  // Función para restaurar cliente
+  const restaurarProducto = async (id) => {
+    try {
+      const confirm = await Swal.fire({
+        title: '¿Estás seguro de que desea restaurar este producto?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, restaurar'
+      });
+
+      if (!confirm.isConfirmed) {
+        return;
+      }
+
+      const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/restaurar/${id}`);
+      if (res.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: res.data
+        });
+        setIsDataUpdated(true);
+      }
+    } catch (error) {
+      console.error('Error al restaurar producto:', error);
+    }
+  };
 
   const eliminarProducto = async (id) => {
     try {
@@ -45,7 +74,7 @@ export default function Categoria() {
         confirmButtonText: 'Sí, eliminar'
       });
       if (confirm.isConfirmed) {
-        const res = await axios.delete(`${BACKEND_URL}/api/productos/eliminarProducto/${id}`);
+        const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/eliminar/${id}`);
         if (res.status === 200) {
           Swal.fire('Producto eliminado', res.data, 'success');
           setIsDataUpdated(true);
@@ -91,7 +120,7 @@ export default function Categoria() {
     formData.append('imagen', productoSubir.imagen);
 
     try {
-      const res = await axios.post(`${BACKEND_URL}/api/productos/crearProducto`, formData);
+      const res = await axios.post(`${BACKEND_URL}/api/tienda/productos/crear`, formData);
       if (res.status === 200) {
         Swal.fire({ icon: 'success', title: res.data.title, text: res.data.message });
         setProductoSubir({
@@ -155,7 +184,7 @@ export default function Categoria() {
     }
 
     try {
-      const res = await axios.put(`${BACKEND_URL}/api/productos/actualizarProducto/${id}`, formData);
+      const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/actualizar/${id}`, formData);
       if (res.status === 200) {
         Swal.fire('Producto editado', res.data, 'success');
         const modalElement = document.getElementById('EditarModal');
@@ -182,13 +211,45 @@ export default function Categoria() {
     });
   }
 
+  function filtrarProductosPorEstado(estado) {
+    setEstadoFiltro(estado);
+  }
+
+  const productosFiltrados = productos
+    .filter(producto => {
+      return estadoFiltro === null || producto.pro_estado === estadoFiltro;
+    });
+
   return (
     <div className="justify-content-between">
       <div className="d-flex justify-content-between mb-5">
         <h1>{categoria?.cat_nom}</h1>
-        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#AñadirModal">
-          <i className="bi bi-plus-circle"></i> Añadir producto
-        </button>
+
+        <div className="d-flex align-items-center">
+          <div className="col me-5">
+            {/* Dropdown para filtrar por estado */}
+            <div className="dropdown">
+              <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Estado
+              </button>
+              <ul className="dropdown-menu">
+                <li>
+                  <button className='btn w-100' onClick={() => filtrarProductosPorEstado(1)}>Activos</button>
+                </li>
+                <li>
+                  <button className='btn w-100' onClick={() => filtrarProductosPorEstado(0)}>Inactivos</button>
+                </li>
+                <li>
+                  <button className='btn w-100' onClick={() => filtrarProductosPorEstado(null)}>Todos</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#AñadirModal">
+            <i className="bi bi-plus-circle"></i> Añadir producto
+          </button>
+        </div>
+
       </div>
       {/* Modal para añadir */}
       <div className="modal fade" id="AñadirModal" tabIndex="-1" aria-labelledby="MenuModalLabel" aria-hidden="true">
@@ -235,10 +296,14 @@ export default function Categoria() {
         </div>
       </div>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
-        {productos.map((producto) => (
+        {productosFiltrados.map((producto) => (
           <div className="col my-2" key={producto.id_producto}>
             <div className="card text-center p-2">
-              <img src={`/images/menu/productos/${producto.pro_foto}`} height={200} className="card-img-top" alt="..." />
+              <span className={producto.pro_estado === 1 ? `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-success` : `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-danger`}>
+                {producto.pro_estado === 1 ? `Activo` : `Inactivo`}
+                <span className="visually-hidden">unread messages</span>
+              </span>
+              <img src={`/images/menu/productos/${producto.pro_foto}`} height={200} className="card-img-top position-relative" alt="..." />
               <div className="card-body">
                 <div className=" justify-content-between align-productos-center">
                   <h3 className="card-title">{producto.pro_nom}</h3>

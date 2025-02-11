@@ -175,8 +175,8 @@ exports.mostrarCuentaProductosVendidosPorMes = async (ano, mes) => {
 };
 
 // Servicios para mostrar ventas anuales
-exports.VentasAnuales = async (ano, mes) => {
-    const response = await ventasRepository.VentasAnuales(ano, mes);
+exports.cuentaVentasMes = async (ano, mes) => {
+    const response = await ventasRepository.cuentaVentasMes(ano, mes);
     if (response.cantidad <= 0)
         throw new NotFoundError(`No se encontraron productos vendidos en el mes de ${mesANombre(mes)} / ${ano}`);
     return response;

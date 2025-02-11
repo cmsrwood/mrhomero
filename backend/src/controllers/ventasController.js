@@ -79,11 +79,11 @@ exports.mostrarCuentaProductosVendidosPorMes = async (req, res, next) => {
 }
 
 // Controlador para mostrar ventas anuales
-exports.ventasAnuales = async (req, res, next) => {
+exports.cuentaVentasMes = async (req, res, next) => {
     try {
         const ano = req.params.ano;
         const mes = req.params.mes;
-        const response = await ventasServices.VentasAnuales(ano, mes);
+        const response = await ventasServices.cuentaVentasMes(ano, mes);
         return res.status(200).json(response);
     } catch (error) {
         next(error);

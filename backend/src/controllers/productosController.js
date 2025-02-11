@@ -13,7 +13,8 @@ exports.mostrarProductos = async (req, res, next) => {
 // Controlador para mostrar todos los productos por categoria
 exports.mostrarProductosPorcategoria = async (req, res, next) => {
     try {
-        const response = await productosServices.mostrarProductosPorCategoria(req.params.id);
+        const id = req.params.id
+        const response = await productosServices.mostrarProductosPorCategoria(id);
         res.status(200).json(response);
     } catch (error) {
         next(error)
@@ -23,7 +24,8 @@ exports.mostrarProductosPorcategoria = async (req, res, next) => {
 // Controlador para mostrar un solo producto
 exports.mostrarProducto = async (req, res, next) => {
     try {
-        const response = await productosServices.mostrarProducto(req.params.id);
+        const id = req.params.id
+        const response = await productosServices.mostrarProducto(id);
         res.status(200).json(response);
     } catch (error) {
         next(error)
@@ -45,7 +47,9 @@ exports.crearProducto = async (req, res) => {
 // Controlador para actualizar una categoría
 exports.actualizarProducto = async (req, res, next) => {
     try {
-        const response = await productosServices.actualizarProducto(req.params.id, req.body);
+        const id = req.params.id
+        const producto = req.body
+        const response = await productosServices.actualizarProducto(id, producto);
         res.status(200).json(response)
     } catch (error) {
         next(error)
@@ -55,7 +59,8 @@ exports.actualizarProducto = async (req, res, next) => {
 // Controlador para eliminar un producto
 exports.eliminarProducto = async (req, res, next) => {
     try {
-        const response = await productosServices.eliminarProducto(req.params.id);
+        const id = req.params.id
+        const response = await productosServices.eliminarProducto(id);
         res.status(200).json(response)
     } catch (error) {
         next(error)

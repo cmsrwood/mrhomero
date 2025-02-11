@@ -16,7 +16,7 @@ exports.mostrarEmpleado = async (id) => {
         const value = [id];
         global.db.query(q, value, (err, results) => {
             if (err) reject(err)
-            resolve(results)
+            resolve(results[0])
         })
     })
 }
@@ -33,13 +33,13 @@ exports.traerUsuarioPorEmail = async (email) => {
     })
 }
 
-// Repositorio para pasar un usuario a un empleado
-exports.actualizarEmpleado = async (empleado) => {
+// Repositorio para crear un empleado
+exports.crearEmpleado = async (empleado) => {
     return new Promise((resolve, reject) => {
         const q = "UPDATE usuarios SET id_rol = 2, user_nom = ?, user_apels = ?, user_email = ?, user_tel = ?, user_fecha_registro = ? WHERE user_email = ?";
         const values = [
             empleado.nombre,
-            empleado.apellido,
+            empleado.apellidos,
             empleado.email,
             empleado.telefono,
             empleado.registro,
@@ -49,6 +49,28 @@ exports.actualizarEmpleado = async (empleado) => {
             if (err) reject(err)
             resolve({
                 mesagge: "Empleado creado exitosamente",
+            })
+        })
+    })
+}
+
+exports.actualizarEmpleado = async (empleado) => {
+    return new Promise((resolve, reject) => {
+        const q = "UPDATE usuarios SET user_nom = ?, user_apels = ?, user_email = ?, user_tel = ?, user_fecha_registro = ? WHERE id_user = ?";
+        const values = [
+            empleado.nombre,
+            empleado.apellidos,
+            empleado.email,
+            empleado.telefono,
+            empleado.registro,
+            empleado.id
+        ];
+
+        console.log(values)
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err)
+            resolve({
+                mesagge: "Empleado actualizado exitosamente",
             })
         })
     })
@@ -121,7 +143,7 @@ exports.horaFin = async (id, fecha, horaFin) => {
 }
 
 // Repositorio para mostrar las horas por dia de un empleado
-exports.horaDia = async (id, fecha) => {
+exports.horasDia = async (id, fecha) => {
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM empleados_horas WHERE id_user = ? AND fecha = ?";
         const values = [
@@ -130,7 +152,7 @@ exports.horaDia = async (id, fecha) => {
         ];
         global.db.query(q, values, (err, results) => {
             if (err) reject(err)
-            resolve(results)
+            resolve(results[0])
         })
     })
 }

@@ -26,9 +26,9 @@ export default function Gestionhoras() {
         const fetchData = async () => {
             try {
                 const [horasRes, horasTotalesRes, empleadoRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/empleados/mostrarHorasEmpleadoMes/${id}/${ano}/${mes}`),
-                    axios.get(`${BACKEND_URL}/api/empleados/horasPorMes/${id}/${ano}/${mes}`),
-                    axios.get(`${BACKEND_URL}/api/empleados/mostrarEmpleadoId/${id}`),
+                    axios.get(`${BACKEND_URL}/api/personas/empleados/mostrarHorasMes/${id}/${ano}/${mes}`),
+                    axios.get(`${BACKEND_URL}/api/personas/empleados/horasPorMes/${id}/${ano}/${mes}`),
+                    axios.get(`${BACKEND_URL}/api/personas/empleados/${id}`),
 
                 ]);
                 setHoras(horasRes.data);

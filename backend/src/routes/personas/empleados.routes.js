@@ -1,23 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const empController = require('../../controllers/empController');
+const empleadosController = require('../../controllers/empleadosController');
 const { validateEmpleado } = require('../../middlewares/validateEmpleado');
 const { validateId } = require('../../middlewares/validateGeneral');
 
 // Get
-router.get('/', empController.mostrarEmpleados);
-router.get('/:id', validateId, empController.mostrarEmpleado);
-router.get('/horasPorMes/:id/:ano/:mes', empController.horasPorMes);
-router.get('/mostrarHorasMes/:id/:ano/:mes', validateId, empController.MostrarHorasEmpleadoMes);
-router.get('/horasDia/:id/:fecha', empController.horasDia);
+router.get('/', empleadosController.mostrarEmpleados);
+router.get('/:id', validateId, empleadosController.mostrarEmpleado);
+router.get('/horasPorMes/:id/:ano/:mes', empleadosController.horasPorMes);
+router.get('/mostrarHorasMes/:id/:ano/:mes', validateId, empleadosController.MostrarHorasEmpleadoMes);
+router.get('/horasDia/:id/:fecha', empleadosController.horasDia);
 
 // Post
-router.post('/horaInicio/:id', validateId, empController.horaInicio);
-router.post('/horaFin/:id', validateId, empController.horaFin);
+router.post('/horaInicio/:id', validateId, empleadosController.horaInicio);
+router.post('/horaFin/:id', validateId, empleadosController.horaFin);
 
 // Put
-router.put('/actualizar', validateEmpleado, empController.actualizarEmpleado);
-router.put('/eliminar/:id', validateId, empController.eliminarEmpleado);
+router.put('/crear', validateEmpleado, empleadosController.crearEmpleado);
+router.put('/actualizar/', validateEmpleado, empleadosController.actualizarEmpleado);
+router.put('/eliminar/:id', validateId, empleadosController.eliminarEmpleado);
 
 
 module.exports = router;

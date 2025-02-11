@@ -9,10 +9,11 @@ export default function Clientes() {
     const [searchTerm, setSearchTerms] = useState('');
     const [isDataUpdated, setIsDataUpdated] = useState(false);
     const [estadoFiltro, setEstadoFiltro] = useState(1);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`${BACKEND_URL}/api/clientes/mostrar`);
+                const res = await axios.get(`${BACKEND_URL}/api/personas/clientes/`);
                 setClientes(res.data);
                 setIsDataUpdated(false);
             } catch (error) {
@@ -21,22 +22,6 @@ export default function Clientes() {
         };
 
         fetchData();
-    }, []);
-
-    useEffect(() => {
-        if (isDataUpdated) {
-            const fetchData = async () => {
-                try {
-                    const res = await axios.get(`${BACKEND_URL}/api/clientes/mostrar`);
-                    setClientes(res.data);
-                    setIsDataUpdated(false);
-                } catch (error) {
-                    console.error('Error al obtener clientes actualizados:', error);
-                }
-            };
-
-            fetchData();
-        }
     }, [isDataUpdated]);
 
     function filtrarClientesPorEstado(estado) {
@@ -57,7 +42,7 @@ export default function Clientes() {
         });
 
     // Función para eliminar cliente
-    const eliminaCliente = async (id) => {
+    const eliminarCliente = async (id) => {
         try {
             const confirm = await Swal.fire({
                 title: '¿Estás seguro de eliminar este cliente?',
@@ -73,17 +58,20 @@ export default function Clientes() {
                 return;
             }
 
-            const res = await axios.put(`${BACKEND_URL}/api/clientes/eliminar/${id}`);
+            const res = await axios.put(`${BACKEND_URL}/api/personas/clientes/eliminar/${id}`);
 
             if (res.status === 200) {
                 Swal.fire({
                     icon: 'success',
-                    title: res.data
+                    title: res.data.message
                 });
                 setIsDataUpdated(true);
             }
         } catch (error) {
-            console.error('Error al eliminar cliente:', error);
+            console.log(error);
+            if (error.response) {
+                Swal.fire('Error', error.response.data, 'error');
+            }
         }
     };
 
@@ -103,11 +91,11 @@ export default function Clientes() {
                 return;
             }
 
-            const res = await axios.put(`${BACKEND_URL}/api/clientes/restaurar/${id}`);
+            const res = await axios.put(`${BACKEND_URL}/api/personas/clientes/restaurar/${id}`);
             if (res.status === 200) {
                 Swal.fire({
                     icon: 'success',
-                    title: res.data
+                    title: res.data.message
                 });
                 setIsDataUpdated(true);
             }
@@ -186,7 +174,7 @@ export default function Clientes() {
                                 </td>
                                 <td>
                                     {cliente.user_estado === 1
-                                        ? <button type="button" className="btn btn-danger" onClick={() => eliminaCliente(cliente.id_user)} ><i className="bi bi-trash"></i></button>
+                                        ? <button type="button" className="btn btn-danger" onClick={() => eliminarCliente(cliente.id_user)} ><i className="bi bi-trash"></i></button>
                                         : <button type="button" className="btn btn-success" onClick={() => restaurarCliente(cliente.id_user)} ><i className="bi bi-arrow-counterclockwise"></i></button>}
                                 </td>
                             </tr>

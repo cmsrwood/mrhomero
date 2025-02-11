@@ -122,7 +122,7 @@ exports.mostrarCuentaProductosVendidosPorMes = async (ano, mes) => {
 }
 
 // Mostrar cantidad y precio de ventas
-exports.VentasAnuales = async (ano, mes) => {
+exports.cuentaVentasMes = async (ano, mes) => {
     return new Promise((resolve, reject) => {
         const q = `SELECT
                 SUM(venta_total) AS total

@@ -12,12 +12,12 @@ exports.mostrarClientes = async () => {
 exports.mostrarCliente = async (id) => {
     const response = await clientesRepository.mostrarCliente(id);
     if (response.length <= 0) throw new NotFoundError("El cliente no existe");
-    return response
+    return response[0]
 }
 
 // Servicio para mostrar clientes del ultimo mes
-exports.mostrarClientesUltimoMes = async () => {
-    const response = await clientesRepository.mostrarClientesUltimoMes();
+exports.cuentaClientesUltimoMes = async () => {
+    const response = await clientesRepository.cuentaClientesUltimoMes();
     if (response.length <= 0) throw new NotFoundError("No se encontraron clientes");
     return response
 }
