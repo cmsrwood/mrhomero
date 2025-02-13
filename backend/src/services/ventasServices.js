@@ -198,13 +198,13 @@ exports.generarPDFVentasMensuales = async (ano, mes) => {
 
 // Servicios para crear una venta
 exports.crearVenta = async (venta, id_user) => {
-    
+
     if (id_user == null) {
         const response = await ventasRepository.crearVenta(venta, id_user);
         return response
     }
     else {
-        const existe = await clientesRepository.mostrarCliente(venta.id_cliente);
+        const existe = await clientesRepository.mostrarCliente(venta.id_user);
         if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
         const response = await ventasRepository.crearVenta(venta, id_user);
         return response

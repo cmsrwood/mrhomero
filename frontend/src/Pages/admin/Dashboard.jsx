@@ -38,11 +38,11 @@ export default function Dashboard() {
           axios.get(`${BACKEND_URL}/api/tienda/ventas/ventasMensuales/${ano}/${mes}`),
           axios.get(`${BACKEND_URL}/api/tienda/ventas/productosMasVendidos/${ano}/${mes}`),
           axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaProductosVendidosPorMes/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaProductosVendidosPorMes/${ano}/${mes - 1}`),
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaProductosVendidosPorMes/${mes - 1 <= 0 ? ano - 1 : ano}/${mes - 1 <= 0 ? 12 : mes - 1}`),
           axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaVentasMes/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaVentasMes/${ano}/${mes - 1}`)
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaVentasMes/${mes - 1 <= 0 ? ano - 1 : ano}/${mes - 1 <= 0 ? 12 : mes - 1}`),
         ]);
-        
+
         setVentas(ventasRes.data);
         setVentasMensuales(ventasMensualesRes.data);
         setProductosMasVendidos(productosMasVendidosRes.data);
