@@ -102,6 +102,8 @@ exports.ventasMensuales = async (req, res, next) => {
     }
 }
 
+
+
 // Controlador para generar PDF de ventas anuales
 exports.generarPDFVentasAnuales = async (req, res, next) => {
     try {
@@ -109,7 +111,7 @@ exports.generarPDFVentasAnuales = async (req, res, next) => {
         const doc = await ventasServices.generarPDFVentasAnuales(ano);
 
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'attachment; filename=reporte_ventas.pdf');
+        res.setHeader('Content-Disposition', `attachment; filename=reporte_ventas_${ano}.pdf`);
 
         doc.pipe(res);
 
@@ -125,7 +127,7 @@ exports.generarPDFVentasMensuales = async (req, res, next) => {
         const doc = await ventasServices.generarPDFVentasMensuales(ano, mes);
 
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'attachment; filename=reporte_ventas.pdf');
+        res.setHeader('Content-Disposition', `attachment; filename=reporte_ventas_${ano}_${mes}.pdf`);
 
         doc.pipe(res);
 
@@ -138,7 +140,7 @@ exports.generarPDFVentasMensuales = async (req, res, next) => {
 exports.crearVenta = async (req, res, next) => {
     try {
         const venta = req.body;
-        const id_user = req.body.id_user? req.body.id_user : null;
+        const id_user = req.body.id_user ? req.body.id_user : null;
         const response = await ventasServices.crearVenta(venta, id_user);
         res.status(200).json(response);
     } catch (error) {

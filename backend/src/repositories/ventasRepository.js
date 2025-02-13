@@ -4,7 +4,14 @@ const moment = require('moment');
 // Mostrar ventas
 exports.mostrarVentas = async () => {
     return new Promise((resolve, reject) => {
-        const q = `SELECT * FROM ventas`;
+        const q = `SELECT 
+            id_venta, 
+            DATE_FORMAT(venta_fecha, '%Y-%m-%d / %H:%i:%s') AS venta_fecha, 
+            id_user, 
+            venta_metodo_pago, 
+            venta_total,
+            venta_estado
+        FROM ventas`;
         global.db.query(q, (err, results) => {
             if (err) reject(err);
             resolve(results);
@@ -117,7 +124,7 @@ exports.mostrarCuentaProductosVendidosPorMes = async (ano, mes) => {
         const values = [ano, mes];
         global.db.query(q, values, (err, results) => {
             if (err) reject(err);
-            resolve(results[0]);
+            resolve(results);
         });
     })
 }

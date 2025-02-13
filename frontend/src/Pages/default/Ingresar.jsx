@@ -50,7 +50,7 @@ export default function Ingresar() {
         localStorage.setItem('token', token);
 
         Swal.fire({
-          title: 'Has iniciado sesión correctamente',
+          title: res.data.message,
           text: 'Bienvenido',
           icon: 'success',
           confirmButtonText: 'Continuar'
@@ -75,21 +75,7 @@ export default function Ingresar() {
       console.log(error);
       if (error.response) {
         Swal.fire({
-          title: error.response.data || 'Credenciales incorrectas',
-          icon: 'error',
-          confirmButtonText: 'Intentar de nuevo'
-        });
-      } else if (error.request) {
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.',
-          icon: 'error',
-          confirmButtonText: 'Intentar de nuevo'
-        });
-      } else {
-        Swal.fire({
-          title: 'Error',
-          text: 'Ocurrió un error al procesar tu solicitud.',
+          title: error.response.data.message,
           icon: 'error',
           confirmButtonText: 'Intentar de nuevo'
         });

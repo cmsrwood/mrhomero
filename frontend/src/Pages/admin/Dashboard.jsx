@@ -109,9 +109,9 @@ export default function Dashboard() {
         <select value={ano} onChange={handleAnoChange} name="ano" id="ano" className="form-select col-12 col-sm mx-2">
           <option value={anoActual}>{anoActual}</option>
           <option value={anoActual - 1}>{anoActual - 1}</option>
-          <option value={anoActual - 1}>{anoActual - 2}</option>
-          <option value={anoActual - 1}>{anoActual - 3}</option>
-          <option value={anoActual - 1}>{anoActual - 4}</option>
+          <option value={anoActual - 2}>{anoActual - 2}</option>
+          <option value={anoActual - 3}>{anoActual - 3}</option>
+          <option value={anoActual - 4}>{anoActual - 4}</option>
         </select>
         <select value={mes} onChange={handleMesChange} name="mes" id="mes" className="form-select col-12 col-sm mx-2">
           <option value="1">Enero</option>
@@ -134,7 +134,7 @@ export default function Dashboard() {
           <option value="anual">Anual</option>
           <option value="mensual">Mensual</option>
         </select>
-        <a className='btn btn-danger me-2' target="_blank" href={tipoDeReporte == 'anual' ? `${BACKEND_URL}/api/ventas/crearReporte/${ano}` : `${BACKEND_URL}/api/ventas/crearReporte/${ano}/${mes}`}><i className="bi bi-filetype-pdf"></i></a>
+        <a className={tipoDeReporte == '' ? 'btn btn-danger me-2 disabled' : 'btn btn-danger me-2'} target="_blank" href={tipoDeReporte == 'anual' ? `${BACKEND_URL}/api/tienda/ventas/reporte/${ano}` : `${BACKEND_URL}/api/tienda/ventas/reporte/${ano}/${mes}`}><i className="bi bi-filetype-pdf"></i></a>
       </div>
       <div className="row g-5 my-3">
         <div className="col-12 px-5 text-center justify-content-center">
@@ -142,14 +142,35 @@ export default function Dashboard() {
         </div>
         <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary text-center shadow">
           <h3 className='pt-4'>Productos vendidos por mes</h3>
-          <h4>{productosVendidosPorMes || 0} Unidades</h4>
-          <h4 className={`pb-4 ${porcentajeProductos < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeProductos <= 0 ? porcentajeProductos : '+' + porcentajeProductos || 0}% este mes</h4>
+          {
+            productosVendidosPorMes == null ?
+              <div>
+                <h4 className='text-warning'>{productosVendidosPorMes || 0} Unidades</h4>
+                <h4 className='text-center pb-4'>No hay ventas en este mes</h4>
+              </div>
+              :
+              <div>
+                <h4>{productosVendidosPorMes || 0} Unidades</h4>
+                <h4 className={`pb-4 ${porcentajeProductos < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeProductos <= 0 ? porcentajeProductos : '+' + porcentajeProductos || 0}% este mes</h4>
+              </div>
+          }
+
         </div>
         <div className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center shadow">
           <h3 className='pt-4'>Total ventas por mes</h3>
+          {
+            productosVentas == null ?
+              <div>
+                <h4 className='text-warning'>COP ${productosVentas || 0}</h4>
+                <h4 className='text-center pb-4'>No hay ventas en este mes</h4>
+              </div>
+              :
+              <div>
+                <h4>COP <NumericFormat value={productosVentas || 0} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={'$'} /></h4>
+                <h4 className={`pb-4 ${porcentajeTotal < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeTotal <= 0 ? porcentajeTotal : '+' + porcentajeTotal || 0}% este mes </h4>
+              </div>
 
-          <h4>COP <NumericFormat value={productosVentas || 0} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={'$'} /></h4>
-          <h4 className={`pb-4 ${porcentajeTotal < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeTotal <= 0 ? porcentajeTotal : '+' + porcentajeTotal || 0}% este mes </h4>
+          }
         </div>
       </div>
       <div className="container border border-2 border-secondary my-5 p-4 shadow">

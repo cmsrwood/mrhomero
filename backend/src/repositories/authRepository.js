@@ -2,7 +2,7 @@
 
 exports.ingresar = async (user) => {
     return new Promise((resolve, reject) => {
-        const q = "SELECT * FROM usuarios WHERE user_email = ? AND user_estado = 1";
+        const q = "SELECT * FROM usuarios WHERE user_email = ?";
         const values = [
             user.email
         ];

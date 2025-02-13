@@ -30,6 +30,8 @@ exports.ingresar = async (user) => {
 
     const usuario = response[0]
 
+    if (usuario.user_estado == 0) throw new BadRequestError('El usuario se encuentra inactivo');
+
     if (bcrypt.compareSync(user.password, usuario.user_pass)) {
 
         // Generar el token JWT
