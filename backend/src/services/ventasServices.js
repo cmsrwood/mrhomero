@@ -117,8 +117,6 @@ async function generarPDF(doc, ventas, ano, mes) {
 // Servicios para mostrar ventas
 exports.mostrarVentas = async (ano, mes) => {
     const response = await ventasRepository.mostrarVentas(ano, mes);
-    if (response.length <= 0)
-        throw new NotFoundError(`No se encontraron ventas en el mes de ${mesANombre(mes)} / ${ano}`);
     return response;
 };
 
@@ -151,8 +149,6 @@ exports.mostrarDetalleVenta = async (id) => {
 // Servicios para mostrar productos mas vendidos
 exports.mostrarProductosMasVendidos = async (ano, mes) => {
     const response = await ventasRepository.mostrarProductosMasVendidos(ano, mes);
-    if (response.length <= 0)
-        throw new NotFoundError(`No se encontraron productos vendidos en el mes de ${mesANombre(mes)} / ${ano}`);
     return response;
 };
 
@@ -181,8 +177,6 @@ exports.cuentaVentasMes = async (ano, mes) => {
 // Servicios para mostrar ventas mensuales
 exports.ventasMensuales = async (ano, mes) => {
     const response = await ventasRepository.ventasMensuales(ano, mes);
-    if (response.length <= 0)
-        throw new NotFoundError(`No se encontraron ventas en el mes de ${mesANombre(mes)} / ${ano}`);
     return response;
 };
 

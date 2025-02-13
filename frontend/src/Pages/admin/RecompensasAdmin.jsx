@@ -40,8 +40,12 @@ export default function RecompensasAdmin() {
   })
 
   const handleFileChange = (e) => {
-    setRecompensa({ ...recompensa, foto: e.target.files[0] });
-    setImagePreview(URL.createObjectURL(e.target.files[0]));
+    const file = e.target.files[0];
+    if (file) {
+      setRecompensa({ ...recompensa, foto: file.name });
+      setImagePreview(URL.createObjectURL(file));
+    }
+
   }
 
   const handleInputChange = (e) => {
@@ -49,15 +53,12 @@ export default function RecompensasAdmin() {
   }
 
   const handleSubmit = async () => {
-    const formData = new FormData();
-    formData.append('recompensa_nombre', recompensa.nombre);
-    formData.append('recompensa_descripcion', recompensa.descripcion);
-    formData.append('recomp_num_puntos', recompensa.puntos);
-    formData.append('foto', recompensa.foto);
-
     try {
-      const res = await axios.post(`${BACKEND_URL}/api/recompensas/crearRecompensa`, formData);
-      Swal.fire('Exito', 'Recompensa agregada correctamente', 'success');
+      const res = await axios.post(`${BACKEND_URL}/api/tienda/recompensas/crear`, recompensa);
+      Swal.fire({
+        icon: 'success',
+        title: res.data.message
+      });
       if (res.status === 200) {
         setIsDataUpdated(true);
         setRecompensa({
@@ -92,15 +93,19 @@ export default function RecompensasAdmin() {
   //Editar recompensa
   const [editarRecompensa, setEditarRecompensa] = useState({
     id: '',
-    nombre_edit: '',
-    descripcion_edit: '',
-    puntos_edit: '',
-    foto_edit: null
+    nombre: '',
+    descripcion: '',
+    puntos: '',
+    foto: null
   })
 
   const handleFileChangeEdit = (e) => {
-    setEditarRecompensa({ ...editarRecompensa, foto_edit: e.target.files[0] })
-    setImagePreview(URL.createObjectURL(e.target.files[0]));
+    const file = e.target.files[0];
+    if (file) {
+      setEditarRecompensa({ ...editarRecompensa, foto_edit: file.name });
+      setImagePreview(URL.createObjectURL(file));
+    }
+
   }
 
   const handleInputChangeEdit = (e) => {
@@ -108,19 +113,13 @@ export default function RecompensasAdmin() {
   }
 
   const handleEdit = async (id) => {
-    const formData = new FormData();
-    formData.append('recompensa_nombre', editarRecompensa.nombre_edit);
-    formData.append('recompensa_descripcion', editarRecompensa.descripcion_edit);
-    formData.append('recomp_num_puntos', editarRecompensa.puntos_edit);
-
-    if (editarRecompensa.foto_edit) {
-      formData.append('foto', editarRecompensa.foto_edit);
-    }
-
     try {
-      const res = await axios.put(`${BACKEND_URL}/api/recompensas/actualizarRecompensa/${id}`, formData);
+      const res = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/actualizar/${id}`, editarRecompensa);
       if (res.status === 200) {
-        Swal.fire('Exito', 'Recompensa editada correctamente', 'success');
+        Swal.fire({
+          icon: 'success',
+          title: res.data.message
+        });
         const modalElement = document.getElementById('recompensaEditarModal');
         let modalInstance = bootstrap.Modal.getInstance(modalElement);
         modalInstance.hide();
@@ -136,10 +135,10 @@ export default function RecompensasAdmin() {
   function openEditModal(recompensa) {
     setEditarRecompensa({
       id: recompensa.id_recomp,
-      nombre_edit: recompensa.recompensa_nombre,
-      descripcion_edit: recompensa.recompensa_descripcion,
-      puntos_edit: recompensa.recomp_num_puntos,
-      foto_edit: recompensa.recomp_foto
+      nombre: recompensa.recompensa_nombre,
+      descripcion: recompensa.recompensa_descripcion,
+      puntos: recompensa.recomp_num_puntos,
+      foto: recompensa.recomp_foto
     });
   }
 
@@ -159,9 +158,12 @@ export default function RecompensasAdmin() {
         return;
       }
 
-      const res = await axios.delete(`${BACKEND_URL}/api/recompensas/eliminarRecompensa/${id}`);
+      const res = await axios.delete(`${BACKEND_URL}/api/tienda/recompensas/eliminar/${id}`);
       if (res.status === 200) {
-        Swal.fire('Exito', 'Recompensa eliminada correctamente', 'success');
+        Swal.fire({
+          icon: 'success',
+          title: res.data.message
+        });
         setIsDataUpdated(true);
       }
     } catch (error) {
@@ -251,19 +253,19 @@ export default function RecompensasAdmin() {
                 <div className="row">
                   <div className="col-3 m-3 ps-3 pt-2">
                     {editarRecompensa.foto_edit ? (
-                      <img src={imagePreview ? imagePreview : `/images/recompensas/${editarRecompensa.foto_edit}`} className="img-fluid mb-3 h-75" alt="Imagen actual" height={100} />
+                      <img src={imagePreview ? imagePreview : `/images/recompensas/${editarRecompensa.foto}`} className="img-fluid mb-3 h-75" alt="Imagen actual" height={100} />
                     ) : null}
                     <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='foto' name='foto' />
                   </div>
                   <div className="col">
                     <label htmlFor="floatingInput">Nombre</label>
-                    <input type="text" className="form-control my-2" name='nombre_edit' onChange={handleInputChangeEdit} value={editarRecompensa.nombre_edit} placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1"></input>
+                    <input type="text" className="form-control my-2" name='nombre' onChange={handleInputChangeEdit} value={editarRecompensa.nombre} placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1"></input>
 
                     <label htmlFor="floatingInput">Puntos</label>
-                    <input type="number" className="form-control my-2" name='puntos_edit' onChange={handleInputChangeEdit} value={editarRecompensa.puntos_edit} placeholder="Puntos" aria-label="Username" aria-describedby="basic-addon1" ></input>
+                    <input type="number" className="form-control my-2" name='puntos' onChange={handleInputChangeEdit} value={editarRecompensa.puntos} placeholder="Puntos" aria-label="Username" aria-describedby="basic-addon1" ></input>
 
                     <label htmlFor="floatingInput">Descripción</label>
-                    <textarea className='form-control' name='descripcion_edit' onChange={handleInputChangeEdit} value={editarRecompensa.descripcion_edit} id="descripcion" placeholder='Inserte la descripcion' ></textarea>
+                    <textarea className='form-control' name='descripcion' onChange={handleInputChangeEdit} value={editarRecompensa.descripcion} id="descripcion" placeholder='Inserte la descripcion' ></textarea>
                   </div>
                 </div>
               </div>
