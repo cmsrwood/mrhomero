@@ -9,7 +9,7 @@ export default function CategoriaMenu() {
 
     const token = localStorage.getItem('token');
     const rol = token ? JSON.parse(atob(token.split(".")[1])).rol : 0;
-    
+
     const location = useLocation();
     const categoriaId = token ? location.pathname.split("/")[3] : location.pathname.split("/")[2];
 
@@ -32,8 +32,8 @@ export default function CategoriaMenu() {
         const fetchData = async () => {
             try {
                 const [productosRes, categoriaRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/productos/mostrarProductos/${categoriaId}`),
-                    axios.get(`${BACKEND_URL}/api/menu/mostrarCategoria/${categoriaId}`),
+                    axios.get(`${BACKEND_URL}/api/tienda/productos/categoria/${categoriaId}`),
+                    axios.get(`${BACKEND_URL}/api/tienda/categorias/${categoriaId}`),
                 ]);
                 setProductos(productosRes.data);
                 setCategoria(categoriaRes.data);
@@ -46,13 +46,13 @@ export default function CategoriaMenu() {
     }, [isDataUpdated, categoriaId]);
 
     return (
-        <div className="container justify-content-between">
+        <div className="container position-relative justify-content-between">
             <div className="d-flex justify-content-between mb-5">
                 <h1>{categoria?.cat_nom}</h1>
             </div>
             <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
                 {productos.map((producto) => (
-                    <Link to={rutaCategoria(rol, producto.id_producto)} className="text-decoration-none">
+                    <Link key={producto.id_producto} to={rutaCategoria(rol, producto.id_producto)} className="text-decoration-none">
                         <div className="col my-2" key={producto.id_producto}>
                             <div className="card text-center p-2">
                                 <img src={`/images/menu/productos/${producto.pro_foto}`} height={200} className="card-img-top" alt="..." />
@@ -66,16 +66,13 @@ export default function CategoriaMenu() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row row-cols-3">
-                                    {/* Botón para ver */}
-                                    <div className="col">
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </Link>
                 ))}
             </div>
+            <Link to={`/menu`} className='btn btn-warning position-absolute top-0 end-0 mx-5 my-4'>Volver <i className="bi bi-arrow-left"></i></Link>
+
         </div >
     )
 }
