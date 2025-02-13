@@ -17,7 +17,7 @@ exports.mostrarCategoria = async (id) => {
 //Servicio para crear una categoria
 exports.crearCategoria = async (categoria) => {
     //Verificar si la categoria ya existe
-    const existe = await menuRepository.verificarNombre(categoria.nombre);
+    const existe = await menuRepository.verificarNombre(categoria.categoria);
     if (existe) throw new ExistNameError();
 
     const response = await menuRepository.crearCategoria(categoria);

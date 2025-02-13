@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const moment = require('moment');
 
 // Mostrar ventas
 exports.mostrarVentas = async () => {
@@ -131,10 +132,9 @@ exports.cuentaVentasMes = async (ano, mes) => {
                 AND MONTH(venta_fecha) = ?`;
 
         const values = [ano, mes];
-
         global.db.query(q, values, (err, results) => {
             if (err) reject(err);
-            resolve(results[0]);
+            resolve(results);
         });
     })
 }
@@ -197,15 +197,14 @@ exports.generarPDFVentasMensuales = async (ano, mes) => {
 
 
 // Crear venta
-exports.crearVenta = async (venta) => {
+exports.crearVenta = async (venta, id_user) => {
     return new Promise((resolve, reject) => {
-
         const id_venta = `venta_${uuidv4()}`;
         const q = `INSERT INTO ventas (id_venta, venta_fecha, id_user, venta_metodo_pago, venta_total) VALUES (?)`;
         const values = [
             id_venta,
             venta.venta_fecha,
-            venta.id_user,
+            id_user,
             venta.venta_metodo_pago,
             venta.venta_total
         ];
@@ -229,7 +228,7 @@ exports.crearDetalleVenta = async (detalle) => {
         const values = [
             detalle.id_venta,
             detalle.id_producto,
-            detalle.cantidad,
+            detalle.cantidad_producto,
             detalle.precio_unitario,
             detalle.subtotal
         ];

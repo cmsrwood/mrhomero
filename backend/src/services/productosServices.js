@@ -12,14 +12,13 @@ exports.mostrarProductos = async () => {
 // Servicio para mostrar productos por categoria
 exports.mostrarProductosPorCategoria = async (id) => {
     const existe = await productosRepository.mostrarProductosPorCategoria(id);
-    if (existe.length <= 0) throw new NotFoundError('La categoria no existe');
     return existe
 }
 
 // Servicio para mostrar un producto
 exports.mostrarProducto = async (id) => {
     const existe = await productosRepository.mostrarProducto(id);
-    if (existe.length <= 0) throw new NotFoundError('El producto no existe');
+    if (existe.length < 0) throw new NotFoundError('El producto no existe');
     return existe
 }
 
@@ -42,6 +41,15 @@ exports.actualizarProducto = async (id, producto) => {
     if (existe) throw new ExistNameError('Hay un producto con el mismo nombre');
 
     const response = await productosRepository.actualizarProducto(id, producto);
+    return response
+}
+
+//Servicio para restaurar un producto
+exports.restaurarProducto = async (id) => {
+    const existe = await this.mostrarProducto(id);
+    if (existe.length <= 0) throw new NotFoundError('El producto no existe');
+
+    const response = await productosRepository.restaurarProducto(id);
     return response
 }
 

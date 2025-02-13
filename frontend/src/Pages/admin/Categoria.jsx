@@ -33,7 +33,7 @@ export default function Categoria() {
     fetchData();
   }, [isDataUpdated, categoriaId]);
 
-  // Función para restaurar cliente
+  // Función para restaurar un producto
   const restaurarProducto = async (id) => {
     try {
       const confirm = await Swal.fire({
@@ -53,12 +53,17 @@ export default function Categoria() {
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',
-          title: res.data
+          title: res.data.message
         });
         setIsDataUpdated(true);
       }
     } catch (error) {
       console.error('Error al restaurar producto:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al restaurar producto',
+        text: error.response.data.message
+      });
     }
   };
 
@@ -323,9 +328,9 @@ export default function Categoria() {
                 <div className="col">
                   <button type="button" className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#EditarModal" onClick={() => openEditModal(producto)}><i className="bi bi-pencil-square"></i> Editar</button>
                 </div>
-                {/* Botón para eliminar */}
+                {/* Botón para eliminar/restaurar */}
                 <div className="col">
-                  <button type="button" className="btn btn-danger w-100" onClick={() => eliminarProducto(producto.id_producto)}><i className="bi bi-trash"></i> Eliminar</button>
+                  <button className={producto.pro_estado === 1 ? `btn btn-danger w-100` : `btn btn-success w-100`} onClick={producto.pro_estado === 1 ? () => eliminarProducto(producto.id_producto) : () => restaurarProducto(producto.id_producto)}><i className={producto.pro_estado === 1 ? `bi bi-trash` : `bi bi-arrow-counterclockwise`}></i> {producto.pro_estado === 1 ? `Eliminar` : `Restaurar`}</button>
                 </div>
               </div>
             </div>

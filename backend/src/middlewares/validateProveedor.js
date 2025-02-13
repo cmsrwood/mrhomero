@@ -1,32 +1,32 @@
 const { BadRequestError } = require('../errors/ExceptionErrors');
 
 const validateProveedor = (req, res, next) => {
-    const { empresa, direccion, encargado, telefono, correo } = req.body;
+    const { prov_nombre, prov_direccion, prov_contacto_nombre, prov_contacto_telefono, prov_contacto_email } = req.body;
 
     const err = [];
 
-    if (!empresa) {
-        err.push('Falta paramétro: empresa');
+    if (!prov_nombre) {
+        err.push('Falta paramétro: prov_nombre');
     }
 
-    if (!direccion) {
-        err.push('Falta paramétro: direccion');
+    if (!prov_direccion) {
+        err.push('Falta paramétro: prov_direccion');
     }
 
-    if (!encargado) {
-        err.push('Falta paramétro: encargado');
+    if (!prov_contacto_nombre) {
+        err.push('Falta paramétro: prov_contacto_nombre');
     }
 
-    if (!telefono) {
-        err.push('Falta paramétro: telefono');
+    if (!prov_contacto_telefono) {
+        err.push('Falta paramétro: prov_contacto_telefono');
     }
 
-    if (isNaN(telefono)) {
+    if (isNaN(prov_contacto_telefono)) {
         err.push('El paramétro telefono debe ser un número');
     }
 
-    if (!correo) {
-        err.push('Falta paramétro: correo');
+    if (!prov_contacto_email) {
+        err.push('Falta paramétro: prov_contacto_email');
     }
 
     if (err.length > 0) {

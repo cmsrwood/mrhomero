@@ -14,7 +14,7 @@ exports.mostrarProveedores = async (req, res, next) => {
 exports.crearProveedor = async (req, res, next) => {
     try {
         const response = await proveedoresServices.crearProveedor(req.body);
-        res.status(201).json(response);
+        res.status(200).json(response);
     } catch (error) {
         next(error);
     }

@@ -56,6 +56,17 @@ exports.actualizarProducto = async (req, res, next) => {
     }
 };
 
+// Controlador para restuarar una categoría
+exports.restaurarProducto = async (req, res, next) => {
+    try {
+        const id = req.params.id
+        const response = await productosServices.restaurarProducto(id);
+        res.status(200).json(response)
+    } catch (error) {
+        next(error)
+    }
+};
+
 // Controlador para eliminar un producto
 exports.eliminarProducto = async (req, res, next) => {
     try {

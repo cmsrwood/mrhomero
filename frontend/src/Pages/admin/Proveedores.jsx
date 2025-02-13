@@ -11,7 +11,7 @@ export default function Proveedores() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`${BACKEND_URL}/api/proveedores/mostrarProveedores`);
+                const res = await axios.get(`${BACKEND_URL}/api/tienda/proveedores/`);
                 setProveedores(res.data);
             } catch (error) {
                 console.error(error);
@@ -34,21 +34,21 @@ export default function Proveedores() {
     //Para editar el proveedor
     const [proveedorEdit, setProveedorEdit] = useState({
         prov_id: '',
-        prov_nombre_edit: '',
-        prov_direccion_edit: '',
-        prov_contacto_nombre_edit: '',
-        prov_contacto_telefono_edit: '',
-        prov_contacto_email_edit: ''
+        prov_nombre: '',
+        prov_direccion: '',
+        prov_contacto_nombre: '',
+        prov_contacto_telefono: '',
+        prov_contacto_email: ''
     });
 
     // handleSubmit para crear el proveedor
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`${BACKEND_URL}/api/proveedores/crearProveedor`, proveedor);
+            const res = await axios.post(`${BACKEND_URL}/api/tienda/proveedores/crear`, proveedor);
             Swal.fire({
                 icon: 'success',
-                title: 'Proveedor creado exitosamente',
+                title: res.data.message
             });
 
             if (res.status === 200) {
@@ -71,11 +71,7 @@ export default function Proveedores() {
 
         } catch (error) {
             console.log(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: (error.response && error.response.data),
-            });
+            Swal.fire('Error', error.response.data, 'error');
         }
     };
 
@@ -95,13 +91,13 @@ export default function Proveedores() {
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.put(`${BACKEND_URL}/api/proveedores/actualizarProveedor/${proveedorEdit.prov_id}`, proveedorEdit);
+            const res = await axios.put(`${BACKEND_URL}/api/tienda/proveedores/actualizar/${proveedorEdit.prov_id}`, proveedorEdit);
             if (res.status === 200) {
                 setIsDataUpdated(true);
 
                 Swal.fire({
                     icon: 'success',
-                    title: res.data,
+                    title: res.data.message
                 })
                 // Cerrar el modal
                 const modalElement = document.getElementById('ModalEditarProv');
@@ -121,11 +117,11 @@ export default function Proveedores() {
     const OpenEditModal = (proveedor) => {
         setProveedorEdit({
             prov_id: proveedor.id_proveedor,
-            prov_nombre_edit: proveedor.prov_nombre,
-            prov_direccion_edit: proveedor.prov_direccion,
-            prov_contacto_nombre_edit: proveedor.prov_contacto_nombre,
-            prov_contacto_telefono_edit: proveedor.prov_contacto_telefono,
-            prov_contacto_email_edit: proveedor.prov_contacto_email,
+            prov_nombre: proveedor.prov_nombre,
+            prov_direccion: proveedor.prov_direccion,
+            prov_contacto_nombre: proveedor.prov_contacto_nombre,
+            prov_contacto_telefono: proveedor.prov_contacto_telefono,
+            prov_contacto_email: proveedor.prov_contacto_email,
         });
     };
 
@@ -143,7 +139,7 @@ export default function Proveedores() {
             if (!confirm.isConfirmed) {
                 return;
             }
-            const res = await axios.delete(`${BACKEND_URL}/api/proveedores/eliminaProveedor/${id}`);
+            const res = await axios.delete(`${BACKEND_URL}/api/tienda/proveedores/eliminar/${id}`);
             if (res.status === 200) {
                 Swal.fire('Proveedor eliminado', res.data, 'success');
                 setIsDataUpdated(true);
@@ -242,23 +238,23 @@ export default function Proveedores() {
                         <div className="modal-body">
                             <div className="mb-3">
                                 <label htmlFor="recipient-name" className="col-form-label">Empresa:</label>
-                                <input type="text" className="form-control" id="recipient-name" name="prov_nombre_edit" value={proveedorEdit.prov_nombre_edit} onChange={handleEditChange} />
+                                <input type="text" className="form-control" id="recipient-name" name="prov_nombre" value={proveedorEdit.prov_nombre} onChange={handleEditChange} />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="recipient-name" className="col-form-label">Dirección:</label>
-                                <input type="text" className="form-control" id="recipient-name" name="prov_direccion_edit" value={proveedorEdit.prov_direccion_edit} onChange={handleEditChange} />
+                                <input type="text" className="form-control" id="recipient-name" name="prov_direccion" value={proveedorEdit.prov_direccion} onChange={handleEditChange} />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="recipient-name" className="col-form-label">Contacto:</label>
-                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_nombre_edit" value={proveedorEdit.prov_contacto_nombre_edit} onChange={handleEditChange} />
+                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_nombre" value={proveedorEdit.prov_contacto_nombre} onChange={handleEditChange} />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="recipient-name" className="col-form-label">Telefono:</label>
-                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_telefono_edit" value={proveedorEdit.prov_contacto_telefono_edit} onChange={handleEditChange} />
+                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_telefono" value={proveedorEdit.prov_contacto_telefono} onChange={handleEditChange} />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="recipient-name" className="col-form-label">Email:</label>
-                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_email_edit" value={proveedorEdit.prov_contacto_email_edit} onChange={handleEditChange} />
+                                <input type="text" className="form-control" id="recipient-name" name="prov_contacto_email" value={proveedorEdit.prov_contacto_email} onChange={handleEditChange} />
                             </div>
                         </div>
                         <div className="modal-footer">

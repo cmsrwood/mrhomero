@@ -71,16 +71,12 @@ const validateIdVenta = (req, res, next) => {
 }
 
 const validateVenta = (req, res, next) => {
-    const { venta_fecha, id_user, venta_metodo_pago, venta_total } = req.body;
+    const { venta_fecha, venta_metodo_pago, venta_total } = req.body;
 
     const err = [];
 
     if (!venta_fecha) {
         err.push('Falta parámetro: venta_fecha');
-    }
-
-    if (!id_user) {
-        err.push('Falta parámetro: id_user');
     }
 
     if (!venta_metodo_pago) {

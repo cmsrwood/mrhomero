@@ -66,6 +66,7 @@ exports.crearProducto = async (producto) => {
     })
 }
 
+
 // Repositorio para actualizar un producto
 exports.actualizarProducto = async (id, producto) => {
     return new Promise((resolve, reject) => {
@@ -80,7 +81,7 @@ exports.actualizarProducto = async (id, producto) => {
         ];
         global.db.query(qUpdate, values, (err, results) => {
             if (err) reject(err)
-            resolve({
+                resolve({
                 id: id,
                 producto: producto,
                 message: "El producto se ha actualizado correctamente"
@@ -95,8 +96,21 @@ exports.eliminarProducto = async (id) => {
         const q = "UPDATE productos SET pro_estado = 0 WHERE id_producto = ?";
         global.db.query(q, [id], (err, results) => {
             if (err) reject(err)
+                resolve({
+            message: "El producto se ha borrado correctamente"
+        })
+    });
+})
+}
+
+// Repositorio para actualizar el estado de un producto
+exports.restaurarProducto = async (id) => {
+    return new Promise((resolve, reject) => { 
+        const q = "UPDATE productos SET pro_estado = 1 WHERE id_producto = ?";
+        global.db.query(q, [id], (err, results) => {
+            if (err) reject(err)
             resolve({
-                message: "El producto se ha borrado correctamente"
+                message: "El producto se ha restaurado correctamente"
             })
         });
     })

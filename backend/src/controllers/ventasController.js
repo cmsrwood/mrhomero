@@ -138,7 +138,8 @@ exports.generarPDFVentasMensuales = async (req, res, next) => {
 exports.crearVenta = async (req, res, next) => {
     try {
         const venta = req.body;
-        const response = await ventasServices.crearVenta(venta);
+        const id_user = req.body.id_user? req.body.id_user : null;
+        const response = await ventasServices.crearVenta(venta, id_user);
         res.status(200).json(response);
     } catch (error) {
         next(error);

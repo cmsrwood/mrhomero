@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import CustomChart from '../../components/CustomChart';
 import axios from 'axios';
 import moment from 'moment';
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Scrollbar } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/pagination'
-import 'swiper/css/scrollbar'
-import '../../styles/style.css'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Scrollbar } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import '../../styles/style.css';
 import { NumericFormat } from 'react-number-format';
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Dashboard() {
-
-  //Traer datos
+  // Traer datos
   const [ventas, setVentas] = useState([]);
   const [ventasMensuales, setVentasMensuales] = useState([]);
   const [productosMasVendidos, setProductosMasVendidos] = useState([]);
@@ -22,7 +21,7 @@ export default function Dashboard() {
   const [productosVentas, setProductosVentas] = useState(0);
   const [porcentajeTotal, setPorcentajeTotal] = useState(0);
 
-  const [isDataUpdated, setIsDataUpdated] = useState(false);
+  const [isDataUpdated, setIsDataUpdated] = useState(true); // Cambié a `true` para que se actualice la primera vez
   const anoActual = moment().format('YYYY');
   const mesActual = moment().format('M');
   const [ano, setAno] = useState(anoActual);
@@ -36,7 +35,7 @@ export default function Dashboard() {
         const [ventasRes, ventasMensualesRes, productosMasVendidosRes, productosVendidosPorMesRes, productosVendidosMesAnteriorRes, totalProductosVentasRes, totalProductosVentasMesAnteriorRes] = await Promise.all([
           axios.get(`${BACKEND_URL}/api/tienda/ventas/`),
           axios.get(`${BACKEND_URL}/api/tienda/ventas/ventasMensuales/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/mostrarProductosMasVendidos/${ano}/${mes}`),
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/productosMasVendidos/${ano}/${mes}`),
           axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaProductosVendidosPorMes/${ano}/${mes}`),
           axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaProductosVendidosPorMes/${ano}/${mes - 1}`),
           axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaVentasMes/${ano}/${mes}`),
@@ -55,7 +54,9 @@ export default function Dashboard() {
       setIsDataUpdated(false);
     };
 
-    fetchData();
+    if (isDataUpdated) {
+      fetchData();
+    }
   }, [isDataUpdated, ano, mes]);
 
   const handleAnoChange = (event) => {
@@ -105,14 +106,14 @@ export default function Dashboard() {
   return (
     <div className="">
       <div className='row w-100 justify-content-between my-3'>
-        <select value={ano} onChange={handleAnoChange} name="" id="" className="form-select col-12 col-sm mx-2">
+        <select value={ano} onChange={handleAnoChange} className="form-select col-12 col-sm mx-2">
           <option value={anoActual}>{anoActual}</option>
           <option value={anoActual - 1}>{anoActual - 1}</option>
-          <option value={anoActual - 1}>{anoActual - 2}</option>
-          <option value={anoActual - 1}>{anoActual - 3}</option>
-          <option value={anoActual - 1}>{anoActual - 4}</option>
+          <option value={anoActual - 2}>{anoActual - 2}</option>
+          <option value={anoActual - 3}>{anoActual - 3}</option>
+          <option value={anoActual - 4}>{anoActual - 4}</option>
         </select>
-        <select value={mes} onChange={handleMesChange} name="" id="" className="form-select col-12 col-sm mx-2">
+        <select value={mes} onChange={handleMesChange} className="form-select col-12 col-sm mx-2">
           <option value="1">Enero</option>
           <option value="2">Febrero</option>
           <option value="3">Marzo</option>
@@ -128,12 +129,12 @@ export default function Dashboard() {
         </select>
       </div>
       <div className="d-flex w-100 justify-content-between my-3">
-        <select value={tipoDeReporte} onChange={handleReporteChange} name="" id="" className='form-select me-2'>
+        <select value={tipoDeReporte} onChange={handleReporteChange} className='form-select me-2'>
           <option disabled selected value="">Seleccionar tipo de reporte</option>
           <option value="anual">Anual</option>
           <option value="mensual">Mensual</option>
         </select>
-        <a className='btn btn-danger me-2' target="_blank" href={tipoDeReporte == 'anual' ? `${BACKEND_URL}/api/ventas/crearReporte/${ano}` : `${BACKEND_URL}/api/ventas/crearReporte/${ano}/${mes}`}><i className="bi bi-filetype-pdf"></i></a>
+        <a className='btn btn-danger me-2' target="_blank" href={tipoDeReporte === 'anual' ? `${BACKEND_URL}/api/ventas/crearReporte/${ano}` : `${BACKEND_URL}/api/ventas/crearReporte/${ano}/${mes}`}><i className="bi bi-filetype-pdf"></i></a>
       </div>
       <div className="row g-5 my-3">
         <div className="col-12 px-5 text-center justify-content-center">
@@ -146,7 +147,6 @@ export default function Dashboard() {
         </div>
         <div className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center shadow">
           <h3 className='pt-4'>Total ventas por mes</h3>
-
           <h4>COP <NumericFormat value={productosVentas || 0} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={'$'} /></h4>
           <h4 className={`pb-4 ${porcentajeTotal < 0 ? 'text-danger' : 'text-success'}`}>{porcentajeTotal <= 0 ? porcentajeTotal : '+' + porcentajeTotal || 0}% este mes </h4>
         </div>
@@ -157,32 +157,19 @@ export default function Dashboard() {
         </div>
         <div className="row px-2">
           {
-            productosMasVendidos.length == 0 ?
+            productosMasVendidos.length === 0 ?
               <div className='py-3'>
                 <h2 className='text-center py-5 my-5'>No hay productos vendidos en este mes</h2>
               </div>
-
               :
-
               <Swiper
-                pagination={{
-                  clickable: true,
-                }}
+                pagination={{ clickable: true }}
                 scrollbar={{ hide: true }}
                 modules={[Scrollbar]}
                 breakpoints={{
-                  0: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
-                  },
-                  768: {
-                    slidesPerView: 3,
-                    spaceBetween: 40,
-                  },
-                  1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 25,
-                  },
+                  0: { slidesPerView: 2, spaceBetween: 20 },
+                  768: { slidesPerView: 3, spaceBetween: 40 },
+                  1024: { slidesPerView: 4, spaceBetween: 25 }
                 }}
                 className="mySwiper"
               >
@@ -211,7 +198,6 @@ export default function Dashboard() {
           }
         </div>
       </div>
-    </div >
-  )
+    </div>
+  );
 }
-

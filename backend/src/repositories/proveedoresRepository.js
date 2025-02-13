@@ -26,11 +26,11 @@ exports.crearProveedor = async (proveedor) => {
     return new Promise((resolve, reject) => {
         const q = "INSERT INTO proveedores (`prov_nombre`, `prov_direccion`, `prov_contacto_nombre`, `prov_contacto_telefono`, `prov_contacto_email`) VALUES (?)";
         const values = [
-            proveedor.empresa,
-            proveedor.direccion,
-            proveedor.encargado,
-            proveedor.telefono,
-            proveedor.correo
+            proveedor.prov_nombre,
+            proveedor.prov_direccion,
+            proveedor.prov_contacto_nombre,
+            proveedor.prov_contacto_telefono,
+            proveedor.prov_contacto_email
         ];
         global.db.query(q, [values], (err, results) => {
             if (err) reject(err)
@@ -48,11 +48,11 @@ exports.actualizarProveedor = async (id, proveedor) => {
     return new Promise((resolve, reject) => {
         const q = "UPDATE proveedores SET prov_nombre = ?, prov_direccion = ?, prov_contacto_nombre = ?, prov_contacto_telefono = ?, prov_contacto_email = ? WHERE id_proveedor = ?";
         const values = [
-            proveedor.empresa,
-            proveedor.direccion,
-            proveedor.encargado,
-            proveedor.telefono,
-            proveedor.correo,
+            proveedor.prov_nombre,
+            proveedor.prov_direccion,
+            proveedor.prov_contacto_nombre,
+            proveedor.prov_contacto_telefono,
+            proveedor.prov_contacto_email,
             id
         ];
         global.db.query(q, values, (err, results) => {

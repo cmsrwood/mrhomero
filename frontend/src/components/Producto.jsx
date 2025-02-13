@@ -14,7 +14,7 @@ export default function Producto() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`${BACKEND_URL}/api/productos/mostrarProducto/${idProducto}`);
+                const res = await axios.get(`${BACKEND_URL}/api/tienda/productos/${idProducto}`);
                 setProducto(res.data);
             } catch (error) {
                 console.log(error);

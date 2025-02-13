@@ -40,9 +40,9 @@ export default function Pedidos() {
     const fetchData = async () => {
       try {
         const [categoriasRes, productosRes, clientesRes,] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/menu/mostrarCategorias`),
-          axios.get(`${BACKEND_URL}/api/productos/mostrarProductos/${idCategoria}`),
-          axios.get(`${BACKEND_URL}/api/clientes/mostrar`),
+          axios.get(`${BACKEND_URL}/api/tienda/categorias/`),
+          axios.get(`${BACKEND_URL}/api/tienda/productos/categoria/${idCategoria}`),
+          axios.get(`${BACKEND_URL}/api/personas/clientes/`),
         ]);
         setCategorias(categoriasRes.data);
         setMostrarProductos(productosRes.data);
@@ -53,7 +53,7 @@ export default function Pedidos() {
       setIsDataUpdated(false);
     };
     fetchData();
-  }), [isDataUpdated];
+  }, [idCategoria]);
 
   const navigate = useNavigate();
 
@@ -155,18 +155,18 @@ export default function Pedidos() {
   }
 
   const [ventaInfo, setVentaInfo] = useState({
-    fecha: moment().format("YYYY-MM-DD HH:mm:ss"),
-    metodo_pago: '',
+    venta_fecha: moment().format("YYYY-MM-DD HH:mm:ss"),
+    venta_metodo_pago: '',
     id_user: 0,
-    total: 0
+    venta_total: 0
   });
 
   const handleChange = () => {
     const updatedInfo = {
-      fecha: moment().format("YYYY-MM-DD HH:mm:ss"),
-      metodo_pago: metodoPago,
+      venta_fecha: moment().format("YYYY-MM-DD HH:mm:ss"),
+      venta_metodo_pago: metodoPago,
       id_user: userSelect.id_user,
-      total: totalPrecioProductos()
+      venta_total: totalPrecioProductos()
     };
     setVentaInfo(updatedInfo);
     return updatedInfo;
@@ -176,10 +176,10 @@ export default function Pedidos() {
     if (verificarRecibido() == 'correcto') {
       const updatedVentaInfo = handleChange();
       try {
-        const ventaRes = await axios.post(`${BACKEND_URL}/api/ventas/crear`, updatedVentaInfo);
+        const ventaRes = await axios.post(`${BACKEND_URL}/api/tienda/ventas/crear`, updatedVentaInfo);
         if (ventaRes.status === 200) {
-          const id_venta = ventaRes.data.id_venta;
-
+          const id_venta = ventaRes.data.id;
+          console.log("Respuesta de creación de venta:", ventaRes.data);
           const detalles = venta.map(async (producto) => {
             const detalleVenta = {
               id_venta: id_venta,
@@ -188,12 +188,12 @@ export default function Pedidos() {
               precio_unitario: producto.pro_precio,
               subtotal: producto.pro_precio * producto.cantidad
             };
-            return axios.post(`${BACKEND_URL}/api/ventas/crearDetalleVenta`, detalleVenta);
+            return axios.post(`${BACKEND_URL}/api/tienda/ventas/crearDetalleVenta`, detalleVenta);
           });
 
           if (userSelect.id_user !== 0) {
             const puntos = venta.map(async (producto) => {
-              return axios.put(`${BACKEND_URL}/api/clientes/agregarPuntos/${userSelect.id_user}`, { puntos: producto.pro_puntos * producto.cantidad });
+              return axios.put(`${BACKEND_URL}/api/personas/clientes/agregarPuntos/${userSelect.id_user}`, { puntos: producto.pro_puntos * producto.cantidad });
             });
             await Promise.all(puntos);
           }

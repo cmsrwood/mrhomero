@@ -99,7 +99,7 @@ export default function Inventario() {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: err.response.data.message,
+        text: err.res.data.message,
       });
     }
   };

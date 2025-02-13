@@ -46,12 +46,11 @@ exports.verificarProductosPorCategoria = async (id) => {
 // Repositorio para crear una categoria
 exports.crearCategoria = async (categoria) => {
     return new Promise((resolve, reject) => {
-        const q = "INSERT INTO categorias (`cat_nom`, `cat_foto`) VALUES (?)";
-        const values = [categoria.nombre, categoria.foto];
-        global.db.query(q, [values], (err, results) => {
+        const q = "INSERT INTO categorias (`cat_nom`, `cat_foto`) VALUES (?, ?)";
+        const values = [categoria.categoria, categoria.foto];
+        global.db.query(q, values, (err, results) => {
             if (err) reject(err);
             resolve({
-                id: results.insertId,
                 categoria: categoria,
                 message: "La categoría se ha creado correctamente"
             })
@@ -63,11 +62,10 @@ exports.crearCategoria = async (categoria) => {
 exports.actualizarCategoria = async (id, categoria) => {
     return new Promise((resolve, reject) => {
         const qUpdate = "UPDATE categorias SET cat_nom = ?, cat_foto = ? WHERE id_categoria = ?";
-        const values = [categoria.nombre, categoria.foto, id];
+        const values = [categoria.categoria, categoria.foto, id];
         global.db.query(qUpdate, values, (err, results) => {
             if (err) reject(err);
             resolve({
-                id: results.insertId,
                 categoria: categoria,
                 message: "La categoría se ha actualizado correctamente"
             })

@@ -20,7 +20,7 @@ export default function RecompensasAdmin() {
     const fetchData = async () => {
       try {
         const [recompensasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/recompensas/mostrar`)
+          axios.get(`${BACKEND_URL}/api/tienda/recompensas/`)
         ]);
         setRecompensas(recompensasRes.data);
       } catch (error) {

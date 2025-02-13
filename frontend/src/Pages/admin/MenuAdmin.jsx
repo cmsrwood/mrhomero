@@ -14,7 +14,7 @@ export default function MenuAdmin() {
     const fetchData = async () => {
       try {
         const [categoriasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/menu/mostrarCategorias`),
+          axios.get(`${BACKEND_URL}/api/tienda/categorias/`),
         ]);
         setCategorias(categoriasRes.data);
       } catch (error) {
@@ -28,20 +28,41 @@ export default function MenuAdmin() {
   // Agregar categoria
   const [categoria, setCategoria] = useState({
     categoria: '',
-    foto: null
+    foto: ''
+    //foto: null
   })
+
+  //Añade la imagen
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setCategoria({ ...categoria, foto: file.name }); // Guarda el nombre del archivo
+      setImagePreview(URL.createObjectURL(file));       // Para la vista previa (opcional)
+    }
+  }
+
+  //Editar categoria
+  const [editarCategoria, setEditarCategoria] = useState({
+    categoria: '',
+    foto: ''
+  })
+
+  const handleFileChangeEdit = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setEditarCategoria({ ...editarCategoria, foto: file.name });
+      setImagePreview(URL.createObjectURL(file));
+
+    }
+  }
+
+
   //useREf para limpiar el input de la imagen 
   const fileInputRef = useRef(null);
 
   //Función para resetear el input dela imagen
   const resetFoto = () => {
     fileInputRef.current.value = '';
-  }
-
-  //Añade la imagen
-  const handleFileChange = (e) => {
-    setCategoria({ ...categoria, foto: e.target.files[0] });
-    setImagePreview(URL.createObjectURL(e.target.files[0]));
   }
 
   //input de texto
@@ -52,17 +73,17 @@ export default function MenuAdmin() {
   // Función para manejar el envío de datos
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('categoria', categoria.categoria);
-    formData.append('foto', categoria.foto);
-
     try {
-      await axios.post(`${BACKEND_URL}/api/menu/crearCategoria`, formData);
-      Swal.fire('Éxito', 'Categoría agregada correctamente', 'success');
-
+      const response = await axios.post(`${BACKEND_URL}/api/tienda/categorias/crear/`, categoria);
+      if (response.status == 200) {
+        Swal.fire({
+          icon: 'success',
+          title: response.data.message
+        });
+      }
       setCategoria({
         categoria: '',
-        foto: null
+        foto: ''
       });
       setImagePreview('');
       setIsDataUpdated(true); // Actualiza el estado para volver a cargar los datos
@@ -92,11 +113,11 @@ export default function MenuAdmin() {
       if (!confirm.isConfirmed) {
         return;
       }
-      const res = await axios.delete(`${BACKEND_URL}/api/menu/eliminarCategoria/${id}`);
+      const res = await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id}`);
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',
-          title: res.data
+          title: res.data.message
         });
         setIsDataUpdated(true);
       }
@@ -110,37 +131,36 @@ export default function MenuAdmin() {
     }
   };
 
-  //Editar categoria
-  const [editarCategoria, setEditarCategoria] = useState({
-    categoria: '',
-    foto: null
-  })
-
-  const handleFileChangeEdit = (e) => {
-    setEditarCategoria({ ...editarCategoria, foto: e.target.files[0] })
-    setImagePreview(URL.createObjectURL(e.target.files[0]));
-  }
 
   //input de texto para editar
   const handleInputChangeEdit = (e) => {
     setEditarCategoria(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
   const handleEdit = async (id) => {
-    const formData = new FormData();
-    formData.append('categoria', editarCategoria.categoria);
-    if (editarCategoria.foto) {
-      formData.append('foto', editarCategoria.foto);
-    }
-
     try {
-      const response = await axios.put(`${BACKEND_URL}/api/menu/actualizarCategoria/${id}`, formData);
-      if (response.status === 200) {
-        Swal.fire('Éxito', 'Categoría editada correctamente', 'success');
-        const modalElement = document.getElementById('categoriaEditarModal');
-        let modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
-        setImagePreview('');
-        setIsDataUpdated(true);
+      const confirm = await Swal.fire({
+        title: 'Esta seguro de editar esta categoria',
+        text: 'no podras revertir esta accion',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, editar'
+      });
+      if (confirm.isConfirmed) {
+        const response = await axios.put(`${BACKEND_URL}/api/tienda/categorias/actualizar/${id}`, editarCategoria);
+        if (response.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: response.data.message
+          });
+          setIsDataUpdated(true);
+
+          const modalElement = document.getElementById('categoriaEditarModal');
+          let modalInstance = bootstrap.Modal.getInstance(modalElement);
+          modalInstance.hide();
+          setImagePreview('');
+        }
       }
     } catch (error) {
       console.log(error);
