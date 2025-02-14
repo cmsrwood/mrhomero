@@ -1,5 +1,18 @@
 const moment = require('moment');
 
+// Mostrar recompensas obtenidas
+exports.mostrarRecompensasObtenidas = async () => {
+    console.log("desde el repo")
+
+    return new Promise((resolve, reject) => {
+        const q = "SELECT * FROM recompensas_obt";
+        console.log(q)
+        global.db.query(q, (err, results) => {
+            if (err) reject(err);
+            resolve(results);
+        })
+    })
+}
 // Mostrar todas las recompensas
 exports.mostrarRecompensas = async () => {
     return new Promise((resolve, reject) => {
@@ -34,20 +47,6 @@ exports.verificarNombre = async (recompensa) => {
     })
 }
 
-// Mostrar recompensas obtenidas
-exports.mostrarRecompensasObtenidas = async () => {
-    return new Promise((resolve, reject) => {
-        const q = "SELECT * FROM recompensas_obt where estado = 1 ORDER BY id_recomp_obt DESC";
-        global.db.query(q, (err, results) => {
-            if (err) reject(err);
-            resolve({
-                message: 'Recompensas obtenidas',
-                data: results
-
-            });
-        })
-    })
-}
 
 // Mostrar recompensas obtenidas por usuario
 exports.mostrarRecompensasObtenidasPorUsuario = async (id) => {
@@ -166,14 +165,15 @@ exports.actualizarPuntos = async (id, puntos) => {
             resolve({
                 id: id,
                 puntos: puntos,
-                message: "Se han agregado " + puntos + " puntos a la cuenta" 
+                message: "Se han agregado " + puntos + " puntos a la cuenta"
             })
         })
     })
 }
 
 // Traer las recompensas obtenidas por id
-exports.mostrarRecompensasObtenidas = async (id) => {
+exports.mostrarRecompensasObtenidasPorId = async (id) => {
+    con
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM recompensas_obt WHERE id_recomp_obt = ?";
         const value = [id];

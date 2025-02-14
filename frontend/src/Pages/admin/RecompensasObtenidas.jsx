@@ -44,12 +44,13 @@ export default function RecompensasObtenidas() {
         const fetchData = async () => {
             try {
                 const [recompensasRes, recompensasObtenidasRes, clientesRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/recompensas/mostrar`),
-                    axios.get(`${BACKEND_URL}/api/recompensas/mostrarRecompensasObtenidas/`),
-                    axios.get(`${BACKEND_URL}/api/clientes/mostrar`)
+                    axios.get(`${BACKEND_URL}/api/tienda/recompensas/`),
+                    axios.get(`${BACKEND_URL}/api/tienda/recompensas/recompensasObtenidas/recompensas`),
+                    axios.get(`${BACKEND_URL}/api/personas/clientes/`)
                 ]);
                 setRecompensas(recompensasRes.data);
                 setRecompensasObtenidas(recompensasObtenidasRes.data);
+                console.log(recompensasObtenidasRes.data)
                 setClientes(clientesRes.data);
             } catch (error) {
                 console.log(error);
@@ -62,7 +63,7 @@ export default function RecompensasObtenidas() {
     const validarRecompensa = async (e, id_recomp_obt) => {
         e.preventDefault();
         try {
-            const res = await axios.put(`${BACKEND_URL}/api/recompensas/validarRecompensa/${id_recomp_obt}`, recompensaAValidar);
+            const res = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/validar/${id_recomp_obt}`, recompensaAValidar);
             Swal.fire({
                 title: res.data.title,
                 text: res.data.message,

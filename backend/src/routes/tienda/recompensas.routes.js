@@ -6,7 +6,7 @@ const validateRecompensa = require('../../middlewares/validateRecompensa');
 //Get
 router.get('/', recompensasController.mostrarRecompensas);
 router.get('/:id', recompensasController.mostrarRecompensa);
-router.get('/recompensasObtenidas', recompensasController.mostrarRecompensasObtenidas);
+router.get('/recompensasObtenidas/recompensas', recompensasController.mostrarRecompensasObtenidas);
 router.get('/recompensasUsuario/:id', recompensasController.mostrarRecompensasObtenidasPorUsuario);
 router.get('/puntosUsuario/:id', recompensasController.mostrarPuntos);
 

@@ -60,15 +60,14 @@ export default function RecompensasAdmin() {
         title: res.data.message
       });
       if (res.status === 200) {
-        setIsDataUpdated(true);
         setRecompensa({
           nombre: '',
           descripcion: '',
           puntos: '',
           foto: null
         });
+        setIsDataUpdated(true);
       }
-
       setImagePreview('');
       setIsDataUpdated(true);
     } catch (error) {

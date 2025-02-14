@@ -1,5 +1,10 @@
 const recompensasRepository = require('../repositories/recompensasRepository');
 const { NotFoundError, ExistNameError } = require('../errors/ExceptionErrors');
+// Servicio para ver las recompensas obtenidas
+exports.mostrarRecompensasObtenidas = async () => {
+    return await recompensasRepository.mostrarRecompensasObtenidas();
+
+}
 
 // Servicio para ver todas las recompensas
 exports.mostrarRecompensas = async () => {
@@ -13,12 +18,6 @@ exports.mostrarRecompensa = async (id) => {
     return response;
 }
 
-// Servicio para ver las recompensas obtenidas
-exports.mostrarRecompensasObtenidas = async () => {
-    const response = await recompensasRepository.mostrarRecompensasObtenidas();
-    if (response.lenght <= 0) throw new NotFoundError('No se ha obtenido ninguna recompensa');
-    return response;
-}
 
 // Servicio para las recompensas obtenidas por usuario
 exports.mostrarRecompensasObtenidasPorUsuario = async (id) => {
@@ -76,7 +75,7 @@ exports.reclamarRecompensa = async (id_recompensa, id_usuario) => {
 // Servicio para validar una recompensa
 exports.validarRecompensa = async (id, codigo) => {
     //Verifica si la recompensa existe
-    const recompensa = await recompensasRepository.mostrarRecompensasObtenidas(id);
+    const recompensa = await recompensasRepository.mostrarRecompensasObtenidasPorId(id);
     if (recompensa <= 0) throw new NotFoundError('La recompensa no existe');
 
     //Recoge todos los datos de la recompensa
