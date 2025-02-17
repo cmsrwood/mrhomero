@@ -20,7 +20,7 @@ export default function HistorialCompras() {
         const fetchData = async () => {
             try {
                 const [comprasRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/ventas/mostrarCompras/${idUsuario}`),
+                    axios.get(`${BACKEND_URL}/api/tienda/ventas/cliente/${idUsuario}`),
                 ])
                 setCompras(comprasRes.data);
             } catch (error) {
@@ -34,10 +34,10 @@ export default function HistorialCompras() {
     const mostrarDetalles = async (id_venta) => {
         setIdVenta(id_venta);
         try {
-            const detalleVentaRes = await axios.get(`${BACKEND_URL}/api/ventas/mostrarDetalleVenta/${id_venta}`);
+            const detalleVentaRes = await axios.get(`${BACKEND_URL}/api/tienda/ventas/detalle/${id_venta}`);
             const detallesConProducto = await Promise.all(
                 detalleVentaRes.data.map(async (detalle) => {
-                    const productoRes = await axios.get(`${BACKEND_URL}/api/productos/mostrarProducto/${detalle.id_producto}`);
+                    const productoRes = await axios.get(`${BACKEND_URL}/api/tienda/productos/${detalle.id_producto}`);
                     return { ...detalle, producto: productoRes.data };
                 })
             );

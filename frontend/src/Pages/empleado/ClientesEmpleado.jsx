@@ -12,7 +12,7 @@ export default function Clientes() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`${BACKEND_URL}/api/clientes/mostrar`);
+                const res = await axios.get(`${BACKEND_URL}/api/personas/clientes/`);
                 setClientes(res.data);
                 setIsDataUpdated(false);
             } catch (error) {
@@ -27,7 +27,7 @@ export default function Clientes() {
         if (isDataUpdated) {
             const fetchData = async () => {
                 try {
-                    const res = await axios.get(`${BACKEND_URL}/api/clientes/mostrar`);
+                    const res = await axios.get(`${BACKEND_URL}/api/personas/clientes/`);
                     setClientes(res.data);
                     setIsDataUpdated(false);
                 } catch (error) {

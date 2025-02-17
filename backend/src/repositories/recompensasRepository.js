@@ -2,11 +2,8 @@ const moment = require('moment');
 
 // Mostrar recompensas obtenidas
 exports.mostrarRecompensasObtenidas = async () => {
-    console.log("desde el repo")
-
     return new Promise((resolve, reject) => {
-        const q = "SELECT * FROM recompensas_obt";
-        console.log(q)
+        const q = "SELECT * FROM recompensas_obt where estado = 1 ORDER BY id_recomp_obt DESC";
         global.db.query(q, (err, results) => {
             if (err) reject(err);
             resolve(results);
@@ -67,11 +64,7 @@ exports.mostrarPuntos = async (id) => {
         const value = [id];
         global.db.query(q, value, (err, results) => {
             if (err) reject(err);
-            resolve({
-                message: 'Puntos del usuario',
-                id: id,
-                data: results
-            });
+            resolve(results);
         })
     })
 }
@@ -147,7 +140,9 @@ exports.insertarRecompensaObtenida = async (id_recompensa, id_usuario, codigo) =
         ];
         global.db.query(q, [values], (err, results) => {
             if (err) reject(err);
-            resolve(results)
+            resolve({
+                message: `El codigo de la recompensa es: ${codigo}`
+            })
         })
     })
 }
@@ -173,7 +168,6 @@ exports.actualizarPuntos = async (id, puntos) => {
 
 // Traer las recompensas obtenidas por id
 exports.mostrarRecompensasObtenidasPorId = async (id) => {
-    con
     return new Promise((resolve, reject) => {
         const q = "SELECT * FROM recompensas_obt WHERE id_recomp_obt = ?";
         const value = [id];

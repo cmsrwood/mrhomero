@@ -26,8 +26,8 @@ export default function PerfilCliente() {
     const fetchData = async () => {
       try {
         const [userRes, comprasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/clientes/mostrarByid/${id_user}`),
-          axios.get(`${BACKEND_URL}/api/ventas/mostrarCompras/${id_user}`),
+          axios.get(`${BACKEND_URL}/api/personas/clientes/${id_user}`),
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/cliente/${id_user}`),
         ])
         setEditarUser(userRes.data);
         setCompras(comprasRes.data);
@@ -55,17 +55,8 @@ export default function PerfilCliente() {
 
   const handleEdit = async (e, id) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('usuario_nombre', editarUser.user_nom);
-    formData.append('usuario_apellidos', editarUser.user_apels);
-    formData.append('usuario_telefono', editarUser.user_tel ? editarUser.user_tel : null);
-
-    if (editarUser.user_foto) {
-      formData.append('foto', editarUser.user_foto);
-    }
-
     try {
-      const res = await axios.put(`${BACKEND_URL}/api/clientes/actualizar/${id}`, formData);
+      const res = await axios.put(`${BACKEND_URL}/api/personas/clientes/actualizar/${id}`, editarUser);
       if (res.status === 200) {
         Swal.fire(res.data.title, res.data.message, 'success');
         setImagePreview("");

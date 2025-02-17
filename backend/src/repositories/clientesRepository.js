@@ -48,9 +48,9 @@ exports.actualizarCliente = async (id, cliente) => {
     return new Promise((resolve, reject) => {
         const q = `UPDATE usuarios SET user_nom = ?, user_apels = ?, user_tel = ?, user_foto = ? WHERE id_user = ?`;
         const values = [
-            cliente.nombre,
-            cliente.apellido,
-            cliente.telefono,
+            cliente.user_nom,
+            cliente.user_apels,
+            cliente.user_tel,
             cliente.foto,
             id
         ]

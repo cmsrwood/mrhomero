@@ -30,9 +30,9 @@ export default function IndexCliente() {
     const fetchData = async () => {
       try {
         const [userRes, productosMasVendidosRes, productosMasCompradosRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/clientes/mostrarByid/${id}`),
-          axios.get(`${BACKEND_URL}/api/ventas/mostrarProductosMasVendidos/${ano}/${mes}`),
-          axios.get(`${BACKEND_URL}/api/ventas/mostrarProductosMasCompradosPorCliente/${id}`),
+          axios.get(`${BACKEND_URL}/api/personas/clientes/${id}`),
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/productosMasVendidos/${ano}/${mes}`),
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/productosMasCompradosPorCliente/${id}`),
         ])
         setUser(userRes.data);
         setProductosMasVendidos(productosMasVendidosRes.data);

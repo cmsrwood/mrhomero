@@ -2,19 +2,19 @@ const { BadRequestError } = require('../errors/ExceptionErrors');
 
 const validateCliente = (req, res, next) => {
 
-    const { nombre, apellido, telefono } = req.body;
+    const { user_nom, user_apels, user_tel } = req.body;
 
     const err = [];
-    if (!nombre) {
-        err.push('Falta paramétro: nombre');
+    if (!user_nom) {
+        err.push('Falta paramétro: user_nom');
     }
 
-    if (!apellido) {
-        err.push('Falta paramétro: apellido');
+    if (!user_apels) {
+        err.push('Falta paramétro: user_apels');
     }
 
-    if (!telefono) {
-        err.push('Falta paramétro: telefono');
+    if (!user_tel) {
+        err.push('Falta paramétro: user_tel');
     }
 
     if (err.length > 0) {

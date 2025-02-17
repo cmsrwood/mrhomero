@@ -12,11 +12,12 @@ router.get('/puntosUsuario/:id', recompensasController.mostrarPuntos);
 
 //Post
 router.post('/crear', validateRecompensa, recompensasController.crearRecompensa);
-router.post('/validar/:id', recompensasController.validarRecompensa);
 router.post('/reclamar/:id', recompensasController.reclamarRecompensa);
 
 //Put
 router.put('/actualizar/:id', validateRecompensa, recompensasController.actualizarRecompensa);
+router.put('/validar/:id', recompensasController.validarRecompensa);
+
 
 //Delete
 router.delete('/eliminar/:id', recompensasController.eliminarRecompensa);

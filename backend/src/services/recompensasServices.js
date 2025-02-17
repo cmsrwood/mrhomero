@@ -22,7 +22,6 @@ exports.mostrarRecompensa = async (id) => {
 // Servicio para las recompensas obtenidas por usuario
 exports.mostrarRecompensasObtenidasPorUsuario = async (id) => {
     const response = await recompensasRepository.mostrarRecompensasObtenidasPorUsuario(id);
-    if (response.length <= 0) throw new NotFoundError('Este usuario no ha reclamado ninguna recompensa');
     return response;
 }
 
@@ -64,11 +63,12 @@ exports.reclamarRecompensa = async (id_recompensa, id_usuario) => {
 
     // Generar codigo de validación
     const codigo = Math.floor(100000 + Math.random() * 900000).toString();
-    await recompensasRepository.insertarRecompensaObtenida(id_recompensa, id_usuario, codigo);
+    const response = await recompensasRepository.insertarRecompensaObtenida(id_recompensa, id_usuario, codigo);
 
     // Actualizar puntos del usuario
     const puntosRecompensa = recompensa[0].recomp_num_puntos;
-    const response = await recompensasRepository.actualizarPuntos(id_usuario, puntosRecompensa);
+    const actualizarPuntos = await recompensasRepository.actualizarPuntos(id_usuario, puntosRecompensa);
+
     return response;
 }
 

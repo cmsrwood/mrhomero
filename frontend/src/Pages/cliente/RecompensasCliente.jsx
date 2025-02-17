@@ -21,13 +21,13 @@ export default function RecompensasCliente() {
     const fetchData = async () => {
       try {
         const [puntosRes, recompensasRes, recompensasObtenidasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/recompensas/mostrarPuntos/${idUsuario}`),
-          axios.get(`${BACKEND_URL}/api/recompensas/mostrar`),
-          axios.get(`${BACKEND_URL}/api/recompensas/mostrar/${idUsuario}`)
+          axios.get(`${BACKEND_URL}/api/tienda/recompensas/puntosUsuario/${idUsuario}`),
+          axios.get(`${BACKEND_URL}/api/tienda/recompensas/`),
+          axios.get(`${BACKEND_URL}/api/tienda/recompensas/recompensasUsuario/${idUsuario}`)
         ]);
         setPuntos(puntosRes.data[0].user_puntos);
         setRecompensas(recompensasRes.data);
-        setRecompensasObtenidas(recompensasObtenidasRes.data);
+        setRecompensasObtenidas(recompensasObtenidasRes.data || []);
       } catch (error) {
         console.log(error);
       }
@@ -52,7 +52,7 @@ export default function RecompensasCliente() {
       if (!confirm.isConfirmed) {
         return;
       }
-      const res = await axios.get(`${BACKEND_URL}/api/recompensas/mostrarPuntos/${idUsuario}`);
+      const res = await axios.get(`${BACKEND_URL}/api/tienda/recompensas/puntosUsuario/${idUsuario}`);
       setPuntos(res.data[0].user_puntos);
       setIsDataUpdated(true);
     } catch (error) {
@@ -60,7 +60,7 @@ export default function RecompensasCliente() {
     }
 
     try {
-      const res = await axios.post(`${BACKEND_URL}/api/recompensas/reclamarRecompensa/${idUsuario}`, { id_recompensa });
+      const res = await axios.post(`${BACKEND_URL}/api/tienda/recompensas/reclamar/${idUsuario}`, { id_recompensa });
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',
@@ -143,28 +143,37 @@ export default function RecompensasCliente() {
               <button className='btn btn-warning my-4' onClick={() => mostrarRecompensas('disponibles')}>Ver recompensas disponibles</button>
             </div>
             <div>
-              <div className="row mt-2 g-5 scrollbar">
-                {recompensasObtenidas.map((recompensa) => (
-                  <div className="col-12 border my-2 p-5" key={recompensa.id_recomp_obt}>
-                    <form>
-                      <div className="row align-items-center">
-                        <div className="col-2">
-                          <img src={`/images/recompensas/${recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
-                        </div>
-                        <div className="col-6 px-5 align-content-center">
-                          <h2>{recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recompensa_nombre}</h2>
-                          <p>{recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recompensa_descripcion}</p>
-                        </div>
-                        <div className={`col-4 text-center`}>
-                          <h2>Codigo para reclamar</h2>
-                          <h1>{recompensa.codigo}</h1>
-                          <p className='mt-3'>Lo reclamaste el dia {moment(recompensa.fecha_reclamo).format('DD')} de {mesANombre(moment(recompensa.fecha_reclamo).format('MM'))}</p>
-                        </div>
+              {
+                recompensasObtenidas[0] ?
+
+                  <div className="row mt-2 g-5 scrollbar">
+                    {recompensasObtenidas.map((recompensa) => (
+                      <div className="col-12 border my-2 p-5" key={recompensa.id_recomp_obt}>
+                        <form>
+                          <div className="row align-items-center">
+                            <div className="col-2">
+                              <img src={`/images/recompensas/${recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
+                            </div>
+                            <div className="col-6 px-5 align-content-center">
+                              <h2>{recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recompensa_nombre}</h2>
+                              <p>{recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recompensa_descripcion}</p>
+                            </div>
+                            <div className={`col-4 text-center`}>
+                              <h2>Codigo para reclamar</h2>
+                              <h1>{recompensa.codigo}</h1>
+                              <p className='mt-3'>Lo reclamaste el dia {moment(recompensa.fecha_reclamo).format('DD')} de {mesANombre(moment(recompensa.fecha_reclamo).format('MM'))}</p>
+                            </div>
+                          </div>
+                        </form>
                       </div>
-                    </form>
+                    ))}
                   </div>
-                ))}
-              </div>
+
+                  :
+                  <div>
+                    <h2 className='text-center my-5'>No has reclamado ninguna recompensa</h2>
+                  </div>
+              }
             </div>
           </div>
         }

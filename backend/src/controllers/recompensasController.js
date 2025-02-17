@@ -64,7 +64,9 @@ exports.crearRecompensa = async (req, res, next) => {
 // Controlador para actualizar una recompensa
 exports.actualizarRecompensa = async (req, res, next) => {
     try {
-        const response = await recompensasServices.actualizarRecompensa(req.params.id, req.body);
+        const id = req.params.id
+        const body = req.body
+        const response = await recompensasServices.actualizarRecompensa(id, body);
         res.status(200).json(response);
     } catch (error) {
         next(error);
@@ -84,7 +86,9 @@ exports.eliminarRecompensa = async (req, res, next) => {
 // Controlador para reclamar una recompensa
 exports.reclamarRecompensa = async (req, res, next) => {
     try {
-        const response = await recompensasServices.reclamarRecompensa(req.body.id_recompensa, req.params.id);
+        const id_recompensa = req.body.id_recompensa
+        const id_usuario = req.params.id
+        const response = await recompensasServices.reclamarRecompensa(id_recompensa, id_usuario);
         res.status(200).json(response);
     } catch (error) {
         next(error);
@@ -94,6 +98,8 @@ exports.reclamarRecompensa = async (req, res, next) => {
 // Controlador para validar recompensa
 exports.validarRecompensa = async (req, res, next) => {
     try {
+        const codigo = req.body.codigo
+        const id_recompensa = req.body.id_recompensa
         const response = await recompensasServices.validarRecompensa(req.params.id, req.body.codigo);
         res.status(200).json(response);
     } catch (error) {
