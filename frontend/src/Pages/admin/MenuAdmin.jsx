@@ -2,9 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import uploadImage from "../../utils/CloudinaryUtils";
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
-const CLOUD_NAME = process.env.CLOUD_NAME || "ditdxw9ic";
 
 export default function MenuAdmin() {
 
@@ -30,27 +28,29 @@ export default function MenuAdmin() {
   // Agregar categoria
   const [categoria, setCategoria] = useState({
     categoria: '',
-    foto_cloudinary: '',
     foto: ''
+    //foto: null
   })
 
+  //Añade la imagen
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setCategoria({ ...categoria, foto_cloudinary: file });
-    setImagePreview(URL.createObjectURL(file));
-  };
+    if (file) {
+      setCategoria({ ...categoria, foto: file.name }); // Guarda el nombre del archivo
+      setImagePreview(URL.createObjectURL(file));       // Para la vista previa (opcional)
+    }
+  }
 
   //Editar categoria
   const [editarCategoria, setEditarCategoria] = useState({
     categoria: '',
-    foto_cloudinary: '',
     foto: ''
   })
 
   const handleFileChangeEdit = (e) => {
     const file = e.target.files[0]
     if (file) {
-      setEditarCategoria({ ...editarCategoria, foto_cloudinary: file });
+      setEditarCategoria({ ...editarCategoria, foto: file.name });
       setImagePreview(URL.createObjectURL(file));
 
     }
@@ -73,42 +73,28 @@ export default function MenuAdmin() {
   // Función para manejar el envío de datos
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const cloudinaryResponse = await uploadImage(categoria.foto_cloudinary, "categorias", `categoria_${categoria.categoria}`);
-
-      const categoriaData = {
-        categoria: categoria.categoria,
-        foto: cloudinaryResponse
-      };
-
-      try {
-        const response = await axios.post(`${BACKEND_URL}/api/tienda/categorias/crear/`, categoriaData);
-        if (response.status == 200) {
-          Swal.fire({
-            icon: 'success',
-            title: response.data.message
-          });
-        }
-        setCategoria({
-          categoria: '',
-          foto: '',
-          foto_cloudinary: ''
+      const response = await axios.post(`${BACKEND_URL}/api/tienda/categorias/crear/`, categoria);
+      if (response.status == 200) {
+        Swal.fire({
+          icon: 'success',
+          title: response.data.message
         });
-        setImagePreview('');
-        setIsDataUpdated(true); // Actualiza el estado para volver a cargar los datos
-        const modalElement = document.getElementById('categoriaAgregarModal');
-        let modalInstance = bootstrap.Modal.getInstance(modalElement);
-
-        // Cerrar el modal
-        modalInstance.hide();
-      } catch (error) {
-        console.log(error);
-        Swal.fire('Error', error.response.data, 'error');
       }
-    }
-    catch (error) {
+      setCategoria({
+        categoria: '',
+        foto: ''
+      });
+      setImagePreview('');
+      setIsDataUpdated(true); // Actualiza el estado para volver a cargar los datos
+      const modalElement = document.getElementById('categoriaAgregarModal');
+      let modalInstance = bootstrap.Modal.getInstance(modalElement);
+
+      // Cerrar el modal
+      modalInstance.hide();
+    } catch (error) {
       console.log(error);
+      Swal.fire('Error', error.response.data, 'error');
     }
     resetFoto();
   };
@@ -233,7 +219,7 @@ export default function MenuAdmin() {
         {categorias.map(cat => (
           <div className="col" key={cat.id_categoria}>
             <div className="card mb-4">
-              <img src={`${cat.cat_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
+              <img src={`/images/menu/categorias/${cat.cat_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
               <div className="card-body text-center">
                 <h4 className="card-title">{cat.cat_nom}</h4>
                 <div className="row row-cols-3">
@@ -265,7 +251,7 @@ export default function MenuAdmin() {
                 <div className="row p-3">
                   <div className="col-12 mb-3">
                     {editarCategoria.foto ? (
-                      <img src={imagePreview ? imagePreview : `${editarCategoria.foto}`} className="w-50 mx-auto d-block mb-3" alt="" />)
+                      <img src={imagePreview ? imagePreview : `/images/menu/categorias/${editarCategoria.foto}`} className="w-50 mx-auto d-block mb-3" alt="" />)
                       : null}
                     <input className='form-control' onChange={handleFileChangeEdit} defaultValue={null} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
                   </div>
