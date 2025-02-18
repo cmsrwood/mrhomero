@@ -66,7 +66,6 @@ exports.actualizarEmpleado = async (empleado) => {
             empleado.id
         ];
 
-        console.log(values)
         global.db.query(q, values, (err, results) => {
             if (err) reject(err)
             resolve({

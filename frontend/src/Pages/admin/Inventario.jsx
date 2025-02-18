@@ -67,7 +67,6 @@ export default function Inventario() {
     e.preventDefault();
     try {
       const res = await axios.post(`${BACKEND_URL}/api/tienda/inventario/crear`, ingrediente);
-      console.log(ingrediente);
 
       if (res.status === 200) {
         Swal.fire({

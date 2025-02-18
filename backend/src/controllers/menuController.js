@@ -24,7 +24,6 @@ exports.mostrarCategoria = async (req, res, next) => {
 exports.crearCategoria = async (req, res, next) => {
     try {
         const response = await menuServices.crearCategoria(req.body);
-        console.log(response)
         res.status(200).json(response)
     } catch (error) {
         next(error)

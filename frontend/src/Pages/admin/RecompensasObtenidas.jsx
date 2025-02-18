@@ -50,7 +50,6 @@ export default function RecompensasObtenidas() {
                 ]);
                 setRecompensas(recompensasRes.data);
                 setRecompensasObtenidas(recompensasObtenidasRes.data);
-                console.log(recompensasObtenidasRes.data)
                 setClientes(clientesRes.data);
             } catch (error) {
                 console.log(error);

@@ -179,7 +179,6 @@ export default function Pedidos() {
         const ventaRes = await axios.post(`${BACKEND_URL}/api/tienda/ventas/crear`, updatedVentaInfo);
         if (ventaRes.status === 200) {
           const id_venta = ventaRes.data.id;
-          console.log("Respuesta de creación de venta:", ventaRes.data);
           const detalles = venta.map(async (producto) => {
             const detalleVenta = {
               id_venta: id_venta,
@@ -249,11 +248,9 @@ export default function Pedidos() {
 
   function verificarRecibido() {
     if (parseNumber(inputs.received) <= 0) {
-      console.log('Cantidad recibida:', parseNumber(inputs.received))
       return 'vacio';
     }
     else if (parseNumber(inputs.received) < totalPrecioProductos()) {
-      console.log('Cantidad recibida:', parseNumber(inputs.received))
       return 'menor';
     }
     else {

@@ -3,7 +3,6 @@ const { BadRequestError } = require('../errors/ExceptionErrors');
 
 const validateEmpleado = (req, res, next) => {
     const err = [];
-    console.log(err)
     const { nombre, apellidos, email, telefono } = req.body;
 
     if (!nombre) {

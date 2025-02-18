@@ -13,7 +13,6 @@ export default function NavegacionAdmin() {
     const { tema, cambiarTema } = useTema();
     const cerrarSesion = useCerrarSesion();
     const [empleado, setEmpleado] = useState({});
-    console.log(empleado)
     const [isDataUpdated, setIsDataUpdated] = useState(false);
 
     const location = useLocation();
