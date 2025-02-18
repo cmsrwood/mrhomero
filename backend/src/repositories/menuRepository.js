@@ -46,8 +46,8 @@ exports.verificarProductosPorCategoria = async (id) => {
 // Repositorio para crear una categoria
 exports.crearCategoria = async (categoria) => {
     return new Promise((resolve, reject) => {
-        const q = "INSERT INTO categorias (`cat_nom`, `cat_foto`) VALUES (?, ?)";
-        const values = [categoria.categoria, categoria.foto];
+        const q = "INSERT INTO categorias (`id_categoria`, `cat_nom`, `cat_foto`) VALUES (?, ?, ?)";
+        const values = [categoria.id, categoria.categoria, categoria.foto];
         global.db.query(q, values, (err, results) => {
             if (err) reject(err);
             resolve({

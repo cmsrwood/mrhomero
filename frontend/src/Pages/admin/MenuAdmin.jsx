@@ -27,42 +27,22 @@ export default function MenuAdmin() {
 
   // Agregar categoria
   const [categoria, setCategoria] = useState({
+    id: '',
     categoria: '',
-    foto: ''
-    //foto: null
+    foto: null
   })
-
-  //Añade la imagen
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setCategoria({ ...categoria, foto: file.name }); // Guarda el nombre del archivo
-      setImagePreview(URL.createObjectURL(file));       // Para la vista previa (opcional)
-    }
-  }
-
-  //Editar categoria
-  const [editarCategoria, setEditarCategoria] = useState({
-    categoria: '',
-    foto: ''
-  })
-
-  const handleFileChangeEdit = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      setEditarCategoria({ ...editarCategoria, foto: file.name });
-      setImagePreview(URL.createObjectURL(file));
-
-    }
-  }
-
-
   //useREf para limpiar el input de la imagen 
   const fileInputRef = useRef(null);
 
   //Función para resetear el input dela imagen
   const resetFoto = () => {
     fileInputRef.current.value = '';
+  }
+
+  //Añade la imagen
+  const handleFileChange = (e) => {
+    setCategoria({ ...categoria, foto: e.target.files[0] });
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
   }
 
   //input de texto
@@ -73,100 +53,170 @@ export default function MenuAdmin() {
   // Función para manejar el envío de datos
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const id_unico = `categoria_${categoria.categoria}`;
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/tienda/categorias/crear/`, categoria);
-      if (response.status == 200) {
+      const formData = new FormData();
+      formData.append('id', id_unico);
+      formData.append('categoria', categoria.categoria);
+      formData.append('foto', categoria.foto);
+      formData.append('upload_preset', 'categorias');
+      formData.append('public_id', id_unico);
+
+      const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+
+      const url = cloudinaryResponse.data.url;
+
+      try {
+        const categoriaData = {
+          id: id_unico,
+          categoria: categoria.categoria,
+          foto: url
+        };
+        const response = await axios.post(`${BACKEND_URL}/api/tienda/categorias/crear`, categoriaData);
+
         Swal.fire({
           icon: 'success',
-          title: response.data.message
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+        setCategoria({
+          categoria: '',
+          foto: null
+        });
+        setImagePreview('');
+        setIsDataUpdated(true); // Actualiza el estado para volver a cargar los datos
+        const modalElement = document.getElementById('categoriaAgregarModal');
+        let modalInstance = bootstrap.Modal.getInstance(modalElement);
+
+        // Cerrar el modal
+        modalInstance.hide();
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.response.data.message
         });
       }
-      setCategoria({
-        categoria: '',
-        foto: ''
-      });
-      setImagePreview('');
-      setIsDataUpdated(true); // Actualiza el estado para volver a cargar los datos
-      const modalElement = document.getElementById('categoriaAgregarModal');
-      let modalInstance = bootstrap.Modal.getInstance(modalElement);
-
-      // Cerrar el modal
-      modalInstance.hide();
-    } catch (error) {
-      console.log(error);
-      Swal.fire('Error', error.response.data, 'error');
     }
+    catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data.message
+      });
+    }
+
     resetFoto();
   };
 
   const deleteCategory = async (id) => {
     try {
       const confirm = await Swal.fire({
-        title: '¿Estas seguro de eliminar esta categoría?',
+        title: '¿Estas seguro de borrar esta categoría?',
         text: "No podrás revertir esta acción",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar'
+        confirmButtonText: 'Sí, borrar'
       });
       if (!confirm.isConfirmed) {
         return;
       }
-      const res = await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id}`);
-      if (res.status === 200) {
-        Swal.fire({
-          icon: 'success',
-          title: res.data.message
-        });
-        setIsDataUpdated(true);
+      const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/eliminar/${id}`);
+      if (cloudinaryResponse.status === 200) {
+        const res = await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id}`);
+        if (res.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: res.data.message
+          });
+          setIsDataUpdated(true);
+        }
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.log(error);
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: error.response.data
+        text: error.response.data.message
       });
     }
   };
 
+  //Editar categoria
+  const [editarCategoria, setEditarCategoria] = useState({
+    categoria: '',
+    foto: null
+  })
+
+  const handleFileChangeEdit = (e) => {
+    setEditarCategoria({ ...editarCategoria, foto: e.target.files[0] })
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
+  }
 
   //input de texto para editar
   const handleInputChangeEdit = (e) => {
     setEditarCategoria(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
   const handleEdit = async (id) => {
-    try {
-      const confirm = await Swal.fire({
-        title: 'Esta seguro de editar esta categoria',
-        text: 'no podras revertir esta accion',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, editar'
-      });
-      if (confirm.isConfirmed) {
+    const formData = new FormData();
+    formData.append('categoria', editarCategoria.categoria);
+    formData.append('upload_preset', 'categorias');
+    formData.append('public_id', editarCategoria.id);
+    if (imagePreview) {
+      formData.append('foto', editarCategoria.foto);
+      try {
+        const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+        const url = cloudinaryResponse.data.url;
+
+        const categoriaData = {
+          categoria: editarCategoria.categoria,
+          foto: url
+        }
+
+        try {
+          const response = await axios.put(`${BACKEND_URL}/api/tienda/categorias/actualizar/${id}`, categoriaData);
+          if (response.status === 200) {
+            Swal.fire('Éxito', 'Categoría editada correctamente', 'success');
+            const modalElement = document.getElementById('categoriaEditarModal');
+            let modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide();
+            setImagePreview('');
+            setIsDataUpdated(true);
+          }
+        } catch (error) {
+          console.log(error);
+          Swal.fire('Error', error.response.data.message, 'error');
+        }
+      }
+      catch (error) {
+        console.log(error);
+        Swal.fire('Error', error.response.data.message, 'error');
+      }
+    } else {
+      try {
         const response = await axios.put(`${BACKEND_URL}/api/tienda/categorias/actualizar/${id}`, editarCategoria);
         if (response.status === 200) {
-          Swal.fire({
-            icon: 'success',
-            title: response.data.message
-          });
-          setIsDataUpdated(true);
-
+          Swal.fire('Éxito', 'Categoría editada correctamente', 'success');
           const modalElement = document.getElementById('categoriaEditarModal');
           let modalInstance = bootstrap.Modal.getInstance(modalElement);
           modalInstance.hide();
           setImagePreview('');
+          setIsDataUpdated(true);
         }
+      } catch (error) {
+        console.log(error);
+        Swal.fire('Error', error.response.data.message, 'error');
       }
-    } catch (error) {
-      console.log(error);
-      Swal.fire('Error', error.response.data, 'error');
     }
-  };
+  }
 
   function openEditModal(categoria) {
     setEditarCategoria({
@@ -219,7 +269,7 @@ export default function MenuAdmin() {
         {categorias.map(cat => (
           <div className="col" key={cat.id_categoria}>
             <div className="card mb-4">
-              <img src={`/images/menu/categorias/${cat.cat_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
+              <img src={`${cat.cat_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
               <div className="card-body text-center">
                 <h4 className="card-title">{cat.cat_nom}</h4>
                 <div className="row row-cols-3">
@@ -251,7 +301,7 @@ export default function MenuAdmin() {
                 <div className="row p-3">
                   <div className="col-12 mb-3">
                     {editarCategoria.foto ? (
-                      <img src={imagePreview ? imagePreview : `/images/menu/categorias/${editarCategoria.foto}`} className="w-50 mx-auto d-block mb-3" alt="" />)
+                      <img src={imagePreview ? imagePreview : `${editarCategoria.foto}`} className="w-50 mx-auto d-block mb-3" alt="" />)
                       : null}
                     <input className='form-control' onChange={handleFileChangeEdit} defaultValue={null} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
                   </div>
