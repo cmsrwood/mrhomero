@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-02-2025 a las 19:20:44
+-- Tiempo de generación: 19-02-2025 a las 13:33:29
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categorias` (
-  `id_categoria` int(11) NOT NULL,
+  `id_categoria` varchar(255) NOT NULL,
   `cat_nom` varchar(255) NOT NULL,
   `cat_foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -104,7 +104,7 @@ CREATE TABLE `productos` (
   `pro_foto` varchar(255) NOT NULL,
   `pro_puntos` varchar(255) NOT NULL,
   `pro_estado` int(2) NOT NULL DEFAULT 1,
-  `id_categoria` int(11) NOT NULL
+  `id_categoria` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -130,7 +130,7 @@ CREATE TABLE `proveedores` (
 --
 
 CREATE TABLE `recompensas` (
-  `id_recomp` int(11) NOT NULL,
+  `id_recomp` varchar(255) NOT NULL,
   `recompensa_nombre` varchar(255) NOT NULL,
   `recompensa_descripcion` varchar(255) NOT NULL,
   `recomp_num_puntos` int(11) NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE `recompensas` (
 
 CREATE TABLE `recompensas_obt` (
   `id_recomp_obt` int(11) NOT NULL,
-  `id_recomp` int(11) NOT NULL,
+  `id_recomp` varchar(255) NOT NULL,
   `id_user` int(11) NOT NULL,
   `codigo` varchar(6) NOT NULL,
   `fecha_reclamo` datetime NOT NULL,
@@ -311,12 +311,6 @@ ALTER TABLE `ventas`
 --
 
 --
--- AUTO_INCREMENT de la tabla `categorias`
---
-ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `categorias_inv`
 --
 ALTER TABLE `categorias_inv`
@@ -351,12 +345,6 @@ ALTER TABLE `productos`
 --
 ALTER TABLE `proveedores`
   MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `recompensas`
---
-ALTER TABLE `recompensas`
-  MODIFY `id_recomp` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `recompensas_obt`

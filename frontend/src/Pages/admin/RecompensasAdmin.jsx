@@ -7,6 +7,7 @@ import 'swiper/css/scrollbar'
 import '../../styles/style.css'
 import Swal from 'sweetalert2'
 import img from '../../assets/img/img.png'
+import uniqid from 'uniqid'
 import axios from 'axios'
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
@@ -42,34 +43,58 @@ export default function RecompensasAdmin() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setRecompensa({ ...recompensa, foto: file.name });
+      setRecompensa({ ...recompensa, foto: file });
       setImagePreview(URL.createObjectURL(file));
     }
-
   }
 
   const handleInputChange = (e) => {
     setRecompensa({ ...recompensa, [e.target.name]: e.target.value });
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const id_unico = `recompensa_${recompensa.nombre}_${uniqid()}`;
     try {
-      const res = await axios.post(`${BACKEND_URL}/api/tienda/recompensas/crear`, recompensa);
-      Swal.fire({
-        icon: 'success',
-        title: res.data.message
-      });
-      if (res.status === 200) {
-        setRecompensa({
-          nombre: '',
-          descripcion: '',
-          puntos: '',
-          foto: null
+      const formData = new FormData();
+      formData.append('id', id_unico);
+      formData.append('foto', recompensa.foto);
+      formData.append('upload_preset', 'recompensas');
+      formData.append('public_id', id_unico);
+
+      const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+
+      const url = cloudinaryResponse.data.url;
+
+      try {
+        const recompensaData = {
+          id: id_unico,
+          nombre: recompensa.nombre,
+          descripcion: recompensa.descripcion,
+          puntos: recompensa.puntos,
+          foto: url
+        }
+        const res = await axios.post(`${BACKEND_URL}/api/tienda/recompensas/crear`, recompensaData);
+        Swal.fire({
+          icon: 'success',
+          title: res.data.message
         });
+        if (res.status === 200) {
+          setRecompensa({
+            nombre: '',
+            descripcion: '',
+            puntos: '',
+            foto: null
+          });
+          setIsDataUpdated(true);
+        }
+        setImagePreview('');
         setIsDataUpdated(true);
+      } catch (error) {
+        console.log(error);
+        Swal.fire('Error', error.response.data, 'error');
       }
-      setImagePreview('');
-      setIsDataUpdated(true);
     } catch (error) {
       console.log(error);
       Swal.fire('Error', error.response.data, 'error');
@@ -101,7 +126,7 @@ export default function RecompensasAdmin() {
   const handleFileChangeEdit = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setEditarRecompensa({ ...editarRecompensa, foto_edit: file.name });
+      setEditarRecompensa({ ...editarRecompensa, foto_edit: file });
       setImagePreview(URL.createObjectURL(file));
     }
 
@@ -113,6 +138,9 @@ export default function RecompensasAdmin() {
 
   const handleEdit = async (id) => {
     try {
+      const formData = new FormData();
+
+      formData.append('recompensa_nombre', editarRecompensa.nombre_edit);
       const res = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/actualizar/${id}`, editarRecompensa);
       if (res.status === 200) {
         Swal.fire({
@@ -226,7 +254,7 @@ export default function RecompensasAdmin() {
           {recompensas.map((recompensa) => (
             <SwiperSlide className="h-100" key={recompensa.id_recomp}>
               <div className="card text-center">
-                <img src={`/images/recompensas/${recompensa.recomp_foto}`} height={200} className="card-img-top p-3" alt="..." />
+                <img src={`${recompensa.recomp_foto}`} height={200} className="card-img-top p-3" alt="..." />
                 <div className="card-body">
                   <h5 className="card-title">{recompensa.recompensa_nombre}</h5>
                   <p className="card-text">{recompensa.recompensa_descripcion}</p>
@@ -252,7 +280,7 @@ export default function RecompensasAdmin() {
                 <div className="row">
                   <div className="col-3 m-3 ps-3 pt-2">
                     {editarRecompensa.foto_edit ? (
-                      <img src={imagePreview ? imagePreview : `/images/recompensas/${editarRecompensa.foto}`} className="img-fluid mb-3 h-75" alt="Imagen actual" height={100} />
+                      <img src={imagePreview ? imagePreview : `${editarRecompensa.foto}`} className="img-fluid mb-3 h-75" alt="Imagen actual" height={100} />
                     ) : null}
                     <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='foto' name='foto' />
                   </div>

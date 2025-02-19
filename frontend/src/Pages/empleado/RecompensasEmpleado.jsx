@@ -239,7 +239,7 @@ export default function RecompensasAdmin() {
           {recompensas.map((recompensa) => (
             <SwiperSlide className="h-100" key={recompensa.id_recomp}>
               <div className="card text-center">
-                <img src={`/images/recompensas/${recompensa.recomp_foto}`} height={200} className="card-img-top p-3" alt="..." />
+                <img src={`${recompensa.recomp_foto}`} height={200} className="card-img-top p-3" alt="..." />
                 <div className="card-body">
                   <h5 className="card-title">{recompensa.recompensa_nombre}</h5>
                   <p className="card-text">{recompensa.recompensa_descripcion}</p>
@@ -264,7 +264,7 @@ export default function RecompensasAdmin() {
               <div className="conatiner">
                 <div className="row">
                   <div className="col-3 m-3 ps-3 pt-2">
-                    <img src={imagePreview ? imagePreview : `/images/recompensas/${editarRecompensa.foto_edit}`} className="img-fluid mb-3" alt="Imagen actual" height={100} />
+                    <img src={imagePreview ? imagePreview : `${editarRecompensa.foto_edit}`} className="img-fluid mb-3" alt="Imagen actual" height={100} />
                     <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='foto' name='foto' />
                   </div>
                   <div className="col">

@@ -54,7 +54,8 @@ exports.mostrarPuntos = async (req, res, next) => {
 // Controlador para crear una nueva recompensa
 exports.crearRecompensa = async (req, res, next) => {
     try {
-        const response = await recompensasServices.crearRecompensa(req.body)
+        const recompensa = req.body
+        const response = await recompensasServices.crearRecompensa(recompensa);
         res.status(200).json(response);
     } catch (error) {
         next(error)

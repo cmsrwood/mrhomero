@@ -55,7 +55,7 @@ export default function CategoriaMenu() {
                     <Link key={producto.id_producto} to={rutaCategoria(rol, producto.id_producto)} className="text-decoration-none">
                         <div className="col my-2" key={producto.id_producto}>
                             <div className="card text-center p-2">
-                                <img src={`/images/menu/productos/${producto.pro_foto}`} height={200} className="card-img-top" alt="..." />
+                                <img loading='lazy' src={`${producto.pro_foto}`} height={200} className="card-img-top" alt="..." />
                                 <div className="card-body">
                                     <div className=" justify-content-between align-productos-center">
                                         <h3 className="card-title">{producto.pro_nom}</h3>

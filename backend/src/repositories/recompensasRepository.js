@@ -72,8 +72,9 @@ exports.mostrarPuntos = async (id) => {
 // Crear una recompensa
 exports.crearRecompensa = async (recompensa) => {
     return new Promise((resolve, reject) => {
-        const q = "INSERT INTO recompensas(`recompensa_nombre`, `recompensa_descripcion`, `recomp_num_puntos`, `recomp_foto`) VALUES (?)";
+        const q = "INSERT INTO recompensas( `id_recomp`, `recompensa_nombre`, `recompensa_descripcion`, `recomp_num_puntos`, `recomp_foto`) VALUES (?)";
         const values = [
+            recompensa.id,
             recompensa.nombre,
             recompensa.descripcion,
             recompensa.puntos,

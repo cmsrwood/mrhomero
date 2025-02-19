@@ -29,7 +29,7 @@ export default function HorasEmpleados() {
     <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
       {empleados.map((empleado) => (
         <div className="col card text-center p-2" key={empleado.id_user}>
-          <img src={`/images/clientes/${empleado.user_foto}`} height={200} className="card-img-top" alt="..." />
+          <img src={`${empleado.user_foto}`} height={200} className="card-img-top" alt="..." />
           <div className="card-body">
             <div className="d-flex justify-content-between align-items-center">
               <h3 className="card-title" >{empleado.user_nom} {empleado.user_apels}</h3>

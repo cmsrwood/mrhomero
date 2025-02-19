@@ -80,7 +80,7 @@ export default function Gestionhoras() {
         <div className=''>
             <h1>Gestion de Horas</h1>
             <div className="text-center">
-                <img className='rounded-circle' style={{ width: '150px' }} src={`/images/clientes/${empleado.user_foto}`} alt={empleado.user_nom} />
+                <img className='rounded-circle' style={{ width: '150px' }} src={`${empleado.user_foto}`} alt={empleado.user_nom} />
                 <h2 className='my-4 fw-bold'>{empleado.user_nom} {empleado.user_apels}</h2>
             </div>
             <div className='row w-100 justify-content-between my-3'>

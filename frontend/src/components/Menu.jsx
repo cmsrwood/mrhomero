@@ -48,7 +48,7 @@ export default function Menu() {
                             <div className="card" key={categoria.id_categoria}>
                                 <Link to={rutaCategoria(rol, categoria.id_categoria)} className='text-decoration-none'>
                                     <div className="card text-center border-0">
-                                        <img src={`/images/menu/categorias/${categoria.cat_foto}`} height={200} className="card-img-top" alt="..." />
+                                        <img loading='lazy' src={`${categoria.cat_foto}`} height={200} className="card-img-top" alt="..." />
                                         <div className="card-body">
                                             <h5 className="card-title">{categoria.cat_nom}</h5>
                                         </div>

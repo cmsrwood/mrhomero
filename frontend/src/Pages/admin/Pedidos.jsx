@@ -290,7 +290,7 @@ export default function Pedidos() {
                 <div className="col hoverCursor" onClick={() => seleccionarCategoria(cat.id_categoria)}>
                   <div className="card text-center">
                     <img
-                      src={`/images/menu/categorias/${cat.cat_foto}`}
+                      src={`${cat.cat_foto}`}
                       height={150}
                       className="card-img-top border-bottom border-1"
                       alt={cat.cat_nom}
@@ -314,7 +314,7 @@ export default function Pedidos() {
                 return (
                   <div className="hoverCursor col" onClick={() => ventaProductos(product)} key={product.id_producto}>
                     <div className="card text-center">
-                      <img src={`/images/menu/productos/${product.pro_foto}`} height={120} width={80} className="card-img-top border-bottom border-1" alt="..." />
+                      <img src={`${product.pro_foto}`} height={120} width={80} className="card-img-top border-bottom border-1" alt="..." />
                       <div className="card-body">
                         <h5 className="card-title fs-sm-6">{product.pro_nom}</h5>
                       </div>

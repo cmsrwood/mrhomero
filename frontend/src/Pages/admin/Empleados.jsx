@@ -217,7 +217,7 @@ export default function Empleados() {
                   <form action="" onSubmit={handleEdit}>
                     <div className="row">
                       <div className="col-3">
-                        <img src={`/images/clientes/${empEdit.emp_foto}`} height={200} className="card-img-top" alt="..." />
+                        <img src={`${empEdit.emp_foto}`} height={200} className="card-img-top" alt="..." />
                       </div>
                       <div className="col row" >
                         <div className="col">

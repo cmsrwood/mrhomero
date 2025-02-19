@@ -268,7 +268,7 @@ export default function Categoria() {
               <div className="modal-body">
                 <div className="row p-3">
                   <div className="col-12">
-                    <img src={imagePreview ? imagePreview : `/images/menu/productos/${editarProducto.imagen}`} className="rounded mx-auto mb-4 d-block w-50" />
+                    <img src={imagePreview ? imagePreview : `${editarProducto.imagen}`} className="rounded mx-auto mb-4 d-block w-50" />
                   </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Imagen</label>
@@ -308,7 +308,7 @@ export default function Categoria() {
                 {producto.pro_estado === 1 ? `Activo` : `Inactivo`}
                 <span className="visually-hidden">unread messages</span>
               </span>
-              <img src={`/images/menu/productos/${producto.pro_foto}`} height={200} className="card-img-top position-relative" alt="..." />
+              <img src={`${producto.pro_foto}`} height={200} className="card-img-top position-relative" alt="..." />
               <div className="card-body">
                 <div className=" justify-content-between align-productos-center">
                   <h3 className="card-title">{producto.pro_nom}</h3>
@@ -349,7 +349,7 @@ export default function Categoria() {
                   <div className="row p-3">
                     <div className="col-12 mb-3">
                       {editarProducto.imagen ? (
-                        <img src={imagePreview ? imagePreview : `/images/menu/productos/${editarProducto.imagen}`} className="rounded mx-auto mb-4 d-block w-50" alt="Imagen actual" />
+                        <img src={imagePreview ? imagePreview : `${editarProducto.imagen}`} className="rounded mx-auto mb-4 d-block w-50" alt="Imagen actual" />
                       ) : null}
                       <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='imagen' name='imagen' />
                     </div>

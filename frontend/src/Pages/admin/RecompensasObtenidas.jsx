@@ -120,7 +120,7 @@ export default function RecompensasObtenidas() {
                         <div className="col-12 border my-2 p-5" key={recompensaObtenida.id_recomp_obt}>
                             <div className="row align-items-center">
                                 <div className="col-2">
-                                    <img src={`/images/recompensas/${recompensas.find(recompensa => recompensa.id_recomp == recompensaObtenida.id_recomp).recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
+                                    <img src={`${recompensas.find(recompensa => recompensa.id_recomp == recompensaObtenida.id_recomp).recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
                                 </div>
                                 <div className="col-6 px-5 align-content-center">
                                     <h2>{recompensas.find(recompensa => recompensa.id_recomp == recompensaObtenida.id_recomp).recompensa_nombre}</h2>

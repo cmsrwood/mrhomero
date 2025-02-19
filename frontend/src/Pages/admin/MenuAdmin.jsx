@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import uniqid from 'uniqid';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function MenuAdmin() {
@@ -54,11 +55,10 @@ export default function MenuAdmin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const id_unico = `categoria_${categoria.categoria}`;
+    const id_unico = `categoria_${categoria.categoria}_${uniqid()}`;
     try {
       const formData = new FormData();
       formData.append('id', id_unico);
-      formData.append('categoria', categoria.categoria);
       formData.append('foto', categoria.foto);
       formData.append('upload_preset', 'categorias');
       formData.append('public_id', id_unico);

@@ -117,7 +117,7 @@ export default function RecompensasCliente() {
                     >
                       <div className="row align-items-center">
                         <div className="col-2">
-                          <img src={`/images/recompensas/${recompensa.recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
+                          <img src={`${recompensa.recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
                         </div>
                         <div className="col-7 px-5 align-content-center">
                           <h2>{recompensa.recompensa_nombre}</h2>
@@ -152,7 +152,7 @@ export default function RecompensasCliente() {
                         <form>
                           <div className="row align-items-center">
                             <div className="col-2">
-                              <img src={`/images/recompensas/${recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
+                              <img src={`${recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
                             </div>
                             <div className="col-6 px-5 align-content-center">
                               <h2>{recompensas.find(recompensa => recompensa.id_recomp == recompensa.id_recomp).recompensa_nombre}</h2>

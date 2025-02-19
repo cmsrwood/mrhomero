@@ -122,7 +122,7 @@ export default function IndexCliente() {
               <div key={producto.id_producto} className={index < 2 ? "col wow animate__animated animate__fadeInLeft" : "col wow animate__animated animate__fadeInRight"}>
                 <div className="card text-center shadow position-relative">
                   <img
-                    src={`/images/menu/productos/${producto.pro_foto}`}
+                    src={`${producto.pro_foto}`}
                     height={200}
                     className="card-img-top border-bottom border-1"
                     alt={producto.pro_foto}
@@ -150,7 +150,7 @@ export default function IndexCliente() {
               <div key={producto.id_producto} className={index < 2 ? "col wow animate__animated animate__fadeInLeft" : "col wow animate__animated animate__fadeInRight"}>
                 <div className="card text-center shadow position-relative">
                   <img
-                    src={`/images/menu/productos/${producto.pro_foto}`}
+                    src={`${producto.pro_foto}`}
                     height={200}
                     className="card-img-top border-bottom border-1"
                     alt={producto.pro_foto}
