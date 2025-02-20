@@ -20,7 +20,7 @@ export default function RecompensasAdmin() {
     const fetchData = async () => {
       try {
         const [recompensasRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/recompensas/mostrar`)
+          axios.get(`${BACKEND_URL}/api/tienda/recompensas/`)
         ]);
         setRecompensas(recompensasRes.data);
       } catch (error) {
@@ -55,9 +55,13 @@ export default function RecompensasAdmin() {
     formData.append('foto', recompensa.foto);
 
     try {
-      const res = await axios.post(`${BACKEND_URL}/api/recompensas/crearRecompensa`, formData);
+      const response = await axios.post(`${BACKEND_URL}/api/tienda/recompensas/crear`, formData);
       Swal.fire('Exito', 'Recompensa agregada correctamente', 'success');
-      if (res.status === 200) {
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: response.data.message
+        });
         setIsDataUpdated(true);
         setRecompensa({
           nombre: '',
@@ -70,7 +74,11 @@ export default function RecompensasAdmin() {
       setIsDataUpdated(true);
     } catch (error) {
       console.log(error);
-      Swal.fire('Error', error.response.data, 'error');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al crear una recompensa',
+        text: error.response.data.message
+      });
     }
 
     const modalElement = document.getElementById('añadirRecompensa');
@@ -132,9 +140,12 @@ export default function RecompensasAdmin() {
     }
 
     try {
-      const res = await axios.put(`${BACKEND_URL}/api/recompensas/actualizarRecompensa/${id}`, formData);
-      if (res.status === 200) {
-        Swal.fire('Exito', 'Recompensa editada correctamente', 'success');
+      const response = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/actualizar/${id}`, formData);
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: response.data.message
+        });
         const modalElement = document.getElementById('recompensaEditarModal');
         let modalInstance = bootstrap.Modal.getInstance(modalElement);
         modalInstance.hide();
@@ -142,8 +153,11 @@ export default function RecompensasAdmin() {
         setIsDataUpdated(true);
       }
     } catch (error) {
-      console.log(error);
-      Swal.fire('Error', error.response?.data || 'error');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al editar la recompensa',
+        text: error.response.data.message
+      });
     }
   }
 
@@ -173,14 +187,20 @@ export default function RecompensasAdmin() {
         return;
       }
 
-      const res = await axios.delete(`${BACKEND_URL}/api/recompensas/eliminarRecompensa/${id}`);
-      if (res.status === 200) {
-        Swal.fire('Exito', 'Recompensa eliminada correctamente', 'success');
+      const response = await axios.delete(`${BACKEND_URL}/api/tienda/recompensas/eliminar/${id}`);
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: response.data.message
+        });
         setIsDataUpdated(true);
       }
     } catch (error) {
-      console.log(error);
-      Swal.fire('Error', error.response?.data || 'error');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al eliminar la recompensa',
+        text: error.response.data.message
+      });
     }
   }
 

@@ -26,7 +26,7 @@ export default function NavegacionAdmin() {
         const fetchData = async () => {
             try {
                 const [empleadoRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/empleados/mostrarEmpleadoId/${id}`),
+                    axios.get(`${BACKEND_URL}/api/personas/empleados/${id}`),
                 ]);
                 setEmpleado(empleadoRes.data);
             } catch (error) {

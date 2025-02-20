@@ -24,8 +24,8 @@ export default function Ventas() {
         const fetchData = async () => {
             try {
                 const [ventasRes, clientesRes] = await Promise.all([
-                    axios.get(`${BACKEND_URL}/api/ventas/mostrar`),
-                    axios.get(`${BACKEND_URL}/api/clientes/mostrar`)
+                    axios.get(`${BACKEND_URL}/api/tienda/ventas/`),
+                    axios.get(`${BACKEND_URL}/api/personas/clientes/`)
                 ]);
                 setVentas(ventasRes.data);
                 setClientes(clientesRes.data);
@@ -73,9 +73,9 @@ export default function Ventas() {
                 return;
             }
 
-            const res = await axios.put(`${BACKEND_URL}/api/ventas/eliminar/${id}`);
+            const response = await axios.put(`${BACKEND_URL}/api/tienda/ventas/eliminar/${id}`);
 
-            if (res.status === 200) {
+            if (response.status === 200) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Venta eliminada exitosamente'
@@ -102,7 +102,7 @@ export default function Ventas() {
                 return;
             }
 
-            const res = await axios.put(`${BACKEND_URL}/api/ventas/restaurar/${id}`);
+            const res = await axios.put(`${BACKEND_URL}/api/tienda/ventas/restaurar/${id}`);
             if (res.status === 200) {
                 Swal.fire({
                     icon: 'success',
@@ -122,10 +122,10 @@ export default function Ventas() {
     const mostrarDetalles = async (id_venta) => {
         setIdVenta(id_venta);
         try {
-            const detalleVentaRes = await axios.get(`${BACKEND_URL}/api/ventas/mostrarDetalleVenta/${id_venta}`);
+            const detalleVentaRes = await axios.get(`${BACKEND_URL}/api/tienda/ventas/detalle/${id_venta}`);
             const detallesConProducto = await Promise.all(
                 detalleVentaRes.data.map(async (detalle) => {
-                    const productoRes = await axios.get(`${BACKEND_URL}/api/productos/mostrarProducto/${detalle.id_producto}`);
+                    const productoRes = await axios.get(`${BACKEND_URL}/api/tienda/productos/${detalle.id_producto}`);
                     return { ...detalle, producto: productoRes.data };
                 })
             );
