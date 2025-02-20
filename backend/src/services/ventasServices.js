@@ -133,8 +133,6 @@ exports.mostrarCompras = async (id) => {
     if (cliente.length <= 0) throw new NotFoundError('El cliente no existe');
 
     const response = await ventasRepository.mostrarCompras(id);
-    if (response.length <= 0)
-        throw new NotFoundError(`No se encontraron compras del cliente con el id: ${id}`);
     return response;
 };
 

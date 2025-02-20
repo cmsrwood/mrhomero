@@ -10,7 +10,6 @@ export default function Producto() {
     const token = localStorage.getItem('token');
     const idProducto = token ? location.pathname.split("/")[3] : location.pathname.split("/")[2];
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -39,8 +38,6 @@ export default function Producto() {
                 </div>
                 <Link to={`/categoria/${producto?.id_categoria}`} className='btn btn-warning position-absolute top-0 end-0 mx-5 my-4'>Volver <i className="bi bi-arrow-left"></i></Link>
             </div>
-
-
         </div>
     );
 

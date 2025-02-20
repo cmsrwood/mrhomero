@@ -21,7 +21,7 @@ export default function HistorialCompras() {
             try {
                 const [comprasRes] = await Promise.all([
                     axios.get(`${BACKEND_URL}/api/tienda/ventas/cliente/${idUsuario}`),
-                ])
+                ]);
                 setCompras(comprasRes.data);
             } catch (error) {
                 console.log(error);
@@ -64,86 +64,88 @@ export default function HistorialCompras() {
     }
 
     return (
-            <div className="py-5 container">
-                <div className="text-center">
-                    <h1 className="pb-3">Historial de compras</h1>
-                </div>
-                <div className="row row-cols-1 row-cols-sm-2 g-5">
-                    {compras.map((venta) => (
-                        <div className='col' key={venta.id_venta}>
-                            <div className="card p-0 shadow">
-                                <div className='card-header'>
-                                    {moment(venta.venta_fecha).format('DD')} de {mesANombre(moment(venta.venta_fecha).format('MM'))}
+        compras.length > 0 ? <div className="py-5 container">
+            <div className="text-center">
+                <h1 className="pb-3">Historial de compras</h1>
+            </div>
+            <div className="row row-cols-1 row-cols-sm-2 g-5">
+                {compras.map((venta) => (
+                    <div className='col' key={venta.id_venta}>
+                        <div className="card p-0 shadow">
+                            <div className='card-header'>
+                                {moment(venta.venta_fecha).format('DD')} de {mesANombre(moment(venta.venta_fecha).format('MM'))}
+                            </div>
+                            <div className="card-body">
+                                <div className='d-flex justify-content-between'>
+                                    <div className="text-center align-self-center">
+                                        <h1 className="card-title">${formatNumber(venta.venta_total)}</h1>
+                                    </div>
+                                    <div className="align-self-center">
+                                        <button className="btn btn-warning me-2" onClick={() => mostrarDetalles(venta.id_venta)} data-bs-toggle="modal" data-bs-target={`#modal_${venta.id_venta}`} aria-controls={`modal_${venta.id_venta}`} aria-expanded="false" >
+                                            Ver compra
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="card-body">
-                                    <div className='d-flex justify-content-between'>
-                                        <div className="text-center align-self-center">
-                                            <h1 className="card-title">${formatNumber(venta.venta_total)}</h1>
-                                        </div>
-                                        <div className="align-self-center">
-                                            <button className="btn btn-warning me-2" onClick={() => mostrarDetalles(venta.id_venta)} data-bs-toggle="modal" data-bs-target={`#modal_${venta.id_venta}`} aria-controls={`modal_${venta.id_venta}`} aria-expanded="false" >
-                                                Ver compra
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        {moment(venta.venta_fecha).format('HH:mm:ss')}
-                                    </div>
-                                    <div className="modal fade" id={`modal_${venta.id_venta}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div className="modal-dialog modal-xl">
-                                            <div className="modal-content">
-                                                <div className="modal-header">
-                                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Detalle de la compra</h1>
-                                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div className="modal-body">
-                                                    {detallesVentas[venta.id_venta] && detallesVentas[venta.id_venta].length > 0 ? (
-                                                        <table className="table table-striped table-hover border border-1">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col">Cantidad</th>
-                                                                    <th scope="col">Producto</th>
-                                                                    <th scope="col">Precio</th>
-                                                                    <th scope="col">Puntos</th>
-                                                                    <th scope='col'>Subtotal</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {detallesVentas[venta.id_venta].map((detalle) => (
-                                                                    <React.Fragment key={detalle.id_detalle}>
-                                                                        <tr key={detalle.id_detalle}>
-                                                                            <td>{detalle.cantidad_producto}</td>
-                                                                            <td>{detalle.producto.pro_nom}</td>
-                                                                            <td>{formatNumber(detalle.producto.pro_precio)}</td>
-                                                                            <td>{formatNumber(detalle.producto.pro_puntos)}</td>
-                                                                            <td className=''>{formatNumber(detalle.subtotal)}</td>
-                                                                        </tr>
-                                                                    </React.Fragment>
-                                                                ))}
-                                                                <tr className='fw-bold'>
-                                                                    <td >Total:</td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td className='text-warning'>{formatNumber(detallesVentas[venta.id_venta].reduce((total, detalle) => total + detalle.producto.pro_puntos * detalle.cantidad_producto, 0))}</td>
-                                                                    <td className='text-warning'>{formatNumber(venta.venta_total)}</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    ) : (
-                                                        <p>No hay detalles de la venta</p>
-                                                    )}
-                                                </div>
-                                                <div className="modal-footer">
-                                                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-lg"></i></button>
-                                                </div>
+                                <div>
+                                    {moment(venta.venta_fecha).format('HH:mm:ss')}
+                                </div>
+                                <div className="modal fade" id={`modal_${venta.id_venta}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div className="modal-dialog modal-xl">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h1 className="modal-title fs-5" id="exampleModalLabel">Detalle de la compra</h1>
+                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div className="modal-body">
+                                                {detallesVentas[venta.id_venta] && detallesVentas[venta.id_venta].length > 0 ? (
+                                                    <table className="table table-striped table-hover border border-1">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Cantidad</th>
+                                                                <th scope="col">Producto</th>
+                                                                <th scope="col">Precio</th>
+                                                                <th scope="col">Puntos</th>
+                                                                <th scope='col'>Subtotal</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {detallesVentas[venta.id_venta].map((detalle) => (
+                                                                <React.Fragment key={detalle.id_detalle}>
+                                                                    <tr key={detalle.id_detalle}>
+                                                                        <td>{detalle.cantidad_producto}</td>
+                                                                        <td>{detalle.producto.pro_nom}</td>
+                                                                        <td>{formatNumber(detalle.producto.pro_precio)}</td>
+                                                                        <td>{formatNumber(detalle.producto.pro_puntos)}</td>
+                                                                        <td className=''>{formatNumber(detalle.subtotal)}</td>
+                                                                    </tr>
+                                                                </React.Fragment>
+                                                            ))}
+                                                            <tr className='fw-bold'>
+                                                                <td >Total:</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td className='text-warning'>{formatNumber(detallesVentas[venta.id_venta].reduce((total, detalle) => total + detalle.producto.pro_puntos * detalle.cantidad_producto, 0))}</td>
+                                                                <td className='text-warning'>{formatNumber(venta.venta_total)}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                ) : (
+                                                    <p>No hay detalles de la venta</p>
+                                                )}
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-lg"></i></button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
             </div>
+        </div> : <div className="py-5">
+            <h1 className="d-flex justify-content-center align-items-center">No tienes compras.</h1>
+        </div>
     )
 }

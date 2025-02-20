@@ -46,14 +46,12 @@ export default function Proveedores() {
         e.preventDefault();
         try {
             const res = await axios.post(`${BACKEND_URL}/api/tienda/proveedores/crear`, proveedor);
-            Swal.fire({
-                icon: 'success',
-                title: res.data.message
-            });
-
             if (res.status === 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: res.data.message
+                });
                 setIsDataUpdated(true);
-
                 // Resetear el formulario a valores vacíos
                 setProveedor({
                     prov_nombre: '',
@@ -62,16 +60,17 @@ export default function Proveedores() {
                     prov_contacto_telefono: '',
                     prov_contacto_email: '',
                 });
-
                 // Cerrar el modal
                 const modalElement = document.getElementById('ModalAñadirProv');
                 let modalInstance = bootstrap.Modal.getInstance(modalElement);
                 if (modalInstance) modalInstance.hide();
             }
-
         } catch (error) {
-            console.log(error);
-            Swal.fire('Error', error.response.data, 'error');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.response.data.message,
+            });
         }
     };
 
@@ -94,7 +93,6 @@ export default function Proveedores() {
             const res = await axios.put(`${BACKEND_URL}/api/tienda/proveedores/actualizar/${proveedorEdit.prov_id}`, proveedorEdit);
             if (res.status === 200) {
                 setIsDataUpdated(true);
-
                 Swal.fire({
                     icon: 'success',
                     title: res.data.message
@@ -109,7 +107,7 @@ export default function Proveedores() {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: (error.response && error.response.data),
+                text: error.response.data.message
             });
         }
     };
@@ -141,7 +139,10 @@ export default function Proveedores() {
             }
             const res = await axios.delete(`${BACKEND_URL}/api/tienda/proveedores/eliminar/${id}`);
             if (res.status === 200) {
-                Swal.fire('Proveedor eliminado', res.data, 'success');
+                Swal.fire({
+                    icon: 'success',
+                    title: res.data.message
+                });
                 setIsDataUpdated(true);
             }
         } catch (error) {
@@ -149,7 +150,7 @@ export default function Proveedores() {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: (error.response && error.response.data),
+                text: error.response.data.message
             });
         }
     };

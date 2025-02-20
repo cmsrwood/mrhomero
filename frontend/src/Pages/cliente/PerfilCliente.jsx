@@ -28,7 +28,7 @@ export default function PerfilCliente() {
         const [userRes, comprasRes] = await Promise.all([
           axios.get(`${BACKEND_URL}/api/personas/clientes/${id_user}`),
           axios.get(`${BACKEND_URL}/api/tienda/ventas/cliente/${id_user}`),
-        ])
+        ]);
         setEditarUser(userRes.data);
         setCompras(comprasRes.data);
       } catch (error) {
