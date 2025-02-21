@@ -231,7 +231,7 @@ export default function MenuAdmin() {
   }
 
   return (
-    <div className=''>
+    <div className='animate__animated animate__fadeIn'>
       <div className="d-flex justify-content-between mb-5">
         <h1>Menú</h1>
         <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#categoriaAgregarModal">

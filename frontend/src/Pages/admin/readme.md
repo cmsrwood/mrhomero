@@ -1,1 +1,1 @@
-apartado para administrador
+Carpeta para archivos de administrador

@@ -200,7 +200,7 @@ export default function RecompensasAdmin() {
   }
 
   return (
-    <div className=''>
+    <div className='animate__animated animate__fadeIn'>
       <div className="d-flex justify-content-between">
         <h1>Recompensas</h1>
         <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#añadirRecompensa"><i className="bi bi-plus"></i>Añadir</button>

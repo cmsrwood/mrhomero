@@ -189,7 +189,7 @@ export default function Inventario() {
   }
 
   return (
-    <div className=''>
+    <div className='animate__animated animate__fadeIn'>
       <div className="row g-5 justify-content-center">
         <div className="col-12 col-sm-9 ">
           <div className="d-flex justify-content-between mb-5">

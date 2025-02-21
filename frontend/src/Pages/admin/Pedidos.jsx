@@ -259,7 +259,7 @@ export default function Pedidos() {
   }
 
   return (
-    <div className=''>
+    <div className='animate__animated animate__fadeIn'>
       <div className='container d-block d-sm-flex d-md-flex'>
         <h1 className="mt-3 mt-sm-5">Pedidos</h1>
         <Swiper

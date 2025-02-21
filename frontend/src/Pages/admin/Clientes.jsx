@@ -110,7 +110,7 @@ export default function Clientes() {
     }
 
     return (
-        <div className="">
+        <div className="animate__animated animate__fadeIn">
             <div className="row">
                 <h1 className="col-12 col-sm-6">Clientes</h1>
                 <div className="col-12 col-sm-6 position-relative">

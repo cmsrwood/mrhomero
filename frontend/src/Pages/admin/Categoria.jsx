@@ -253,7 +253,7 @@ export default function Categoria() {
     });
 
   return (
-    <div className="justify-content-between">
+    <div className="justify-content-between animate__animated animate__fadeIn">
       <div className="d-flex justify-content-between mb-5">
         <h1>{categoria?.cat_nom}</h1>
 

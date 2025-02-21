@@ -28,7 +28,7 @@ export default function IndexAdmin() {
   }, [isDataUpdated]);
 
   return (
-    <div>
+    <div className='animate__animated animate__fadeIn'>
       <div className='text-center pb-3 pt-3'>
         <h1>Mr. Homero | Inicio</h1>
       </div>

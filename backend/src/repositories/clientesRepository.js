@@ -13,8 +13,7 @@ exports.mostrarClientes = async () => {
 exports.mostrarCliente = async (id) => {
     return new Promise((resolve, reject) => {
         const q = `SELECT * FROM usuarios WHERE id_user = ?`;
-        const value = [id];
-        global.db.query(q, value, (err, results) => {
+        global.db.query(q, id, (err, results) => {
             if (err) reject(err)
             resolve(results[0])
         });

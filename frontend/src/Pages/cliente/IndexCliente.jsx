@@ -9,18 +9,14 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function IndexCliente() {
 
-  const navigate = useNavigate();
-
   const [isDataUpdated, setIsDataUpdated] = React.useState(false);
 
   // Traer datos
   const [user, setUser] = useState([]);
-
   const ano = moment().format('YYYY');
   const mes = moment().format('MM');
   const [productosMasVendidos, setProductosMasVendidos] = useState([]);
   const [productosMasComprados, setProductosMasComprados] = useState([]);
-
 
   const token = localStorage.getItem('token')
   const id = JSON.parse(atob(token.split(".")[1])).id;
@@ -88,13 +84,16 @@ export default function IndexCliente() {
               <div className="container h-100">
                 <div className="row h-75 align-items-center align-content-center justify-content-center text-center" >
                   <div className="col-12 text-center">
-                    <h1 className='fw-bold'>El producto que más has comprado</h1>
-                    <h2 className='fw-bold text-light'>{productosMasComprados[0]?.pro_nom}</h2>
+                    <h1 className='fw-bold'>{productosMasComprados[0]?.pro_nom ? 'El producto que más has comprado' : 'Visita nuestra tienda'}</h1>
+                    <h2 className='fw-bold text-light'>{productosMasComprados[0]?.pro_nom ? productosMasComprados[0]?.pro_nom : 'Revisa nuestro menú'}</h2>
                   </div>
                   <div className="col-12 d-flex mt-5 justify-content-center">
-                    <Link className='btn btn-warning me-3' to={'/cliente/miscompras'}>
-                      <i className="bi bi-clock-history"> Mis compras</i>
-                    </Link>
+                    {productosMasComprados[0]?.pro_nom ?
+                      <Link className='btn btn-warning me-3' to={'/cliente/miscompras'}>
+                        <i className="bi bi-clock-history"> Mis compras</i>
+                      </Link> :
+                      <Link className='btn btn-warning me-3' to={'/cliente/menu'}><i className='bi bi-list'></i> Menu </Link>
+                    }
                   </div>
                 </div>
               </div>

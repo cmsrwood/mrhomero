@@ -9,7 +9,7 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 export default function ProductoAdmin() {
     
     return (
-        <div className=''>
+        <div className='animate__animated animate__fadeIn'>
             <Producto/>
         </div>
     );

@@ -147,13 +147,8 @@ export default function Ventas() {
     return formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
-  const parseNumber = (value) => {
-    // Elimina puntos y convierte la cadena a número
-    return parseFloat(value.replace(/\./g, '')) || 0;
-  }
-
   return (
-    <div>
+    <div className='animate__animated animate__fadeIn'>
       <div className="row">
         <h1 className="col-12 col-sm-6">Gestión de ventas</h1>
         <div className="col-12 col-sm-6 position-relative">

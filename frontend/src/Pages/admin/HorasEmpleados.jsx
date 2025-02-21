@@ -26,7 +26,7 @@ export default function HorasEmpleados() {
 
 
   return (
-    <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 animate__animated animate__fadeIn">
       {empleados.map((empleado) => (
         <div className="col card text-center p-2" key={empleado.id_user}>
           <img src={`${empleado.user_foto}`} height={200} className="card-img-top" alt="..." />

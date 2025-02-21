@@ -138,7 +138,7 @@ export default function Empleados() {
 
 
   return (
-    <div className=''>
+    <div className='animate__animated animate__fadeIn'>
       <div className="row">
         <h1 className="col">Empleados
         </h1>

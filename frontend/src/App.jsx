@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Importar componentes
@@ -58,7 +58,6 @@ function App() {
   return (
     <div className="">
       <BrowserRouter>
-        <Suspense fallback={<Loader />}>
           <Routes>
             {/* Rutas para el default */}
             <Route element={<RutaPublica />}>
@@ -69,7 +68,6 @@ function App() {
                 <Route path='/ingresar' element={<Ingresar />}></Route>
                 <Route path="/recuperar" element={<Recuperar />}></Route>
                 <Route path="/emailRecuperar" element={<EmailRecuperar />}></Route>
-                <Route path="/loader" element={<Loader />}></Route>
                 <Route path='/menu' element={<MenuDefault />}></Route>
                 <Route path="/categoria/:id" element={<CategoriaMenu />}></Route>
                 <Route path="/producto/:id" element={<Producto />}></Route>
@@ -132,9 +130,9 @@ function App() {
                 <Route path="/cliente/producto/:id" element={<ProductoCliente />}></Route>
               </Route>
             </Route>
+            <Route path="/loader" element={<Loader />}></Route>
             <Route path="*" element={<Error />}></Route>
           </Routes>
-        </Suspense>
       </BrowserRouter>
     </div>
   );
