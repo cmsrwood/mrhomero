@@ -57,60 +57,64 @@ export default function MenuAdmin() {
 
     const id_unico = `categoria_${categoria.categoria}_${uniqid()}`;
     try {
-      const formData = new FormData();
-      formData.append('id', id_unico);
-      formData.append('foto', categoria.foto);
-      formData.append('upload_preset', 'categorias');
-      formData.append('public_id', id_unico);
+      // Guardar la categoría sin la imagen
+      const categoriaData = {
+        id: id_unico,
+        categoria: categoria.categoria,
+        foto: ''
+      };
 
-      const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+      const response = await axios.post(`${BACKEND_URL}/api/tienda/categorias/crear`, categoriaData);
 
-      const url = cloudinaryResponse.data.url;
+      if (response.status === 200) {
+        try {
+          // Subir la imagen a Cloudinary
+          const formData = new FormData();
+          formData.append('foto', categoria.foto);
+          formData.append('upload_preset', 'categorias');
+          formData.append('public_id', id_unico);
 
-      try {
-        const categoriaData = {
-          id: id_unico,
-          categoria: categoria.categoria,
-          foto: url
-        };
-        const response = await axios.post(`${BACKEND_URL}/api/tienda/categorias/crear`, categoriaData);
+          const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+          const url = cloudinaryResponse.data.url;
 
-        Swal.fire({
-          icon: 'success',
-          title: response.data.message,
-          showConfirmButton: false,
-          timer: 1500
-        });
+          // Actualizar la categoría con la URL de la imagen
+          await axios.put(`${BACKEND_URL}/api/tienda/categorias/actualizar/${id_unico}`, {
+            foto: url
+          });
 
-        setCategoria({
-          categoria: '',
-          foto: null
-        });
-        setImagePreview('');
-        setIsDataUpdated(true); // Actualiza el estado para volver a cargar los datos
-        const modalElement = document.getElementById('categoriaAgregarModal');
-        let modalInstance = bootstrap.Modal.getInstance(modalElement);
+          Swal.fire({
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500
+          });
 
-        // Cerrar el modal
-        modalInstance.hide();
-      } catch (error) {
-        console.log(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: error.response.data.message
-        });
+          // Limpiar el formulario y actualizar el estado
+          setCategoria({
+            categoria: '',
+            foto: null
+          });
+          setImagePreview('');
+          setIsDataUpdated(true);
+
+          // Cerrar el modal
+          const modalElement = document.getElementById('categoriaAgregarModal');
+          let modalInstance = bootstrap.Modal.getInstance(modalElement);
+          modalInstance.hide();
+        } catch (error) {
+          // Si falla la subida de la imagen, eliminar la categoría creada
+          await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id_unico}`);
+          throw error; // Relanzar el error para que sea manejado por el bloque catch externo
+        }
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: error.response.data.message
+        text: error.response?.data?.message || 'Error al procesar la solicitud'
       });
     }
-
     resetFoto();
   };
 
@@ -128,10 +132,10 @@ export default function MenuAdmin() {
       if (!confirm.isConfirmed) {
         return;
       }
-      const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/eliminar/${id}`);
-      if (cloudinaryResponse.status === 200) {
         const res = await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id}`);
         if (res.status === 200) {
+          const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/eliminar/${id}`);
+          if (cloudinaryResponse.status === 200) {
           Swal.fire({
             icon: 'success',
             title: res.data.message

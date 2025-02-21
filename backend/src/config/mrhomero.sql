@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-02-2025 a las 13:33:29
+-- Tiempo de generación: 21-02-2025 a las 01:37:35
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -53,7 +53,7 @@ CREATE TABLE `categorias_inv` (
 CREATE TABLE `detalle_ventas` (
   `id_detalle` int(11) NOT NULL,
   `id_venta` varchar(255) DEFAULT NULL,
-  `id_producto` int(11) DEFAULT NULL,
+  `id_producto` varchar(255) DEFAULT NULL,
   `cantidad_producto` int(11) DEFAULT NULL,
   `precio_unitario` varchar(255) NOT NULL,
   `subtotal` varchar(255) NOT NULL
@@ -70,7 +70,7 @@ CREATE TABLE `empleados_horas` (
   `fecha` date NOT NULL,
   `hora_inicio` datetime DEFAULT NULL,
   `hora_fin` datetime DEFAULT NULL,
-  `id_user` int(11) DEFAULT NULL
+  `id_user` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -97,7 +97,7 @@ CREATE TABLE `inventario` (
 --
 
 CREATE TABLE `productos` (
-  `id_producto` int(11) NOT NULL,
+  `id_producto` varchar(255) NOT NULL,
   `pro_nom` varchar(255) NOT NULL,
   `pro_desp` varchar(255) NOT NULL,
   `pro_precio` varchar(255) NOT NULL,
@@ -146,7 +146,7 @@ CREATE TABLE `recompensas` (
 CREATE TABLE `recompensas_obt` (
   `id_recomp_obt` int(11) NOT NULL,
   `id_recomp` varchar(255) NOT NULL,
-  `id_user` int(11) NOT NULL,
+  `id_user` varchar(255) NOT NULL,
   `codigo` varchar(6) NOT NULL,
   `fecha_reclamo` datetime NOT NULL,
   `estado` int(2) NOT NULL DEFAULT 1
@@ -179,7 +179,7 @@ INSERT INTO `roles` (`id_rol`, `rol`) VALUES
 --
 
 CREATE TABLE `usuarios` (
-  `id_user` int(11) NOT NULL,
+  `id_user` varchar(255) NOT NULL,
   `user_nom` varchar(255) NOT NULL,
   `user_apels` varchar(255) NOT NULL,
   `user_email` varchar(255) NOT NULL,
@@ -191,7 +191,7 @@ CREATE TABLE `usuarios` (
   `user_reset_code_expiration` datetime DEFAULT NULL,
   `user_fecha_registro` datetime NOT NULL,
   `id_rol` int(11) NOT NULL,
-  `user_estado` int(2) NOT NULL
+  `user_estado` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -199,10 +199,10 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `user_fecha_registro`, `id_rol`, `user_estado`) VALUES
-(1, 'admin', 'admin', 'admin@gmail.com', '3138975212', 0, NULL, '$2a$10$ryatX/igKMkGPSkbfq8s4e5lRevbYJhh1g25cajrc82xgDku4csG2', NULL, NULL, '2024-10-03 19:40:47', 1, 1),
-(2, 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', '3138975212', 0, NULL, '$2a$10$nIXpxd3AQdOvYUMAfHDc5.JLn6vPen5cVJdXVTcnpBWY8k6k7cB2.', NULL, NULL, '2025-02-10 00:00:00', 3, 1),
-(3, 'Mono', 'Sanchez', 'bryamccuervo2004@gmail.com', '3121233445', 0, NULL, '$2a$10$qOzxrB0nP7fXMiZfMf/HauFihRmIDijfE5P9Ky4i5nh..JsMkt/3i', NULL, NULL, '2025-02-10 00:00:00', 2, 1),
-(4, 'Johan Sebastian', 'Muñoz Contreras', 'sebastianmc@gmail.com', NULL, 0, NULL, '$2a$10$IzZaYGl2ZLZAEdiGEtAM6.4.luREWPjnusfy6uLxlaIIxRFyx52Ja', NULL, NULL, '2024-10-03 19:43:23', 3, 1);
+('user_admin_1740097849543', 'admin', 'admin', 'admin@gmail.com', NULL, 0, NULL, '$2a$10$nhZ0WNjJk.oghLVI72XaPu45HoRCp/XOd3SpnmmvqCQzexejlllQS', NULL, NULL, '2025-02-20 19:30:49', 1, 1),
+('user_Bryam_1740098049146', 'Bryam', 'castañeda cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$x6V069NY.nSJtwa4h5sPle7WsKLiWk3PGCV/qJSEYWk15RokylCee', NULL, NULL, '2025-02-20 19:34:09', 3, 1),
+('user_Dilan Santiago_1740098072789', 'Dilan Santiago', 'Lopez Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$8xpwM3J6n4Xw2ejj6kqsV.qg0XhjWg8BtSRsFgV5PPf.b2EtYklEu', NULL, NULL, '2025-02-20 19:34:32', 3, 1),
+('user_Johan Sebastian_1740098106538', 'Johan Sebastian', 'Muñoz Contreras', 'johanmc@gmail.com', NULL, 0, NULL, '$2a$10$LCLJnriPFmYy/0ARI9W75OIhXqiTIlawgzczsgDUtiN0Nmvhs7P72', NULL, NULL, '2025-02-20 19:35:06', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -213,7 +213,7 @@ INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user
 CREATE TABLE `ventas` (
   `id_venta` varchar(255) NOT NULL,
   `venta_fecha` datetime NOT NULL,
-  `id_user` int(11) DEFAULT NULL,
+  `id_user` varchar(255) DEFAULT NULL,
   `venta_metodo_pago` varchar(255) NOT NULL,
   `venta_total` int(11) NOT NULL,
   `venta_estado` int(2) NOT NULL DEFAULT 1
@@ -240,8 +240,8 @@ ALTER TABLE `categorias_inv`
 --
 ALTER TABLE `detalle_ventas`
   ADD PRIMARY KEY (`id_detalle`),
-  ADD KEY `detalle_ventas_venta` (`id_venta`),
-  ADD KEY `detalle_ventas_producto` (`id_producto`);
+  ADD UNIQUE KEY `id_producto` (`id_producto`),
+  ADD KEY `detalle_ventas_venta` (`id_venta`);
 
 --
 -- Indices de la tabla `empleados_horas`
@@ -283,7 +283,7 @@ ALTER TABLE `recompensas`
 ALTER TABLE `recompensas_obt`
   ADD PRIMARY KEY (`id_recomp_obt`),
   ADD KEY `recompensa` (`id_recomp`),
-  ADD KEY `usuario_recompensa` (`id_user`);
+  ADD KEY `id_usuario` (`id_user`);
 
 --
 -- Indices de la tabla `roles`
@@ -335,12 +335,6 @@ ALTER TABLE `inventario`
   MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `productos`
---
-ALTER TABLE `productos`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
@@ -359,12 +353,6 @@ ALTER TABLE `roles`
   MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- Restricciones para tablas volcadas
 --
 
@@ -372,14 +360,14 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `detalle_ventas`
 --
 ALTER TABLE `detalle_ventas`
-  ADD CONSTRAINT `detalle_ventas_producto` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`),
-  ADD CONSTRAINT `id_venta` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id_venta`);
+  ADD CONSTRAINT `id_venta` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id_venta`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `producto` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `empleados_horas`
 --
 ALTER TABLE `empleados_horas`
-  ADD CONSTRAINT `empleados` FOREIGN KEY (`id_user`) REFERENCES `usuarios` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user` FOREIGN KEY (`id_user`) REFERENCES `usuarios` (`id_user`);
 
 --
 -- Filtros para la tabla `inventario`
@@ -398,8 +386,8 @@ ALTER TABLE `productos`
 -- Filtros para la tabla `recompensas_obt`
 --
 ALTER TABLE `recompensas_obt`
-  ADD CONSTRAINT `recompensa` FOREIGN KEY (`id_recomp`) REFERENCES `recompensas` (`id_recomp`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `usuario_recompensa` FOREIGN KEY (`id_user`) REFERENCES `usuarios` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `id_usuario` FOREIGN KEY (`id_user`) REFERENCES `usuarios` (`id_user`),
+  ADD CONSTRAINT `recompensa` FOREIGN KEY (`id_recomp`) REFERENCES `recompensas` (`id_recomp`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios`
@@ -411,7 +399,7 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  ADD CONSTRAINT `usuario venta` FOREIGN KEY (`id_user`) REFERENCES `usuarios` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `id_user` FOREIGN KEY (`id_user`) REFERENCES `usuarios` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

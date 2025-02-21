@@ -6,6 +6,7 @@ const { validateCliente } = require('../../middlewares/validateCliente')
 // Get
 router.get('/', clientesController.mostrarClientes);
 router.get('/:id', clientesController.mostrarCliente);
+router.get('/email/:id/', clientesController.mostrarClientePorEmail);
 router.get('/reportes/cuentaClientesUltimoMes/', clientesController.cuentaClientesUltimoMes);
 
 // Put

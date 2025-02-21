@@ -12,7 +12,7 @@ router.get('/categoria/:id', productosController.mostrarProductosPorcategoria);
 router.post('/crear', validateProducto, productosController.crearProducto);
 
 //Put
-router.put('/actualizar/:id', validateProducto, productosController.actualizarProducto);
+router.put('/actualizar/:id', productosController.actualizarProducto);
 router.put('/restaurar/:id', productosController.restaurarProducto);
 router.put('/eliminar/:id', productosController.eliminarProducto);
 

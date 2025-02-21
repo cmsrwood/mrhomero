@@ -1,5 +1,5 @@
 const recompensasRepository = require('../repositories/recompensasRepository');
-const { NotFoundError, ExistNameError } = require('../errors/ExceptionErrors');
+const { NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
 // Servicio para ver las recompensas obtenidas
 exports.mostrarRecompensasObtenidas = async () => {
     return await recompensasRepository.mostrarRecompensasObtenidas();
@@ -34,7 +34,7 @@ exports.mostrarPuntos = async (id) => {
 // Servicio para crear una recompensa
 exports.crearRecompensa = async (recompensa) => {
     const existe = await recompensasRepository.verificarNombre(recompensa.nombre);
-    if (existe) throw new ExistNameError('La recompensa ya existe');
+    if (existe) throw new BadRequestError('La recompensa ya existe');
 
     return await recompensasRepository.crearRecompensa(recompensa);
 }

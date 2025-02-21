@@ -1,4 +1,4 @@
-const { ExistNameError, NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
+const {NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
 const clientesRepository = require('../repositories/clientesRepository');
 
 // Servicio para mostrar clientes
@@ -11,6 +11,12 @@ exports.mostrarClientes = async () => {
 // Servicio para mostrar cliente por id
 exports.mostrarCliente = async (id) => {
     const response = await clientesRepository.mostrarCliente(id);
+    if (response.length <= 0) throw new NotFoundError("El cliente no existe");
+    return response[0]
+}
+
+exports.mostrarClientePorEmail = async (email) => {
+    const response = await clientesRepository.mostrarClientePorEmail(email);
     if (response.length <= 0) throw new NotFoundError("El cliente no existe");
     return response[0]
 }

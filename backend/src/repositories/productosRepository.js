@@ -45,8 +45,9 @@ exports.verificarNombre = async (nombre) => {
 // Repositorio para crear un producto
 exports.crearProducto = async (producto) => {
     return new Promise((resolve, reject) => {
-        const q = "INSERT INTO productos (`pro_nom`, `pro_desp`, `pro_precio`, `pro_foto`, `pro_puntos`, `id_categoria`) VALUES (?)";
+        const q = "INSERT INTO productos (`id_producto`, `pro_nom`, `pro_desp`, `pro_precio`, `pro_foto`, `pro_puntos`, `id_categoria`) VALUES (?)";
         const values = [
+            producto.id,
             producto.nombre,
             producto.descripcion,
             producto.precio,
@@ -57,8 +58,6 @@ exports.crearProducto = async (producto) => {
         global.db.query(q, [values], (err, results) => {
             if (err) reject(err);
             resolve({
-                id: results.insertId,
-                producto: producto,
                 message: "El producto se ha creado correctamente."
             })
         }
@@ -69,14 +68,16 @@ exports.crearProducto = async (producto) => {
 
 // Repositorio para actualizar un producto
 exports.actualizarProducto = async (id, producto) => {
+    const res = await this.mostrarProducto(id);
+    const productoBaseDatos = res;
     return new Promise((resolve, reject) => {
         const qUpdate = `UPDATE productos SET pro_nom = ?, pro_desp = ?, pro_precio = ?, pro_foto = ?, pro_puntos = ? WHERE id_producto = ?`;
         const values = [
-            producto.nombre,
-            producto.descripcion,
-            producto.precio,
-            producto.foto,
-            producto.puntos,
+            productoBaseDatos.pro_nom ? productoBaseDatos.pro_nom : producto.nombre,
+            productoBaseDatos.pro_desp ? productoBaseDatos.pro_desp : producto.descripcion,
+            productoBaseDatos.pro_precio ? productoBaseDatos.pro_precio : producto.precio,
+            productoBaseDatos.pro_foto ? productoBaseDatos.pro_foto : producto.foto,
+            productoBaseDatos.pro_puntos ? productoBaseDatos.pro_puntos : producto.puntos,
             id
         ];
         global.db.query(qUpdate, values, (err, results) => {

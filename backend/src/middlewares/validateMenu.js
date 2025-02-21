@@ -8,10 +8,6 @@ const validateMenu = (req, res, next) => {
         err.push('Falta paramétro: cat_nom');
     }
 
-    if (!foto) {
-        err.push('Falta paramétro: foto');
-    }
-
     if (err.length > 0) {
         throw new BadRequestError(err);
     }

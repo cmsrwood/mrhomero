@@ -1,4 +1,6 @@
 //Repositorio para ingresar
+const moment = require('moment');
+const bcrypt = require('bcryptjs');
 
 exports.ingresar = async (user) => {
     return new Promise((resolve, reject) => {
@@ -8,7 +10,11 @@ exports.ingresar = async (user) => {
         ];
         global.db.query(q, values, (err, results) => {
             if (err) reject(err);
-            resolve(results);
+            console.log(results)
+            resolve({
+                results: results,
+                message: "¡Bienvenido, has iniciado sesión con éxito!"
+            });
         });
     });
 }
@@ -27,11 +33,41 @@ exports.traerClientePorEmail = async (email) => {
 }
 
 exports.registrar = async (user) => {
+    const fecha = moment().format('YYYY-MM-DD HH:mm:ss');
+    const hashpassword = bcrypt.hashSync(user.password, 10);
     return new Promise((resolve, reject) => {
-        const q = "INSERT INTO usuarios SET ?";
-        global.db.query(q, user, (err, results) => {
+        const q = "INSERT INTO usuarios (id_user, user_nom, user_apels, user_email, user_pass , id_rol, user_fecha_registro) VALUES (?,?,?,?,?,3,?)";
+        const values = [
+            user.id,
+            user.nombres,
+            user.apellidos,
+            user.email,
+            hashpassword,
+            fecha
+        ]
+        global.db.query(q, values, (err, results) => {
             if (err) reject(err);
-            resolve(results);
+            resolve({
+                message: "El usuario se ha creado con exito."
+            });
         });
     });
+}
+
+exports.recuperar = async (codigo, expirationDate, id) => {
+    return new Promise((resolve, reject) => {
+        const q = "UPDATE usuarios SET user_reset_code = ?, user_reset_code_expiration = ? WHERE id_user = ?";
+        const values = [
+            codigo,
+            expirationDate,
+            id
+        ];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err);
+            resolve({
+                results: results,
+                message: "El código de recuperación se ha enviado con éxito."
+            });
+        });
+    })
 }

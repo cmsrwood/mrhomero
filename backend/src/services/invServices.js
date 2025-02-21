@@ -1,6 +1,6 @@
 const inventarioRepository = require('../repositories/invRepository');
 const provedoresRepository = require('../repositories/proveedoresRepository');
-const { NotFoundError, ExistNameError } = require('../errors/ExceptionErrors');
+const { NotFoundError, BadRequestError} = require('../errors/ExceptionErrors');
 
 // Servicio para mostrar el inventario
 exports.mostrarInventario = async () => {
@@ -18,7 +18,7 @@ exports.mostrarProductoInventario = async (id) => {
 // Servicio para crear un producto en el inventario
 exports.crearInventario = async (inventario) => {
     const existe = await inventarioRepository.verificarNombre(inventario.inv_nombre);
-    if (existe) throw new ExistNameError("El producto ya existe");
+    if (existe) throw new BadRequestError("El producto ya existe");
 
     const response = await inventarioRepository.crearInventario(inventario);
     return response
@@ -32,7 +32,7 @@ exports.actualizarInventario = async (id, inventario) => {
     const existe = await inventarioRepository.verificarNombre(inventario.nombre);
 
     if (repetir <= 0) throw new NotFoundError('El producto no existe');
-    if (existe) throw new ExistNameError('Hay un producto con el mismo nombre');
+    if (existe) throw new BadRequestError('El producto ya existe');
 
     const response = await inventarioRepository.actualizarInventario(id, inventario);
     return response

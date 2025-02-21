@@ -12,14 +12,7 @@ class NotFoundError extends HttpError {
     }
 }
 
-class ExistNameError extends HttpError{
-    constructor(message = 'El nombre ya esta en uso') {
-        super(400, message);
-    }
-}
-
 module.exports = {
     BadRequestError,
     NotFoundError,
-    ExistNameError
 };

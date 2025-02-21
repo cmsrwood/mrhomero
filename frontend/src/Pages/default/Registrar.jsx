@@ -26,23 +26,32 @@ export default function Registrar() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const id_unico = `user_${user.nombres}_${Date.now()}`
     try {
-      const res = await axios.post(`${BACKEND_URL}/api/auth/registrar`, user);
+      const data = {
+        id : id_unico,
+        nombres: user.nombres,
+        apellidos: user.apellidos,
+        email: user.email,
+        password: user.password,
+        confirmPassword: user.confirmPassword
+      }
+      const res = await axios.post(`${BACKEND_URL}/api/auth/registrar`, data);
       if (res.status === 200) {
         Swal.fire({
-          title: 'Cuenta creada',
-          text: 'Cuenta creada correctamente',
           icon: 'success',
+          title: res.data.message,
           confirmButtonText: 'Continuar'
         });
+        console.log (res);
         navigate("/ingresar");
       }
     } catch (error) {
       console.log(error);
       if (error.response) {
         Swal.fire({
-          title: error.response.data || 'Credenciales incorrectas',
           icon: 'error',
+          title: error.response.data.message,
           confirmButtonText: 'Intentar de nuevo'
         });
       }
@@ -70,11 +79,11 @@ export default function Registrar() {
             <label htmlFor="floatingInput">Email</label>
           </div>
           <div className="form-floating mb-3">
-            <input pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password' onChange={handleChange} required />
+            <input  type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password' onChange={handleChange} required />
             <label htmlFor="floatingInput">Contraseña</label>
           </div>
           <div className="form-floating mb-3">
-            <input pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" type="password" className="form-control" id="floatingInput" placeholder="Confirmar contraseña" name='confirmPassword' onChange={handleChange} required />
+            <input type="password" className="form-control" id="floatingInput" placeholder="Confirmar contraseña" name='confirmPassword' onChange={handleChange} required />
             <label htmlFor="floatingInput">Confirmar contraseña</label>
           </div>
           <div className="text-center">
@@ -85,5 +94,6 @@ export default function Registrar() {
         </form>
       </div>
     </div>
+    // pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$"
   )
 }

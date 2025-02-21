@@ -42,7 +42,6 @@ export default function Ingresar() {
     try {
       const res = await axios.post(`${BACKEND_URL}/api/auth/ingresar`, user);
       if (res.status === 200) {
-        console.log(res.data);
         const token = res.data.token;
         const rol = res.data.rol;
 
@@ -51,7 +50,6 @@ export default function Ingresar() {
 
         Swal.fire({
           title: res.data.message,
-          text: 'Bienvenido',
           icon: 'success',
           confirmButtonText: 'Continuar'
         });

@@ -16,10 +16,6 @@ const validateProducto = (req, res, next) => {
         err.push('Falta paramétro: precio');
     }
 
-    if (!fotos) {
-        err.push('Falta paramétro: fotos');
-    }
-
     if (!puntos) {
         err.push('Falta paramétro: puntos');
     }
@@ -34,14 +30,6 @@ const validateProducto = (req, res, next) => {
 
     if (isNaN(puntos)) {
         err.push('El paramétro puntos debe ser un número');
-    }
-
-    if (isNaN(id_categoria)) {
-        err.push('El paramétro id_categoria debe ser un número');
-    }
-
-    if (id_categoria <= 0) {
-        err.push('El paramétro id_categoria debe ser mayor a 0');
     }
 
     if (err.length > 0) {

@@ -1,4 +1,4 @@
-const { NotFoundError, ExistNameError } = require('../errors/ExceptionErrors');
+const { NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
 const productosRepository = require('../repositories/productosRepository');
 
 // Servicio para mostrar todos los productos
@@ -25,7 +25,7 @@ exports.mostrarProducto = async (id) => {
 // Servicio para crear un producto
 exports.crearProducto = async (producto) => {
     const existe = await productosRepository.verificarNombre(producto.nombre);
-    if (existe) throw new ExistNameError("El producto ya existe");
+    if (existe) throw new BadRequestError("El producto ya existe");
     return await productosRepository.crearProducto(producto);
 }
 
@@ -38,7 +38,7 @@ exports.actualizarProducto = async (id, producto) => {
     const existe = await productosRepository.verificarNombre(producto.nombre);
 
     if (repetir <= 0) throw new NotFoundError('El producto no existe');
-    if (existe) throw new ExistNameError('Hay un producto con el mismo nombre');
+    if (existe) throw new BadRequestError('Hay un producto con el mismo nombre');
 
     const response = await productosRepository.actualizarProducto(id, producto);
     return response

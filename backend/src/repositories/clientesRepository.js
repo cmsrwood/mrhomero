@@ -16,10 +16,23 @@ exports.mostrarCliente = async (id) => {
         const value = [id];
         global.db.query(q, value, (err, results) => {
             if (err) reject(err)
-            resolve(results)
+            resolve(results[0])
         });
     })
 }
+
+// Repositorio para mostrar clientes por correo
+exports.mostrarClientePorEmail = async (email) => {
+    return new Promise((resolve, reject) => {
+        const q = `SELECT * FROM usuarios WHERE user_email = ?`;
+        const value = [email];
+        global.db.query(q, value, (err, results) => {
+            if (err) reject(err)
+            resolve(results[0])
+        });
+    })
+}
+
 // Repositorio para mostrar clientes de la ultima semana
 exports.cuentaClientesUltimoMes = async () => {
     return new Promise((resolve, reject) => {

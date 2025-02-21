@@ -34,7 +34,7 @@ exports.mostrarProducto = async (req, res, next) => {
 
 
 // Controlador para crear un nuevo producto
-exports.crearProducto = async (req, res) => {
+exports.crearProducto = async (req, res, next) => {
     try {
         const producto = req.body
         const response = await productosServices.crearProducto(producto);

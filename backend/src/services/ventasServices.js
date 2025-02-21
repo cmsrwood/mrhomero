@@ -156,7 +156,7 @@ exports.mostrarProductosMasCompradosPorCliente = async (id) => {
     if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
     const response = await ventasRepository.mostrarProductosMasCompradosPorCliente(id);
     if (response.length <= 0)
-        throw new NotFoundError('No se encontraron productos vendidos por el cliente');
+        throw new NotFoundError('No se encontraron productos comprados por el cliente');
     return response;
 };
 

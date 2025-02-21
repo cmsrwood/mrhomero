@@ -60,9 +60,16 @@ exports.crearCategoria = async (categoria) => {
 
 // Repositorio para actualizar una categoria
 exports.actualizarCategoria = async (id, categoria) => {
+    const res = await this.mostrarCategoria(id);
+    const categoriaBaseDatos = res;
+
     return new Promise((resolve, reject) => {
         const qUpdate = "UPDATE categorias SET cat_nom = ?, cat_foto = ? WHERE id_categoria = ?";
-        const values = [categoria.categoria, categoria.foto, id];
+        const values = [
+            categoriaBaseDatos.cat_nom ? categoriaBaseDatos.cat_nom : categoria.categoria,
+            categoriaBaseDatos.cat_foto ? categoriaBaseDatos.cat_foto : categoria.foto,
+            id
+        ];
         global.db.query(qUpdate, values, (err, results) => {
             if (err) reject(err);
             resolve({

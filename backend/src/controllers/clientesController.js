@@ -12,6 +12,16 @@ exports.mostrarCliente = async (req, res, next) => {
 
 };
 
+exports.mostrarClientePorEmail = async (req, res, next) => {
+    try {
+        const email = req.params.email;
+        const response = await clientesServices.mostrarClientePorEmail(email);
+        res.status(200).json(response);
+    } catch (err) {
+        next(err)
+    }
+}
+
 //Controlador para mostrar todos los clientes
 exports.mostrarClientes = async (req, res, next) => {
     try {

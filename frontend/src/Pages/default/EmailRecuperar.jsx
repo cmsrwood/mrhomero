@@ -22,8 +22,8 @@ export default function Recuperar() {
             const res = await axios.post(`${BACKEND_URL}/api/auth/recuperar`, userEmailRecuperar);
             if (res.status === 200) {
                 Swal.fire({
-                    title: 'Email enviado',
                     icon: 'success',
+                    title: res.data.message,
                     confirmButtonText: 'Continuar'
                 });
                 navigate("/recuperar");
@@ -32,8 +32,8 @@ export default function Recuperar() {
             console.log(error);
             if (error.response) {
                 Swal.fire({
-                    title: error.response.data || 'Algo salio mal',
                     icon: 'error',
+                    title: error.response.data || 'Algo salio mal',
                     confirmButtonText: 'Intentar de nuevo'
                 });
             }

@@ -11,7 +11,7 @@ router.get('/:id', menuController.mostrarCategoria);
 router.post('/crear', validateMenu, menuController.crearCategoria);
 
 // Put
-router.put('/actualizar/:id', validateMenu, menuController.actualizarCategoria);
+router.put('/actualizar/:id', menuController.actualizarCategoria);
 
 // Delete
 router.delete('/eliminar/:id', menuController.eliminarCategoria);
