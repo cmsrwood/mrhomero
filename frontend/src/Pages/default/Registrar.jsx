@@ -59,39 +59,46 @@ export default function Registrar() {
   }
 
   return (
-    <div className="vh-100">
-      <div className='w-100 w-sm-50 px-5 rounded'>
-        <form onSubmit={handleSubmit} className='px-0 px-sm-5 py-2'>
-          <div className='text-center my-3'>
-            <h1 className='text-warning'>Registro</h1>
-            <p>Crear una cuenta</p>
+    <div className="vh-100 container">
+      <div className="row">
+        <div className='col rounded'>
+          <form onSubmit={handleSubmit} className='px-0 px-sm-5 py-2'>
+            <div className='text-center my-3'>
+              <h1 className='text-warning'>Registro</h1>
+              <p>Crear una cuenta</p>
+            </div>
+            <div className="form-floating mb-3">
+              <input pattern="^[A-Za-zÁ-ÿÑñ\s]+$" type="text" className="form-control " id="floatingInput" placeholder="nombres" name='nombres' onChange={handleChange} required />
+              <label htmlFor="floatingInput">Nombres</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input pattern="^[A-Za-zÁ-ÿÑñ\s]+$" type="text" className="form-control " id="floatingInput" placeholder="apellidos" name="apellidos" onChange={handleChange} required />
+              <label htmlFor="floatingInput">Apellidos</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input type="email" className="form-control" id="floatingInput" placeholder="email" name='email' onChange={handleChange} required />
+              <label htmlFor="floatingInput">Email</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password' onChange={handleChange} required />
+              <label htmlFor="floatingInput">Contraseña</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input type="password" className="form-control" id="floatingInput" placeholder="Confirmar contraseña" name='confirmPassword' onChange={handleChange} required />
+              <label htmlFor="floatingInput">Confirmar contraseña</label>
+            </div>
+            <div className="text-center">
+              <button className="btn btn-warning w-100 rounded-5 mb-2 py-2" type='submit'>Registrarse</button>
+              <p><small> Al registrarte, aceptas nuestras <Link to='/condiciones-de-uso' >Condiciones de uso</Link> y <Link to='/politica-de-privacidad'>Politica de privacidad</Link> </small></p>
+              <p className="text-center text-secondary"><small> ¿Ya tienes una cuenta? <Link to="/ingresar">Inicia sesion</Link> </small></p>
+            </div>
+          </form>
+        </div>
+        <div className='col rounded border-start'>
+          <div className='px-0 px-sm-5 py-2 text-center'>
+            <h1>a</h1>
           </div>
-          <div className="form-floating mb-3">
-            <input pattern="^[A-Za-zÁ-ÿÑñ\s]+$" type="text" className="form-control " id="floatingInput" placeholder="nombres" name='nombres' onChange={handleChange} required />
-            <label htmlFor="floatingInput">Nombres</label>
-          </div>
-          <div className="form-floating mb-3">
-            <input pattern="^[A-Za-zÁ-ÿÑñ\s]+$" type="text" className="form-control " id="floatingInput" placeholder="apellidos" name="apellidos" onChange={handleChange} required />
-            <label htmlFor="floatingInput">Apellidos</label>
-          </div>
-          <div className="form-floating mb-3">
-            <input type="email" className="form-control" id="floatingInput" placeholder="email" name='email' onChange={handleChange} required />
-            <label htmlFor="floatingInput">Email</label>
-          </div>
-          <div className="form-floating mb-3">
-            <input  type="password" className="form-control" id="floatingInput" placeholder="Contraseña" name='password' onChange={handleChange} required />
-            <label htmlFor="floatingInput">Contraseña</label>
-          </div>
-          <div className="form-floating mb-3">
-            <input type="password" className="form-control" id="floatingInput" placeholder="Confirmar contraseña" name='confirmPassword' onChange={handleChange} required />
-            <label htmlFor="floatingInput">Confirmar contraseña</label>
-          </div>
-          <div className="text-center">
-            <button className="btn btn-warning w-100 rounded-5 mb-2 py-2" type='submit'>Registrarse</button>
-            <p><small> Al registrarte, aceptas nuestras <Link to='/condiciones-de-uso' >Condiciones de uso</Link> y <Link to='/politica-de-privacidad'>Politica de privacidad</Link> </small></p>
-            <p className="text-center text-secondary"><small> ¿Ya tienes una cuenta? <Link to="/ingresar">Inicia sesion</Link> </small></p>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
     // pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$"
