@@ -103,7 +103,7 @@ export default function RecompensasObtenidas() {
     }
 
     return (
-        <div className='animate__animated animate__fadeIn'>
+        <div className=''>
             <div className="input-group">
                 <input
                     type="search"

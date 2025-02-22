@@ -148,7 +148,7 @@ export default function Ventas() {
   };
 
   return (
-    <div className='animate__animated animate__fadeIn'>
+    <div className=''>
       <div className="row">
         <h1 className="col-12 col-sm-6">Gestión de ventas</h1>
         <div className="col-12 col-sm-6 position-relative">
@@ -222,7 +222,7 @@ export default function Ventas() {
                         : <button type="button" className="btn btn-success" onClick={() => restaurarVenta(venta.id_venta)}><i className="bi bi-arrow-counterclockwise"></i></button>}
                     </td>
                   </tr>
-                  <tr className="collapse wow animate__animated animate__fadeInLeft" id={`collapse_${venta.id_venta}`}>
+                  <tr className="collapse wow Left" id={`collapse_${venta.id_venta}`}>
                     <td colSpan="6">
                       <div className="card card-body">
                         <p className='card-title'>Detalle de la venta con id {venta.id_venta}</p>

@@ -1,7 +1,7 @@
 const { BadRequestError } = require('../errors/ExceptionErrors');
 
 const validateRecompensa = (req, res, next) => {
-    const { nombre, puntos, foto } = req.body;
+    const { nombre, puntos, descripcion } = req.body;
 
     const err = [];
     if (!nombre) {
@@ -13,8 +13,8 @@ const validateRecompensa = (req, res, next) => {
     if (isNaN(puntos)) {
         err.push('El paramétro puntos debe ser un número');
     }
-    if (!foto) {
-        err.push('Falta paramétro: foto');
+    if (!descripcion) {
+        err.push('Falta paramétro: descripcion');
     }
     if (err.length > 0) {
         throw new BadRequestError(err);

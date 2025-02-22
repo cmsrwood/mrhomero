@@ -12,6 +12,7 @@ router.post('/crear', validateMenu, menuController.crearCategoria);
 
 // Put
 router.put('/actualizar/:id', menuController.actualizarCategoria);
+router.put('/restaurar/:id', menuController.restaurarCategoria);
 
 // Delete
 router.delete('/eliminar/:id', menuController.eliminarCategoria);

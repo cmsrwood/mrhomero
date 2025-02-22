@@ -34,6 +34,13 @@ exports.actualizarCategoria = async (id, categoria) => {
     return reponse
 }
 
+exports.restaurarCategoria = async (id) => {
+    const existe = await this.mostrarCategoria(id)
+    if (existe.length <= 0) throw new NotFoundError('La categoria no existe');
+    const response = await menuRepository.restaurarCategoria(id);
+    return response
+}
+
 //Servicio para eliminar una categoria
 exports.eliminarCategoria = async (id) => {
     const existe = await this.mostrarCategoria(id)

@@ -31,15 +31,6 @@ exports.crearProducto = async (producto) => {
 
 // Servicio para actualizar un producto
 exports.actualizarProducto = async (id, producto) => {
-
-    //se verifica si el producto existe
-    const repetir = await this.mostrarProducto(id);
-    //se verifica si el nombre del producto ya existe
-    const existe = await productosRepository.verificarNombre(producto.nombre);
-
-    if (repetir <= 0) throw new NotFoundError('El producto no existe');
-    if (existe) throw new BadRequestError('Hay un producto con el mismo nombre');
-
     const response = await productosRepository.actualizarProducto(id, producto);
     return response
 }

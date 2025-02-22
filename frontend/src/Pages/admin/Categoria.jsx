@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import img from '../../assets/img/img.png'
 import { NumericFormat } from 'react-number-format';
 import Swal from 'sweetalert2';
 import axios from 'axios';
@@ -33,63 +34,6 @@ export default function Categoria() {
     };
     fetchData();
   }, [isDataUpdated, categoriaId]);
-
-  // Función para restaurar un producto
-  const restaurarProducto = async (id) => {
-    try {
-      const confirm = await Swal.fire({
-        title: '¿Estás seguro de que desea restaurar este producto?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, restaurar'
-      });
-
-      if (!confirm.isConfirmed) {
-        return;
-      }
-
-      const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/restaurar/${id}`);
-      if (res.status === 200) {
-        Swal.fire({
-          icon: 'success',
-          title: res.data.message
-        });
-        setIsDataUpdated(true);
-      }
-    } catch (error) {
-      console.error('Error al restaurar producto:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error al restaurar producto',
-        text: error.response.data.message
-      });
-    }
-  };
-
-  const eliminarProducto = async (id) => {
-    try {
-      const confirm = await Swal.fire({
-        title: '¿Estás seguro de eliminar este producto?',
-        text: "No podrás revertir esta operación",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar'
-      });
-      if (confirm.isConfirmed) {
-        const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/eliminar/${id}`);
-        if (res.status === 200) {
-          Swal.fire('Producto eliminado', res.data, 'success');
-          setIsDataUpdated(true);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const [productoSubir, setProductoSubir] = useState({
     id_categoria: categoriaId,
@@ -205,32 +149,119 @@ export default function Categoria() {
   }
 
   const handleSubmitEdit = async (id) => {
-    const formData = new FormData();
-    formData.append('nombre', editarProducto.nombre);
-    formData.append('descripcion', editarProducto.descripcion);
-    formData.append('precio', editarProducto.precio);
-    formData.append('puntos', editarProducto.puntos);
-
-    if (editarProducto.imagen) {
-      formData.append('imagen', editarProducto.imagen);
-    }
-
     try {
-      const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/actualizar/${id}`, formData);
-      if (res.status === 200) {
-        Swal.fire('Producto editado', res.data, 'success');
-        const modalElement = document.getElementById('EditarModal');
-        let modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
-        setImagePreview("");
-        setIsDataUpdated(true);
+      const productoData = {
+        id: editarProducto.id,
+        nombre: editarProducto.nombre,
+        descripcion: editarProducto.descripcion,
+        precio: editarProducto.precio,
+        puntos: editarProducto.puntos
       }
+      const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/actualizar/${id}`, productoData);
+      if (res.status === 200) {
+        try {
+          if (imagePreview) {
+            const formData = new FormData();
+            formData.append('foto', editarProducto.imagen);
+            formData.append('upload_preset', 'productos');
+            formData.append('public_id', id);
+            const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+            const url = cloudinaryResponse.data.url;
+            const res2 = await axios.put(`${BACKEND_URL}/api/tienda/productos/actualizar/${id}`, {
+              foto: url
+            });
+            if (res2.status === 200) {
+              Swal.fire({
+                icon: 'success',
+                title: res2.data.message,
+              });
+              const modalElement = document.getElementById('EditarModal');
+              let modalInstance = bootstrap.Modal.getInstance(modalElement);
+              modalInstance.hide();
+              setImagePreview("");
+              setIsDataUpdated(true);
+            }
+          }
+          else {
+            Swal.fire({
+                icon: 'success',
+                title: res.data.message,
+              });
+            const modalElement = document.getElementById('EditarModal');
+            let modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide();
+            setImagePreview("");
+            setIsDataUpdated(true);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        }
     } catch (error) {
       console.log(error);
       Swal.fire('Error', error.response.data, 'error');
     }
   }
 
+  // Función para restaurar un producto
+  const restaurarProducto = async (id) => {
+    try {
+      const confirm = await Swal.fire({
+        title: '¿Estás seguro de que desea restaurar este producto?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, restaurar'
+      });
+
+      if (!confirm.isConfirmed) {
+        return;
+      }
+
+      const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/restaurar/${id}`);
+      if (res.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: res.data.message
+        });
+        setIsDataUpdated(true);
+      }
+    } catch (error) {
+      console.error('Error al restaurar producto:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al restaurar producto',
+        text: error.response.data.message
+      });
+    }
+  };
+
+  const eliminarProducto = async (id) => {
+    try {
+      const confirm = await Swal.fire({
+        title: '¿Estás seguro de eliminar este producto?',
+        text: "No podrás revertir esta operación",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar'
+      });
+      if (confirm.isConfirmed) {
+        const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/eliminar/${id}`);
+        if (res.status === 200) {
+            Swal.fire({
+              icon: 'success',
+              title: res.data.message
+            });
+            setIsDataUpdated(true);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   function openEditModal(producto) {
     setEditarProducto({
@@ -252,8 +283,20 @@ export default function Categoria() {
       return estadoFiltro === null || producto.pro_estado === estadoFiltro;
     });
 
+  const handleClear = () => {
+    setIsDataUpdated(true);
+    setProductoSubir({
+      nombre: '',
+      descripcion: '',
+      precio: '',
+      puntos: '',
+      imagen: null
+    });
+    setImagePreview('');
+  };
+
   return (
-    <div className="justify-content-between animate__animated animate__fadeIn">
+    <div className="justify-content-between">
       <div className="d-flex justify-content-between mb-5">
         <h1>{categoria?.cat_nom}</h1>
 
@@ -295,7 +338,7 @@ export default function Categoria() {
               <div className="modal-body">
                 <div className="row p-3">
                   <div className="col-12">
-                    <img src={imagePreview ? imagePreview : `${editarProducto.imagen}`} className="rounded mx-auto mb-4 d-block w-50" />
+                    <img height={200} width={200} src={imagePreview || img} className="rounded mx-auto d-block w-50 border" alt="..." />
                   </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Imagen</label>
@@ -320,49 +363,52 @@ export default function Categoria() {
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={handleClear}>Cancelar</button>
                 <button type="submit" className="btn btn-success">Guardar</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
         {productosFiltrados.map((producto) => (
-          <div className="col my-2" key={producto.id_producto}>
-            <div className="card text-center p-2">
-              <span className={producto.pro_estado === 1 ? `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-success` : `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-danger`}>
-                {producto.pro_estado === 1 ? `Activo` : `Inactivo`}
-                <span className="visually-hidden">unread messages</span>
-              </span>
-              <img src={`${producto.pro_foto}`} height={200} className="card-img-top position-relative" alt="..." />
-              <div className="card-body">
-                <div className=" justify-content-between align-productos-center">
-                  <h3 className="card-title">{producto.pro_nom}</h3>
-                  <div className="row">
-                    <div className="col">
-                      <NumericFormat value={producto.pro_precio} displayType={'text'} thousandSeparator='.' decimalSeparator=',' prefix={'$ '} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row row-cols-3">
-                {/* Botón para ver */}
-                <div className="col">
-                  <Link to={`/admin/producto/${producto.id_producto}`} className="btn btn-success w-100"><i className="bi bi-eye"></i> Ver</Link>
-                </div>
-                {/* Botón para editar */}
-                <div className="col">
-                  <button type="button" className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#EditarModal" onClick={() => openEditModal(producto)}><i className="bi bi-pencil-square"></i> Editar</button>
-                </div>
-                {/* Botón para eliminar/restaurar */}
-                <div className="col">
-                  <button className={producto.pro_estado === 1 ? `btn btn-danger w-100` : `btn btn-success w-100`} onClick={producto.pro_estado === 1 ? () => eliminarProducto(producto.id_producto) : () => restaurarProducto(producto.id_producto)}><i className={producto.pro_estado === 1 ? `bi bi-trash` : `bi bi-arrow-counterclockwise`}></i> {producto.pro_estado === 1 ? `Eliminar` : `Restaurar`}</button>
-                </div>
-              </div>
-            </div>
+  <div className="col my-2" key={producto.id_producto}>
+    <div className="card text-center position-relative">
+      <img src={`${producto.pro_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
+      <div className="card-body">
+        <span className={producto.pro_estado === 1 ? `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-success` : `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-danger`}>
+          {producto.pro_estado === 1 ? `Activo` : `Inactivo`}
+          <span className="visually-hidden">unread messages</span>
+        </span>
+
+        <h3 className="card-title mb-3">{producto.pro_nom}</h3>
+        <div className="row">
+          <div className="col">
+            <NumericFormat value={producto.pro_precio} displayType={'text'} thousandSeparator='.' decimalSeparator=',' prefix={'$ '} />
           </div>
-        ))}
+        </div>
+
+        <div className="row row-cols-3 mt-3">
+          {/* Botón para ver */}
+          <div className="col">
+            <Link to={`/admin/producto/${producto.id_producto}`} className="btn btn-success w-100"><i className="bi bi-eye"></i></Link>
+          </div>
+          {/* Botón para editar */}
+          <div className="col">
+            <button type="button" className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#EditarModal" onClick={() => openEditModal(producto)}><i className="bi bi-pencil-square"></i></button>
+          </div>
+          {/* Botón para eliminar/restaurar */}
+          <div className="col">
+            <button className={producto.pro_estado === 1 ? `btn btn-danger w-100` : `btn btn-success w-100`} onClick={producto.pro_estado === 1 ? 
+              () => eliminarProducto(producto.id_producto) : () => restaurarProducto(producto.id_producto)}>
+              <i className={producto.pro_estado === 1 ? `bi bi-trash` : `bi bi-arrow-counterclockwise`}></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+))}
         {/* Modal para editar */}
         <div className="modal fade" id="EditarModal" tabIndex="-1" aria-labelledby="MenuModalLabelEditar" aria-hidden="true">
           <div className="modal-dialog">
@@ -371,7 +417,7 @@ export default function Categoria() {
                 <h1 className="modal-title fs-5" id="MenuModalLabelEditar">Editar producto</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <form>
+              <form onSubmit={handleSubmitEdit}>
                 <div className="modal-body">
                   <div className="row p-3">
                     <div className="col-12 mb-3">

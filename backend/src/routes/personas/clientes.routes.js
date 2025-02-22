@@ -13,8 +13,7 @@ router.get('/reportes/cuentaClientesUltimoMes/', clientesController.cuentaClient
 router.put('/agregarPuntos/:id', clientesController.agregarPuntos);
 router.put('/eliminar/:id', clientesController.eliminarCliente);
 router.put('/restaurar/:id', clientesController.restaurarCliente);
-router.put('/actualizar/:id', validateCliente, clientesController.actualizarCliente);
-
+router.put('/actualizar/:id', clientesController.actualizarCliente);
 
 
 module.exports = router;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import img from '../../assets/img/img.png'
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -10,6 +11,7 @@ export default function MenuAdmin() {
   const [categorias, setCategorias] = useState([])
   const [isDataUpdated, setIsDataUpdated] = useState(false)
   const [imagePreview, setImagePreview] = useState('')
+  const [estadoFiltro, setEstadoFiltro] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +42,15 @@ export default function MenuAdmin() {
     fileInputRef.current.value = '';
   }
 
+  function filtrarCategoriasPorEstado(estado) {
+    setEstadoFiltro(estado);
+  }
+
+  const categoriasFiltradas = categorias
+    .filter(categoria => {
+      return estadoFiltro === null || categoria.cat_estado === estadoFiltro;
+    });
+
   //Añade la imagen
   const handleFileChange = (e) => {
     setCategoria({ ...categoria, foto: e.target.files[0] });
@@ -65,7 +76,6 @@ export default function MenuAdmin() {
       };
 
       const response = await axios.post(`${BACKEND_URL}/api/tienda/categorias/crear`, categoriaData);
-
       if (response.status === 200) {
         try {
           // Subir la imagen a Cloudinary
@@ -73,7 +83,7 @@ export default function MenuAdmin() {
           formData.append('foto', categoria.foto);
           formData.append('upload_preset', 'categorias');
           formData.append('public_id', id_unico);
-
+          
           const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
           const url = cloudinaryResponse.data.url;
 
@@ -102,9 +112,8 @@ export default function MenuAdmin() {
           let modalInstance = bootstrap.Modal.getInstance(modalElement);
           modalInstance.hide();
         } catch (error) {
-          // Si falla la subida de la imagen, eliminar la categoría creada
           await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id_unico}`);
-          throw error; // Relanzar el error para que sea manejado por el bloque catch externo
+          throw error;
         }
       }
     } catch (error) {
@@ -112,46 +121,10 @@ export default function MenuAdmin() {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: error.response?.data?.message || 'Error al procesar la solicitud'
+        text: error.response.data.message || 'Error al procesar la solicitud'
       });
     }
     resetFoto();
-  };
-
-  const deleteCategory = async (id) => {
-    try {
-      const confirm = await Swal.fire({
-        title: '¿Estas seguro de borrar esta categoría?',
-        text: "No podrás revertir esta acción",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, borrar'
-      });
-      if (!confirm.isConfirmed) {
-        return;
-      }
-        const res = await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id}`);
-        if (res.status === 200) {
-          const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/eliminar/${id}`);
-          if (cloudinaryResponse.status === 200) {
-          Swal.fire({
-            icon: 'success',
-            title: res.data.message
-          });
-          setIsDataUpdated(true);
-        }
-      }
-    }
-    catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: error.response.data.message
-      });
-    }
   };
 
   //Editar categoria
@@ -171,7 +144,6 @@ export default function MenuAdmin() {
   };
   const handleEdit = async (id) => {
     const formData = new FormData();
-    formData.append('categoria', editarCategoria.categoria);
     formData.append('upload_preset', 'categorias');
     formData.append('public_id', editarCategoria.id);
     if (imagePreview) {
@@ -222,6 +194,70 @@ export default function MenuAdmin() {
     }
   }
 
+  const eliminarCategoria = async (id) => {
+    try {
+      const confirm = await Swal.fire({
+        title: '¿Estas seguro de borrar esta categoría?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, borrar'
+      });
+      if (!confirm.isConfirmed) {
+        return;
+      }
+        const res = await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id}`);
+        if (res.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: res.data.message
+          });
+          setIsDataUpdated(true);
+      }
+    }
+    catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data.message
+      });
+    }
+  };
+
+  const restaurarCategoria = async (id) => {
+    try {
+      const confirm = await Swal.fire({
+        title: '¿Estas seguro de restaurar esta categoría?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, restaurar'
+      });
+      if (!confirm.isConfirmed) {
+        return;
+      }
+        const res = await axios.put(`${BACKEND_URL}/api/tienda/categorias/restaurar/${id}`);
+        if (res.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: res.data.message
+          });
+          setIsDataUpdated(true);
+      }
+    }
+    catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data.message
+      });
+    }
+  };
+
   function openEditModal(categoria) {
     setEditarCategoria({
       id: categoria.id_categoria,
@@ -229,11 +265,36 @@ export default function MenuAdmin() {
       foto: categoria.cat_foto
     });
   }
-
+  
+  const handleClear = () => {
+    setIsDataUpdated(true);
+    setCategoria({
+      id: '',
+      categoria: '',
+      foto: null
+    });
+    setImagePreview('');
+  }
   return (
-    <div className='animate__animated animate__fadeIn'>
+    <div className=''>
       <div className="d-flex justify-content-between mb-5">
         <h1>Menú</h1>
+        <div className="dropdown">
+            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Estado
+            </button>
+            <ul className="dropdown-menu">
+              <li>
+                <button className='btn w-100' onClick={() => filtrarCategoriasPorEstado(1)}>Activos</button>
+              </li>
+              <li>
+                <button className='btn w-100' onClick={() => filtrarCategoriasPorEstado(0)}>Inactivos</button>
+              </li>
+              <li>
+                <button className='btn w-100' onClick={() => filtrarCategoriasPorEstado(null)}>Todos</button>
+              </li>
+            </ul>
+        </div>
         <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#categoriaAgregarModal">
           <i className="bi bi-plus-circle"></i> Añadir categoria
         </button>
@@ -249,7 +310,7 @@ export default function MenuAdmin() {
               <div className="modal-body">
                 <div className="row p-3">
                   <div className="col-12">
-                    <img src={imagePreview ? imagePreview : null} className="rounded mx-auto d-block w-50" alt="..." />
+                    <img height={200} width={200} src={imagePreview || img} className="rounded mx-auto d-block w-50 border" alt="..." />
                   </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Imagen</label>
@@ -262,32 +323,43 @@ export default function MenuAdmin() {
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={handleClear}>Cancelar</button>
                 <button type="submit" className="btn btn-success">Guardar</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
-        {categorias.map(cat => (
-          <div className="col" key={cat.id_categoria}>
-            <div className="card mb-4">
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
+        {categoriasFiltradas.map(cat => (
+          <div className="col my-2" key={cat.id_categoria}>
+            <div className="card text-center position-relative">
               <img src={`${cat.cat_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
-              <div className="card-body text-center">
-                <h4 className="card-title">{cat.cat_nom}</h4>
+              <div className="card-body">
+
+                <span className={cat.cat_estado === 1 ? `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-success` : `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-danger `}>
+                {cat.cat_estado === 1 ? `Activo` : `Inactivo`}
+                <span className="visually-hidden">unread messages</span>
+                </span>
+
+                <h3 className="card-title mb-3">{cat.cat_nom}</h3>
                 <div className="row row-cols-3">
                   {/* Ver categoria */}
                   <div className='col'>
-                    <Link to={`/admin/categoria/${cat.id_categoria}`} className="btn btn-success w-100">Ver</Link>
+                    <Link to={`/admin/categoria/${cat.id_categoria}`} className="btn btn-success w-100"><i className="bi bi-eye"></i></Link>
                   </div>
                   {/* Editar categoria */}
                   <div className='col'>
-                    <button className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#categoriaEditarModal" onClick={() => openEditModal(cat)}>Editar</button>
+                    <button className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#categoriaEditarModal" onClick={() => openEditModal(cat)}><i className="bi bi-pencil-square"></i></button>
                   </div>
                   {/* Eliminar categoria  */}
                   <div className='col'>
-                    <button onClick={() => deleteCategory(cat.id_categoria)} className="btn btn-danger w-100">Eliminar</button>
+                    {
+                      cat.cat_estado === 1 ? 
+                      <button onClick={() => eliminarCategoria(cat.id_categoria)} className="btn btn-danger w-100"><i className="bi bi-trash"></i></button>
+                      :
+                      <button onClick={() => restaurarCategoria(cat.id_categoria)} className="btn btn-success w-100"><i className="bi bi-arrow-counterclockwise"></i></button>
+                    }
                   </div>
                 </div>
               </div>

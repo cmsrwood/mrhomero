@@ -77,7 +77,7 @@ export default function Gestionhoras() {
 
 
     return (
-        <div className='animate__animated animate__fadeIn'>
+        <div className=''>
             <h1>Gestion de Horas</h1>
             <div className="text-center">
                 <img className='rounded-circle' style={{ width: '150px' }} src={`${empleado.user_foto}`} alt={empleado.user_nom} />

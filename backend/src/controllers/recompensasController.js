@@ -77,7 +77,18 @@ exports.actualizarRecompensa = async (req, res, next) => {
 // Controlador para eliminar una recompensa
 exports.eliminarRecompensa = async (req, res, next) => {
     try {
-        const response = await recompensasServices.eliminarRecompensa(req.params.id);
+        const id = req.params.id
+        const response = await recompensasServices.eliminarRecompensa(id);
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.restaurarRecompensa = async (req, res, next) => { 
+    try{
+        const id = req.params.id
+        const response = await recompensasServices.restaurarRecompensa(id);
         res.status(200).json(response);
     } catch (error) {
         next(error);

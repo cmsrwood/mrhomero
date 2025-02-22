@@ -16,6 +16,7 @@ export default function RecompensasAdmin() {
   const [recompensas, setRecompensas] = useState([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
   const [imagePreview, setImagePreview] = useState("");
+  const [estadoFiltro, setEstadoFiltro] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,11 +42,8 @@ export default function RecompensasAdmin() {
   })
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setRecompensa({ ...recompensa, foto: file });
-      setImagePreview(URL.createObjectURL(file));
-    }
+    setRecompensa({ ...recompensa, foto: e.target.files[0] });
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
   }
 
   const handleInputChange = (e) => {
@@ -114,22 +112,27 @@ export default function RecompensasAdmin() {
     fileInputRef.current.value = '';
   }
 
+  function filtrarRecompensasPorEstado(estado) {
+    setEstadoFiltro(estado);
+  }
+
+  const recompensasFiltradas = recompensas
+    .filter(recompensa => {
+      return estadoFiltro === null || recompensa.recomp_estado === estadoFiltro;
+    });
+
   //Editar recompensa
   const [editarRecompensa, setEditarRecompensa] = useState({
     id: '',
     nombre: '',
     descripcion: '',
-    puntos: '',
+    puntos: 0,
     foto: null
   })
 
   const handleFileChangeEdit = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setEditarRecompensa({ ...editarRecompensa, foto_edit: file });
-      setImagePreview(URL.createObjectURL(file));
-    }
-
+    setEditarRecompensa({ ...editarRecompensa, foto_edit: e.target.files[0] });
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
   }
 
   const handleInputChangeEdit = (e) => {
@@ -138,20 +141,50 @@ export default function RecompensasAdmin() {
 
   const handleEdit = async (id) => {
     try {
-      const formData = new FormData();
-
-      formData.append('recompensa_nombre', editarRecompensa.nombre_edit);
-      const res = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/actualizar/${id}`, editarRecompensa);
+      const recompensaData = {
+        id: editarRecompensa.id,
+        nombre: editarRecompensa.nombre,
+        descripcion: editarRecompensa.descripcion,
+        puntos: editarRecompensa.puntos,
+      }
+      const res = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/actualizar/${id}`, recompensaData);
       if (res.status === 200) {
-        Swal.fire({
-          icon: 'success',
-          title: res.data.message
-        });
-        const modalElement = document.getElementById('recompensaEditarModal');
-        let modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
-        setImagePreview("");
-        setIsDataUpdated(true);
+        try {
+          if (imagePreview) {
+            const formData = new FormData();
+            formData.append('foto', editarRecompensa.foto_edit);
+            formData.append('upload_preset', 'recompensas');
+            formData.append('public_id', id);
+            const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
+            const url = cloudinaryResponse.data.url;
+            const response = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/actualizar/${id}`, {
+              foto: url
+            });
+            if (response.status === 200) {
+              Swal.fire({
+                icon: 'success',
+                title: response.data.message
+              });
+              const modalElement = document.getElementById('recompensaEditarModal');
+              let modalInstance = bootstrap.Modal.getInstance(modalElement);
+              modalInstance.hide();
+              setImagePreview("");
+              setIsDataUpdated(true);
+            }
+          } else {
+            Swal.fire({
+              icon: 'success',
+              title: res.data.message
+            });
+            const modalElement = document.getElementById('recompensaEditarModal');
+            let modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide();
+            setImagePreview("");
+            setIsDataUpdated(true);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -181,17 +214,15 @@ export default function RecompensasAdmin() {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Sí, eliminar'
       })
-      if (!confirm.isConfirmed) {
-        return;
-      }
-
-      const res = await axios.delete(`${BACKEND_URL}/api/tienda/recompensas/eliminar/${id}`);
-      if (res.status === 200) {
-        Swal.fire({
-          icon: 'success',
-          title: res.data.message
-        });
-        setIsDataUpdated(true);
+      if (confirm.isConfirmed) {
+        const response = await axios.put(`${BACKEND_URL}/api/tienda/recompensas/eliminar/${id}`);
+        if (response.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: response.data.message
+          });
+          setIsDataUpdated(true);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -200,9 +231,30 @@ export default function RecompensasAdmin() {
   }
 
   return (
-    <div className='animate__animated animate__fadeIn'>
-      <div className="d-flex justify-content-between">
+    <div className=''>
+      <div className="d-flex justify-content-between mb-5">
         <h1>Recompensas</h1>
+        <div className="d-flex align-items-center">
+          <div className="col me-5">
+            {/* Dropdown para filtrar por estado */}
+            <div className="dropdown">
+              <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Estado
+              </button>
+              <ul className="dropdown-menu">
+                <li>
+                  <button className='btn w-100' onClick={() => filtrarRecompensasPorEstado(1)}>Activos</button>
+                </li>
+                <li>
+                  <button className='btn w-100' onClick={() => filtrarRecompensasPorEstado(0)}>Inactivos</button>
+                </li>
+                <li>
+                  <button className='btn w-100' onClick={() => filtrarRecompensasPorEstado(null)}>Todos</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
         <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#añadirRecompensa"><i className="bi bi-plus"></i>Añadir</button>
       </div>
 
@@ -226,7 +278,7 @@ export default function RecompensasAdmin() {
                     <label htmlFor="floatingInput">Nombre</label>
                     <input type="text" name='nombre' onChange={handleInputChange} className="form-control my-2" placeholder="Nombre" value={recompensa.nombre} />
                     <label htmlFor="floatingInput">Puntos</label>
-                    <input type="text" name='puntos' onChange={handleInputChange} className="form-control my-2" placeholder="Puntos" value={recompensa.puntos} />
+                    <input type="number" name='puntos' onChange={handleInputChange} className="form-control my-2" placeholder="Puntos" value={recompensa.puntos} min="0" />
                     <label htmlFor="floatingInput">Descripcion</label>
                     <textarea type="text" name='descripcion' onChange={handleInputChange} className="form-control my-2" placeholder="Descripción" id="floatingTextarea" value={recompensa.descripcion}></textarea>
                   </div>
@@ -241,7 +293,7 @@ export default function RecompensasAdmin() {
         </div>
       </div>
 
-      <div className="mt-3">
+      <div className="">
         <Swiper
           slidesPerView={4}
           spaceBetween={10}
@@ -251,17 +303,21 @@ export default function RecompensasAdmin() {
           scrollbar={{ hide: true }}
           modules={[Scrollbar]}
         >
-          {recompensas.map((recompensa) => (
+          {recompensasFiltradas.map((recompensa) => (
             <SwiperSlide className="h-100" key={recompensa.id_recomp}>
               <div className="card text-center">
-                <img src={`${recompensa.recomp_foto}`} height={200} className="card-img-top p-3" alt="..." />
+                <img src={`${recompensa.recomp_foto}`} height={200} className="card-img-top" alt="..." />
                 <div className="card-body">
-                  <h5 className="card-title">{recompensa.recompensa_nombre}</h5>
+                  <h3 className="card-title">{recompensa.recompensa_nombre}</h3>
                   <p className="card-text">{recompensa.recompensa_descripcion}</p>
                   <button type="button" className="btn btn-warning mx-4" data-bs-toggle="modal" data-bs-target="#recompensaEditarModal" onClick={() => openEditModal(recompensa)}>
                     <i className="bi bi-pencil-square"></i>
                   </button>
-                  <button type="button" className="btn btn-danger mx-4" onClick={() => eliminarRecompensa(recompensa.id_recomp)}><i className="bi bi-trash"></i></button>
+                  {recompensa.recompensa_estado === 1 ?
+                    <button type="button" className="btn btn-success mx-4" onClick={() => restaurarRecompensa(recompensa.id_recomp)}><i className="bi bi-check-circle"></i> Restaurar</button>
+                    :
+                    <button type="button" className="btn btn-danger mx-4" onClick={() => eliminarRecompensa(recompensa.id_recomp)}><i className="bi bi-trash"></i> </button>
+                  }
                 </div>
               </div>
             </SwiperSlide>
@@ -279,9 +335,7 @@ export default function RecompensasAdmin() {
               <div className="conatiner">
                 <div className="row">
                   <div className="col-3 m-3 ps-3 pt-2">
-                    {editarRecompensa.foto_edit ? (
-                      <img src={imagePreview ? imagePreview : `${editarRecompensa.foto}`} className="img-fluid mb-3 h-75" alt="Imagen actual" height={100} />
-                    ) : null}
+                    <img src={imagePreview ? imagePreview : `${editarRecompensa.foto}`} className="img-fluid mb-3 h-75 rounded" alt="Imagen actual" height={100} />
                     <input onChange={handleFileChangeEdit} className='form-control' type="file" accept='image/*' id='foto' name='foto' />
                   </div>
                   <div className="col">

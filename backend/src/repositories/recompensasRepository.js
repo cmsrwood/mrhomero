@@ -28,7 +28,7 @@ exports.mostrarRecompensa = async (id) => {
         const value = [id];
         global.db.query(q, value, (err, results) => {
             if (err) reject(err);
-            resolve(results);
+            resolve(results[0]);
         })
     })
 }
@@ -93,19 +93,20 @@ exports.crearRecompensa = async (recompensa) => {
 
 // Actualizar una recompensa
 exports.actualizarRecompensa = async (id, recompensa) => {
+    const res = await this.mostrarRecompensa(id);
+    const recompensaBaseDatos = res;
     return new Promise((resolve, reject) => {
         const q = "UPDATE recompensas SET recompensa_nombre = ?, recompensa_descripcion = ?, recomp_num_puntos = ?, recomp_foto = ? WHERE id_recomp = ?";
         const values = [
-            recompensa.nombre,
-            recompensa.descripcion,
-            recompensa.puntos,
-            recompensa.foto,
+            recompensa.nombre ? recompensa.nombre : recompensaBaseDatos.recompensa_nombre,
+            recompensa.descripcion ? recompensa.descripcion : recompensaBaseDatos.recompensa_descripcion,
+            recompensa.puntos ? recompensa.puntos : recompensaBaseDatos.recomp_num_puntos,
+            recompensa.foto ? recompensa.foto : recompensaBaseDatos.recomp_foto,
             id
         ];
         global.db.query(q, values, (err, results) => {
             if (err) reject(err);
             resolve({
-                id: id,
                 recompensa: recompensa,
                 message: "Recompensa actualizada con éxito"
             });
@@ -116,13 +117,26 @@ exports.actualizarRecompensa = async (id, recompensa) => {
 // Eliminar una recompensa
 exports.eliminarRecompensa = async (id) => {
     return new Promise((resolve, reject) => {
-        const q = "DELETE FROM recompensas WHERE id_recomp = ?";
+        const q = "UPDATE recompensas SET recomp_estado = 0 WHERE id_recomp = ?";
         const value = [id];
         global.db.query(q, value, (err, results) => {
             if (err) reject(err);
             resolve({
                 id: id,
                 message: "Recompensa eliminada con éxito"
+            })
+        })
+    })
+}
+
+exports.restaurarRecompensa = async (id) => {
+    return new Promise((resolve, reject) => {
+        const q = "UPDATE recompensas SET recomp_estado = 1 WHERE id_recomp = ?";
+        const value = [id];
+        global.db.query(q, value, (err, results) => {
+            if (err) reject(err);
+            resolve({
+                message: "Recompensa restaurada con éxito"
             })
         })
     })

@@ -57,13 +57,14 @@ exports.agregarPuntos = async (id, puntos) => {
 
 // Repositorio para actualizar cliente
 exports.actualizarCliente = async (id, cliente) => {
+        const userBD = await this.mostrarCliente(id);
     return new Promise((resolve, reject) => {
         const q = `UPDATE usuarios SET user_nom = ?, user_apels = ?, user_tel = ?, user_foto = ? WHERE id_user = ?`;
         const values = [
-            cliente.user_nom,
-            cliente.user_apels,
-            cliente.user_tel,
-            cliente.foto,
+            cliente.user_nom? cliente.user_nom : userBD.user_nom,
+            cliente.user_apels? cliente.user_apels : userBD.user_apels,
+            cliente.user_tel? cliente.user_tel : userBD.user_tel,
+            cliente.foto? cliente.foto : userBD.user_foto,
             id
         ]
         global.db.query(q, values, (err, results) => {

@@ -55,6 +55,13 @@ exports.eliminarRecompensa = async (id) => {
     return response;
 }
 
+exports.restaurarRecompensa = async (id) => { 
+    const existe = await recompensasRepository.mostrarRecompensa(id);
+    if (existe <= 0) throw new NotFoundError('La recompensa no existe');
+    const response = await recompensasRepository.restaurarRecompensa(id);
+    return response;
+}
+
 // Servicio para reclamar una recompensa
 exports.reclamarRecompensa = async (id_recompensa, id_usuario) => {
     // Verificar si la recompensa existe

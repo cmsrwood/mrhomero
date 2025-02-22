@@ -104,7 +104,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="animate__animated animate__fadeIn">
+    <div className="">
       <div className='row w-100 justify-content-between my-3'>
         <select value={ano} onChange={handleAnoChange} name="ano" id="ano" className="form-select col-12 col-sm mx-2">
           <option value={anoActual}>{anoActual}</option>
@@ -212,7 +212,7 @@ export default function Dashboard() {
                   return (
                     index < 10 &&
                     <SwiperSlide key={producto.pro_foto}>
-                      <div className="wow animate__animated animate__fadeInRight">
+                      <div className="wow Right">
                         <div className="card text-center shadow">
                           <img
                             src={`${producto.pro_foto}`}

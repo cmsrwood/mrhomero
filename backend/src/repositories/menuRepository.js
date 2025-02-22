@@ -35,7 +35,7 @@ exports.verificarNombre = async (categoria) => {
 // Repositorio para verificar si la categoria tiene productos
 exports.verificarProductosPorCategoria = async (id) => {
     return new Promise((resolve, reject) => {
-        const q = "SELECT * FROM productos WHERE id_categoria = ?";
+        const q = "SELECT * FROM productos WHERE id_categoria = ? AND pro_estado = 1";
         global.db.query(q, [id], (error, results) => {
             if (error) reject(error)
             resolve(results.length > 0);
@@ -47,11 +47,11 @@ exports.verificarProductosPorCategoria = async (id) => {
 exports.crearCategoria = async (categoria) => {
     return new Promise((resolve, reject) => {
         const q = "INSERT INTO categorias (`id_categoria`, `cat_nom`, `cat_foto`) VALUES (?, ?, ?)";
+        console.log(categoria)
         const values = [categoria.id, categoria.categoria, categoria.foto];
         global.db.query(q, values, (err, results) => {
             if (err) reject(err);
             resolve({
-                categoria: categoria,
                 message: "La categoría se ha creado correctamente"
             })
         })
@@ -64,16 +64,15 @@ exports.actualizarCategoria = async (id, categoria) => {
     const categoriaBaseDatos = res;
 
     return new Promise((resolve, reject) => {
-        const qUpdate = "UPDATE categorias SET cat_nom = ?, cat_foto = ? WHERE id_categoria = ?";
+        const q = "UPDATE categorias SET cat_nom = ?, cat_foto = ? WHERE id_categoria = ?";
         const values = [
-            categoriaBaseDatos.cat_nom ? categoriaBaseDatos.cat_nom : categoria.categoria,
-            categoriaBaseDatos.cat_foto ? categoriaBaseDatos.cat_foto : categoria.foto,
+            categoria.categoria ? categoria.categoria : categoriaBaseDatos.cat_nom,
+            categoria.foto ? categoria.foto : categoriaBaseDatos.cat_foto,
             id
         ];
-        global.db.query(qUpdate, values, (err, results) => {
+        global.db.query(q, values, (err, results) => {
             if (err) reject(err);
             resolve({
-                categoria: categoria,
                 message: "La categoría se ha actualizado correctamente"
             })
         })
@@ -83,7 +82,7 @@ exports.actualizarCategoria = async (id, categoria) => {
 // Repositorio para eliminar una categoria
 exports.eliminarCategoria = async (id) => {
     return new Promise((resolve, reject) => {
-        const q = "DELETE FROM categorias WHERE id_categoria = ?";
+        const q = "UPDATE categorias SET cat_estado = 0 WHERE id_categoria = ?";
         global.db.query(q, [id], (err, results) => {
             if (err) reject(err)
             resolve({
@@ -91,4 +90,16 @@ exports.eliminarCategoria = async (id) => {
             });
         });
     });
+}
+
+exports.restaurarCategoria = async (id) => {
+    return new Promise((resolve, reject) => {
+        const q = "UPDATE categorias SET cat_estado = 1 WHERE id_categoria = ?";
+        global.db.query(q, [id], (err, results) => {
+            if (err) reject(err)
+            resolve({
+                message: "La categoría se ha restaurado correctamente"
+            });
+        });
+    })
 }

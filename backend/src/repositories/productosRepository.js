@@ -73,11 +73,11 @@ exports.actualizarProducto = async (id, producto) => {
     return new Promise((resolve, reject) => {
         const qUpdate = `UPDATE productos SET pro_nom = ?, pro_desp = ?, pro_precio = ?, pro_foto = ?, pro_puntos = ? WHERE id_producto = ?`;
         const values = [
-            productoBaseDatos.pro_nom ? productoBaseDatos.pro_nom : producto.nombre,
-            productoBaseDatos.pro_desp ? productoBaseDatos.pro_desp : producto.descripcion,
-            productoBaseDatos.pro_precio ? productoBaseDatos.pro_precio : producto.precio,
-            productoBaseDatos.pro_foto ? productoBaseDatos.pro_foto : producto.foto,
-            productoBaseDatos.pro_puntos ? productoBaseDatos.pro_puntos : producto.puntos,
+            producto.nombre ? producto.nombre : productoBaseDatos.pro_nom,
+            producto.descripcion ? producto.descripcion : productoBaseDatos.pro_desp,
+            producto.precio ? producto.precio : productoBaseDatos.pro_precio,
+            producto.foto ? producto.foto : productoBaseDatos.pro_foto,
+            producto.puntos ? producto.puntos : productoBaseDatos.pro_puntos,
             id
         ];
         global.db.query(qUpdate, values, (err, results) => {

@@ -72,7 +72,6 @@ exports.recuperar = async (email) => {
 
     try {
         const response = await authRepository.recuperar(verificationCode, expirationDate, id);
-        console.log(response)
     } catch (error) {
         throw new Error('Error al guardar el código de verificación');
     }

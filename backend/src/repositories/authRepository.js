@@ -10,7 +10,6 @@ exports.ingresar = async (user) => {
         ];
         global.db.query(q, values, (err, results) => {
             if (err) reject(err);
-            console.log(results)
             resolve({
                 results: results,
                 message: "¡Bienvenido, has iniciado sesión con éxito!"

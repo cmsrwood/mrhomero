@@ -15,11 +15,12 @@ router.post('/crear', validateRecompensa, recompensasController.crearRecompensa)
 router.post('/reclamar/:id', recompensasController.reclamarRecompensa);
 
 //Put
-router.put('/actualizar/:id', validateRecompensa, recompensasController.actualizarRecompensa);
+router.put('/actualizar/:id', recompensasController.actualizarRecompensa);
 router.put('/validar/:id', recompensasController.validarRecompensa);
+router.put('/restaurar/:id', recompensasController.restaurarRecompensa);
 
 
 //Delete
-router.delete('/eliminar/:id', recompensasController.eliminarRecompensa);
+router.put('/eliminar/:id', recompensasController.eliminarRecompensa);
 
 module.exports = router

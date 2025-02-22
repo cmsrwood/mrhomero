@@ -23,7 +23,8 @@ exports.mostrarCategoria = async (req, res, next) => {
 // Controlador para crear una nueva categoría
 exports.crearCategoria = async (req, res, next) => {
     try {
-        const response = await menuServices.crearCategoria(req.body);
+        const categoria = req.body
+        const response = await menuServices.crearCategoria(categoria);
         res.status(200).json(response)
     } catch (error) {
         next(error)
@@ -34,17 +35,30 @@ exports.crearCategoria = async (req, res, next) => {
 // Controlador para actualizar una categoría
 exports.actualizarCategoria = async (req, res, next) => {
     try {
-        const response = await menuServices.actualizarCategoria(req.params.id, req.body);
+        const id = req.params.id
+        const categoria = req.body
+        const response = await menuServices.actualizarCategoria(id, categoria);
         res.status(200).json(response)
     } catch (error) {
         next(error)
     }
 };
 
+exports.restaurarCategoria = async (req, res, next) => {
+    try {
+        const id = req.params.id
+        const response = await menuServices.restaurarCategoria(id);
+        res.status(200).json(response)
+    } catch (error) {
+        next(error)
+    }
+}
+
 // Controlador para eliminar una categoría
 exports.eliminarCategoria = async (req, res, next) => {
     try {
-        const response = await menuServices.eliminarCategoria(req.params.id);
+        const id = req.params.id
+        const response = await menuServices.eliminarCategoria(id);
         res.status(200).json(response)
     } catch (error) {
         next(error)
