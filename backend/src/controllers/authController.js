@@ -58,34 +58,14 @@ exports.recuperar = (req, res, next) => {
 };
 
 exports.resetPassword = (req, res, next) => {
-    const verificationCode = req.body.verificationCode;
-    const newPassword = req.body.newPassword
-    const confirmPassword = req.body.confirmPassword
-    const fechaActual = moment().format('YYYY-MM-DD HH:mm:ss');
-
-    db.query('SELECT * FROM usuarios WHERE user_reset_code = ? AND user_reset_code_expiration > ?', [verificationCode, fechaActual], (err, results) => {
-        if (err) {
-            console.error('Error en la consulta:', err);
-            return res.status(500).json('Error en el servidor');
-        }
-
-        else if (newPassword !== confirmPassword) {
-            return res.status(400).json('Las contraseñas no coinciden');
-        }
-
-        else if (results.length === 0) {
-            return res.status(400).json('Código de verificación inválido, expirado o usuario no encontrado');
-        }
-
-        const user = results[0];
-        const hashPassword = bcrypt.hashSync(newPassword, 10)
-
-        // Actualizar la contraseña y eliminar el código de verificación
-        db.query('UPDATE usuarios SET user_pass = ?, user_reset_code = NULL, user_reset_code_expiration = NULL WHERE id_user = ?', [hashPassword, user.id_user], (err) => {
-            if (err) return res.status(500).json('Error al actualizar la contraseña');
-            res.status(200).json('Contraseña restablecida con éxito');
-        });
-    });
+    try {
+        const datos = req.body
+        const response = authServices.resetPassword(datos);
+        res.status(200).json(response);
+    }
+    catch (error) {
+        next(error)
+    }
 };
 
 module.exports = exports;

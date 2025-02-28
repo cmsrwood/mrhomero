@@ -16,6 +16,11 @@ export default function Ingresar() {
         verificationCode: ""
     });
 
+    const email = localStorage.getItem("email");
+    if (!email) {
+        navigate("/ingresar");
+    }
+
     const [code, setCode] = useState(new Array(6).fill(''));
     const inputRefs = useRef([]);
 
@@ -51,7 +56,8 @@ export default function Ingresar() {
         try {
             const res = await axios.post(`${BACKEND_URL}/api/auth/resetPassword`, {
                 ...user,
-                verificationCode
+                verificationCode,
+                email
             });
             if (res.status === 200) {
                 Swal.fire({
@@ -60,6 +66,7 @@ export default function Ingresar() {
                     confirmButtonText: 'Continuar'
                 });
                 navigate("/ingresar");
+                localStorage.removeItem("email");
             }
         } catch (error) {
             console.log(error);

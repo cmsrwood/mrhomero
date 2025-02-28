@@ -70,3 +70,37 @@ exports.recuperar = async (codigo, expirationDate, id) => {
         });
     })
 }
+
+exports.traerUsuarioParaRecuperar = async (datos) => {
+    return new Promise((resolve, reject) => {
+        const q = "SELECT * FROM usuarios WHERE user_reset_code = ? AND user_reset_code_expiration > ? AND user_email = ?";	
+        const values = [
+            datos.verificationCode,
+            moment().format('YYYY-MM-DD HH:mm:ss'),
+            datos.email
+        ];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err);
+            resolve(results[0]);
+        });
+    })
+}
+
+exports.resetPassword = async (datos) => {
+    const hashPassword = bcrypt.hashSync(datos.newPassword, 10);
+    return new Promise((resolve, reject) => {
+        const q = "UPDATE usuarios SET user_pass = ?, user_reset_code = NULL, user_reset_code_expiration = NULL WHERE user_email = ?";
+        const values = [
+            hashPassword,
+            datos.email,
+        ];
+        global.db.query(q, values, (err, results) => {
+            if (err) reject(err);
+            resolve({
+                results: results,
+                message: "La contraseña se ha restablecido con éxito."
+            });
+            console.log (results);
+        });
+    })
+}

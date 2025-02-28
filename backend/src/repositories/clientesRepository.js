@@ -53,7 +53,7 @@ exports.mostrarRatingResenas = async (placeId) => {
         const apiKey = process.env.GOOGLE_API_KEY;
 
         const response = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating&language=es&key=${apiKey}`);
-
+        
         return response.data.result.rating || [];
     } catch (error) {
         console.error("Error al obtener reseñas:", error);

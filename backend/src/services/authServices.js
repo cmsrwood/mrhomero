@@ -68,10 +68,10 @@ exports.recuperar = async (email) => {
     const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     const expirationDate = moment().add(12, 'hour').format('YYYY-MM-DD HH:mm:ss');
-    const id = usuario.id_user;
+    const id_usuario = usuario.id_user;
 
     try {
-        const response = await authRepository.recuperar(verificationCode, expirationDate, id);
+        const response = await authRepository.recuperar(verificationCode, expirationDate, id_usuario);
     } catch (error) {
         throw new Error('Error al guardar el código de verificación');
     }
@@ -103,7 +103,14 @@ exports.recuperar = async (email) => {
             if (error) {
                 return reject(new Error('Error al enviar el correo electrónico'));
             }
-            resolve({ message: 'Código de verificación enviado por correo electrónico' });
+            resolve({ message: 'Código de verificación enviado por correo electrónico', email: email });
         });
     })
+}
+exports.resetPassword = async (datos) => {
+    const usuarioRecuperar = await authRepository.traerUsuarioParaRecuperar(datos);
+    if (usuarioRecuperar.length <= 0) throw new BadRequestError('El correo no se encuentra registrado en el sistema');
+
+    const response = await authRepository.resetPassword(datos);
+    return response
 }

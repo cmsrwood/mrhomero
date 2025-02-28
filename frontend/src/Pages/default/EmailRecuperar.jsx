@@ -26,6 +26,7 @@ export default function Recuperar() {
                     title: res.data.message,
                     confirmButtonText: 'Continuar'
                 });
+                localStorage.setItem("email", userEmailRecuperar.email);
                 navigate("/recuperar");
             }
         } catch (error) {
