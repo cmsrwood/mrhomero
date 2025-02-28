@@ -32,6 +32,24 @@ exports.mostrarClientes = async (req, res, next) => {
     }
 };
 
+exports.mostrarResenas = async (req, res, next) => {
+    try {
+        const response = await clientesServices.mostrarResenas();
+        res.status(200).json(response);
+    } catch (error) {
+        next(error)
+    }
+}
+
+exports.mostrarRatingResenas = async (req, res, next) => {
+    try {
+        const response = await clientesServices.mostrarRatingResenas();
+        res.status(200).json(response);
+    } catch (error) {
+        next(error)
+    }
+};
+
 //Controlador para mostrar los clientes del ultimo mes
 exports.cuentaClientesUltimoMes = async (req, res, next) => {
     try {

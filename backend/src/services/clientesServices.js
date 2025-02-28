@@ -1,4 +1,6 @@
-const {NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
+const { NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
+require('dotenv').config();
+const axios = require("axios");
 const clientesRepository = require('../repositories/clientesRepository');
 
 // Servicio para mostrar clientes
@@ -20,6 +22,16 @@ exports.mostrarClientePorEmail = async (email) => {
     if (response.length <= 0) throw new NotFoundError("El cliente no existe");
     return response
 }
+
+exports.mostrarRatingResenas = async () => {
+    const placeId = "ChIJsb9BY9eZP44Rp7AWW4MXxH4";
+    return await clientesRepository.mostrarRatingResenas(placeId);
+}
+
+exports.mostrarResenas = async () => {
+    const placeId = "ChIJsb9BY9eZP44Rp7AWW4MXxH4";
+    return await clientesRepository.mostrarResenas(placeId);
+};
 
 // Servicio para mostrar clientes del ultimo mes
 exports.cuentaClientesUltimoMes = async () => {
