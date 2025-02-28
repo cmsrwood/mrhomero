@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-02-2025 a las 01:37:35
+-- Tiempo de generación: 28-02-2025 a las 23:12:42
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `categorias` (
   `id_categoria` varchar(255) NOT NULL,
   `cat_nom` varchar(255) NOT NULL,
-  `cat_foto` varchar(255) NOT NULL
+  `cat_foto` varchar(255) DEFAULT NULL,
+  `cat_estado` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -134,7 +135,8 @@ CREATE TABLE `recompensas` (
   `recompensa_nombre` varchar(255) NOT NULL,
   `recompensa_descripcion` varchar(255) NOT NULL,
   `recomp_num_puntos` int(11) NOT NULL,
-  `recomp_foto` varchar(255) NOT NULL
+  `recomp_foto` varchar(255) NOT NULL,
+  `recomp_estado` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -199,7 +201,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `user_fecha_registro`, `id_rol`, `user_estado`) VALUES
-('user_admin_1740097849543', 'admin', 'admin', 'admin@gmail.com', NULL, 0, NULL, '$2a$10$nhZ0WNjJk.oghLVI72XaPu45HoRCp/XOd3SpnmmvqCQzexejlllQS', NULL, NULL, '2025-02-20 19:30:49', 1, 1),
+('user_admin_1740097849543', 'admin', 'admin', 'admin@gmail.com', '3138975212', 0, 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1740188123/user_admin_1740097849543.webp', '$2a$10$nhZ0WNjJk.oghLVI72XaPu45HoRCp/XOd3SpnmmvqCQzexejlllQS', NULL, NULL, '2025-02-20 19:30:49', 1, 1),
 ('user_Bryam_1740098049146', 'Bryam', 'castañeda cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$x6V069NY.nSJtwa4h5sPle7WsKLiWk3PGCV/qJSEYWk15RokylCee', NULL, NULL, '2025-02-20 19:34:09', 3, 1),
 ('user_Dilan Santiago_1740098072789', 'Dilan Santiago', 'Lopez Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$8xpwM3J6n4Xw2ejj6kqsV.qg0XhjWg8BtSRsFgV5PPf.b2EtYklEu', NULL, NULL, '2025-02-20 19:34:32', 3, 1),
 ('user_Johan Sebastian_1740098106538', 'Johan Sebastian', 'Muñoz Contreras', 'johanmc@gmail.com', NULL, 0, NULL, '$2a$10$LCLJnriPFmYy/0ARI9W75OIhXqiTIlawgzczsgDUtiN0Nmvhs7P72', NULL, NULL, '2025-02-20 19:35:06', 3, 1);
