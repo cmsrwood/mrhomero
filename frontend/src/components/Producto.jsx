@@ -27,7 +27,7 @@ export default function Producto() {
             <div className="container position-relative">
                 <div className="row">
                     <div className="col-12 col-sm-5 pt-4">
-                        <img loading='lazy' className='img-fluid rounded-5' src={`${producto?.pro_foto}`} alt="" />
+                        <img loading='lazy' className='rounded-5 w-100 h-100' src={`${producto?.pro_foto}`} alt="" />
                     </div>
                     <div className="col-12 col-sm-7 px-5 py-3">
                         <h2 className='display-5 fw-bold'>{producto?.pro_nom}</h2>

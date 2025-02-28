@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import NavegacionDefault from '../../navigation/NavegacionDefault'
 import axios from 'axios'
+import logo from '/logo.png'
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 export default function Registrar() {
@@ -59,9 +59,9 @@ export default function Registrar() {
   }
 
   return (
-    <div className="vh-100 container">
-      <div className="row">
-        <div className='col rounded'>
+    <div className="vh-100 container ">
+      <div className="row row-cols-1 row-cols-lg-2 row-cols-xl-2 ">
+        <div className='col'>
           <form onSubmit={handleSubmit} className='px-0 px-sm-5 py-2'>
             <div className='text-center my-3'>
               <h1 className='text-warning'>Registro</h1>
@@ -94,9 +94,11 @@ export default function Registrar() {
             </div>
           </form>
         </div>
-        <div className='col rounded border-start'>
-          <div className='px-0 px-sm-5 py-2 text-center'>
-            <h1>a</h1>
+        <div className='col pt-5'>
+          <div className='px-0 px-sm-5 pt-5 text-center'>
+            <img className='img-fluid w-50' src={logo} alt="logo" />
+            <h1 className='mt-3'>¡Bienvenido!</h1>
+            <p>Registrate y disfruta de nuestros servicios</p>
           </div>
         </div>
       </div>

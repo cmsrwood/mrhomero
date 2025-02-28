@@ -6,8 +6,8 @@ import appStore from '../../src/assets/img/appStore.png'
 
 export default function Footer() {
     return (
-        <div className="">
-            <div className="container border-top my-5">
+        <div className="mt-5 pt-5">
+            <div className="container border-top mt-5">
                 <div className="py-4">
                     <img src={img} width={80} />
                 </div>
@@ -56,7 +56,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col border-top pt-2">
+                    <div className="col border-top pt-2 text-center">
                         <p>
                             Mr. Homero © 2024. Todos los derechos reservados.
                         </p>

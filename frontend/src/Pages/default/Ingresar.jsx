@@ -14,14 +14,20 @@ export default function Ingresar() {
 
   const [user, setUser] = useState({
     email: "",
-    password: ""
+    password: "",
+    recuerdame: false
   });
 
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
-    setUser(prev => ({ ...prev, [event.target.name]: event.target.value }));
+    const { name, value, type, checked } = event.target;
+    setUser(prev => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value
+    }));
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -103,7 +109,7 @@ export default function Ingresar() {
                 <div className="text-center">
                   <div className="d-flex justify-content-between my-4">
                     <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                      <input className="form-check-input" type="checkbox" id="flexCheckDefault" name='recuerdame' onChange={handleChange} checked={user.recuerdame} />
                       <label className="form-check-label" htmlFor="flexCheckDefault">
                         Recordarme
                       </label>
