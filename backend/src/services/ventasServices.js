@@ -1,11 +1,20 @@
 const pdfkitTable = require('pdfkit-table');
+const OpenAI = require('openai');
 const path = require('path');
+require('dotenv').config();
 const moment = require('moment');
 const ventasRepository = require('../repositories/ventasRepository');
 const clientesRepository = require('../repositories/clientesRepository');
 const productosRepository = require('../repositories/productosRepository');
-
 const { NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
+
+const apiKey = process.env.OPENAI_API_KEY_MRHOMERO;
+console.log(`API Key: ${apiKey}`);
+
+const openai = new OpenAI({
+    baseURL: 'https://api.openai.com/v1',
+    apiKey: apiKey
+});
 
 // Convierte el número del mes a su nombre en español
 function mesANombre(mes) {
@@ -191,6 +200,117 @@ exports.generarPDFVentasMensuales = async (ano, mes) => {
     await generarPDF(doc, ventas, ano, mes);
     return doc;
 };
+
+async function reporteAnualGPT(ventas, ano) {
+    const prompt = `Datos de ventas: ${JSON.stringify(ventas, null, 2)} para año ${ano}.`;
+
+    const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+            {
+                role: "system",
+                content: `
+                Eres una IA analítica de ventas. Usa **solo** la información proporcionada. No generes datos falsos ni hagas suposiciones.
+                Genera un reporte de ventas en formato profesional y atractivo con estilo de IA analítica.
+                El negocio es un restaurante llamado 'Mr. Homero'. Usa **solo** los datos proporcionados, no inventes información adicional.
+                No pases links
+                No uses "**"
+                El reporte debe ser corto y atractivo. No tiene que ser muy largo. Ejemplo de formato:
+
+                Reporte de Ventas 📊 - Mr. Homero 🍔🔥
+                (Hecho con Mr. Homero Analytics 🤖)
+
+                🔹 Enero
+                💰 Ventas totales: $1,000
+                📈 Análisis: Las ventas se mantuvieron estables este mes. Comparado con diciembre, no hubo cambios significativos, lo que sugiere una base sólida para construir crecimiento.
+
+                🔹 Febrero
+                💰 Ventas totales: $1,000
+                📈 Análisis: Similar a enero, las ventas se mantuvieron constantes. Es importante identificar oportunidades para impulsar el crecimiento, como promociones o eventos temáticos.
+
+                📌 Tendencia General
+
+                📊 Observación: Las ventas muestran estabilidad, lo que indica un flujo constante de clientes. Sin embargo, se recomienda explorar estrategias para aumentar el ticket promedio o atraer nuevos clientes.
+
+                💡 Recomendación: Considera lanzar ofertas especiales los días de menor afluencia o introducir nuevos platillos para captar mayor interés.
+                `
+            },
+            {
+                role: "user",
+                content: prompt
+            }
+        ]
+    });
+
+    return completion.choices[0].message.content;
+}
+
+// Servicios para generar IA reporte de ventas mensuales
+async function reporteMensualGPT(ventas, productoMasVendido, ano, mes) {
+    const prompt = `Datos de ventas: ${JSON.stringify(ventas, null, 2)} para año ${ano} y mes ${mes}. Producto mas vendido: ${JSON.stringify(productoMasVendido, null, 2)}`;
+
+    const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+            {
+                role: "system",
+                content: `
+                Eres una IA analítica de ventas. Usa **solo** la información proporcionada. No generes datos falsos ni hagas suposiciones.
+                Genera un reporte de ventas en formato profesional y atractivo con estilo de IA analítica.
+                El negocio es un restaurante llamado 'Mr. Homero'. Usa **solo** los datos proporcionados, no inventes información adicional.
+                No pases links
+                No uses "**"
+                El reporte debe ser corto y atractivo. No tiene que ser muy largo. Ejemplo de formato:
+
+                Reporte de Ventas 📊 - Mr. Homero 🍔🔥 
+                (Hecho con Mr. Homero Analytics 🤖)
+
+                🔹 Día 01 de Enero
+                💰 Ventas totales: $1,000
+                📈 Inicio estable del mes, con una demanda dentro del rango esperado.
+
+                🔹 Día 02 de Enero
+                💰 Ventas totales: $1,000
+                📊 Incremento del +99% respecto al día anterior, reflejando un crecimiento positivo en las ventas.
+
+                📌 Tendencia General
+
+                📊 Observación: Las ventas muestran estabilidad, lo que indica un flujo constante de clientes. Sin embargo, se recomienda explorar estrategias para aumentar el ticket promedio o atraer nuevos clientes.
+
+                💡 Recomendación: Considera lanzar ofertas especiales los días de menor afluencia o introducir nuevos platillos para captar mayor interés.
+                `
+            },
+            {
+                role: "user",
+                content: prompt
+            }
+        ]
+    });
+
+    return completion.choices[0].message.content;
+}
+
+
+exports.reporteAnualIA = async (ano) => {
+    const ventas = await ventasRepository.generarPDFVentasAnual(ano);
+
+    const response = await reporteAnualGPT(ventas, ano);
+
+    return response
+}
+
+exports.reporteMensualIA = async (ano, mes) => {
+    const ventas = await ventasRepository.ventasMensuales(ano, mes);
+
+    const productoMasVendidos = await ventasRepository.mostrarProductosMasVendidos(ano, mes);
+
+    const productoMasVendido = productoMasVendidos[0];
+
+    delete productoMasVendido["pro_foto"];
+
+    const response = await reporteMensualGPT(ventas, productoMasVendido, ano, mes);
+    return response
+}
 
 // Servicios para crear una venta
 exports.crearVenta = async (venta, id_user) => {

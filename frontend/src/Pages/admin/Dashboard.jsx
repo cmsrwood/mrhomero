@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import CustomChart from '../../components/CustomChart';
 import axios from 'axios';
 import moment from 'moment';
+import Typewriter from "typewriter-effect";
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Scrollbar } from 'swiper/modules'
 import 'swiper/css'
@@ -14,7 +15,6 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 export default function Dashboard() {
 
   //Traer datos
-  const [ventas, setVentas] = useState([]);
   const [ventasMensuales, setVentasMensuales] = useState([]);
   const [productosMasVendidos, setProductosMasVendidos] = useState([]);
   const [productosVendidosPorMes, setProductosVendidosPorMes] = useState(0);
@@ -27,14 +27,15 @@ export default function Dashboard() {
   const mesActual = moment().format('M');
   const [ano, setAno] = useState(anoActual);
   const [mes, setMes] = useState(mesActual);
+  const [IA, setIA] = useState('');
+  const [IAIsLoading, setIAIsLoading] = useState(true);
 
   const [tipoDeReporte, setTipoDeReporte] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [ventasRes, ventasMensualesRes, productosMasVendidosRes, productosVendidosPorMesRes, productosVendidosMesAnteriorRes, totalProductosVentasRes, totalProductosVentasMesAnteriorRes] = await Promise.all([
-          axios.get(`${BACKEND_URL}/api/tienda/ventas/`),
+        const [ventasMensualesRes, productosMasVendidosRes, productosVendidosPorMesRes, productosVendidosMesAnteriorRes, totalProductosVentasRes, totalProductosVentasMesAnteriorRes] = await Promise.all([
           axios.get(`${BACKEND_URL}/api/tienda/ventas/ventasMensuales/${ano}/${mes}`),
           axios.get(`${BACKEND_URL}/api/tienda/ventas/productosMasVendidos/${ano}/${mes}`),
           axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaProductosVendidosPorMes/${ano}/${mes}`),
@@ -43,7 +44,6 @@ export default function Dashboard() {
           axios.get(`${BACKEND_URL}/api/tienda/ventas/cuentaVentasMes/${mes - 1 <= 0 ? ano - 1 : ano}/${mes - 1 <= 0 ? 12 : mes - 1}`),
         ]);
 
-        setVentas(ventasRes.data);
         setVentasMensuales(ventasMensualesRes.data);
         setProductosMasVendidos(productosMasVendidosRes.data);
         setProductosVendidosPorMes(productosVendidosPorMesRes.data[0].cantidad);
@@ -61,16 +61,59 @@ export default function Dashboard() {
 
   const handleAnoChange = (event) => {
     setAno(event.target.value);
+    setIA('');
+    const collapseElement = document.getElementById('CollapseIA');
+    collapseElement.classList.remove('show');
     setIsDataUpdated(true);
   };
 
   const handleMesChange = (event) => {
     setMes(event.target.value);
+    const collapseElement = document.getElementById('CollapseIA');
+    collapseElement.classList.remove('show');
+    setIA('');
     setIsDataUpdated(true);
   };
 
   const handleReporteChange = (event) => {
     setTipoDeReporte(event.target.value);
+    setIA('');
+    const collapseElement = document.getElementById('CollapseIA');
+    collapseElement.classList.remove('show');
+  };
+
+  const handleSubmitAnualIA = (ano) => {
+    setIAIsLoading(true);
+    const fetchData = async () => {
+      try {
+        const [IARes] = await Promise.all([
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/reporteIA/${ano}`),
+        ]);
+        setIA(IARes.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIAIsLoading(false);
+      }
+    };
+    fetchData();
+  };
+
+  const handleSubmitMensualIA = (ano) => {
+    setIAIsLoading(true);
+    const fetchData = async () => {
+      try {
+        const [IARes] = await Promise.all([
+          axios.get(`${BACKEND_URL}/api/tienda/ventas/reporteIA/${ano}/${mes}`),
+        ]);
+        setIA(IARes.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIAIsLoading(false);
+      }
+    };
+    fetchData();
   };
 
   const diasMes = [];
@@ -134,7 +177,40 @@ export default function Dashboard() {
           <option value="anual">Anual</option>
           <option value="mensual">Mensual</option>
         </select>
-        <a className={tipoDeReporte == '' ? 'btn btn-danger me-2 disabled' : 'btn btn-danger me-2'} target="_blank" href={tipoDeReporte == 'anual' ? `${BACKEND_URL}/api/tienda/ventas/reporte/${ano}` : `${BACKEND_URL}/api/tienda/ventas/reporte/${ano}/${mes}`}><i className="bi bi-filetype-pdf"></i></a>
+        <a className={tipoDeReporte == '' ? 'btn btn-danger me-2 disabled ' : 'btn btn-danger me-2' } target="_blank" href={tipoDeReporte == 'anual' ? `${BACKEND_URL}/api/tienda/ventas/reporte/${ano}` : `${BACKEND_URL}/api/tienda/ventas/reporte/${ano}/${mes}`}><i className="bi bi-filetype-pdf"></i></a>
+        <button onClick={tipoDeReporte == 'anual' && IA == '' ? () => handleSubmitAnualIA(ano) : () => handleSubmitMensualIA(ano, mes)} className={tipoDeReporte == '' || IA != '' ? 'btn btn-primary me-2 disabled' : 'btn btn-primary me-2'} data-bs-toggle="collapse" data-bs-target="#CollapseIA" aria-expanded="false" aria-controls="CollapseIA"><i className="bi bi-stars"></i></button>
+      </div>
+      <div className="collapse" id="CollapseIA">
+        <div className="card card-body ">
+        <pre style={{ whiteSpace: "pre-wrap", fontFamily: "inherit", fontSize: "1rem" }}>
+            {IAIsLoading ? (
+                <p className="text-warning alingn-self-center">
+                    <Typewriter
+                        options={{
+                            strings: ["Generando análisis...", "Analizando ventas...", "Preparando reporte...", "Generando reporte..."],
+                            autoStart: true,
+                            loop: true,
+                            delay: 50,
+                            deleteSpeed: 50,
+                        }}
+                    />
+                </p>
+            ) : (
+                <p className="" >
+                <Typewriter
+                    options={{
+                    strings: [IA],
+                    autoStart: true,
+                    loop: false, 
+                    delay: 1, 
+                    deleteSpeed: Infinity, 
+                    cursor: " ", 
+                    }}
+                />
+                </p>
+            )}
+        </pre>
+        </div>
       </div>
       <div className="row g-5 my-3">
         <div className="col-12 px-5 text-center justify-content-center">

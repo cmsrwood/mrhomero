@@ -19,6 +19,9 @@ router.get('/ventasMensuales/:ano/:mes', validateAnoMes, ventasController.ventas
 router.get('/reporte/:ano/:mes', validateAnoMes, ventasController.generarPDFVentasMensuales);
 router.get('/reporte/:ano', validateAno, ventasController.generarPDFVentasAnuales);
 
+router.get('/reporteIA/:ano', validateAno, ventasController.reporteAnualIA);
+router.get('/reporteIA/:ano/:mes', validateAnoMes, ventasController.reporteMensualIA);
+
 // Post
 router.post('/crear', validateVenta, ventasController.crearVenta)
 router.post('/crearDetalleVenta', validateDetalleVenta, ventasController.crearDetalleVenta);

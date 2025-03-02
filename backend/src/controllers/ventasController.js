@@ -136,6 +136,25 @@ exports.generarPDFVentasMensuales = async (req, res, next) => {
     }
 };
 
+exports.reporteAnualIA = async (req, res, next) => {
+    try {
+        const { ano } = req.params;
+        const response = await ventasServices.reporteAnualIA(ano);
+        return res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+exports.reporteMensualIA = async (req, res, next) => {
+    try {
+        const { ano, mes } = req.params;
+        const response = await ventasServices.reporteMensualIA(ano, mes);
+        return res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
 // Controlador para crear una venta
 exports.crearVenta = async (req, res, next) => {
     try {

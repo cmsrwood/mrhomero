@@ -235,7 +235,7 @@ exports.crearDetalleVenta = async (detalle) => {
         const values = [
             detalle.id_venta,
             detalle.id_producto,
-            detalle.cantidad_producto,
+            detalle.cantidad,
             detalle.precio_unitario,
             detalle.subtotal
         ];
@@ -243,8 +243,6 @@ exports.crearDetalleVenta = async (detalle) => {
         global.db.query(q, [values], (err, results) => {
             if (err) reject(err);
             resolve({
-                id: results.insertId,
-                detalle: detalle,
                 message: "Detalle de venta creado exitosamente",
             });
         });
