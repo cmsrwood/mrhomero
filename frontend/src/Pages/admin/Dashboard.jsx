@@ -9,11 +9,76 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import '../../styles/style.css'
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 import { NumericFormat } from 'react-number-format';
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 export default function Dashboard() {
 
+  const driverObj = driver({
+    showProgress: true,
+    allowClose: false,
+    nextBtnText: 'Siguiente',
+    prevBtnText: 'Anterior',
+    doneBtnText: 'Finalizar',
+    steps: [
+      {
+        element: '#dashboard',
+        popover: {
+          title: 'Dashboard',
+          description: 'Bienvenido a la sección de Dashboard, aqui encontraras una serie de estadísticas que te ayudaran a tomar decisiones informadas y tomar decisiones informadas en tu negocio.',
+          side: "center",
+          align: 'center'
+        }
+      },
+      {
+        element: '#ano',
+        popover: {
+          title: 'Selecciona el Año',
+          description: 'Elige el año para el cual deseas consultar la información. Esto te permitirá acceder a datos específicos de ese periodo.',
+          side: "left",
+          align: 'center'
+        }
+      },
+      {
+        element: '#mes',
+        popover: {
+          title: 'Selecciona el Mes',
+          description: 'Selecciona el mes correspondiente para ver la información detallada. Asegúrate de que sea el mes correcto para obtener resultados precisos.',
+          side: "left",
+          align: 'center'
+        }
+      },
+      {
+        element: '#tipoDeReporte',
+        popover: {
+          title: 'Tipo de Reporte',
+          description: 'Selecciona si deseas ver un reporte Anual o Mensual. Esto te ayudará a filtrar la información que necesitas.',
+          side: "right",
+          align: 'center'
+        }
+      },
+      {
+        element: '#btnPDF',
+        popover: {
+          title: 'Generar Reporte',
+          description: 'Haz clic aquí para generar el reporte basado en los criterios seleccionados. Asegúrate de haber elegido el año y mes correctos.',
+          side: "top",
+          align: 'center'
+        }
+      },
+      {
+        element: '#btnIA',
+        popover: {
+          title: 'Generar Reporte por IA',
+          description: 'Utiliza esta opción para generar un reporte utilizando la inteligencia artificial de Mr. Homero. Obtén un análisis avanzado de los datos seleccionados.',
+          side: "top",
+          align: 'center'
+        }
+      }
+    ]
+  });
   //Traer datos
   const [ventasMensuales, setVentasMensuales] = useState([]);
   const [productosMasVendidos, setProductosMasVendidos] = useState([]);
@@ -116,6 +181,23 @@ export default function Dashboard() {
     fetchData();
   };
 
+  const handleTuto = async () => {
+    const tuto = localStorage.getItem('needDashboardTuto');
+    if (tuto == null) {
+      driverObj.drive();
+      localStorage.setItem('needDashboardTuto', false);
+    }
+    else if (tuto == true) {
+      driverObj.drive();
+    }
+  };
+
+  const activateTuto = () => {
+    driverObj.drive();
+  };
+
+  handleTuto();
+
   const diasMes = [];
   for (let dia = 1; dia <= moment(`${ano}-${mes}-01`, "YYYY-MM").daysInMonth(); dia++) {
     diasMes.push(dia);
@@ -172,44 +254,44 @@ export default function Dashboard() {
         </select>
       </div>
       <div className="d-flex w-100 justify-content-between my-3">
-        <select value={tipoDeReporte} onChange={handleReporteChange} name="" id="" className='form-select me-2'>
+        <select value={tipoDeReporte} onChange={handleReporteChange} name="" id="tipoDeReporte" className='form-select me-2'>
           <option disabled selected value="">Seleccionar tipo de reporte</option>
           <option value="anual">Anual</option>
           <option value="mensual">Mensual</option>
         </select>
-        <a className={tipoDeReporte == '' ? 'btn btn-danger me-2 disabled ' : 'btn btn-danger me-2' } target="_blank" href={tipoDeReporte == 'anual' ? `${BACKEND_URL}/api/tienda/ventas/reporte/${ano}` : `${BACKEND_URL}/api/tienda/ventas/reporte/${ano}/${mes}`}><i className="bi bi-filetype-pdf"></i></a>
-        <button onClick={tipoDeReporte == 'anual' && IA == '' ? () => handleSubmitAnualIA(ano) : () => handleSubmitMensualIA(ano, mes)} className={tipoDeReporte == '' || IA != '' ? 'btn btn-primary me-2 disabled' : 'btn btn-primary me-2'} data-bs-toggle="collapse" data-bs-target="#CollapseIA" aria-expanded="false" aria-controls="CollapseIA"><i className="bi bi-stars"></i></button>
+        <a id='btnPDF' className={tipoDeReporte == '' ? 'btn btn-danger me-2 disabled ' : 'btn btn-danger me-2'} target="_blank" href={tipoDeReporte == 'anual' ? `${BACKEND_URL}/api/tienda/ventas/reporte/${ano}` : `${BACKEND_URL}/api/tienda/ventas/reporte/${ano}/${mes}`}><i className="bi bi-filetype-pdf"></i></a>
+        <button id="btnIA" onClick={tipoDeReporte == 'anual' && IA == '' ? () => handleSubmitAnualIA(ano) : () => handleSubmitMensualIA(ano, mes)} className={tipoDeReporte == '' || IA != '' ? 'btn btn-primary me-2 disabled' : 'btn btn-primary me-2'} data-bs-toggle="collapse" data-bs-target="#CollapseIA" aria-expanded="false" aria-controls="CollapseIA"><i className="bi bi-stars"></i></button>
       </div>
       <div className="collapse" id="CollapseIA">
         <div className="card card-body ">
-        <pre style={{ whiteSpace: "pre-wrap", fontFamily: "inherit", fontSize: "1rem" }}>
+          <pre style={{ whiteSpace: "pre-wrap", fontFamily: "inherit", fontSize: "1rem" }}>
             {IAIsLoading ? (
-                <p className="text-warning alingn-self-center">
-                    <Typewriter
-                        options={{
-                            strings: ["Generando análisis...", "Analizando ventas...", "Preparando reporte...", "Generando reporte..."],
-                            autoStart: true,
-                            loop: true,
-                            delay: 50,
-                            deleteSpeed: 50,
-                        }}
-                    />
-                </p>
-            ) : (
-                <p className="" >
+              <p className="text-warning alingn-self-center">
                 <Typewriter
-                    options={{
+                  options={{
+                    strings: ["Generando análisis...", "Analizando ventas...", "Preparando reporte...", "Generando reporte..."],
+                    autoStart: true,
+                    loop: true,
+                    delay: 50,
+                    deleteSpeed: 50,
+                  }}
+                />
+              </p>
+            ) : (
+              <p className="" >
+                <Typewriter
+                  options={{
                     strings: [IA],
                     autoStart: true,
-                    loop: false, 
-                    delay: 1, 
-                    deleteSpeed: Infinity, 
-                    cursor: " ", 
-                    }}
+                    loop: false,
+                    delay: 1,
+                    deleteSpeed: Infinity,
+                    cursor: " ",
+                  }}
                 />
-                </p>
+              </p>
             )}
-        </pre>
+          </pre>
         </div>
       </div>
       <div className="row g-5 my-3">
@@ -308,6 +390,9 @@ export default function Dashboard() {
               </Swiper>
           }
         </div>
+      </div>
+      <div className="col-12 text-end mb-5">
+        <a href="#" className='text-end text-secondary text-decoration-none'><small className='' onClick={() => { activateTuto() }}>Ver tutorial nuevamente</small></a>
       </div>
     </div >
   )

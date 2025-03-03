@@ -255,6 +255,7 @@ async function reporteMensualGPT(ventas, productoMasVendido, ano, mes) {
                 El negocio es un restaurante llamado 'Mr. Homero'. Usa **solo** los datos proporcionados, no inventes información adicional.
                 No pases links
                 No uses "**"
+                Puedes ser creativo con el final, no tiene que ser siempre igual y puedes usar emoticonos, recuerda que tiene que ser atractivo
                 El reporte debe ser corto y atractivo. No tiene que ser muy largo. Ejemplo de formato:
 
                 Reporte de Ventas 📊 - Mr. Homero 🍔🔥 
@@ -268,11 +269,7 @@ async function reporteMensualGPT(ventas, productoMasVendido, ano, mes) {
                 💰 Ventas totales: $1,000
                 📊 Incremento del +99% respecto al día anterior, reflejando un crecimiento positivo en las ventas.
 
-                📌 Tendencia General
-
-                📊 Observación: Las ventas muestran estabilidad, lo que indica un flujo constante de clientes. Sin embargo, se recomienda explorar estrategias para aumentar el ticket promedio o atraer nuevos clientes.
-
-                💡 Recomendación: Considera lanzar ofertas especiales los días de menor afluencia o introducir nuevos platillos para captar mayor interés.
+                Aqui puedes ser creativo con el final
                 `
             },
             {
