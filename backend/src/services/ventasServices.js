@@ -9,8 +9,6 @@ const productosRepository = require('../repositories/productosRepository');
 const { NotFoundError, BadRequestError } = require('../errors/ExceptionErrors');
 
 const apiKey = process.env.OPENAI_API_KEY_MRHOMERO;
-console.log(`API Key: ${apiKey}`);
-
 const openai = new OpenAI({
     baseURL: 'https://api.openai.com/v1',
     apiKey: apiKey
@@ -202,7 +200,7 @@ exports.generarPDFVentasMensuales = async (ano, mes) => {
 };
 
 async function reporteAnualGPT(ventas, ano) {
-    const prompt = `Datos de ventas: ${JSON.stringify(ventas, null, 2)} para año ${ano}.`;
+    const prompt = `Datos de ventas: ${JSON.stringify(ventas, null, 2) || 'No hay ventas'} para año ${ano}.`;
 
     const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
@@ -215,6 +213,7 @@ async function reporteAnualGPT(ventas, ano) {
                 El negocio es un restaurante llamado 'Mr. Homero'. Usa **solo** los datos proporcionados, no inventes información adicional.
                 No pases links
                 No uses "**"
+                Puedes ser creativo con el final, no tiene que ser siempre igual y puedes usar emoticonos, recuerda que tiene que ser atractivo
                 El reporte debe ser corto y atractivo. No tiene que ser muy largo. Ejemplo de formato:
 
                 Reporte de Ventas 📊 - Mr. Homero 🍔🔥
@@ -228,11 +227,7 @@ async function reporteAnualGPT(ventas, ano) {
                 💰 Ventas totales: $1,000
                 📈 Análisis: Similar a enero, las ventas se mantuvieron constantes. Es importante identificar oportunidades para impulsar el crecimiento, como promociones o eventos temáticos.
 
-                📌 Tendencia General
-
-                📊 Observación: Las ventas muestran estabilidad, lo que indica un flujo constante de clientes. Sin embargo, se recomienda explorar estrategias para aumentar el ticket promedio o atraer nuevos clientes.
-
-                💡 Recomendación: Considera lanzar ofertas especiales los días de menor afluencia o introducir nuevos platillos para captar mayor interés.
+                Aqui puedes ser creativo con el final
                 `
             },
             {
@@ -247,7 +242,7 @@ async function reporteAnualGPT(ventas, ano) {
 
 // Servicios para generar IA reporte de ventas mensuales
 async function reporteMensualGPT(ventas, productoMasVendido, ano, mes) {
-    const prompt = `Datos de ventas: ${JSON.stringify(ventas, null, 2)} para año ${ano} y mes ${mes}. Producto mas vendido: ${JSON.stringify(productoMasVendido, null, 2)}`;
+    const prompt = `Datos de ventas: ${JSON.stringify(ventas, null, 2) || 'No hay ventas'} para año ${ano} y mes ${mes}. Producto mas vendido: ${JSON.stringify(productoMasVendido, null, 2)}`;
 
     const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
@@ -304,7 +299,7 @@ exports.reporteMensualIA = async (ano, mes) => {
 
     const productoMasVendidos = await ventasRepository.mostrarProductosMasVendidos(ano, mes);
 
-    const productoMasVendido = productoMasVendidos[0];
+    const productoMasVendido = productoMasVendidos[0] || {};
 
     delete productoMasVendido["pro_foto"];
 

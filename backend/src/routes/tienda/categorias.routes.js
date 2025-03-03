@@ -20,6 +20,7 @@ const { validateMenu } = require('../../middlewares/validateMenu');
  *       200:
  *         description: Lista de categorías obtenida exitosamente
  */
+router.get('/', menuController.mostrarCategorias);
 
 /**
  * @swagger
@@ -40,7 +41,7 @@ const { validateMenu } = require('../../middlewares/validateMenu');
  *       404:
  *         description: Categoría no encontrada
  */
-router.get('/', menuController.mostrarCategorias);
+
 router.get('/:id', menuController.mostrarCategoria);
 
 /**
