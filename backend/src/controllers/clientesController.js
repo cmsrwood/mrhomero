@@ -60,13 +60,11 @@ exports.cuentaClientesUltimoMes = async (req, res, next) => {
     }
 };
 
-
-
 // Controlador para agregar puntos
 exports.agregarPuntos = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const puntos = req.body.user_puntos;
+        const puntos = req.body.puntos;
         const response = await clientesServices.agregarPuntos(id, puntos);
         res.status(200).json(response)
     } catch (err) {
