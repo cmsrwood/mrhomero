@@ -42,7 +42,7 @@ exports.crearRecompensa = async (recompensa) => {
 // Servicio para actualizar una recompensa
 exports.actualizarRecompensa = async (id, recompensa) => {
     const existe = await recompensasRepository.mostrarRecompensa(id)
-    if (existe <= 0) throw new NotFoundError('La recompensa no existe');
+    if (existe == null) throw new NotFoundError('La recompensa no existe');
     const response = await recompensasRepository.actualizarRecompensa(id, recompensa);
     return response;
 }
@@ -50,14 +50,14 @@ exports.actualizarRecompensa = async (id, recompensa) => {
 // Servicio para eliminar una recompensa
 exports.eliminarRecompensa = async (id) => {
     const existe = await recompensasRepository.mostrarRecompensa(id);
-    if (existe <= 0) throw new NotFoundError('La recompensa no existe');
+    if (existe == null) throw new NotFoundError('La recompensa no existe');
     const response = await recompensasRepository.eliminarRecompensa(id);
     return response;
 }
 
-exports.restaurarRecompensa = async (id) => { 
+exports.restaurarRecompensa = async (id) => {
     const existe = await recompensasRepository.mostrarRecompensa(id);
-    if (existe <= 0) throw new NotFoundError('La recompensa no existe');
+    if (existe == null) throw new NotFoundError('La recompensa no existe');
     const response = await recompensasRepository.restaurarRecompensa(id);
     return response;
 }
@@ -66,7 +66,7 @@ exports.restaurarRecompensa = async (id) => {
 exports.reclamarRecompensa = async (id_recompensa, id_usuario) => {
     // Verificar si la recompensa existe
     const recompensa = await recompensasRepository.mostrarRecompensa(id_recompensa);
-    if (recompensa <= 0) throw new NotFoundError('La recompensa no existe');
+    if (recompensa == null) throw new NotFoundError('La recompensa no existe');
 
     // Generar codigo de validación
     const codigo = Math.floor(100000 + Math.random() * 900000).toString();

@@ -38,7 +38,7 @@ router.get('/', menuController.mostrarCategorias);
  *     responses:
  *       200:
  *         description: Datos de la categoría obtenidos exitosamente
- *       404:
+ *       400:
  *         description: Categoría no encontrada
  */
 
@@ -64,7 +64,7 @@ router.get('/:id', menuController.mostrarCategoria);
  *                 type: string
  *                 example: "Categoría para todo tipo de bebidas"
  *     responses:
- *       201:
+ *       200:
  *         description: Categoría creada exitosamente
  *       400:
  *         description: Error en la solicitud

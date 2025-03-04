@@ -83,7 +83,6 @@ exports.crearRecompensa = async (recompensa) => {
         global.db.query(q, [values], (err, results) => {
             if (err) reject(err);
             resolve({
-                id: results.insertId,
                 recompensa: recompensa,
                 message: "Recompensa creada con éxito"
             });

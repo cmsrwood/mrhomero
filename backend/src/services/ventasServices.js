@@ -313,7 +313,7 @@ exports.crearVenta = async (venta, id_user) => {
     }
     else {
         const existe = await clientesRepository.mostrarCliente(venta.id_user);
-        if (existe.length <= 0) throw new NotFoundError('El cliente no existe');
+        if (existe == null) throw new NotFoundError('El cliente no existe');
         const response = await ventasRepository.crearVenta(venta, id_user);
         return response
     }

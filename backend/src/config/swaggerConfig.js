@@ -10,7 +10,7 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:4400/api-docs",
+                url: "http://localhost:4400/api",
             },
         ],
     },
