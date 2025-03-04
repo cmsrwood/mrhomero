@@ -36,7 +36,6 @@ exports.mostrarResenas = async () => {
 // Servicio para mostrar clientes del ultimo mes
 exports.cuentaClientesUltimoMes = async () => {
     const response = await clientesRepository.cuentaClientesUltimoMes();
-    if (response.length <= 0) throw new NotFoundError("No se encontraron clientes");
     return response
 }
 
