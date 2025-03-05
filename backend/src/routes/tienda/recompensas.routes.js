@@ -214,11 +214,78 @@ router.post('/reclamar/:id', recompensasController.reclamarRecompensa);
  *         description: Error al actualizar la recompensa
  */
 router.put('/actualizar/:id', recompensasController.actualizarRecompensa);
+
+/**
+ * @swagger
+ * /tienda/recompensas/validar/{id}:
+ *   put:
+ *     summary: validar el codigo de una recompensa
+ *     tags: [Recompensas]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID de la recompensa
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               codigo:
+ *                 type: string
+ *                 example: "239857"
+ *     responses:
+ *       200:
+ *         description: Recompensa validada con éxito
+ *       400:
+ *         description: Error en el servidor
+ */
 router.put('/validar/:id', recompensasController.validarRecompensa);
+
+/**
+ * @swagger
+ * /tienda/recompensas/restaurar/{id}:
+ *   put:
+ *     summary: restaurar una recompensa
+ *     tags: [Recompensas]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID de la recompensa
+ *     responses:
+ *       200:
+ *         description: Recompensa restaurada con éxito
+ *       400:
+ *         description: Error en el servidor
+ */
 router.put('/restaurar/:id', recompensasController.restaurarRecompensa);
 
-
-
+/**
+ * @swagger
+ * /tienda/recompensas/eliminar/{id}:
+ *   put:
+ *     summary: eliminar una recompensa
+ *     tags: [Recompensas]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID de la recompensa
+ *     responses:
+ *       200:
+ *         description: Recompensa eliminada con éxito
+ *       400:
+ *         description: Error en el servidor
+ */
 router.put('/eliminar/:id', recompensasController.eliminarRecompensa);
 
 module.exports = router
