@@ -4,14 +4,10 @@ const ventasController = require('../../controllers/ventasController');
 const { validateAnoMes, validateAno, validateIdVenta, validateVenta, validateDetalleVenta } = require('../../middlewares/validateVentas');
 const { validateId } = require('../../middlewares/validateGeneral');
 
-// Rutas para ventas
-
-// Get
-
 /**
  * @swagger
  * tags:
- *   name: Recompensas
+ *   name: Ventas
  *   description: Endpoints para gestionar las recompensas
  */
 
