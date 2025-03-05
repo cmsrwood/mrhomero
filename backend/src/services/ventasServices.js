@@ -213,11 +213,12 @@ async function reporteAnualGPT(ventas, ano) {
                 El negocio es un restaurante llamado 'Mr. Homero'. Usa **solo** los datos proporcionados, no inventes información adicional.
                 No pases links
                 No uses "**"
+                No tengas errores de ortografía
                 Puedes ser creativo con el final, no tiene que ser siempre igual y puedes usar emoticonos, recuerda que tiene que ser atractivo
                 El reporte debe ser corto y atractivo. No tiene que ser muy largo. Ejemplo de formato:
 
                 Reporte de Ventas 📊 - Mr. Homero 🍔🔥
-                (Hecho con Mr. Homero Analytics 🤖)
+                (Reporte generado con Mr. Homero Analytics 🤖)
 
                 🔹 Enero
                 💰 Ventas totales: $1,000
@@ -255,11 +256,12 @@ async function reporteMensualGPT(ventas, productoMasVendido, ano, mes) {
                 El negocio es un restaurante llamado 'Mr. Homero'. Usa **solo** los datos proporcionados, no inventes información adicional.
                 No pases links
                 No uses "**"
+                No tengas errores de ortografía
                 Puedes ser creativo con el final, no tiene que ser siempre igual y puedes usar emoticonos, recuerda que tiene que ser atractivo
                 El reporte debe ser corto y atractivo. No tiene que ser muy largo. Ejemplo de formato:
 
                 Reporte de Ventas 📊 - Mr. Homero 🍔🔥 
-                (Hecho con Mr. Homero Analytics 🤖)
+                (Reporte generado con Mr. Homero Analytics 🤖)
 
                 🔹 Día 01 de Enero
                 💰 Ventas totales: $1,000
