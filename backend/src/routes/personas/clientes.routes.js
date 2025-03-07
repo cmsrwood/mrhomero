@@ -92,7 +92,7 @@ router.get('/resenas/datos/', clientesController.mostrarResenas);
 
 /**
  * @swagger
- * /personas/clientes/resenas/datos/rating
+ * /personas/clientes/resenas/datos/rating:
  *   get:
  *     summary: Obtener el rating general de los clientes
  *     tags: [Clientes]
