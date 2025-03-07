@@ -57,7 +57,7 @@ export default function Ingresar() {
         Swal.fire({
           title: res.data.message,
           icon: 'success',
-          confirmButtonText: 'Continuar'
+          timer: 1000
         });
 
         // Redireccionar según el rol

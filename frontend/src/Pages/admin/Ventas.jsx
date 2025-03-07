@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { driver } from 'driver.js'
+import "driver.js/dist/driver.css"
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Ventas() {
@@ -19,6 +21,8 @@ export default function Ventas() {
   const [isDataUpdated, setIsDataUpdated] = useState(false);
   const [searchTerm, setSearchTerms] = useState('');
   const [estadoFiltro, setEstadoFiltro] = useState(1);
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -147,6 +151,73 @@ export default function Ventas() {
     return formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
+  const driverObj = driver({
+    showProgress: true,
+    allowClose: false,
+    nextBtnText: 'Siguiente',
+    prevBtnText: 'Anterior',
+    doneBtnText: 'Finalizar',
+    steps: [
+      {
+        element: '#general',
+        popover: {
+          title: 'Gestion de ventas',
+          description: 'En este apartado podrá observar y eliminar las ventas '
+        }
+      },
+      {
+        element: '#table',
+        popover: {
+          title: 'Tabla de ventas',
+          description: 'Aquí podrá observar el historial de ventas',
+        }
+      },
+      {
+        element: `${ventas[0] ? `#${ventasFiltradas[0].id_venta}` : ''}`,
+        popover: {
+          title: 'Detalles de la venta',
+          description: 'Aquí podrán observar los detalles de la venta',
+        },
+        onDeselected: () => {
+          const botonVer = document.getElementById(ventas ? `ver_${ventasFiltradas[0].id_venta}` : '');
+          botonVer.click();
+        }
+      },
+      {
+        element: '#detalle',
+        popover: {
+          title: 'Detalles de la venta',
+          description: 'Aquí podrás observar los detalles de la venta',
+        }
+      }
+    ]
+  });
+  const handleTuto = async () => {
+    const tuto = localStorage.getItem('needVentasTuto');
+    if (tuto == null && ventasFiltradas.length > 0) {
+      setTimeout(() => {
+        driverObj.drive();
+      }, 1000);
+      localStorage.setItem('needVentasTuto', false);
+    }
+    else if (tuto == true && ventasFiltradas.length > 0) {
+
+      setTimeout(() => {
+        driverObj.drive();
+      }, 1000);
+    }
+  };
+  const activateTuto = () => {
+    if (ventasFiltradas.length > 0) {
+      driverObj.drive();
+    }
+    else {
+      Swal.fire('No se pueden mostrar tutoriales, no hay ventas');
+    }
+  };
+  handleTuto();
+
+
   return (
     <div className=''>
       <div className="row">
@@ -188,7 +259,7 @@ export default function Ventas() {
         </div>
       </div>
       <div className="table-responsive">
-        <table className="table table-striped mt-5">
+        <table className="table table-striped mt-5" id='table'>
           <thead>
             <tr>
               <th scope="col">Fecha <button onClick={() => setFiltro({ ...Filtro, fecha: !Filtro.fecha })} className='btn'><i className={Filtro.fecha ? `bi bi-caret-down` : `bi bi-caret-up`}></i></button></th>
@@ -203,7 +274,7 @@ export default function Ventas() {
             {ventasFiltradas.length > 0 ? (
               ventasFiltradas.map((venta) => (
                 <React.Fragment key={venta.id_venta}>
-                  <tr>
+                  <tr id={venta.id_venta}>
                     <td>{venta.venta_fecha}</td>
                     <td className={clientes.find(cliente => cliente.id_user === venta.id_user) ? `text-success` : `text-danger`}>
                       {clientes.find(cliente => cliente.id_user === venta.id_user) ? `${clientes.find(cliente => cliente.id_user === venta.id_user).user_nom} ${clientes.find(cliente => cliente.id_user === venta.id_user).user_apels}` : 'Cliente sin cuenta'}
@@ -214,16 +285,16 @@ export default function Ventas() {
                       {venta.venta_estado === 1 ? 'Realizada' : 'Borrada'}
                     </td>
                     <td>
-                      <button className="btn btn-primary me-2" onClick={() => mostrarDetalles(venta.id_venta)} data-bs-toggle="collapse" data-bs-target={`#collapse_${venta.id_venta}`} aria-expanded="false" aria-controls={`collapse${venta.id_venta}`}>
+                      <button className="btn btn-primary me-2" id={`ver_${venta.id_venta}`} onClick={() => mostrarDetalles(venta.id_venta)} data-bs-toggle="collapse" data-bs-target={`#collapse_${venta.id_venta}`} aria-expanded="false" aria-controls={`collapse${venta.id_venta}`}>
                         <i className='bi bi-eye'></i>
                       </button>
                       {venta.venta_estado === 1
-                        ? <button type="button" className="btn btn-danger" onClick={() => eliminaVenta(venta.id_venta)}><i className="bi bi-trash"></i></button>
+                        ? <button type="button" className="btn btn-danger" id='eliminar' onClick={() => eliminaVenta(venta.id_venta)}><i className="bi bi-trash"></i></button>
                         : <button type="button" className="btn btn-success" onClick={() => restaurarVenta(venta.id_venta)}><i className="bi bi-arrow-counterclockwise"></i></button>}
                     </td>
                   </tr>
                   <tr className="collapse wow Left" id={`collapse_${venta.id_venta}`}>
-                    <td colSpan="6">
+                    <td id='detalle' colSpan="6">
                       <div className="card card-body">
                         <p className='card-title'>Detalle de la venta con id {venta.id_venta}</p>
                         {detallesVentas[venta.id_venta] && detallesVentas[venta.id_venta].length > 0 ? (
@@ -239,7 +310,7 @@ export default function Ventas() {
                             </thead>
                             <tbody>
                               {detallesVentas[venta.id_venta].map((detalle) => (
-                                <React.Fragment key={detalle.id_detalle}>
+                                <React.Fragment id={`detalle_${detalle.id_detalle}`} key={detalle.id_detalle}>
                                   <tr key={detalle.id_detalle}>
                                     <td>{detalle.cantidad_producto}</td>
                                     <td>{detalle.producto.pro_nom}</td>
@@ -273,6 +344,9 @@ export default function Ventas() {
             )}
           </tbody>
         </table>
+        <div className="col-12 text-end mb-5">
+          <a href="#" className='text-end text-secondary text-decoration-none'><small className='' onClick={() => { activateTuto() }}>Ver tutorial nuevamente</small></a>
+        </div>
       </div>
     </div>
   );
