@@ -53,27 +53,27 @@ router.get('/:id', validateId, empleadosController.mostrarEmpleado);
  *     tags: [Empleados]
  *     parameters:
  *       - in: path
- *         name: id_user
- *        required: true
- *         schema:
+ *         name: id_user         
+ *         required: true
+ *         schema:  
  *           type: string
  *         description: ID del empleado
  *       - in: path
  *         name: ano
  *         required: true
- *         schema:
+ *         schema:  
  *           type: string
  *         description: Año
  *       - in: path
  *         name: mes
  *         required: true
- *         schema:
- *           type: string   
- *         description: Mes
+ *         schema:  
+ *           type: string
+ *         description: Mes 
  *     responses:
- *       200:
+ *       200:   
  *         description: Horas trabajadas obtenidas exitosamente por mes
- *       400:
+ *       400:   
  *         description: ID inválido
  */
 router.get('/horasPorMes/:id/:ano/:mes', empleadosController.horasPorMes);
