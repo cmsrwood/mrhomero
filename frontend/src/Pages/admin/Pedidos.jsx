@@ -8,6 +8,8 @@ import { Scrollbar } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Pedidos() {
@@ -154,12 +156,13 @@ export default function Pedidos() {
     setVenta(updatedItems);
   }
 
-  const [ventaInfo, setVentaInfo] = useState({
+  /*const [ventaInfo, setVentaInfo] = useState({
     venta_fecha: moment().format("YYYY-MM-DD HH:mm:ss"),
     venta_metodo_pago: '',
     id_user: 0,
     venta_total: 0
   });
+  */
 
   const handleChange = () => {
     const updatedInfo = {
@@ -168,7 +171,6 @@ export default function Pedidos() {
       id_user: userSelect.id_user,
       venta_total: totalPrecioProductos()
     };
-    setVentaInfo(updatedInfo);
     return updatedInfo;
   };
 
@@ -257,6 +259,122 @@ export default function Pedidos() {
       return 'correcto';
     }
   }
+  const driverObj = driver({
+    showProgress: true,
+    allowClose: false,
+    nextBtnText: 'Siguiente',
+    prevBtnText: 'Anterior',
+    doneBtnText: 'Finalizar',
+    steps: [
+      {
+        element: '#pedidos',
+        popover: {
+          title: 'Pedidos',
+          description: 'Aqui podrás tomar los pedidos de tus clientes.',
+        },
+      },
+      {
+        element: '#categorias',
+        popover: {
+          title: 'Categorias',
+          description: 'Elige la categoria del producto que deseas agregar.',
+          onPopoverRender: () => {
+            setIdCategoria(categorias[0].id_categoria);
+          }
+        },
+      },
+      {
+        element: '#productos',
+        popover: {
+          title: 'Productos',
+          description: 'Aqui encontraras todos los productos de la categoria seleccionada, puedes agregarlos al pedido.',
+          onPopoverRender: () => {
+            ventaProductos(mostrarProductos[0]);
+          }
+        },
+      },
+      {
+        element: '#detallesVenta',
+        popover: {
+          title: 'Detalles de la venta',
+          description: 'Aqui podras ver los detalles de la venta.',
+        },
+      },
+      {
+        element: '#detalle',
+        popover: {
+          title: 'Detalles',
+          description: 'Los productos que agregues al pedido apareceran aqui.',
+        },
+      },
+      {
+        element: '#cantidad',
+        popover: {
+          title: 'Cantidad',
+          description: 'Agrega la cantidad del producto.',
+          onPopoverRender: () => {
+            actualizarCantidad(mostrarProductos[0].id_producto, 1);
+          }
+        },
+      },
+      {
+        element: '#eliminar',
+        popover: {
+          title: 'Eliminar producto',
+          description: 'Elimina un producto del pedido.',
+        }
+      },
+      {
+        element: '#clientes',
+        popover: {
+          title: 'Clientes',
+          description: 'Aqui encontraras todos los clientes que han realizado pedidos.',
+        }
+      },
+      {
+        element: '#cliente',
+        popover: {
+          title: 'Cliente',
+          description: 'Se mostrará el cliente que realizo el pedido, por defecto será un cliente sin cuenta.',
+        },
+      },
+      {
+        element: '#anadirCliente',
+        popover: {
+          title: 'Anadir cliente',
+          description: 'Agrega un cliente al pedido.',
+        },
+        onDeselected: () => {
+          const modalButton = document.getElementById('anadirCliente');
+          modalButton.click();
+        }
+      },
+      {
+        element: '#total',
+        popover: {
+          title: 'Total',
+          description: 'El total de la venta.',
+        }
+      },
+    ]
+  });
+
+  const handleTuto = async () => {
+    const tuto = localStorage.getItem('needPedidosTuto');
+    if (tuto == null) {
+      driverObj.drive();
+      localStorage.setItem('needPedidosTuto', false);
+    }
+    else if (tuto == true) {
+      driverObj.drive();
+    }
+  };
+
+  const activateTuto = () => {
+    driverObj.drive();
+  };
+
+  handleTuto();
 
   return (
     <div className=''>
@@ -286,7 +404,7 @@ export default function Pedidos() {
         >
           {categorias.map((cat) => {
             return (
-              <SwiperSlide key={cat.id_categoria}>
+              <SwiperSlide id='categorias' key={cat.id_categoria}>
                 <div className="col hoverCursor" onClick={() => seleccionarCategoria(cat.id_categoria)}>
                   <div className="card text-center">
                     <img
@@ -308,7 +426,7 @@ export default function Pedidos() {
       <div className='container p-3 mt-4'>
         <div className='row'>
           <div className='col'>
-            <div className="row row-cols-2 row-cols-lg-3 g-2 pt-2">
+            <div className="row row-cols-2 row-cols-lg-3 g-2 pt-2" id='productos'>
               {/* Mostrar los productos de la categoria */}
               {mostrarProductos.map((product) => {
                 return (
@@ -327,10 +445,12 @@ export default function Pedidos() {
           <div className="col">
             <div className="row">
               <div className='d-flex justify-content-between align-items-center'>
-                <h5>{userSelect.user_nom ? userSelect.user_nom + " " + userSelect.user_apels : "Cliente sin cuenta"}</h5>
-                <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddClient">
-                  <i className="bi bi-plus-circle">  Añadir cliente</i>
-                </button>
+                <div className='w-100 d-flex justify-content-between align-items-center' id='clientes'>
+                  <h5 id='cliente'>{userSelect.user_nom ? userSelect.user_nom + " " + userSelect.user_apels : "Cliente sin cuenta"}</h5>
+                  <button id='anadirCliente' type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddClient">
+                    <i className="bi bi-plus-circle">  Añadir cliente</i>
+                  </button>
+                </div>
                 {/* Modal añadir cliente*/}
                 <div className="modal fade" id="modalAddClient" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div className="modal-dialog modal-xl modal-dialog-scrollable">
@@ -391,7 +511,7 @@ export default function Pedidos() {
                 <div className="row">
                   <div className="col">
                     <div className="table-responsive table-scrollbar">
-                      <table className="table table-hover border border-1">
+                      <table id='detallesVenta' className="table table-hover border border-1">
                         <thead>
                           <tr>
                             <th scope="col">Cantidad</th>
@@ -405,9 +525,9 @@ export default function Pedidos() {
                           {/* Venta */}
                           {venta.map((product) => {
                             return (
-                              <tr key={product.id_producto}>
+                              <tr id='detalle' key={product.id_producto}>
                                 <td className=''>
-                                  <div className="d-flex align-items-center">
+                                  <div id='cantidad' className="d-flex align-items-center">
                                     <button type='button' className='btn btn-danger me-2' id='btnMinus' onClick={() => actualizarCantidad(product.id_producto, -1)}>-</button>
                                     <span>{product.cantidad}</span>
                                     <button type='button' className='btn btn-success ms-2' id='btnPlus' onClick={() => actualizarCantidad(product.id_producto, 1)}>+</button>
@@ -416,7 +536,7 @@ export default function Pedidos() {
                                 <td>{product.pro_nom}</td>
                                 <td>{formatNumber(product.pro_precio * product.cantidad)}</td>
                                 <td>{product.pro_puntos * product.cantidad}</td>
-                                <td><button type="button" className='btn btn-danger' onClick={() => deleteProduct(product)}><i className='bi bi-trash'></i></button></td>
+                                <td id='eliminar'><button type="button" className='btn btn-danger' onClick={() => deleteProduct(product)}><i className='bi bi-trash'></i></button></td>
                               </tr>
                             )
                           })}
@@ -601,6 +721,9 @@ export default function Pedidos() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="col-12 text-end mb-5">
+        <a href="#" className='text-end text-secondary text-decoration-none'><small className='' onClick={() => { activateTuto() }}>Ver tutorial nuevamente</small></a>
       </div>
     </div >
   )
