@@ -34,8 +34,8 @@ export default function Pedidos() {
 
   // Traer datos
   const [categorias, setCategorias] = useState([]);
-  const [mostrarProductos, setMostrarProductos] = useState([]);
-  const [mostrarClientes, setMostrarClientes] = useState([]);
+  const [productos, setproductos] = useState([]);
+  const [clientes, setMostrarClientes] = useState([]);
   const [metodoPago, setMetodoPago] = useState('Efectivo');
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function Pedidos() {
           axios.get(`${BACKEND_URL}/api/personas/clientes/`),
         ]);
         setCategorias(categoriasRes.data);
-        setMostrarProductos(productosRes.data);
+        setproductos(productosRes.data);
         setMostrarClientes(clientesRes.data);
       } catch (error) {
         console.log(error);
@@ -102,7 +102,7 @@ export default function Pedidos() {
   };
 
   // Funciones para la busqueda de usuario
-  const filteredClients = mostrarClientes.filter(cliente => {
+  const filteredClients = clientes.filter(cliente => {
     const term = searchTerm.toLowerCase();
     const nombreCompleto = `${cliente.user_nom} ${cliente.user_apels}`.toLowerCase();
     return (
@@ -127,7 +127,7 @@ export default function Pedidos() {
   }
 
   // Funcion para la venta de productos
-  function ventaProductos(producto) {
+  async function ventaProductos(producto) {
     const existeProducto = venta.some(p => p.id_producto === producto.id_producto);
     if (!existeProducto) {
       const cantidad = 1;
@@ -135,7 +135,7 @@ export default function Pedidos() {
     }
   }
 
-  function actualizarCantidad(id_producto, incremento) {
+  async function actualizarCantidad(id_producto, incremento) {
     setVenta(venta.map(producto =>
       producto.id_producto === id_producto
         ? { ...producto, cantidad: Math.max(1, producto.cantidad + incremento) }
@@ -289,7 +289,7 @@ export default function Pedidos() {
           title: 'Productos',
           description: 'Aqui encontraras todos los productos de la categoria seleccionada, puedes agregarlos al pedido.',
           onPopoverRender: () => {
-            ventaProductos(mostrarProductos[0]);
+            ventaProductos(productos[0]);
           }
         },
       },
@@ -313,7 +313,7 @@ export default function Pedidos() {
           title: 'Cantidad',
           description: 'Agrega la cantidad del producto.',
           onPopoverRender: () => {
-            actualizarCantidad(mostrarProductos[0].id_producto, 1);
+            actualizarCantidad(productos[0].id_producto, 1);
           }
         },
       },
@@ -328,7 +328,7 @@ export default function Pedidos() {
         element: '#clientes',
         popover: {
           title: 'Clientes',
-          description: 'Aqui encontraras todos los clientes que han realizado pedidos.',
+          description: 'Aqui podrás elegir el cliente que realizo el pedido.',
         }
       },
       {
@@ -350,10 +350,58 @@ export default function Pedidos() {
         }
       },
       {
-        element: '#total',
+        element: '#clientes-table',
         popover: {
-          title: 'Total',
-          description: 'El total de la venta.',
+          title: 'Clientes',
+          description: 'Aquí podrás ver todos los clientes.',
+        }
+      },
+      {
+        element: `#add-client`,
+        popover: {
+          title: 'Añadir cliente',
+          description: 'Asocia la venta a un cliente.',
+        },
+        onDeselected: () => {
+          handleAddClient(filteredClients[0]);
+        }
+      },
+      {
+        element: '#clientes-table',
+        popover: {
+          title: 'Cliente agregado',
+          description: 'El cliente agregado se mostrará en verde.',
+        },
+        onDeselected: () => {
+          const modalButton = document.getElementById('cliente-btn-close');
+          modalButton.click();
+        }
+      },
+      {
+        element: '#btnVenta',
+        popover: {
+          title: 'Realizar venta',
+          description: 'Presiona para realizar el pedido.',
+          onNextClick: () => {
+            document.querySelector('#btnVenta')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        },
+      },
+      {
+        element: '#modalventa',
+        popover: {
+          title: 'Nueva venta',
+          description: 'Elige el metodo de pago y la cantidad recibida.',
+        }
+      },
+      {
+        element: '#metodoSelect',
+        popover: {
+          title: 'Método de pago',
+          description: 'Selecciona el método de pago utilizado por el cliente',
         }
       },
     ]
@@ -361,17 +409,33 @@ export default function Pedidos() {
 
   const handleTuto = async () => {
     const tuto = localStorage.getItem('needPedidosTuto');
-    if (tuto == null) {
+    if (tuto == null && categorias.length > 0 && clientes.length > 0) {
       driverObj.drive();
       localStorage.setItem('needPedidosTuto', false);
     }
-    else if (tuto == true) {
+    else if (tuto == true && categorias.length > 0 && clientes.length > 0) {
       driverObj.drive();
+    }
+    else if (tuto == null && categorias.length == 0 && clientes.length == 0) {
+      Swal.fire({
+        title: 'No se pueden mostrar tutoriales, no hay categorias, productos o clientes',
+        showConfirmButton: false,
+        timer: 2500,
+      })
     }
   };
 
   const activateTuto = () => {
-    driverObj.drive();
+    if (categorias.length > 0 && clientes.length > 0) {
+      driverObj.drive();
+    }
+    else {
+      Swal.fire({
+        title: 'No se pueden mostrar tutoriales, no hay categorias, productos o clientes',
+        showConfirmButton: false,
+        timer: 2500,
+      })
+    }
   };
 
   handleTuto();
@@ -425,10 +489,10 @@ export default function Pedidos() {
       </div>
       <div className='container p-3 mt-4'>
         <div className='row'>
-          <div className='col'>
-            <div className="row row-cols-2 row-cols-lg-3 g-2 pt-2" id='productos'>
+          <div className='col' id='productos'>
+            <div className="row row-cols-2 row-cols-lg-3 g-2 pt-2" >
               {/* Mostrar los productos de la categoria */}
-              {mostrarProductos.map((product) => {
+              {productos.map((product) => {
                 return (
                   <div className="hoverCursor col" onClick={() => ventaProductos(product)} key={product.id_producto}>
                     <div className="card text-center">
@@ -457,9 +521,9 @@ export default function Pedidos() {
                     <div className="modal-content">
                       <div className="modal-header">
                         <h1 className="modal-title fs-5" id="staticBackdropLabel">Añadir cliente</h1>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" id='cliente-btn-close' className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <div className="modal-body">
+                      <div id='clientes-table' className="modal-body">
                         <div className="d-flex justify-content-between align-items-center pb-2">
                           <h4>Clientes</h4>
                           <div className="search-input position-relative d-flex">
@@ -492,7 +556,7 @@ export default function Pedidos() {
                                     <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row">{cliente.user_nom}</th>
                                     <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row">{cliente.user_apels}</th>
                                     <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row">{cliente.user_email}</th>
-                                    <th className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row"><i className="bi bi-plus-circle btn btn-success" onClick={() => handleAddClient(cliente)}></i></th>
+                                    <th id='add-client' className={cliente.id_user === userSelect.id_user ? "text-success" : "text-default"} scope="row"><i className="bi bi-plus-circle btn btn-success" onClick={() => handleAddClient(cliente)}></i></th>
                                   </tr>
                                 )
                               })}
@@ -548,28 +612,28 @@ export default function Pedidos() {
               </div>
               <div className="container text-center">
                 <h3 className='text-end p-3'>Total: {formatNumber(totalPrecioProductos())}</h3>
-                <button type='button' className='btn btn-success w-50 ms-auto p-2' data-bs-toggle="modal" data-bs-target="#modalSale" onClick={() => verificarInformacionVenta()}><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
+                <button id='btnVenta' type='button' className='btn btn-success w-50 ms-auto p-2' data-bs-toggle="modal" data-bs-target="#modalSale" onClick={() => verificarInformacionVenta()}><i className='bi bi-cart-check fs-5'>  Realizar venta</i></button>
                 {/* Modal realizar venta */}
                 {showModalSale && (
                   <div className="modal show d-block" id="modalSale" tabIndex="-1" role="dialog">
                     <div className="modal-dialog modal-lg" role="document" onClick={e => e.stopPropagation()}>
                       <div className="modal-content">
                         <div className="modal-header">
-                          <h1 className="modal-title fs-5">Pedidos</h1>
+                          <h1 className="modal-title fs-5">Nueva venta</h1>
                           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setShowModalSale(false)}></button>
                         </div>
                         <div className="modal-body">
                           <div className="container">
-                            <h3>Pedido #999</h3>
-                            <div className="row">
+                            <h3>Nueva venta</h3>
+                            <div id='modalventa' className="row">
                               <div className="col pt-3">
                                 {/*Select sobre el tipo de pago*/}
                                 <h3 className='text-start pb-2 ms-3'>Método de pago</h3>
-                                <select value={metodoPago} onChange={(e) => setMetodoPago(e.target.value)} className='form-select form-select-sm w-75 fs-5 ms-3' aria-label='Small'>
-                                  <option defaultValue='Efectivo'>Efectivo</option>
-                                  <option defaultValue='Tarjeta'>Tarjeta</option>
-                                  <option defaultValue='Nequi'>Nequi</option>
-                                  <option defaultValue='Davidplata'>Daviplata</option>
+                                <select value={metodoPago} onChange={(e) => setMetodoPago(e.target.value)} className='form-select form-select-sm w-75 fs-5 ms-3' aria-label='Small' id="metodoSelect">
+                                  <option id='efectivo' defaultValue='Efectivo'>Efectivo</option>
+                                  <option id='tarjeta' defaultValue='Tarjeta'>Tarjeta</option>
+                                  <option id='nequi' defaultValue='Nequi'>Nequi</option>
+                                  <option id='daviplata' defaultValue='Daviplata'>Daviplata</option>
                                 </select>
                                 {/*Botones de Cantidad de precio*/}
                                 <div className='col pt-5 pb-3 justify-content-start text-start'>
