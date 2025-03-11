@@ -9,9 +9,191 @@ import Swal from 'sweetalert2'
 import img from '../../assets/img/img.png'
 import uniqid from 'uniqid'
 import axios from 'axios'
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 export default function RecompensasAdmin() {
+  const driverObj = driver({
+    showProgress: true,
+    allowClose: false,
+    nextBtnText: 'Siguiente',
+    prevBtnText: 'Anterior',
+    doneBtnText: 'Finalizar',
+    steps: [
+      {
+        element: '#buttonAnadir',
+        popover: {
+          title: 'Anadir Recompensa',
+          description: 'Pulsa sobre el boton para anadir una recompensa',
+          side: "right",
+          align: 'center',
+          onNextClick: () => {
+            document.querySelector('#buttonAnadir')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#imagenCrearVisualizar',
+        popover: {
+          title: 'Imagen Recompensa',
+          description: 'Pulsa sobre el boton para anadir una imagen a la recompensa',
+          side: "center",
+          align: 'center',
+        }
+      },
+      {
+        element: '#labelNombreCrear',
+        popover: {
+          title: 'Ingresar Nombre',
+          description: 'Ingresar el nombre de la recompensa',
+          side: "right",
+          align: 'center',
+        }
+      },
+      {
+        element: '#labelPuntosCrear',
+        popover: {
+          title: 'Ingresar Puntos',
+          description: 'Ingresar los puntos de la recompensa',
+          side: "right",
+          align: 'center',
+        }
+      },
+      {
+        element: '#floatingTextarea',
+        popover: {
+          title: 'Ingresar Descripcion',
+          description: 'Ingresar la descripcion de la recompensa',
+          side: "right",
+          align: 'center',
+        }
+      },
+      {
+        element: '#buttonCrear',
+        popover: {
+          title: 'Crear Recompensa',
+          description: 'Pulsa sobre el boton para crear la recompensa',
+          side: "left",
+          align: 'center'
+        }
+      },
+      {
+        element: '#buttonCerrar',
+        popover: {
+          title: 'Cerrar Recompensa',
+          description: 'Pulsa sobre el boton para cerrar la recompensa',
+          side: "right",
+          align: 'center',
+          onNextClick: () => {
+            document.querySelector('#buttonCerrar')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#buttonEstado',
+        popover: {
+          title: 'Estado Recompensa',
+          description: 'Pulsa sobre el boton para cambiar los estados que tienes en las recompensas',
+          side: "right",
+          align: 'center',
+          onNextClick: () => {
+            document.querySelector('#buttonEstado')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#activos',
+        popover: {
+          title: 'Recompensas Activas',
+          description: 'Pulsa sobre el boton para ver las recompensas que tienes activas',
+          side: "left",
+          align: 'center'
+        }
+      },
+      {
+        element: '#inactivos',
+        popover: {
+          title: 'Recompensas Inactivas',
+          description: 'Pulsa sobre el boton para ver las recompensas que tienes inactivas',
+          side: "left",
+          align: 'center'
+        }
+      },
+      {
+        element: '#todos',
+        popover: {
+          title: 'Ver todas las recompensas',
+          description: 'Pulsa sobre el boton para ver todas las recompensas ya sean activas o inactivas',
+          side: "left",
+          align: 'center',
+          onNextClick: () => {
+            document.querySelector('#buttonEstado')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#contenedorRecompensas',
+        popover: {
+          title: 'Recompensas',
+          description: 'Aqui puedes observar todas las recompensas que tienes',
+          side: "left",
+          align: 'center'
+        }
+      },
+      {
+        element: '#cardRecompensa',
+        popover: {
+          title: 'Recompensa',
+          description: 'Aqui puedes observar una recompensa',
+          side: "left",
+          align: 'center'
+        }
+      },
+      {
+        element: '#buttonEditar',
+        popover: {
+          title: 'Editar Recompensa',
+          description: 'Pulsa sobre el boton para editar la recompensa',
+          side: "left",
+          align: 'center',
+        }
+      },
+      {
+        element: '#eliminarRecompensa',
+        popover: {
+          title: 'Eliminar Recompensa',
+          description: 'Pulsa sobre el boton para eliminar la recompensa',
+          side: "left",
+          align: 'center',
+        }
+      }
+    ]
+  })
+
+  const handleTuto = async () => {
+    const tuto = localStorage.getItem('needRecompensasTuto');
+    if (tuto == null) {
+      driverObj.drive();
+      localStorage.setItem('needRecompensasTuto', false);
+    }
+    else if (tuto == true) {
+      driverObj.drive();
+    }
+  }
+  handleTuto();
 
   const [recompensas, setRecompensas] = useState([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
@@ -238,24 +420,24 @@ export default function RecompensasAdmin() {
           <div className="col me-5">
             {/* Dropdown para filtrar por estado */}
             <div className="dropdown">
-              <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id='buttonEstado'>
                 Estado
               </button>
               <ul className="dropdown-menu">
                 <li>
-                  <button className='btn w-100' onClick={() => filtrarRecompensasPorEstado(1)}>Activos</button>
+                  <button className='btn w-100' id='activos' onClick={() => filtrarRecompensasPorEstado(1)}>Activos</button>
                 </li>
                 <li>
-                  <button className='btn w-100' onClick={() => filtrarRecompensasPorEstado(0)}>Inactivos</button>
+                  <button className='btn w-100' id='inactivos' onClick={() => filtrarRecompensasPorEstado(0)}>Inactivos</button>
                 </li>
                 <li>
-                  <button className='btn w-100' onClick={() => filtrarRecompensasPorEstado(null)}>Todos</button>
+                  <button className='btn w-100' id='todos' onClick={() => filtrarRecompensasPorEstado(null)}>Todos</button>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#añadirRecompensa"><i className="bi bi-plus"></i>Añadir</button>
+        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#añadirRecompensa" id='buttonAnadir'><i className="bi bi-plus"></i>Añadir</button>
       </div>
 
       {/* Modal para agregar recompensa */}
@@ -270,30 +452,30 @@ export default function RecompensasAdmin() {
             <div className="modal-body">
               <div className="container">
                 <div className="row">
-                  <div className="col-3 m-3 ps-3 pt-2">
+                  <div className="col-3 m-2 ps-1 pt-2" id='imagenCrearVisualizar'>
                     <img src={imagePreview || img} height={200} width={280} className='card-img-center border mb-4' alt="..." />
                     <input ref={fileInputRef} className='form-control' onChange={handleFileChange} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
                   </div>
                   <div className="col ms-3">
                     <label htmlFor="floatingInput">Nombre</label>
-                    <input type="text" name='nombre' onChange={handleInputChange} className="form-control my-2" placeholder="Nombre" value={recompensa.nombre} />
+                    <input type="text" name='nombre' id='labelNombreCrear' onChange={handleInputChange} className="form-control my-2" placeholder="Nombre" value={recompensa.nombre} />
                     <label htmlFor="floatingInput">Puntos</label>
-                    <input type="number" name='puntos' onChange={handleInputChange} className="form-control my-2" placeholder="Puntos" value={recompensa.puntos} min="0" />
+                    <input type="number" name='puntos' id='labelPuntosCrear' onChange={handleInputChange} className="form-control my-2" placeholder="Puntos" value={recompensa.puntos} min="0" />
                     <label htmlFor="floatingInput">Descripcion</label>
                     <textarea type="text" name='descripcion' onChange={handleInputChange} className="form-control my-2" placeholder="Descripción" id="floatingTextarea" value={recompensa.descripcion}></textarea>
                   </div>
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-circle"></i></button>
-                <button type="submit" className="btn btn-success" onClick={handleSubmit}><i className="bi bi-check-circle"></i></button>
+                <button type="button" id='buttonCerrar' className="btn btn-danger" data-bs-dismiss="modal"><i className="bi bi-x-circle"></i></button>
+                <button type="submit" id='buttonCrear' className="btn btn-success" onClick={handleSubmit}><i className="bi bi-check-circle"></i></button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="">
+      <div className="" id='contenedorRecompensas'>
         <Swiper
           slidesPerView={4}
           spaceBetween={10}
@@ -304,19 +486,19 @@ export default function RecompensasAdmin() {
           modules={[Scrollbar]}
         >
           {recompensasFiltradas.map((recompensa) => (
-            <SwiperSlide className="h-100" key={recompensa.id_recomp}>
+            <SwiperSlide className="h-100" id='cardRecompensa' key={recompensa.id_recomp}>
               <div className="card text-center">
                 <img src={`${recompensa.recomp_foto}`} height={200} className="card-img-top" alt="..." />
                 <div className="card-body">
                   <h3 className="card-title">{recompensa.recompensa_nombre}</h3>
                   <p className="card-text">{recompensa.recompensa_descripcion}</p>
-                  <button type="button" className="btn btn-warning mx-4" data-bs-toggle="modal" data-bs-target="#recompensaEditarModal" onClick={() => openEditModal(recompensa)}>
+                  <button type="button" className="btn btn-warning mx-4" id='buttonEditar' data-bs-toggle="modal" data-bs-target="#recompensaEditarModal" onClick={() => openEditModal(recompensa)}>
                     <i className="bi bi-pencil-square"></i>
                   </button>
                   {recompensa.recompensa_estado === 1 ?
-                    <button type="button" className="btn btn-success mx-4" onClick={() => restaurarRecompensa(recompensa.id_recomp)}><i className="bi bi-check-circle"></i> Restaurar</button>
+                    <button type="button" className="btn btn-success mx-4" id='restaurarRecompensa' onClick={() => restaurarRecompensa(recompensa.id_recomp)}><i className="bi bi-check-circle"></i> Restaurar</button>
                     :
-                    <button type="button" className="btn btn-danger mx-4" onClick={() => eliminarRecompensa(recompensa.id_recomp)}><i className="bi bi-trash"></i> </button>
+                    <button type="button" className="btn btn-danger mx-4" id='eliminarRecompensa' onClick={() => eliminarRecompensa(recompensa.id_recomp)}><i className="bi bi-trash"></i> </button>
                   }
                 </div>
               </div>
