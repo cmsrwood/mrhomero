@@ -26,7 +26,9 @@ export default function Registrar() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const id_unico = `user_${user.nombres}_${Date.now()}`
+    const nombre = user.nombres;
+    const nombreConGuiones = nombre.replace(/\s+/g, '_');
+    const id_unico = `user_${nombreConGuiones}_${Date.now()}`
     try {
       const data = {
         id : id_unico,

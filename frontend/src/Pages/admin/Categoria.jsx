@@ -61,7 +61,9 @@ export default function Categoria() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const id_unico = `producto_${productoSubir.nombre}_${uniqid()}`;
+    let nombre = productoSubir.nombre;
+    let nombreConGuiones = nombre.replace(/\s+/g, '_');
+    const id_unico = `producto_${nombreConGuiones}_${uniqid()}`;
 
     try {
       const productoData = {
@@ -92,8 +94,7 @@ export default function Categoria() {
 
         Swal.fire({
           icon: 'success',
-          title: res.data.title,
-          text: res.data.message
+          title: res.data.message,
         });
 
         // Limpiar el formulario y actualizar el estado
@@ -102,7 +103,8 @@ export default function Categoria() {
           descripcion: '',
           precio: '',
           puntos: '',
-          imagen: null
+          imagen: null,
+          id_categoria: productoSubir.id_categoria
         });
         setIsDataUpdated(true);
       }
@@ -135,7 +137,8 @@ export default function Categoria() {
     descripcion: '',
     precio: '',
     puntos: '',
-    imagen: null
+    imagen: null,
+    id_categoria: categoriaId
   });
 
 
@@ -155,7 +158,8 @@ export default function Categoria() {
         nombre: editarProducto.nombre,
         descripcion: editarProducto.descripcion,
         precio: editarProducto.precio,
-        puntos: editarProducto.puntos
+        puntos: editarProducto.puntos,
+        id_categoria: editarProducto.id_categoria
       }
       const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/actualizar/${id}`, productoData);
       if (res.status === 200) {
@@ -290,7 +294,8 @@ export default function Categoria() {
       descripcion: '',
       precio: '',
       puntos: '',
-      imagen: null
+      imagen: null,
+      id_categoria: categoriaId
     });
     setImagePreview('');
   };

@@ -73,7 +73,8 @@ exports.reclamarRecompensa = async (id_recompensa, id_usuario) => {
     const response = await recompensasRepository.insertarRecompensaObtenida(id_recompensa, id_usuario, codigo);
 
     // Actualizar puntos del usuario
-    const puntosRecompensa = recompensa[0].recomp_num_puntos;
+    const puntosRecompensa = recompensa.recomp_num_puntos;
+    console.log('Puntos de la recompensa: ' + puntosRecompensa);
     const actualizarPuntos = await recompensasRepository.actualizarPuntos(id_usuario, puntosRecompensa);
 
     return response;

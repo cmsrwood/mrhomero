@@ -109,7 +109,7 @@ router.get('/horasPorMes/:id/:ano/:mes', empleadosController.horasPorMes);
  *       400:   
  *         description: ID inválido
  */
-router.get('/mostrarHorasMes/:id/:ano/:mes', validateId, empleadosController.MostrarHorasEmpleadoMes);
+router.get('/mostrarHorasMes/:id/:ano/:mes', empleadosController.MostrarHorasEmpleadoMes);
 
 /**
  * @swagger
@@ -157,7 +157,7 @@ router.get('/horasDia/:id/:fecha', empleadosController.horasDia);
  *       400:
  *         description: ID inválido
  */
-router.post('/horaInicio/:id', validateId, empleadosController.horaInicio);
+router.post('/horaInicio/:id', empleadosController.horaInicio);
 
 /**
  * @swagger
@@ -178,7 +178,7 @@ router.post('/horaInicio/:id', validateId, empleadosController.horaInicio);
  *       400:
  *         description: ID inválido
  */
-router.post('/horaFin/:id', validateId, empleadosController.horaFin);
+router.post('/horaFin/:id', empleadosController.horaFin);
 
 /**
  * @swagger

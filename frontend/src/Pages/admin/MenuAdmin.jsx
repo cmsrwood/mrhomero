@@ -65,8 +65,9 @@ export default function MenuAdmin() {
   // Función para manejar el envío de datos
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const id_unico = `categoria_${categoria.categoria}_${uniqid()}`;
+    let nombre = categoria.categoria;
+    let nombreConGuiones = nombre.replace(/\s+/g, '_')
+    const id_unico = `categoria_${nombreConGuiones}_${uniqid()}`;
     try {
       // Guardar la categoría sin la imagen
       const categoriaData = {

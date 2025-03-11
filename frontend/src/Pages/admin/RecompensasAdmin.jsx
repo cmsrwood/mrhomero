@@ -234,8 +234,9 @@ export default function RecompensasAdmin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const id_unico = `recompensa_${recompensa.nombre}_${uniqid()}`;
+    let nombre = recompensa.nombre;
+    let nombreConGuiones = nombre.replace(/\s+/g, '_');
+    const id_unico = `recompensa_${nombreConGuiones}_${uniqid()}`;
     try {
       const formData = new FormData();
       formData.append('id', id_unico);
