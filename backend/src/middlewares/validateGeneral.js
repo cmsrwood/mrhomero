@@ -9,10 +9,6 @@ const validateId = (req, res, next) => {
         err.push('Falta parámetro: id');
     }
 
-    if (isNaN(id)) {
-        err.push('El parámetro id debe ser un numero');
-    }
-
     if (id <= 0) {
         err.push('El parámetro id debe ser mayor a 0');
     }

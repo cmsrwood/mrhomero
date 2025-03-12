@@ -2,9 +2,36 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import { useParams } from 'react-router-dom'
+import { driver } from 'driver.js'
+import "driver.js/dist/driver.css"
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 export default function Gestionhoras() {
+    const driverObj = driver({
+        showProgress: true,
+        allowClose: false,
+        nextBtnText: 'Siguiente',
+        prevBtnText: 'Anterior',
+        doneBtnText: 'Finalizar',
+        steps: [
+            {
+                element: '#mesYAno',
+                popover: {
+                    title: 'Mes y Año',
+                    description: 'Selecciona el mes y el año para consultar las horas trabajadas.',
+                    side: "right",
+                    align: 'center'
+                }
+            }
+        ]
+    })
+
+    const handleTuto = async() => { 
+        driverObj.drive();
+    }
+
+    handleTuto();
+
     const params = useParams();
     const id = params.id
     const [isDataUpdated, setIsDataUpdated] = useState(false);
@@ -13,6 +40,7 @@ export default function Gestionhoras() {
     const [horas, setHoras] = useState([]);
     const [horasTotales, setHorasTotales] = useState([]);
     const [empleado, setEmpleado] = useState([]);
+    console.log(empleado)
 
     const [horasEsperadas, setHorasEsperadas] = useState(230);
     const [horasExtra, setHorasExtra] = useState(0);
@@ -83,7 +111,7 @@ export default function Gestionhoras() {
                 <img className='rounded-circle' style={{ width: '150px' }} src={`${empleado.user_foto}`} alt={empleado.user_nom} />
                 <h2 className='my-4 fw-bold'>{empleado.user_nom} {empleado.user_apels}</h2>
             </div>
-            <div className='row w-100 justify-content-between my-3'>
+            <div className='row w-100 justify-content-between my-3' id='mesYAno'>
                 <select value={ano} onChange={handleAnoChange} name="" id="" className="form-select col-12 col-sm mx-2">
                     <option value={anoActual}>{anoActual}</option>
                     <option value={anoActual - 1}>{anoActual - 1}</option>

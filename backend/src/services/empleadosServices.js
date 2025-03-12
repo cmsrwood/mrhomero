@@ -47,7 +47,6 @@ exports.MostrarHorasEmpleadoMes = async (mes, ano, id) => {
     const empleado = await empRepository.mostrarEmpleado(id);
     if (empleado.length <= 0) throw new NotFoundError('El empleado no existe');
     const response = await empRepository.MostrarHorasEmpleadoMes(mes, ano, id);
-    if (response.length <= 0) throw new NotFoundError('El empleado no tiene horas registradas');
     return response;
 }
 
