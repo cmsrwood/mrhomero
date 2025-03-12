@@ -62,6 +62,7 @@ export default function Ventas() {
       );
     }
     );
+    console.log(ventasFiltradas)
 
   const eliminaVenta = async (id) => {
     try {
@@ -173,13 +174,13 @@ export default function Ventas() {
         }
       },
       {
-        element: `${ventas[0] ? `#${ventasFiltradas[0].id_venta}` : ''}`,
+        element: `${ventasFiltradas[0] ? `#${ventasFiltradas[0].id_venta}` : ''}`,
         popover: {
           title: 'Detalles de la venta',
           description: 'Aquí podrán observar los detalles de la venta',
         },
         onDeselected: () => {
-          const botonVer = document.getElementById(ventas ? `ver_${ventasFiltradas[0].id_venta}` : '');
+          const botonVer = document.getElementById(ventasFiltradas ? `ver_${ventasFiltradas[0].id_venta}` : '');
           botonVer.click();
         }
       },
@@ -188,6 +189,53 @@ export default function Ventas() {
         popover: {
           title: 'Detalles de la venta',
           description: 'Aquí podrás observar los detalles de la venta',
+        }
+      },{
+        element: '#eliminar',
+        popover: {
+          title: 'Eliminar venta',
+          description: 'Aquí podrás eliminar una venta',
+        }
+      },
+      {
+        element: '#estado',
+        popover:{
+          title: 'Filtrar ventas por estado',
+          description: 'Aquí podrás filtrar las ventas por estado',
+          onNextClick: () =>{
+            document.querySelector('#estado')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#activas',
+        popover: {
+          title: 'Filtrar ventas activas',
+          description: 'Aquí podrás filtrar las ventas activas',
+        }
+      },
+      {
+        element: '#eliminadas',
+        popover: {
+          title: 'Filtrar ventas eliminadas',
+          description: 'Aquí podrás filtrar las ventas eliminadas',
+        }
+      },
+      {
+        element: '#todas',
+        popover: {
+          title: 'Filtrar todas las ventas',
+          description: 'Aquí podrás filtrar todas las ventas',
+        }
+      },
+      {
+        element: '#buscar',
+        popover: {
+          title: 'Buscar venta',
+          description: 'Aquí podrás buscar una venta',
         }
       }
     ]
@@ -227,6 +275,7 @@ export default function Ventas() {
             <div className="col">
               <div className="input-group">
                 <input
+                  id="buscar"
                   type="search"
                   className="form-control form-control-lg ps-5 w-100"
                   placeholder="Buscar venta..."
@@ -239,15 +288,15 @@ export default function Ventas() {
             <div className="col">
               {/* Dropdown para filtrar por estado */}
               <div className="dropdown">
-                <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id='estado'>
                   Estado
                 </button>
                 <ul className="dropdown-menu">
                   <li>
-                    <button className='btn w-100' onClick={() => filtrarVentasPorEstado(1)}>Realizadas</button>
+                    <button className='btn w-100' onClick={() => filtrarVentasPorEstado(1)} id='activas'>Realizadas</button>
                   </li>
                   <li>
-                    <button className='btn w-100' onClick={() => filtrarVentasPorEstado(0)}>Borradas</button>
+                    <button className='btn w-100' onClick={() => filtrarVentasPorEstado(0)} id='eliminadas'>Borradas</button>
                   </li>
                   <li>
                     <button className='btn w-100' onClick={() => filtrarVentasPorEstado(null)}>Todas</button>
@@ -271,7 +320,7 @@ export default function Ventas() {
             </tr>
           </thead>
           <tbody>
-            {ventasFiltradas.length > 0 ? (
+            {ventasFiltradas.length > 0 ?
               ventasFiltradas.map((venta) => (
                 <React.Fragment key={venta.id_venta}>
                   <tr id={venta.id_venta}>
@@ -337,11 +386,11 @@ export default function Ventas() {
                   </tr>
                 </React.Fragment>
               ))
-            ) : (
+            : 
               <tr>
                 <td colSpan="6" className="text-center">No hay ventas</td>
               </tr>
-            )}
+            }
           </tbody>
         </table>
         <div className="col-12 text-end mb-5">
