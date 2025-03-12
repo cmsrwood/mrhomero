@@ -10,7 +10,6 @@ export default function HorasEmpleados() {
 
   const driverObj = driver({
     showProgress: true,
-    allowClose: false,
     nextBtnText: 'Siguiente',
     prevBtnText: 'Anterior',
     doneBtnText: 'Finalizar',

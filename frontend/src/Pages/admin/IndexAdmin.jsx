@@ -15,7 +15,6 @@ export default function IndexAdmin() {
 
   const driverObj = driver({
     showProgress: true,
-    allowClose: false,
     nextBtnText: 'Siguiente',
     prevBtnText: 'Anterior',
     doneBtnText: 'Finalizar',
@@ -51,10 +50,29 @@ export default function IndexAdmin() {
         }
       },
       {
-        element: '#reseñas',
+        element: '#resenas',
         popover: {
           title: 'Reseñas',
-          description: 'Aquí podrá observar las reseñas al restaurante'
+          description: 'Aquí podrá observar las reseñas al restaurante',
+          onNextClick: ()=>{
+            document.querySelector('#resenas')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            },200)
+          }
+        }
+      },
+      {
+        element: '#resenasgoogle',
+        popover: {
+          title: 'Reseñas',
+          description: 'Aquí podrás observar las reseñas de los clientes',
+          onNextClick: ()=>{
+            document.querySelector('#resenasclose')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            },200)
+          }
         }
       },
       {
@@ -181,7 +199,7 @@ return (
           <h5 className='pt-2 '>{clientes?.length} Usuarios registrados</h5>
           <h4 className='pt-2 text-success'>+{clientesUltimoMes?.length} este mes</h4>
         </div>
-        <Link type="button" className=" col-12 col-sm border border-2 border-secondary text-center align-content-center py-5 text-decoration-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id='reseñas' >
+        <Link type="button" className=" col-12 col-sm border border-2 border-secondary text-center align-content-center py-5 text-decoration-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id='resenas' >
           <div>
             <h3 className=''>Reseñas</h3>
             <h5 className='pt-2'>{ratingResenas} de promedio</h5>
@@ -191,7 +209,7 @@ return (
 
         <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl modal-dialog-centered">
-            <div className="modal-content">
+            <div className="modal-content" id='resenasgoogle'>
               <div className="modal-header">
                 <h1 className="modal-title fs-2" id="staticBackdropLabel">Reseñas de los clientes</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -226,7 +244,7 @@ return (
                 </Swiper>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-outline-warning" data-bs-dismiss="modal" aria-label="Close">Entendido</button>
+                <button id='resenasclose' type="button" className="btn btn-outline-warning" data-bs-dismiss="modal" aria-label="Close">Entendido</button>
               </div>
             </div>
           </div>

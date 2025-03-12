@@ -8,7 +8,6 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 export default function Proveedores() {
     const driverObj = driver({
         showProgress: true,
-        allowClose: true,
         nextBtnText: 'Siguiente',
         prevBtnText: 'Atrás',
         doneBtnText: 'Terminar',

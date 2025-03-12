@@ -9,7 +9,6 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 export default function Gestionhoras() {
     const driverObj = driver({
         showProgress: true,
-        allowClose: false,
         nextBtnText: 'Siguiente',
         prevBtnText: 'Anterior',
         doneBtnText: 'Finalizar',
