@@ -2,8 +2,125 @@ import React, { useEffect, useState } from 'react'
 import NavegacionAdmin from '../../navigation/NavegacionAdmin'
 import Swal from 'sweetalert2'
 import axios from 'axios';
+import { driver } from 'driver.js'
+import "driver.js/dist/driver.css"
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 export default function Proveedores() {
+    const driverObj = driver({
+        showProgress: true,
+        allowClose: true,
+        nextBtnText: 'Siguiente',
+        prevBtnText: 'Atrás',
+        doneBtnText: 'Terminar',
+        steps: [
+            {
+                element: '#tablaProveedores',
+                popover: {
+                    title: 'Proveedores',
+                    description: 'Aqui podras ver todos los proveedores.',
+                    side: "right",
+                    align: 'center'
+                }
+            },
+            {
+                element: '#buttonCrearProveedor',
+                popover: {
+                    title: 'Crear Proveedor',
+                    description: 'Pulsa sobre el boton para crear un nuevo proveedor.',
+                    side: "right",
+                    align: 'center',
+                    onNextClick: () => {
+                        document.querySelector('#buttonCrearProveedor')?.click();
+                        setTimeout(() => {
+                            driverObj.moveNext();
+                        }, 200);
+                    }
+                }
+            },
+            {
+                element: '#formulario',
+                popover: {
+                    title: 'Crear Proveedor',
+                    description: 'Aqui podras crear un nuevo proveedor, debes llenar todo el formulario.',
+                    side: "right",
+                    align: 'center'
+                }
+            },
+            {
+                element: '#crearProveedor',
+                popover: {
+                    title: 'Crear Proveedor',
+                    description: 'Pulsa sobre el boton para crear el proveedor.',
+                    side: "right",
+                    align: 'center'
+                }
+            },
+            {
+                element: '#cerrarModal',
+                popover: {
+                    title: 'Cerrar Modal',
+                    description: 'Pulsa sobre el boton para cerrar el modal.',
+                    side: "right",
+                    align: 'center',
+                    onNextClick: () => {
+                        document.querySelector('#cerrarModal')?.click();
+                        setTimeout(() => {
+                            driverObj.moveNext();
+                        }, 200);
+                    }
+                }
+            },
+            {
+                element: '#proveedor',
+                popover: {
+                    title: 'Proveedores',
+                    description: 'Aqui podras ver toda la informacion de los proveedores.',
+                    side: "right",
+                    align: 'center'
+                }
+            },
+            {
+                element: '#telefono',
+                popover: {
+                    title: 'Telefono',
+                    description: 'Aqui podras darle click al boton para llamar al proveedor o enviarle un mensaje.',
+                    side: "right",
+                    align: 'center'
+                }
+            },
+            {
+                element: '#editarProveedor',
+                popover: {
+                    title: 'Editar Proveedor',
+                    description: 'Pulsa sobre el boton para editar el proveedor.',
+                    side: "right",
+                    align: 'center'
+                }
+            },
+            {
+                element: '#eliminarProveedor',
+                popover: {
+                    title: 'Eliminar Proveedor',
+                    description: 'Pulsa sobre el boton para eliminar el proveedor.',
+                    side: "right",
+                    align: 'center'
+                }
+            }
+        ]
+    })
+
+    const handleTuto = async () => {
+        const tuto = localStorage.getItem('needProveedoresTuto');
+        if (tuto == null) {
+            driverObj.drive();
+            localStorage.setItem('needProveedoresTuto', false);
+        }
+        else if (tuto == true) {
+            driverObj.drive();
+        }
+    }
+
+    handleTuto();
 
     const [proveedores, setProveedores] = useState([]);
     const [isDataUpdated, setIsDataUpdated] = useState(false);
@@ -160,16 +277,16 @@ export default function Proveedores() {
         <div className=''>
             <div className="d-flex justify-content-between m-3">
                 <h1>Proveedores</h1>
-                <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalAñadirProv"><i className="bi bi-plus"></i>añadir</button>
+                <button type="button" id='buttonCrearProveedor' className="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalAñadirProv"><i className="bi bi-plus"></i>añadir</button>
             </div>
             <div className="modal" id="ModalAñadirProv" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog  modal-fullscreen-sm-down">
                     <div className="modal-content">
-                        <div className="modal-header">
+                        <div className="modal-header" >
                             <h5 className="modal-title" id="exampleModalLabel">Añadir Proveedor</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div className="modal-body">
+                        <div className="modal-body" id='formulario'>
 
                             <div className="mb-3">
                                 <label htmlFor="recipient-name" className="col-form-label">Empresa:</label>
@@ -193,14 +310,14 @@ export default function Proveedores() {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" className="btn btn-warning" onClick={handleSubmit}>Guardar cambios</button>
+                            <button type="button" id='cerrarModal' className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" id='crearProveedor' className="btn btn-warning" onClick={handleSubmit}>Guardar cambios</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <table className="table">
+            <table className="table" id='tablaProveedores'>
                 <thead>
                     <tr>
                         <th>id</th>
@@ -213,17 +330,17 @@ export default function Proveedores() {
                         <th scope='col'>Eliminar</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id='proveedor'>
                     {proveedores.map(proveedor => (
                         <tr key={proveedor.id_proveedor}>
                             <th>{proveedor.id_proveedor}</th>
                             <th scope="row" className="text-warning">{proveedor.prov_nombre}</th>
                             <td>{proveedor.prov_direccion}</td>
                             <td>{proveedor.prov_contacto_nombre}</td>
-                            <td><a className='btn btn-success' href={`tel:${proveedor.prov_contacto_telefono}`}><i className='bi bi-telephone'></i> {proveedor.prov_contacto_telefono}</a></td>
+                            <td id='telefono'><a className='btn btn-success' href={`tel:${proveedor.prov_contacto_telefono}`}><i className='bi bi-telephone'></i> {proveedor.prov_contacto_telefono}</a></td>
                             <td>{proveedor.prov_contacto_email}</td>
-                            <td><button className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditarProv" onClick={() => { OpenEditModal(proveedor) }}><i className="bi bi-pencil-square"></i></button></td>
-                            <td><button className="btn btn-danger" onClick={() => { eliminar(proveedor.id_proveedor) }}><i className="bi bi-trash"></i></button></td>
+                            <td><button className="btn btn-warning" id='editarProveedor' data-bs-toggle="modal" data-bs-target="#ModalEditarProv" onClick={() => { OpenEditModal(proveedor) }}><i className="bi bi-pencil-square"></i></button></td>
+                            <td><button className="btn btn-danger" id='eliminarProveedor' onClick={() => { eliminar(proveedor.id_proveedor) }}><i className="bi bi-trash"></i></button></td>
                         </tr>
                     ))}
                 </tbody>
