@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-02-2025 a las 23:12:42
+-- Tiempo de generación: 12-03-2025 a las 01:34:46
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -34,6 +34,15 @@ CREATE TABLE `categorias` (
   `cat_estado` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`, `cat_estado`) VALUES
+('categoria_Bebidas_m83s6yln', 'Bebidas', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741654622/categoria_Bebidas_m83s6yln.webp', 1),
+('categoria_Hamburguesas_m83s84gn', 'Hamburguesas', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741654676/categoria_Hamburguesas_m83s84gn.webp', 1),
+('categoria_Perros_calientes_m84h4hkx', 'Perros calientes', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741696497/categoria_Perros_calientes_m84h4hkx.webp', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -60,6 +69,47 @@ CREATE TABLE `detalle_ventas` (
   `subtotal` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `detalle_ventas`
+--
+
+INSERT INTO `detalle_ventas` (`id_detalle`, `id_venta`, `id_producto`, `cantidad_producto`, `precio_unitario`, `subtotal`) VALUES
+(1, 'venta_e88599f1-2d5b-4d41-baa8-95078441ab43', 'producto_Colombiana_m84glp2f', 1, '5000', '5000'),
+(2, 'venta_f94158e5-66e4-4711-8a56-1fe781a44b7b', 'producto_Pepsi_m83sa5gq', 1, '5000', '5000'),
+(3, 'venta_94daf4df-652a-4b16-9359-7efe4e4badb0', 'producto_Hamburguesa doble_m84ggd2f', 1, '10000', '10000'),
+(5, 'venta_94daf4df-652a-4b16-9359-7efe4e4badb0', 'producto_Perro_especial_m84h5i2i', 1, '7000', '7000'),
+(6, 'venta_94daf4df-652a-4b16-9359-7efe4e4badb0', 'producto_Perro_hipermega_m84h687v', 1, '8000', '8000'),
+(8, 'venta_94daf4df-652a-4b16-9359-7efe4e4badb0', 'producto_Hamburguesa queso doble_m84gc67t', 1, '15000', '15000'),
+(9, 'venta_94daf4df-652a-4b16-9359-7efe4e4badb0', 'producto_Hamburguesa doble con jamon_m84gfy4f', 1, '12000', '12000'),
+(10, 'venta_94daf4df-652a-4b16-9359-7efe4e4badb0', 'producto_Hamburguesa especial_m84gjzsa', 1, '7000', '7000'),
+(11, 'venta_218ec110-0948-4b0f-89bc-c0e79fae26e9', 'producto_Colombiana_m84glp2f', 1, '5000', '5000'),
+(12, 'venta_218ec110-0948-4b0f-89bc-c0e79fae26e9', 'producto_Perro_especial_m84h5i2i', 1, '7000', '7000'),
+(13, 'venta_218ec110-0948-4b0f-89bc-c0e79fae26e9', 'producto_Hamburguesa doble_m84ggd2f', 1, '10000', '10000'),
+(14, 'venta_218ec110-0948-4b0f-89bc-c0e79fae26e9', 'producto_Pepsi_m83sa5gq', 1, '5000', '5000'),
+(15, 'venta_218ec110-0948-4b0f-89bc-c0e79fae26e9', 'producto_Perro_hipermega_m84h687v', 1, '8000', '8000'),
+(16, 'venta_218ec110-0948-4b0f-89bc-c0e79fae26e9', 'producto_Hamburguesa queso doble_m84gc67t', 1, '15000', '15000'),
+(17, 'venta_218ec110-0948-4b0f-89bc-c0e79fae26e9', 'producto_Hamburguesa doble con jamon_m84gfy4f', 1, '12000', '12000'),
+(18, 'venta_218ec110-0948-4b0f-89bc-c0e79fae26e9', 'producto_Hamburguesa especial_m84gjzsa', 1, '7000', '7000'),
+(19, 'venta_e56f8b35-fecb-4cec-9234-398a26176b6c', 'producto_Pepsi_m83sa5gq', 1, '5000', '5000'),
+(20, 'venta_e56f8b35-fecb-4cec-9234-398a26176b6c', 'producto_Hamburguesa queso doble_m84gc67t', 1, '15000', '15000'),
+(21, 'venta_e56f8b35-fecb-4cec-9234-398a26176b6c', 'producto_Perro_especial_m84h5i2i', 1, '7000', '7000'),
+(22, 'venta_e56f8b35-fecb-4cec-9234-398a26176b6c', 'producto_Perro_hipermega_m84h687v', 1, '8000', '8000'),
+(23, 'venta_e56f8b35-fecb-4cec-9234-398a26176b6c', 'producto_Hamburguesa doble_m84ggd2f', 1, '10000', '10000'),
+(24, 'venta_e56f8b35-fecb-4cec-9234-398a26176b6c', 'producto_Hamburguesa doble con jamon_m84gfy4f', 1, '12000', '12000'),
+(25, 'venta_e56f8b35-fecb-4cec-9234-398a26176b6c', 'producto_Hamburguesa especial_m84gjzsa', 1, '7000', '7000'),
+(26, 'venta_dc2c5d2d-6615-4872-86c6-5fbec17db30b', 'producto_Pepsi_m83sa5gq', 6, '5000', '30000'),
+(27, 'venta_aa240d38-e175-4a6e-87fa-145e673feae5', 'producto_Hamburguesa doble_m84ggd2f', 4, '10000', '40000'),
+(28, 'venta_aa240d38-e175-4a6e-87fa-145e673feae5', 'producto_Hamburguesa especial_m84gjzsa', 3, '7000', '21000'),
+(29, 'venta_6d6bd1b3-e57e-4e19-9d05-febe08dd3fbd', 'producto_Colombiana_m84glp2f', 1, '5000', '5000'),
+(30, 'venta_6d6bd1b3-e57e-4e19-9d05-febe08dd3fbd', 'producto_Hamburguesa doble con jamon_m84gfy4f', 1, '12000', '12000'),
+(31, 'venta_6d6bd1b3-e57e-4e19-9d05-febe08dd3fbd', 'producto_Hamburguesa especial_m84gjzsa', 1, '7000', '7000'),
+(32, 'venta_6d6bd1b3-e57e-4e19-9d05-febe08dd3fbd', 'producto_Hamburguesa queso doble_m84gc67t', 5, '15000', '75000'),
+(33, 'venta_6d6bd1b3-e57e-4e19-9d05-febe08dd3fbd', 'producto_Perro_especial_m84h5i2i', 1, '7000', '7000'),
+(34, 'venta_6d6bd1b3-e57e-4e19-9d05-febe08dd3fbd', 'producto_Perro_hipermega_m84h687v', 1, '8000', '8000'),
+(35, 'venta_6d6bd1b3-e57e-4e19-9d05-febe08dd3fbd', 'producto_Pepsi_m83sa5gq', 1, '5000', '5000'),
+(36, 'venta_0a094519-7ec9-4fe6-b295-2efe8676cb79', 'producto_Hamburguesa doble con jamon_m84gfy4f', 2, '12000', '24000'),
+(37, 'venta_0a094519-7ec9-4fe6-b295-2efe8676cb79', 'producto_Colombiana_m84glp2f', 2, '5000', '10000');
+
 -- --------------------------------------------------------
 
 --
@@ -73,6 +123,13 @@ CREATE TABLE `empleados_horas` (
   `hora_fin` datetime DEFAULT NULL,
   `id_user` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `empleados_horas`
+--
+
+INSERT INTO `empleados_horas` (`id_horas`, `fecha`, `hora_inicio`, `hora_fin`, `id_user`) VALUES
+(2, '2025-03-11', '2025-03-11 19:06:09', NULL, 'user_Dilan_Santiago_1740098072789');
 
 -- --------------------------------------------------------
 
@@ -108,6 +165,20 @@ CREATE TABLE `productos` (
   `id_categoria` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`id_producto`, `pro_nom`, `pro_desp`, `pro_precio`, `pro_foto`, `pro_puntos`, `pro_estado`, `id_categoria`) VALUES
+('producto_Colombiana_m84glp2f', 'Colombiana', 'Colombiana 1.5L', '5000', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741695620/producto_Colombiana_m84glp2f.webp', '5', 1, 'categoria_Bebidas_m83s6yln'),
+('producto_Hamburguesa doble con jamon_m84gfy4f', 'Hamburguesa doble con jamon', 'Hamburguesa con doble carne y jamon', '12000', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741695352/producto_Hamburguesa%20doble%20con%20jamon_m84gfy4f.webp', '12', 1, 'categoria_Hamburguesas_m83s84gn'),
+('producto_Hamburguesa doble_m84ggd2f', 'Hamburguesa doble', 'Hamburguesa con doble carne', '10000', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741695371/producto_Hamburguesa%20doble_m84ggd2f.webp', '10', 1, 'categoria_Hamburguesas_m83s84gn'),
+('producto_Hamburguesa especial_m84gjzsa', 'Hamburguesa especial', 'Hamburguesa especial', '7000', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741695541/producto_Hamburguesa%20especial_m84gjzsa.webp', '7', 1, 'categoria_Hamburguesas_m83s84gn'),
+('producto_Hamburguesa queso doble_m84gc67t', 'Hamburguesa queso doble', 'Hamburguesa con queso doble', '15000', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741695176/producto_Hamburguesa%20queso%20doble_m84gc67t.webp', '15', 1, 'categoria_Hamburguesas_m83s84gn'),
+('producto_Pepsi_m83sa5gq', 'Pepsi', 'pepsi 1.5L', '5000', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741654771/producto_Pepsi_m83sa5gq.webp', '5', 1, 'categoria_Bebidas_m83s6yln'),
+('producto_Perro_especial_m84h5i2i', 'Perro especial', 'Perros especial', '7000', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741696544/producto_Perro_especial_m84h5i2i.webp', '7', 1, 'categoria_Perros_calientes_m84h4hkx'),
+('producto_Perro_hipermega_m84h687v', 'Perro hipermega', 'Perro hipermega', '8000', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741696578/producto_Perro_hipermega_m84h687v.webp', '8', 1, 'categoria_Perros_calientes_m84h4hkx');
+
 -- --------------------------------------------------------
 
 --
@@ -124,6 +195,13 @@ CREATE TABLE `proveedores` (
   `prov_activo` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `proveedores`
+--
+
+INSERT INTO `proveedores` (`id_proveedor`, `prov_nombre`, `prov_direccion`, `prov_contacto_nombre`, `prov_contacto_telefono`, `prov_contacto_email`, `prov_activo`) VALUES
+(1, 'Coca cola', 'Carrera 1 A este # 43b-03 sur', 'Mr. Teaaaa', '3138975212', 'mrtea@gmail.com', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -139,6 +217,15 @@ CREATE TABLE `recompensas` (
   `recomp_estado` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `recompensas`
+--
+
+INSERT INTO `recompensas` (`id_recomp`, `recompensa_nombre`, `recompensa_descripcion`, `recomp_num_puntos`, `recomp_foto`, `recomp_estado`) VALUES
+('recompensa_Figura_homero_m84hlips', 'Figura homero', 'Figura epica de mr homero', 110, 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741697292/recompensa_Figura_homero_m84hlips.webp', 1),
+('recompensa_Funkopop_m84hlv2u', 'Funkopop', 'Funkopop de homero', 100, 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741697307/recompensa_Funkopop_m84hlv2u.webp', 1),
+('recompensa_Peluche_de_millonarios_homero_m84hnyfc', 'Peluche de millonarios homero', 'Peluche de millonarios homero', 20, 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741697405/recompensa_Peluche_de_millonarios_homero_m84hnyfc.webp', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -153,6 +240,13 @@ CREATE TABLE `recompensas_obt` (
   `fecha_reclamo` datetime NOT NULL,
   `estado` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `recompensas_obt`
+--
+
+INSERT INTO `recompensas_obt` (`id_recomp_obt`, `id_recomp`, `id_user`, `codigo`, `fecha_reclamo`, `estado`) VALUES
+(3, 'recompensa_Peluche_de_millonarios_homero_m84hnyfc', 'user_Dilan_Santiago_1740098072789', '536820', '2025-03-11 08:26:14', 0);
 
 -- --------------------------------------------------------
 
@@ -203,8 +297,9 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `user_fecha_registro`, `id_rol`, `user_estado`) VALUES
 ('user_admin_1740097849543', 'admin', 'admin', 'admin@gmail.com', '3138975212', 0, 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1740188123/user_admin_1740097849543.webp', '$2a$10$nhZ0WNjJk.oghLVI72XaPu45HoRCp/XOd3SpnmmvqCQzexejlllQS', NULL, NULL, '2025-02-20 19:30:49', 1, 1),
 ('user_Bryam_1740098049146', 'Bryam', 'castañeda cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$x6V069NY.nSJtwa4h5sPle7WsKLiWk3PGCV/qJSEYWk15RokylCee', NULL, NULL, '2025-02-20 19:34:09', 3, 1),
-('user_Dilan Santiago_1740098072789', 'Dilan Santiago', 'Lopez Romero', 'dilanfantas@gmail.com', NULL, 0, NULL, '$2a$10$8xpwM3J6n4Xw2ejj6kqsV.qg0XhjWg8BtSRsFgV5PPf.b2EtYklEu', NULL, NULL, '2025-02-20 19:34:32', 3, 1),
-('user_Johan Sebastian_1740098106538', 'Johan Sebastian', 'Muñoz Contreras', 'johanmc@gmail.com', NULL, 0, NULL, '$2a$10$LCLJnriPFmYy/0ARI9W75OIhXqiTIlawgzczsgDUtiN0Nmvhs7P72', NULL, NULL, '2025-02-20 19:35:06', 3, 1);
+('user_Dilan_Santiago_1740098072789', 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', '3138975212', 143, NULL, '$2a$10$8xpwM3J6n4Xw2ejj6kqsV.qg0XhjWg8BtSRsFgV5PPf.b2EtYklEu', NULL, NULL, '2025-03-11 00:00:00', 2, 1),
+('user_Heiver_1741698186537', 'Heiver', 'Cuesta', 'heiver@gmail.com', NULL, 14, NULL, '$2a$10$/.za0rvYkLTphYheGHntJexPueazxsKCYkMCE6A09o/pPk.yWdyDy', NULL, NULL, '2025-03-11 08:03:06', 3, 1),
+('user_Johan_Sebastian_1740098106538', 'Johan Sebastian', 'Muñoz Contreras', 'johanmc@gmail.com', NULL, 138, NULL, '$2a$10$LCLJnriPFmYy/0ARI9W75OIhXqiTIlawgzczsgDUtiN0Nmvhs7P72', NULL, NULL, '2025-02-20 19:35:06', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -220,6 +315,21 @@ CREATE TABLE `ventas` (
   `venta_total` int(11) NOT NULL,
   `venta_estado` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`id_venta`, `venta_fecha`, `id_user`, `venta_metodo_pago`, `venta_total`, `venta_estado`) VALUES
+('venta_0a094519-7ec9-4fe6-b295-2efe8676cb79', '2025-03-11 08:08:42', 'user_Heiver_1741698186537', 'Efectivo', 34000, 1),
+('venta_218ec110-0948-4b0f-89bc-c0e79fae26e9', '2024-12-04 07:39:24', 'user_Johan_Sebastian_1740098106538', 'Efectivo', 69000, 1),
+('venta_6d6bd1b3-e57e-4e19-9d05-febe08dd3fbd', '2025-03-11 07:40:35', 'user_Bryam_1740098049146', 'Efectivo', 119000, 1),
+('venta_94daf4df-652a-4b16-9359-7efe4e4badb0', '2025-03-11 07:39:04', 'user_Johan_Sebastian_1740098106538', 'Efectivo', 69000, 1),
+('venta_aa240d38-e175-4a6e-87fa-145e673feae5', '2025-03-11 07:40:11', NULL, 'Efectivo', 61000, 1),
+('venta_dc2c5d2d-6615-4872-86c6-5fbec17db30b', '2025-02-01 07:40:03', NULL, 'Efectivo', 30000, 1),
+('venta_e56f8b35-fecb-4cec-9234-398a26176b6c', '2025-02-13 07:39:45', 'user_Bryam_1740098049146', 'Efectivo', 64000, 1),
+('venta_e88599f1-2d5b-4d41-baa8-95078441ab43', '2025-01-01 07:38:42', NULL, 'Efectivo', 5000, 1),
+('venta_f94158e5-66e4-4711-8a56-1fe781a44b7b', '2025-03-11 07:38:48', NULL, 'Efectivo', 5000, 1);
 
 --
 -- Índices para tablas volcadas
@@ -242,7 +352,6 @@ ALTER TABLE `categorias_inv`
 --
 ALTER TABLE `detalle_ventas`
   ADD PRIMARY KEY (`id_detalle`),
-  ADD UNIQUE KEY `id_producto` (`id_producto`),
   ADD KEY `detalle_ventas_venta` (`id_venta`);
 
 --
@@ -322,13 +431,13 @@ ALTER TABLE `categorias_inv`
 -- AUTO_INCREMENT de la tabla `detalle_ventas`
 --
 ALTER TABLE `detalle_ventas`
-  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados_horas`
 --
 ALTER TABLE `empleados_horas`
-  MODIFY `id_horas` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_horas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `inventario`
@@ -340,13 +449,13 @@ ALTER TABLE `inventario`
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `recompensas_obt`
 --
 ALTER TABLE `recompensas_obt`
-  MODIFY `id_recomp_obt` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_recomp_obt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
