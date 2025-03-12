@@ -5,7 +5,7 @@ exports.mostrarInventario = async () => {
         SELECT 
             id_producto_inv, 
             inv_nombre, 
-            id_categoria_inv, 
+            categoria_inv_nom,
             DATE_FORMAT(inv_fecha_ing, '%Y-%m-%d') AS inv_fecha_ing, 
             DATE_FORMAT(inv_fecha_cad, '%Y-%m-%d') AS inv_fecha_cad, 
             inv_cantidad, 
@@ -46,10 +46,10 @@ exports.verificarNombre = async (nombre) => {
 // Repositorio para crear productos para el inventario
 exports.crearInventario = async (inventario) => {
     return new Promise((resolve, reject) => {
-        const q = "INSERT INTO inventario (inv_nombre, id_categoria_inv, inv_cantidad, inv_fecha_ing, inv_fecha_cad, inv_cantidad_min, id_proveedor) VALUES (?)";
+        const q = "INSERT INTO inventario (inv_nombre, categoria_inv_nom, inv_cantidad, inv_fecha_ing, inv_fecha_cad, inv_cantidad_min, id_proveedor) VALUES (?)";
         const values = [
             inventario.inv_nombre,
-            inventario.id_categoria_inv,
+            inventario.categoria_inv_nom,
             inventario.inv_cantidad,
             inventario.inv_fecha_ing,
             inventario.inv_fecha_cad,
@@ -70,10 +70,10 @@ exports.crearInventario = async (inventario) => {
 // Repositorio para actualizar productos del inventario
 exports.actualizarInventario = async (id, inventario) => {
     return new Promise((resolve, reject) => {
-        const q = "UPDATE inventario SET inv_nombre = ?, id_categoria_inv = ?, inv_cantidad = ?, inv_fecha_ing = ?, inv_fecha_cad = ?, inv_cantidad_min = ? , id_proveedor = ? WHERE id_producto_inv = ?";
+        const q = "UPDATE inventario SET inv_nombre = ?, categoria_inv_nom = ?, inv_cantidad = ?, inv_fecha_ing = ?, inv_fecha_cad = ?, inv_cantidad_min = ? , id_proveedor = ? WHERE id_producto_inv = ?";
         const values = [
             inventario.inv_nombre,
-            inventario.id_categoria_inv,
+            inventario.categoria_inv_nom,
             inventario.inv_cantidad,
             inventario.inv_fecha_ing,
             inventario.inv_fecha_cad,
@@ -103,17 +103,6 @@ exports.eliminarProductoInventario = async (id) => {
                 id: id,
                 message: "El producto se ha eliminado con exito."
             })
-        })
-    })
-}
-
-// Repositorio para mostrar categorias de los productos
-exports.mostrarCategorias = async () => {
-    return new Promise((resolve, reject) => {
-        const q = "SELECT * FROM categorias_inv";
-        global.db.query(q, (err, results) => {
-            if (err) reject(err)
-            resolve(results)
         })
     })
 }

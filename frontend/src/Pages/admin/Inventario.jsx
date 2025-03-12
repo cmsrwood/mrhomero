@@ -9,7 +9,6 @@ export default function Inventario() {
   // Traer los datos de la base de datos
   const [inventario, setInventario] = useState([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
-  const [categorias, setCategorias] = useState([]);
   const [proveedores, setProveedores] = useState([]);
 
   // Bajo stock
@@ -20,13 +19,11 @@ export default function Inventario() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [inventarioRes, categoriasRes, proveedoresRes] = await Promise.all([
+        const [inventarioRes, proveedoresRes] = await Promise.all([
           axios.get(`${BACKEND_URL}/api/tienda/inventario/`),
-          axios.get(`${BACKEND_URL}/api/tienda/inventario/categorias/mostrar`),
           axios.get(`${BACKEND_URL}/api/tienda/inventario/proveedores/mostrar`)
         ]);
         setInventario(inventarioRes.data);
-        setCategorias(categoriasRes.data);
         setProveedores(proveedoresRes.data);
         setBajoStockIngredientes(inventarioRes.data.filter((ingrediente) => ingrediente.inv_cantidad < ingrediente.inv_cantidad_min));
       } catch (error) {
@@ -41,7 +38,7 @@ export default function Inventario() {
   // Modal para añadir
   const [ingrediente, setIngrediente] = useState({
     inv_nombre: '',
-    id_categoria_inv: 'x',
+    categoria_inv_nom: 'x',
     inv_fecha_ing: '',
     inv_fecha_cad: '',
     inv_cantidad: '',
@@ -53,7 +50,7 @@ export default function Inventario() {
 
   const [ingredienteEditar, setIngredienteEditar] = useState({
     inv_nombre: '',
-    id_categoria_inv: '',
+    categoria_inv_nom: '',
     inv_fecha_ing: '',
     inv_fecha_cad: '',
     inv_cantidad: '',
@@ -78,7 +75,7 @@ export default function Inventario() {
         // Resetear el formulario a valores vacíos después de crear el ingrediente
         setIngrediente({
           inv_nombre: '',
-          id_categoria_inv: 'x',
+          categoria_inv_nom: 'x',
           inv_fecha_ing: '',
           inv_fecha_cad: '',
           inv_cantidad: '',
@@ -211,13 +208,11 @@ export default function Inventario() {
                         </div>
                         <div className="col-12 mb-3">
                           <label htmlFor="floatingInput">Categoría</label>
-                          <select className='form-select' value={ingrediente.id_categoria_inv} id='id_categoria_inv' name='id_categoria_inv' required onChange={handleChange}>
+                          <select className='form-select' value={ingrediente.categoria_inv_nom} id='categoria_inv_nom' name='categoria_inv_nom' required onChange={handleChange}>
                             <option value="x" disabled>Selecciona una categoría</option>
-                            {categorias.map(categoria => (
-                              <option key={categoria.id_categoria_inv} value={categoria.id_categoria_inv}>{categoria.categoria_inv_nom}</option>
-                            ))}
+                            <option value="Refrigerado">Refrigerado</option>
+                            <option value="Perecedero">Perecedero</option>
                           </select>
-
                         </div>
                         <div className="col-12 mb-3">
                           <label htmlFor="floatingInput">Fecha de ingreso</label>
@@ -237,7 +232,7 @@ export default function Inventario() {
                         </div>
                         <div className="col-12 mb-3">
                           <label htmlFor="floatingInput">Proveedor</label>
-                          <select className='form-select' value={ingrediente.id_proveedor} id='id_proveedor' name='id_proveedor' defaultValue={'x'} required onChange={handleChange}>
+                          <select className='form-select' value={ingrediente.id_proveedor} id='id_proveedor' name='id_proveedor' required onChange={handleChange}>
                             <option value="x" disabled>Selecciona una categoría</option>
                             {proveedores.map(prov => (
                               <option key={prov.id_proveedor} value={prov.id_proveedor}>{prov.prov_nombre}</option>
@@ -273,10 +268,10 @@ export default function Inventario() {
               </thead>
               <tbody>
                 {inventario.map((ingrediente) => (
-                  <tr key={ingrediente.id_ingrediente_inv}>
+                  <tr key={ingrediente.id_producto_inv}>
                     <th scope="row">{ingrediente.id_producto_inv}</th>
                     <td>{ingrediente.inv_nombre}</td>
-                    <td>{categorias.find(categoria => categoria.id_categoria_inv === ingrediente.id_categoria_inv).categoria_inv_nom}</td>
+                    <td>{ingrediente.categoria_inv_nom}</td>
                     <td>{ingrediente.inv_fecha_ing}</td>
                     <td>{ingrediente.inv_fecha_cad}</td>
                     <td>{ingrediente.inv_cantidad}</td>
@@ -331,11 +326,10 @@ export default function Inventario() {
                   </div>
                   <div className="col-12 mb-3">
                     <label htmlFor="floatingInput">Categoría</label>
-                    <select className='form-select' id='id_categoria_inv' name='id_categoria_inv' value={ingredienteEditar.id_categoria_inv} required onChange={handleEditChange}>
+                    <select className='form-select' id='categoria_inv_nom' name='categoria_inv_nom' value={ingredienteEditar.categoria_inv_nom} required onChange={handleEditChange}>
                       <option value="" disabled>Selecciona una categoría</option>
-                      {categorias.map(categoria => (
-                        <option key={categoria.id_categoria_inv} value={categoria.id_categoria_inv}>{categoria.categoria_inv_nom}</option>
-                      ))}
+                      <option value="Refrigerado">Refrigerado</option>
+                      <option value="Perecedero">Perecedero</option>
                     </select>
                   </div>
                   <div className="col-12 mb-3">

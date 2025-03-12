@@ -48,12 +48,6 @@ exports.eliminarProductoInventario = async (id) => {
     return response
 }
 
-// Servicio para mostrar las categorias
-exports.mostrarCategorias = async () => {
-    const response = await inventarioRepository.mostrarCategorias();
-    return response;
-}
-
 // Servicio para mostrar los proveedores
 exports.mostrarProveedores = async () => {
     const response = await provedoresRepository.mostrarProveedores();

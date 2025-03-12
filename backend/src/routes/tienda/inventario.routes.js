@@ -48,28 +48,6 @@ router.get('/:id', invController.mostrarProductoInventario);
 
 /**
  * @swagger
- * /tienda/inventario/categorias/mostrar:
- *  get:
- *     summary: Obtener la categoria de un producto del inventario por el ID
- *     tags: [Inventario]
- *     parameters:
- *       - in: path
- *         name: id_categoria_inv
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID de la categoria del producto
- *     responses:
- *       200:
- *         description: Datos de la categoria del producto obtenidos exitosamente
- *       404:
- *         description: Categoria no encontrada
- */
-
-router.get('/categorias/mostrar', invController.mostrarCategorias);
-
-/**
- * @swagger
  * /tienda/inventario/proveedores/mostrar:
  *  get:
  *     summary: Obtener el proveedor de un producto del inventario por el ID

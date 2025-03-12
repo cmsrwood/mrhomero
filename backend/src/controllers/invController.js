@@ -21,17 +21,6 @@ exports.mostrarProductoInventario = async (req, res, next) => {
     }
 }
 
-
-// Controlador para mostrar las categorias
-exports.mostrarCategorias = async (req, res, next) => {
-    try {
-        const response = await invServices.mostrarCategorias();
-        res.status(200).json(response);
-    } catch (error) {
-        next(error)
-    }
-};
-
 // Controlador para mostrar los proveedores
 exports.mostrarProveedores = async (req, res, next) => {
     try {

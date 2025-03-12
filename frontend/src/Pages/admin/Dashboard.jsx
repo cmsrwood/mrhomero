@@ -255,7 +255,7 @@ export default function Dashboard() {
       </div>
       <div className="d-flex w-100 justify-content-between my-3">
         <select value={tipoDeReporte} onChange={handleReporteChange} name="" id="tipoDeReporte" className='form-select me-2'>
-          <option disabled selected value="">Seleccionar tipo de reporte</option>
+          <option disabled value="">Seleccionar tipo de reporte</option>
           <option value="anual">Anual</option>
           <option value="mensual">Mensual</option>
         </select>
@@ -265,32 +265,34 @@ export default function Dashboard() {
       <div className="collapse" id="CollapseIA">
         <div className="card card-body ">
           <pre style={{ whiteSpace: "pre-wrap", fontFamily: "inherit", fontSize: "1rem" }}>
-            {IAIsLoading ? (
-              <p className="text-warning alingn-self-center">
-                <Typewriter
-                  options={{
-                    strings: ["Generando análisis...", "Analizando ventas...", "Preparando reporte...", "Generando reporte..."],
-                    autoStart: true,
-                    loop: true,
-                    delay: 50,
-                    deleteSpeed: 50,
-                  }}
-                />
-              </p>
-            ) : (
-              <p className="" >
-                <Typewriter
-                  options={{
-                    strings: [IA],
-                    autoStart: true,
-                    loop: false,
-                    delay: 1,
-                    deleteSpeed: Infinity,
-                    cursor: " ",
-                  }}
-                />
-              </p>
-            )}
+            <pre style={{ whiteSpace: "pre-wrap", fontFamily: "inherit", fontSize: "1rem" }}>
+              {IAIsLoading ? (
+                <div className="text-warning align-self-center">
+                  <Typewriter
+                    options={{
+                      strings: ["Generando análisis...", "Analizando ventas...", "Preparando reporte...", "Generando reporte..."],
+                      autoStart: true,
+                      loop: true,
+                      delay: 50,
+                      deleteSpeed: 50,
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="">
+                  <Typewriter
+                    options={{
+                      strings: [IA],
+                      autoStart: true,
+                      loop: false,
+                      delay: 1,
+                      deleteSpeed: Infinity,
+                      cursor: " ",
+                    }}
+                  />
+                </div>
+              )}
+            </pre>
           </pre>
         </div>
       </div>

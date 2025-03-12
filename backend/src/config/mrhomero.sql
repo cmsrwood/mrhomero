@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-03-2025 a las 01:34:46
+-- Tiempo de generación: 12-03-2025 a las 02:24:14
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -42,17 +42,6 @@ INSERT INTO `categorias` (`id_categoria`, `cat_nom`, `cat_foto`, `cat_estado`) V
 ('categoria_Bebidas_m83s6yln', 'Bebidas', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741654622/categoria_Bebidas_m83s6yln.webp', 1),
 ('categoria_Hamburguesas_m83s84gn', 'Hamburguesas', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741654676/categoria_Hamburguesas_m83s84gn.webp', 1),
 ('categoria_Perros_calientes_m84h4hkx', 'Perros calientes', 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1741696497/categoria_Perros_calientes_m84h4hkx.webp', 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `categorias_inv`
---
-
-CREATE TABLE `categorias_inv` (
-  `id_categoria_inv` int(11) NOT NULL,
-  `categoria_inv_nom` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -124,13 +113,6 @@ CREATE TABLE `empleados_horas` (
   `id_user` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `empleados_horas`
---
-
-INSERT INTO `empleados_horas` (`id_horas`, `fecha`, `hora_inicio`, `hora_fin`, `id_user`) VALUES
-(2, '2025-03-11', '2025-03-11 19:06:09', NULL, 'user_Dilan_Santiago_1740098072789');
-
 -- --------------------------------------------------------
 
 --
@@ -140,13 +122,20 @@ INSERT INTO `empleados_horas` (`id_horas`, `fecha`, `hora_inicio`, `hora_fin`, `
 CREATE TABLE `inventario` (
   `id_producto_inv` int(11) NOT NULL,
   `inv_nombre` varchar(255) NOT NULL,
-  `id_categoria_inv` int(11) NOT NULL,
+  `categoria_inv_nom` varchar(255) NOT NULL,
   `inv_fecha_ing` date NOT NULL,
   `inv_fecha_cad` date NOT NULL,
   `inv_cantidad` int(11) NOT NULL,
   `inv_cantidad_min` int(11) NOT NULL,
   `id_proveedor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `inventario`
+--
+
+INSERT INTO `inventario` (`id_producto_inv`, `inv_nombre`, `categoria_inv_nom`, `inv_fecha_ing`, `inv_fecha_cad`, `inv_cantidad`, `inv_cantidad_min`, `id_proveedor`) VALUES
+(3, 'Tomate', 'Perecedero', '2025-03-11', '2025-03-09', 25, 22, 1);
 
 -- --------------------------------------------------------
 
@@ -296,10 +285,10 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_user`, `user_nom`, `user_apels`, `user_email`, `user_tel`, `user_puntos`, `user_foto`, `user_pass`, `user_reset_code`, `user_reset_code_expiration`, `user_fecha_registro`, `id_rol`, `user_estado`) VALUES
 ('user_admin_1740097849543', 'admin', 'admin', 'admin@gmail.com', '3138975212', 0, 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1740188123/user_admin_1740097849543.webp', '$2a$10$nhZ0WNjJk.oghLVI72XaPu45HoRCp/XOd3SpnmmvqCQzexejlllQS', NULL, NULL, '2025-02-20 19:30:49', 1, 1),
-('user_Bryam_1740098049146', 'Bryam', 'castañeda cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, NULL, '$2a$10$x6V069NY.nSJtwa4h5sPle7WsKLiWk3PGCV/qJSEYWk15RokylCee', NULL, NULL, '2025-02-20 19:34:09', 3, 1),
-('user_Dilan_Santiago_1740098072789', 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', '3138975212', 143, NULL, '$2a$10$8xpwM3J6n4Xw2ejj6kqsV.qg0XhjWg8BtSRsFgV5PPf.b2EtYklEu', NULL, NULL, '2025-03-11 00:00:00', 2, 1),
-('user_Heiver_1741698186537', 'Heiver', 'Cuesta', 'heiver@gmail.com', NULL, 14, NULL, '$2a$10$/.za0rvYkLTphYheGHntJexPueazxsKCYkMCE6A09o/pPk.yWdyDy', NULL, NULL, '2025-03-11 08:03:06', 3, 1),
-('user_Johan_Sebastian_1740098106538', 'Johan Sebastian', 'Muñoz Contreras', 'johanmc@gmail.com', NULL, 138, NULL, '$2a$10$LCLJnriPFmYy/0ARI9W75OIhXqiTIlawgzczsgDUtiN0Nmvhs7P72', NULL, NULL, '2025-02-20 19:35:06', 3, 1);
+('user_Bryam_1740098049146', 'Bryam', 'castañeda cuervo', 'bryamccuervo2004@gmail.com', NULL, 0, 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1740188123/user_admin_1740097849543.webp', '$2a$10$x6V069NY.nSJtwa4h5sPle7WsKLiWk3PGCV/qJSEYWk15RokylCee', NULL, NULL, '2025-02-20 19:34:09', 3, 1),
+('user_Dilan_Santiago_1740098072789', 'Dilan Santiago', 'López Romero', 'dilanfantas@gmail.com', '3138975212', 143, 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1740188123/user_admin_1740097849543.webp', '$2a$10$8xpwM3J6n4Xw2ejj6kqsV.qg0XhjWg8BtSRsFgV5PPf.b2EtYklEu', NULL, NULL, '2025-03-11 00:00:00', 2, 1),
+('user_Heiver_1741698186537', 'Heiver', 'Cuesta', 'heiver@gmail.com', NULL, 14, 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1740188123/user_admin_1740097849543.webp', '$2a$10$/.za0rvYkLTphYheGHntJexPueazxsKCYkMCE6A09o/pPk.yWdyDy', NULL, NULL, '2025-03-11 08:03:06', 3, 1),
+('user_Johan_Sebastian_1740098106538', 'Johan Sebastian', 'Muñoz Contreras', 'johanmc@gmail.com', NULL, 138, 'https://res.cloudinary.com/ditdxw9ic/image/upload/v1740188123/user_admin_1740097849543.webp', '$2a$10$LCLJnriPFmYy/0ARI9W75OIhXqiTIlawgzczsgDUtiN0Nmvhs7P72', NULL, NULL, '2025-02-20 19:35:06', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -342,12 +331,6 @@ ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
--- Indices de la tabla `categorias_inv`
---
-ALTER TABLE `categorias_inv`
-  ADD PRIMARY KEY (`id_categoria_inv`);
-
---
 -- Indices de la tabla `detalle_ventas`
 --
 ALTER TABLE `detalle_ventas`
@@ -366,7 +349,6 @@ ALTER TABLE `empleados_horas`
 --
 ALTER TABLE `inventario`
   ADD PRIMARY KEY (`id_producto_inv`),
-  ADD KEY `inventario - categoria` (`id_categoria_inv`),
   ADD KEY `inventario - proveedor` (`id_proveedor`);
 
 --
@@ -422,12 +404,6 @@ ALTER TABLE `ventas`
 --
 
 --
--- AUTO_INCREMENT de la tabla `categorias_inv`
---
-ALTER TABLE `categorias_inv`
-  MODIFY `id_categoria_inv` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `detalle_ventas`
 --
 ALTER TABLE `detalle_ventas`
@@ -437,13 +413,13 @@ ALTER TABLE `detalle_ventas`
 -- AUTO_INCREMENT de la tabla `empleados_horas`
 --
 ALTER TABLE `empleados_horas`
-  MODIFY `id_horas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_horas` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_producto_inv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
@@ -484,7 +460,6 @@ ALTER TABLE `empleados_horas`
 -- Filtros para la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  ADD CONSTRAINT `inventario - categoria` FOREIGN KEY (`id_categoria_inv`) REFERENCES `categorias_inv` (`id_categoria_inv`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `inventario - proveedor` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id_proveedor`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
