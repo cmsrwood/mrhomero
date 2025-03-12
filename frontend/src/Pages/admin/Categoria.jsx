@@ -5,9 +5,148 @@ import { NumericFormat } from 'react-number-format';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import uniqid from 'uniqid';
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Categoria() {
+
+  const driverObj = driver({
+    showProgress: true,
+    nextBtnText: 'Siguiente',
+    prevBtnText: 'Anterior',
+    doneBtnText: 'Finalizar',
+
+    steps: [
+      {
+        element: '#verCategorias',
+        popover: {
+          title: 'Productos',
+          description: 'Aqui podras ver todos los productos de la categoria',
+          side: "right",
+          align: 'center',
+        }
+      },
+      {
+        element: '#crearProducto',
+        popover: {
+          title: 'Crear Producto',
+          description: 'Pulsa sobre el boton para crear un nuevo producto',
+          side: "right",
+          align: 'center'
+        }
+      },
+      {
+        element: '#buttonEstado',
+        popover: {
+          title: 'Filtros',
+          description: 'Pulsa sobre el boton para filtrar los productos por estado',
+          side: "right",
+          align: 'center',
+          onNextClick: () => {
+            document.querySelector('#buttonEstado')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#activos',
+        popover: {
+          title: 'Activos',
+          description: 'Pulsa sobre el boton para ver todos los producos que estan activos para la venta',
+          side: "right",
+          align: 'center'
+        }
+      },
+      {
+        element: '#inactivos',
+        popover: {
+          title: 'Inactivos',
+          description: 'Pulsa sobre el boton para ver todos los producos que estan inactivos y no se mostraran a la venta para el publico',
+          side: "right",
+          align: 'center'
+        }
+      },
+      {
+        element: '#todos',
+        popover: {
+          title: 'Ver todos los productos',
+          description: 'Pulsa sobre el boton para ver todos los productos ya sean activos o inactivos',
+          side: "right",
+          align: 'center',
+          onNextClick: () => {
+            document.querySelector('#buttonEstado')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#estadoProducto',
+        popover: {
+          title: 'Estado del producto',
+          description: 'Cada producto muestra el estado, asi será más fácil para la persona saber sí el producto esta activo o inactivo',
+          side: "right",
+          align: 'center',
+          onNextClick: () => {
+            document.querySelector('#estadoProducto')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#buttonEliminar',
+        popover: {
+          title: 'Eliminar Producto',
+          description: 'Pulsa sobre el boton para cambiar el estado de un producto a inactivo, para que no se muestre en la tienda',
+          side: "right",
+          align: 'center'
+        }
+      },
+      {
+        element: '#buttonEditar',
+        popover: {
+          title: 'Editar Producto',
+          description: 'Pulsa sobre el boton para cambiar información del producto',
+          side: "right",
+          align: 'center'
+        }
+      },
+      {
+        element: '#buttonVer',
+        popover: {
+          title: 'Ver Producto',
+          description: 'Pulsa sobre el boton para observar toda la información del producto totalmente detallada',
+          side: "right",
+          align: 'center',
+          onNextClick: () => {
+            document.querySelector('#buttonVer')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      }
+    ]
+  })
+
+  const handleTuto = async () => {
+    const tuto = localStorage.getItem('needCategoriaTuto');
+    if (tuto == null) {
+      driverObj.drive();
+      localStorage.setItem('needCategoriaTuto', false);
+    }
+    else if (tuto == true) {
+      driverObj.drive();
+    }
+  }
+
+  handleTuto();
 
   const location = useLocation();
   const categoriaId = location.pathname.split("/")[3];
@@ -188,9 +327,9 @@ export default function Categoria() {
           }
           else {
             Swal.fire({
-                icon: 'success',
-                title: res.data.message,
-              });
+              icon: 'success',
+              title: res.data.message,
+            });
             const modalElement = document.getElementById('EditarModal');
             let modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
@@ -200,7 +339,7 @@ export default function Categoria() {
         } catch (error) {
           console.log(error);
         }
-        }
+      }
     } catch (error) {
       console.log(error);
       Swal.fire('Error', error.response.data, 'error');
@@ -255,11 +394,11 @@ export default function Categoria() {
       if (confirm.isConfirmed) {
         const res = await axios.put(`${BACKEND_URL}/api/tienda/productos/eliminar/${id}`);
         if (res.status === 200) {
-            Swal.fire({
-              icon: 'success',
-              title: res.data.message
-            });
-            setIsDataUpdated(true);
+          Swal.fire({
+            icon: 'success',
+            title: res.data.message
+          });
+          setIsDataUpdated(true);
         }
       }
     } catch (error) {
@@ -309,23 +448,23 @@ export default function Categoria() {
           <div className="col me-5">
             {/* Dropdown para filtrar por estado */}
             <div className="dropdown">
-              <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <button className="btn btn-secondary dropdown-toggle" id='buttonEstado' type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Estado
               </button>
               <ul className="dropdown-menu">
-                <li>
+                <li id='activos'>
                   <button className='btn w-100' onClick={() => filtrarProductosPorEstado(1)}>Activos</button>
                 </li>
-                <li>
+                <li id='inactivos'>
                   <button className='btn w-100' onClick={() => filtrarProductosPorEstado(0)}>Inactivos</button>
                 </li>
-                <li>
+                <li id='todos'>
                   <button className='btn w-100' onClick={() => filtrarProductosPorEstado(null)}>Todos</button>
                 </li>
               </ul>
             </div>
           </div>
-          <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#AñadirModal">
+          <button id='crearProducto' type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#AñadirModal">
             <i className="bi bi-plus-circle"></i> Añadir producto
           </button>
         </div>
@@ -375,45 +514,45 @@ export default function Categoria() {
           </div>
         </div>
       </div>
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4" id='verCategorias'>
         {productosFiltrados.map((producto) => (
-  <div className="col my-2" key={producto.id_producto}>
-    <div className="card text-center position-relative">
-      <img src={`${producto.pro_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
-      <div className="card-body">
-        <span className={producto.pro_estado === 1 ? `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-success` : `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-danger`}>
-          {producto.pro_estado === 1 ? `Activo` : `Inactivo`}
-          <span className="visually-hidden">unread messages</span>
-        </span>
+          <div className="col my-2" key={producto.id_producto}>
+            <div className="card text-center position-relative">
+              <img src={`${producto.pro_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
+              <div className="card-body">
+                <span id='estadoProducto' className={producto.pro_estado === 1 ? `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-success` : `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-danger`}>
+                  {producto.pro_estado === 1 ? `Activo` : `Inactivo`}
+                  <span className="visually-hidden">unread messages</span>
+                </span>
 
-        <h3 className="card-title mb-3">{producto.pro_nom}</h3>
-        <div className="row">
-          <div className="col">
-            <NumericFormat value={producto.pro_precio} displayType={'text'} thousandSeparator='.' decimalSeparator=',' prefix={'$ '} />
-          </div>
-        </div>
+                <h3 className="card-title mb-3">{producto.pro_nom}</h3>
+                <div className="row">
+                  <div className="col">
+                    <NumericFormat value={producto.pro_precio} displayType={'text'} thousandSeparator='.' decimalSeparator=',' prefix={'$ '} />
+                  </div>
+                </div>
 
-        <div className="row row-cols-3 mt-3">
-          {/* Botón para ver */}
-          <div className="col">
-            <Link to={`/admin/producto/${producto.id_producto}`} className="btn btn-success w-100"><i className="bi bi-eye"></i></Link>
+                <div className="row row-cols-3 mt-3">
+                  {/* Botón para ver */}
+                  <div className="col">
+                    <Link to={`/admin/producto/${producto.id_producto}`} className="btn btn-success w-100" id='buttonVer'><i className="bi bi-eye"></i></Link>
+                  </div>
+                  {/* Botón para editar */}
+                  <div className="col" id='buttonEditar'>
+                    <button type="button" className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#EditarModal" onClick={() => openEditModal(producto)}><i className="bi bi-pencil-square"></i></button>
+                  </div>
+                  {/* Botón para eliminar/restaurar */}
+                  <div className="col" id='buttonEliminar'>
+                    <button className={producto.pro_estado === 1 ? `btn btn-danger w-100` : `btn btn-success w-100`} onClick={producto.pro_estado === 1 ?
+                      () => eliminarProducto(producto.id_producto) : () => restaurarProducto(producto.id_producto)}>
+                      <i className={producto.pro_estado === 1 ? `bi bi-trash` : `bi bi-arrow-counterclockwise`}></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          {/* Botón para editar */}
-          <div className="col">
-            <button type="button" className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#EditarModal" onClick={() => openEditModal(producto)}><i className="bi bi-pencil-square"></i></button>
-          </div>
-          {/* Botón para eliminar/restaurar */}
-          <div className="col">
-            <button className={producto.pro_estado === 1 ? `btn btn-danger w-100` : `btn btn-success w-100`} onClick={producto.pro_estado === 1 ? 
-              () => eliminarProducto(producto.id_producto) : () => restaurarProducto(producto.id_producto)}>
-              <i className={producto.pro_estado === 1 ? `bi bi-trash` : `bi bi-arrow-counterclockwise`}></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-))}
+        ))}
         {/* Modal para editar */}
         <div className="modal fade" id="EditarModal" tabIndex="-1" aria-labelledby="MenuModalLabelEditar" aria-hidden="true">
           <div className="modal-dialog">
