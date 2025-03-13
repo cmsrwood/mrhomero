@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import uniqid from 'uniqid';
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function MenuAdmin() {
@@ -84,7 +86,7 @@ export default function MenuAdmin() {
           formData.append('foto', categoria.foto);
           formData.append('upload_preset', 'categorias');
           formData.append('public_id', id_unico);
-          
+
           const cloudinaryResponse = await axios.post(`${BACKEND_URL}/api/imagenes/subir`, formData);
           const url = cloudinaryResponse.data.url;
 
@@ -208,13 +210,13 @@ export default function MenuAdmin() {
       if (!confirm.isConfirmed) {
         return;
       }
-        const res = await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id}`);
-        if (res.status === 200) {
-          Swal.fire({
-            icon: 'success',
-            title: res.data.message
-          });
-          setIsDataUpdated(true);
+      const res = await axios.delete(`${BACKEND_URL}/api/tienda/categorias/eliminar/${id}`);
+      if (res.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: res.data.message
+        });
+        setIsDataUpdated(true);
       }
     }
     catch (error) {
@@ -240,13 +242,13 @@ export default function MenuAdmin() {
       if (!confirm.isConfirmed) {
         return;
       }
-        const res = await axios.put(`${BACKEND_URL}/api/tienda/categorias/restaurar/${id}`);
-        if (res.status === 200) {
-          Swal.fire({
-            icon: 'success',
-            title: res.data.message
-          });
-          setIsDataUpdated(true);
+      const res = await axios.put(`${BACKEND_URL}/api/tienda/categorias/restaurar/${id}`);
+      if (res.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: res.data.message
+        });
+        setIsDataUpdated(true);
       }
     }
     catch (error) {
@@ -266,7 +268,7 @@ export default function MenuAdmin() {
       foto: categoria.cat_foto
     });
   }
-  
+
   const handleClear = () => {
     setIsDataUpdated(true);
     setCategoria({
@@ -276,27 +278,185 @@ export default function MenuAdmin() {
     });
     setImagePreview('');
   }
+
+  const driverObj = driver({
+    showProgress: true,
+    nextBtnText: 'Siguiente',
+    prevBtnText: 'Anterior',
+    doneBtnText: 'Finalizar',
+    steps: [
+      {
+        element: '#menu',
+        popover: {
+          title: 'Menu',
+          description: 'Aqui podras ver el menu de la tienda.',
+        }
+      },
+      {
+        element: '#buttonAnadir',
+        popover: {
+          title: 'Anadir Categoria',
+          description: 'Pulsa sobre el boton para anadir una categoria',
+          side: "right",
+          align: 'center',
+          onNextClick: () => {
+            document.querySelector('#buttonAnadir')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#foto',
+        popover: {
+          title: 'Imagen categoria',
+          description: 'Pulsa sobre el boton para anadir una imagen a la categoria',
+        }
+      },
+      {
+        element: '#nombre',
+        popover: {
+          title: 'Ingresar Nombre',
+          description: 'Ingresar el nombre de la categoria',
+        }
+      },
+      {
+        element: '#buttonCrear',
+        popover: {
+          title: 'Crear Recompensa',
+          description: 'Pulsa sobre el boton para crear la recompensa',
+        }
+      },
+      {
+        element: '#buttonCerrar',
+        popover: {
+          title: 'Cerrar Recompensa',
+          description: 'Pulsa sobre el boton para cerrar la recompensa',
+          onNextClick: () => {
+            document.querySelector('#buttonCerrar')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#buttonEstado',
+        popover: {
+          title: 'Estado Recompensa',
+          description: 'Pulsa sobre el boton para cambiar los estados que tienes en las recompensas',
+          onNextClick: () => {
+            document.querySelector('#buttonEstado')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#activos',
+        popover: {
+          title: 'Categorias Activas',
+          description: 'Pulsa sobre el boton para ver las categorias que tienes activas',
+        }
+      },
+      {
+        element: '#inactivos',
+        popover: {
+          title: 'Categorias Inactivas',
+          description: 'Pulsa sobre el boton para ver las categorias que tienes inactivas',
+        }
+      },
+      {
+        element: '#todos',
+        popover: {
+          title: 'Ver todas las categorias',
+          description: 'Pulsa sobre el boton para ver todas las categorias, ya sean activas o inactivas',
+          onNextClick: () => {
+            document.querySelector('#buttonEstado')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#contenedorCategorias',
+        popover: {
+          title: 'Categorias',
+          description: 'Aqui puedes observar todas las categorias que tienes',
+        }
+      },
+      {
+        element: '#cardCategoria',
+        popover: {
+          title: 'Categoria',
+          description: 'Aqui puedes observar una categoria',
+        }
+      },
+      {
+        element: '#verCategoria',
+        popover: {
+          title: 'Ver Categoria',
+          description: 'Pulsa sobre el boton para ver detalles de la categoria',
+        }
+      },
+      {
+        element: '#buttonEditar',
+        popover: {
+          title: 'Editar Categoria',
+          description: 'Pulsa sobre el boton para editar la categoria',
+        }
+      },
+      {
+        element: '#eliminarCategoria',
+        popover: {
+          title: 'Eliminar Categoria',
+          description: 'Pulsa sobre el boton para eliminar la categoria',
+        }
+      }
+    ]
+  })
+
+  const handleTuto = async () => {
+    const tuto = localStorage.getItem('needMenuTuto');
+    if (tuto == null) {
+      driverObj.drive();
+      localStorage.setItem('needMenuTuto', false);
+    }
+    else if (tuto == true) {
+      driverObj.drive();
+    }
+  }
+
+  const activateTuto = () => {
+    driverObj.drive();
+  };
+
+  handleTuto();
+
   return (
-    <div className=''>
+    <div id='' className=''>
       <div className="d-flex justify-content-between mb-5">
         <h1>Menú</h1>
         <div className="dropdown">
-            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Estado
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <button className='btn w-100' onClick={() => filtrarCategoriasPorEstado(1)}>Activos</button>
-              </li>
-              <li>
-                <button className='btn w-100' onClick={() => filtrarCategoriasPorEstado(0)}>Inactivos</button>
-              </li>
-              <li>
-                <button className='btn w-100' onClick={() => filtrarCategoriasPorEstado(null)}>Todos</button>
-              </li>
-            </ul>
+          <button id='buttonEstado' className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Estado
+          </button>
+          <ul className="dropdown-menu">
+            <li>
+              <button id='activos' className='btn w-100' onClick={() => filtrarCategoriasPorEstado(1)}>Activos</button>
+            </li>
+            <li>
+              <button id='inactivos' className='btn w-100' onClick={() => filtrarCategoriasPorEstado(0)}>Inactivos</button>
+            </li>
+            <li>
+              <button id='todos' className='btn w-100' onClick={() => filtrarCategoriasPorEstado(null)}>Todos</button>
+            </li>
+          </ul>
         </div>
-        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#categoriaAgregarModal">
+        <button id='buttonAnadir' type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#categoriaAgregarModal">
           <i className="bi bi-plus-circle"></i> Añadir categoria
         </button>
       </div>
@@ -311,55 +471,58 @@ export default function MenuAdmin() {
               <div className="modal-body">
                 <div className="row p-3">
                   <div className="col-12">
-                    <img height={200} width={200} src={imagePreview || img} className="rounded mx-auto d-block w-50 border" alt="..." />
+                    <div className="w-100 mb-3">
+                      <img height={200} width={200} src={imagePreview || img} className="rounded mx-auto d-block w-50 border" alt="..." />
+                    </div>
+                    <div id='foto' className="w-100 mb-3">
+                      <label htmlFor="floatingInput">Imagen</label>
+                      <input className='form-control' onChange={handleFileChange} ref={fileInputRef} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
+                    </div>
                   </div>
-                  <div className="col-12 mb-3">
-                    <label htmlFor="floatingInput">Imagen</label>
-                    <input className='form-control' onChange={handleFileChange} ref={fileInputRef} type="file" accept='image/*' autoComplete='off' id='foto' name='foto' required />
-                  </div>
-                  <div className="col-12 ">
+
+                  <div id='nombre' className="col-12 ">
                     <label htmlFor="floatingInput">Nombre</label>
                     <input className='form-control' onChange={handleInputChange} value={categoria.categoria} type="text" autoComplete='off' id='categoria' name='categoria' required />
                   </div>
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={handleClear}>Cancelar</button>
-                <button type="submit" className="btn btn-success">Guardar</button>
+                <button id='buttonCerrar' type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={handleClear}>Cancelar</button>
+                <button id='buttonCrear' type="submit" className="btn btn-success">Guardar</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
+      <div id='contenedorCategorias' className="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
         {categoriasFiltradas.map(cat => (
-          <div className="col my-2" key={cat.id_categoria}>
+          <div id='cardCategoria' className="col my-2" key={cat.id_categoria}>
             <div className="card text-center position-relative">
               <img src={`${cat.cat_foto}`} className="card-img-top border-bottom" height={200} alt="..." />
               <div className="card-body">
 
                 <span className={cat.cat_estado === 1 ? `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-success` : `position-absolute top-50 start-50 translate-middle-x badge rounded-pill bg-danger `}>
-                {cat.cat_estado === 1 ? `Activo` : `Inactivo`}
-                <span className="visually-hidden">unread messages</span>
+                  {cat.cat_estado === 1 ? `Activo` : `Inactivo`}
+                  <span className="visually-hidden">unread messages</span>
                 </span>
 
                 <h3 className="card-title mb-3">{cat.cat_nom}</h3>
                 <div className="row row-cols-3">
                   {/* Ver categoria */}
-                  <div className='col'>
+                  <div id='verCategoria' className='col'>
                     <Link to={`/admin/categoria/${cat.id_categoria}`} className="btn btn-success w-100"><i className="bi bi-eye"></i></Link>
                   </div>
                   {/* Editar categoria */}
                   <div className='col'>
-                    <button className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#categoriaEditarModal" onClick={() => openEditModal(cat)}><i className="bi bi-pencil-square"></i></button>
+                    <button id='buttonEditar' className="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#categoriaEditarModal" onClick={() => openEditModal(cat)}><i className="bi bi-pencil-square"></i></button>
                   </div>
                   {/* Eliminar categoria  */}
-                  <div className='col'>
+                  <div id='eliminarCategoria' className='col'>
                     {
-                      cat.cat_estado === 1 ? 
-                      <button onClick={() => eliminarCategoria(cat.id_categoria)} className="btn btn-danger w-100"><i className="bi bi-trash"></i></button>
-                      :
-                      <button onClick={() => restaurarCategoria(cat.id_categoria)} className="btn btn-success w-100"><i className="bi bi-arrow-counterclockwise"></i></button>
+                      cat.cat_estado === 1 ?
+                        <button onClick={() => eliminarCategoria(cat.id_categoria)} className="btn btn-danger w-100"><i className="bi bi-trash"></i></button>
+                        :
+                        <button onClick={() => restaurarCategoria(cat.id_categoria)} className="btn btn-success w-100"><i className="bi bi-arrow-counterclockwise"></i></button>
                     }
                   </div>
                 </div>
@@ -395,6 +558,9 @@ export default function MenuAdmin() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="col-12 text-end mb-5">
+        <a href="#" className='text-end text-secondary text-decoration-none'><small className='' onClick={() => { activateTuto() }}>Ver tutorial nuevamente</small></a>
       </div>
     </div>
   )

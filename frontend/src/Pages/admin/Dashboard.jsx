@@ -27,8 +27,6 @@ export default function Dashboard() {
         popover: {
           title: 'Dashboard',
           description: 'Bienvenido a la sección de Dashboard, aqui encontraras una serie de estadísticas que te ayudaran a tomar decisiones informadas y tomar decisiones informadas en tu negocio.',
-          side: "center",
-          align: 'center'
         }
       },
       {
@@ -36,8 +34,6 @@ export default function Dashboard() {
         popover: {
           title: 'Selecciona el Año',
           description: 'Elige el año para el cual deseas consultar la información. Esto te permitirá acceder a datos específicos de ese periodo.',
-          side: "left",
-          align: 'center'
         }
       },
       {
@@ -45,8 +41,6 @@ export default function Dashboard() {
         popover: {
           title: 'Selecciona el Mes',
           description: 'Selecciona el mes correspondiente para ver la información detallada. Asegúrate de que sea el mes correcto para obtener resultados precisos.',
-          side: "left",
-          align: 'center'
         }
       },
       {
@@ -54,17 +48,13 @@ export default function Dashboard() {
         popover: {
           title: 'Tipo de Reporte',
           description: 'Selecciona si deseas ver un reporte Anual o Mensual. Esto te ayudará a filtrar la información que necesitas.',
-          side: "right",
-          align: 'center'
         }
       },
       {
         element: '#btnPDF',
         popover: {
-          title: 'Generar Reporte',
+          title: 'Generar Reporte PDF',
           description: 'Haz clic aquí para generar el reporte basado en los criterios seleccionados. Asegúrate de haber elegido el año y mes correctos.',
-          side: "top",
-          align: 'center'
         }
       },
       {
@@ -72,8 +62,41 @@ export default function Dashboard() {
         popover: {
           title: 'Generar Reporte por IA',
           description: 'Utiliza esta opción para generar un reporte utilizando la inteligencia artificial de Mr. Homero. Obtén un análisis avanzado de los datos seleccionados.',
-          side: "top",
-          align: 'center'
+        }
+      },
+      {
+        element: '#grafica',
+        popover: {
+          title: 'Grafica',
+          description: 'Aqui encontraras la grafica con los datos obtenidos del reporte.',
+        }
+      },
+      {
+        element: '#productosMes',
+        popover: {
+          title: 'Productos Vendidos por Mes',
+          description: 'Aqui encontraras los productos vendidos en el mes seleccionado.',
+        }
+      },
+      {
+        element: '#totalVentas',
+        popover: {
+          title: 'Total de Ventas',
+          description: 'Aqui encontraras el total de ventas en el mes seleccionado.',
+        }
+      },
+      {
+        element: '#productosMasVendidos',
+        popover: {
+          title: 'Productos Mas Vendidos',
+          description: 'Aqui encontraras los productos mas vendidos',
+        }
+      },
+      {
+        element: '#fin',
+        popover: {
+          title: 'Fin',
+          description: 'Si deseas ver el tutorial de nuevo pulsa aqui',
         }
       }
     ]
@@ -296,10 +319,10 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="row g-5 my-3">
-        <div className="col-12 px-5 text-center justify-content-center">
+        <div id='grafica' className="col-12 px-5 text-center justify-content-center">
           <CustomChart className='' data={dataGrafica} tipo='line' options={options} />
         </div>
-        <div className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary text-center shadow">
+        <div id='productosMes' className="col-12 col-sm border border-2 mx-0 mx-sm-5 border-secondary text-center shadow">
           <h3 className='pt-4'>Productos vendidos por mes</h3>
           {
             productosVendidosPorMes == null ?
@@ -315,7 +338,7 @@ export default function Dashboard() {
           }
 
         </div>
-        <div className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center shadow">
+        <div id='totalVentas' className="col-12 col-sm border mx-0 mx-sm-5 border-2 border-secondary text-center shadow">
           <h3 className='pt-4'>Total ventas por mes</h3>
           {
             productosVentas == null ?
@@ -332,7 +355,7 @@ export default function Dashboard() {
           }
         </div>
       </div>
-      <div className="container border border-2 border-secondary my-5 p-4 shadow">
+      <div id='productosMasVendidos' className="container border border-2 border-secondary my-5 p-4 shadow">
         <div className="row w-100 justify-content-between mb-3">
           <h4 className="col-12 col-sm-9">Productos más vendidos</h4>
         </div>
@@ -393,7 +416,7 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="col-12 text-end mb-5">
-        <a href="#" className='text-end text-secondary text-decoration-none'><small className='' onClick={() => { activateTuto() }}>Ver tutorial nuevamente</small></a>
+        <a href="#" className='text-end text-secondary text-decoration-none'><small id='fin' className='' onClick={() => { activateTuto() }}>Ver tutorial nuevamente</small></a>
       </div>
     </div >
   )

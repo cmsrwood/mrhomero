@@ -69,7 +69,13 @@ export default function HorasEmpleados() {
     }
   }
 
+  const activateTuto = () => {
+    driverObj.drive();
+  }
+
   handleTuto();
+
+
   const [empleados, setEmpleados] = useState([])
   const [isDataUpdated, setIsDataUpdated] = useState(false)
 
@@ -105,6 +111,7 @@ export default function HorasEmpleados() {
           <Link to={`/admin/gestionhoras/${empleado.id_user}`} type="button" className="btn btn-warning ms-2" id='buttonHoras'><i className="bi bi-info-circle"></i> Información</Link>
         </div>
       ))}
+      <a href="#" className='text-end text-secondary text-decoration-none'><small className='' onClick={() => { activateTuto() }}>Ver tutorial nuevamente</small></a>
     </div>
 
   )

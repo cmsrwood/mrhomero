@@ -45,6 +45,7 @@ exports.mostrarCompras = async (id) => {
             venta_estado
         FROM ventas
         WHERE id_user = ?
+        AND venta_estado = 1
         `;
         const values = [id];
         global.db.query(q, values, (err, results) => {
@@ -77,8 +78,10 @@ exports.mostrarProductosMasVendidos = async (ano, mes) => {
                 JOIN ventas v ON dv.id_venta = v.id_venta
                 WHERE YEAR(v.venta_fecha) = ?
                 AND MONTH(v.venta_fecha) = ?
-                GROUP BY p.pro_nom
-                ORDER BY cantidad_vendida DESC;`;
+                AND v.venta_estado = 1
+                GROUP BY p.pro_nom, p.pro_foto
+                ORDER BY cantidad_vendida DESC
+                LIMIT 8;`;
 
         const values = [ano, mes];
         global.db.query(q, values, (err, results) => {
@@ -100,6 +103,7 @@ exports.mostrarProductosMasCompradosPorCliente = async (id) => {
         JOIN ventas v ON dv.id_venta = v.id_venta
         JOIN productos p ON dv.id_producto = p.id_producto
         WHERE v.id_user = ?
+        AND v.venta_estado = 1
         GROUP BY p.pro_nom
         ORDER BY cantidad_vendida DESC;
     `;
@@ -119,7 +123,8 @@ exports.mostrarCuentaProductosVendidosPorMes = async (ano, mes) => {
                 FROM detalle_ventas dv
                 JOIN ventas v ON dv.id_venta = v.id_venta
                 WHERE YEAR(v.venta_fecha) = ?
-                AND MONTH(v.venta_fecha) = ?;`;
+                AND MONTH(v.venta_fecha) = ?
+                AND v.venta_estado = 1;`;
 
         const values = [ano, mes];
         global.db.query(q, values, (err, results) => {
@@ -136,7 +141,8 @@ exports.cuentaVentasMes = async (ano, mes) => {
                 SUM(venta_total) AS total
                 FROM ventas
                 WHERE YEAR(venta_fecha) = ?
-                AND MONTH(venta_fecha) = ?`;
+                AND MONTH(venta_fecha) = ?
+                AND venta_estado = 1;`;
 
         const values = [ano, mes];
         global.db.query(q, values, (err, results) => {
@@ -154,6 +160,7 @@ exports.ventasMensuales = async (ano, mes) => {
                 SUM(venta_total) AS total_ventas
                 FROM ventas
                 WHERE YEAR(venta_fecha) = ? AND MONTH(venta_fecha) = ?
+                AND venta_estado = 1
                 GROUP BY dia
                 ORDER BY dia;`;
         const values = [ano, mes];
@@ -172,6 +179,7 @@ exports.generarPDFVentasAnual = async (ano) => {
                 SUM(venta_total) AS total_ventas
                 FROM ventas
                 WHERE YEAR(venta_fecha) = ?
+                AND venta_estado = 1
                 GROUP BY mes
                 ORDER BY mes;`;
 
@@ -191,6 +199,7 @@ exports.generarPDFVentasMensuales = async (ano, mes) => {
                 SUM(venta_total) AS total_ventas
                 FROM ventas
                 WHERE YEAR(venta_fecha) = ? AND MONTH(venta_fecha) = ?
+                AND venta_estado = 1
                 GROUP BY dia
                 ORDER BY dia;`;
 
@@ -252,7 +261,7 @@ exports.crearDetalleVenta = async (detalle) => {
 // eliminar venta
 exports.eliminarVenta = async (id) => {
     return new Promise((resolve, reject) => {
-        const q = `UPDATE ventas SET venta_estado = 0  WHERE id_venta = ?`;
+        const q = `UPDATE ventas SET venta_estado = 0 WHERE id_venta = ?`;
         const values = [id];
         global.db.query(q, values, (err, results) => {
             if (err) reject(err);
@@ -267,7 +276,7 @@ exports.eliminarVenta = async (id) => {
 // Restaurar venta
 exports.restaurarVenta = async (id) => {
     return new Promise((resolve, reject) => {
-        const q = `UPDATE ventas SET venta_estado = 1  WHERE id_venta = ?`;
+        const q = `UPDATE ventas SET venta_estado = 1 WHERE id_venta = ?`;
         const values = [id];
         global.db.query(q, values, (err, results) => {
             if (err) reject(err);

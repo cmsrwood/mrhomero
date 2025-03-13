@@ -353,6 +353,12 @@ export default function Pedidos() {
         popover: {
           title: 'Clientes',
           description: 'Aquí podrás ver todos los clientes.',
+          onPrevClick: () => {
+            document.querySelector('#anadirCliente')?.click();
+            setTimeout(() => {
+              driverObj.movePrevious();
+            }, 200);
+          }
         }
       },
       {
@@ -370,11 +376,13 @@ export default function Pedidos() {
         popover: {
           title: 'Cliente agregado',
           description: 'El cliente agregado se mostrará en verde.',
+          onNextClick: () => {
+            document.querySelector('#anadirCliente')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
         },
-        onDeselected: () => {
-          const modalButton = document.getElementById('cliente-btn-close');
-          modalButton.click();
-        }
       },
       {
         element: '#btnVenta',
@@ -386,6 +394,12 @@ export default function Pedidos() {
             setTimeout(() => {
               driverObj.moveNext();
             }, 200);
+          },
+          onPrevClick: () => {
+            document.querySelector('#anadirCliente')?.click();
+            setTimeout(() => {
+              driverObj.movePrevious();
+            }, 200);
           }
         },
       },
@@ -394,6 +408,12 @@ export default function Pedidos() {
         popover: {
           title: 'Nueva venta',
           description: 'Elige el metodo de pago y la cantidad recibida.',
+          onPrevClick: () => {
+            document.querySelector('#cerrarVenta')?.click();
+            setTimeout(() => {
+              driverObj.movePrevious();
+            }, 200);
+          }
         }
       },
       {
@@ -403,6 +423,70 @@ export default function Pedidos() {
           description: 'Selecciona el método de pago utilizado por el cliente',
         }
       },
+      {
+        element: '#botones',
+        popover: {
+          title: 'Cantidad recibida',
+          description: 'Ingresa la cantidad recibida por el cliente.',
+        },
+        onDeselected: () => {
+          handleValueClick(50000);
+        }
+      },
+      {
+        element: '#botones2',
+        popover: {
+          title: 'Cantidad recibida',
+          description: 'Tambien puedes ingresar la cantidad recibida con este teclado.',
+        }
+      },
+      {
+        element: '#cantidadRecibida',
+        popover: {
+          title: 'Cantidad recibida',
+          description: 'Aqui podrás ver la cantidad recibida por el cliente.',
+        }
+      },
+      {
+        element: '#cantidadAPagar',
+        popover: {
+          title: 'Cantidad a pagar',
+          description: 'Aqui podrás ver la cantidad a pagar por el cliente.',
+        }
+      },
+      {
+        element: '#realizarVenta',
+        popover: {
+          title: 'Cerrar venta',
+          description: 'Presiona para cerrar el pedido.',
+          onNextClick: () => {
+            document.querySelector('#realizarVenta')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        },
+      },
+      {
+        element: '#Pedido',
+        popover: {
+          title: 'Pedido',
+          description: 'Finalmente, se te mostrarán los detalles del pedido.',
+        }
+      },
+      {
+        element: '#realizarOtroPedido',
+        popover: {
+          title: 'Realizar otro pedido',
+          description: 'Presiona para realizar otro pedido.',
+          onNextClick: () => {
+            document.querySelector('#realizarOtroPedido')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      }
     ]
   });
 
@@ -635,7 +719,7 @@ export default function Pedidos() {
                                   <option id='daviplata' defaultValue='Daviplata'>Daviplata</option>
                                 </select>
                                 {/*Botones de Cantidad de precio*/}
-                                <div className='col pt-5 pb-3 justify-content-start text-start'>
+                                <div id='botones' className='col mt-5 mb-3 justify-content-start text-start'>
                                   <div className='pt-3 ms-3'>
                                     <button type="button" className='btn btn-success w-75 fs-4' onClick={() => handleValueClick(10000)}><i className="bi bi-currency-dollar" ></i> 10.000</button>
                                   </div>
@@ -655,7 +739,7 @@ export default function Pedidos() {
                               </div>
                               <div className="col pt-3">
                                 {/*Input de cantidad a pagar*/}
-                                <div className="input-group mb-3">
+                                <div id='cantidadAPagar' className="input-group mb-3">
                                   <span className="input-group-text">Cantidad a pagar:</span>
                                   <input
                                     type="text"
@@ -669,7 +753,7 @@ export default function Pedidos() {
                                   <span className="input-group-text">$</span>
                                 </div>
                                 {/*Input de cantidad recibida*/}
-                                <div className="input-group mb-3">
+                                <div id='cantidadRecibida' className="input-group mb-3">
                                   <span className="input-group-text">Cantidad a recibir</span>
                                   <input
                                     type="text"
@@ -690,7 +774,7 @@ export default function Pedidos() {
                                   <button className="btn btn-primary w-25" data-bs-dismiss="modal" onClick={handleDeleteLastDigit}><i className="fa-solid fa-delete-left"></i></button>
                                 </div>
                                 {/* Botones de Cantidad de precio */}
-                                <div className="row mt-2">
+                                <div id='botones2' className="row mt-2">
                                   <div className='d-flex justify-content-between align-items-center pt-3'>
                                     <button type="button" className="btn btn-success border-2  w-100 fs-4" onClick={() => handleButtonClick(1)}>1</button>
                                     <button type="button" className="btn btn-success border-2  w-100 fs-4 mx-2" onClick={() => handleButtonClick(2)}>2</button>
@@ -714,8 +798,8 @@ export default function Pedidos() {
                             </div>
                           </div>
                           <div className="modal-footer">
-                            <button type="button" className="btn btn-danger" onClick={() => setShowModalSale(false)}>Cerrar</button>
-                            <button type="button" className="btn btn-success" onClick={() => { handleSubmit(); }}>Realizar venta</button>
+                            <button id='cerrarVenta' type="button" className="btn btn-danger" onClick={() => setShowModalSale(false)}>Cerrar</button>
+                            <button id='realizarVenta' type="button" className="btn btn-success" onClick={() => { handleSubmit(); }}>Realizar venta</button>
                           </div>
                         </div>
                       </div>
@@ -726,7 +810,7 @@ export default function Pedidos() {
                 {showModalConfirm && (
                   <div className="modal show d-block" id="ModalConfirm" tabIndex="-1">
                     <div className="modal-dialog modal-xl" onClick={e => e.stopPropagation()}>
-                      <div className="modal-content" >
+                      <div id='Pedido' className="modal-content" >
                         <div className="modal-header">
                           <h1 className="modal-title fs-4 text-success" id="ModalConfirmLabel">Pedido realizado <i className="bi bi-bag-check text-success"></i></h1>
                           <button type="button" className="btn-close" onClick={() => setShowModalConfirm(false)}></button>
@@ -774,7 +858,7 @@ export default function Pedidos() {
                           </div>
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
-                          <button type="button" className="btn btn-success fs-5" onClick={() => { navigate(0) }}><i className="bi bi-plus">Realizar otro pedido</i></button>
+                          <button id='realizarOtroPedido' type="button" className="btn btn-success fs-5" onClick={() => { navigate(0) }}><i className="bi bi-plus">Realizar otro pedido</i></button>
                         </div>
                       </div>
                     </div>

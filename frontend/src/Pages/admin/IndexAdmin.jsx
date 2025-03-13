@@ -169,7 +169,7 @@ export default function IndexAdmin() {
       </div>
       <div className='container border border-2 border-secondary p-3 mb-2' id='funciones'>
         <h3 className='m-3'>Bienvenido {admin.user_nom} {admin.user_apels}</h3>
-        <p className='m-3'>Estas son algunas de las funcuiones más utilizadas por tí</p>
+        <p className='m-3'>Estas son algunas de las funciones más utilizadas por tí</p>
         <div className='row aling items-center m-2'>
           <div className='col'>
             <h5>Ventas</h5>

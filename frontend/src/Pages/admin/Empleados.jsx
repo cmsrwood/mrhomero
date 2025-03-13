@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Buscador from '../../components/Buscador'
 import Swal from 'sweetalert2'
 import axios from 'axios'
-import img from '../../assets/img/img.png'
+import { driver } from 'driver.js';
+import "driver.js/dist/driver.css";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
@@ -136,6 +137,140 @@ export default function Empleados() {
     }
   };
 
+  const driverObj = driver({
+    showProgress: true,
+    nextBtnText: 'Siguiente',
+    prevBtnText: 'Anterior',
+    doneBtnText: 'Finalizar',
+    steps: [
+      {
+        element: '#empleados',
+        popover: {
+          title: 'Visualizar empleados',
+          description: 'Aqui podras ver todos los empleados',
+        }
+      },
+      {
+        element: '#crearEmpleado',
+        popover: {
+          title: 'Crear empleado',
+          description: 'Pulsa sobre el boton para crear un nuevo empleado',
+          onNextClick: () => {
+            document.querySelector('#crearEmpleado')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#nombre',
+        popover: {
+          title: 'Nombre del empleado',
+          description: 'Ingresa el nombre del empleado.',
+        }
+      },
+      {
+        element: '#apellidos',
+        popover: {
+          title: 'Apellidos del empleado',
+          description: 'Ingresa los apellidos del empleado.',
+        }
+      },
+      {
+        element: '#telefono',
+        popover: {
+          title: 'Telefono del empleado',
+          description: 'Ingresa el telefono del empleado.',
+        }
+      },
+      {
+        element: '#email',
+        popover: {
+          title: 'Email del empleado',
+          description: 'Ingresa el email del empleado.',
+        }
+      },
+      {
+        element: '#fechaIngreso',
+        popover: {
+          title: 'Fecha de registro del empleado',
+          description: 'Ingresa la fecha de registro del empleado.',
+        }
+      },
+      {
+        element: '#cerrar',
+        popover: {
+          title: 'Cancelar',
+          description: 'Cancelar la creacion del empleado',
+        }
+      },
+      {
+        element: '#crear',
+        popover: {
+          title: 'Crear empleado',
+          description: 'Crea un nuevo empleado',
+          onNextClick: () => {
+            document.querySelector('#cerrar')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        },
+      },
+      {
+        element: '#empleado',
+        popover: {
+          title: 'Informacion de empleados',
+          description: 'Aqui podras ver al empleado',
+          onPrevClick: () => {
+            document.querySelector('#crearEmpleado')?.click();
+            setTimeout(() => {
+              driverObj.movePrevious();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#gestionar',
+        popover: {
+          title: 'Gestionar empleado',
+          description: 'Pulsa sobre el boton para gestionar al empleado',
+        }
+      },
+      {
+        element: '#eliminar',
+        popover: {
+          title: 'Eliminar empleado',
+          description: 'Pulsa sobre el boton para eliminar al empleado',
+        }
+      },
+      {
+        element: '#fin',
+        popover: {
+          title: 'Fin',
+          description: 'Si deseas ver el tutorial de nuevo pulsa aqui',
+        }
+      }
+        
+    ]
+  })
+
+  const handleTuto = async () => {
+    if (localStorage.getItem('needHorasEmpleadosTuto') == null) {
+      driverObj.drive();
+      localStorage.setItem('needHorasEmpleadosTuto', false);
+    }
+    else if (localStorage.getItem('needHorasEmpleadosTuto') == true) {
+      driverObj.drive();
+    }
+  }
+
+  const activateTuto = () => {
+    driverObj.drive();
+  }
+
+  handleTuto();
 
   return (
     <div className=''>
@@ -144,46 +279,45 @@ export default function Empleados() {
         </h1>
         <div className="col d-flex justify-content-end align-items-center">
           <Buscador icon="bi bi-search" placeholder="Buscar" />
-          <button type="button" className="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#Añadir"><i className="bi bi-plus-circle"></i> Añadir</button>
+          <button id="crearEmpleado" type="button" className="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#Añadir"><i className="bi bi-plus-circle"></i> Añadir</button>
 
           {/* Modal para añadir Empleados */}
           <div className="modal fade" id="Añadir" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog  modal-xl">
+            <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
                   <h1 className="modal-title fs-5" id="exampleModalLabel">Nuevo Empleado</h1>
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                  <form onSubmit={handleSubmit}>
-                    <div className="row">
-                      <div className="col-3">
-                        <img src={img} height={200} className="card-img-top" alt="..." />
+                  <form className='' onSubmit={handleSubmit}>
+                    <div className="row row-cols-1 g-3">
+                      <div id='nombre' className="col">
+                        <label htmlFor="floatingInput">Nombre</label>
+                        <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" value={emp.nombre} className="form-control my-2" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" name="nombre" onChange={handleChange} />
                       </div>
-                      <div className="col row" >
-                        <div className="col">
-                          <label htmlFor="floatingInput">Nombre</label>
-                          <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" value={emp.nombre} className="form-control my-2" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" name="nombre" onChange={handleChange} />
-                          <label htmlFor="floatingInput">Apellidos</label>
-                          <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" value={emp.apellidos} className="form-control my-2" placeholder="Apellidos" aria-label="Username" aria-describedby="basic-addon1" name="apellidos" onChange={handleChange} />
-                          <label htmlFor="floatingInput">Telefono</label>
-                          <input type="text" pattern='^[0-9]+$' value={emp.telefono} className="form-control my-2" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1" name="telefono" onChange={handleChange} />
-                        </div>
-                        <div className="col">
-                          <label htmlFor="floatingInput">Email</label>
-                          <input type="email" className="form-control my-2" value={emp.email} placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" name="email" onChange={handleChange} />
-                        </div>
-                        <div className="mt-2">
-                          <label htmlFor="floatingInput">Fecha de ingreso</label>
-                          <input type="date" name="registro" value={emp.registro} id="" className="form-control my-2" onChange={handleChange} />
-                        </div>
+                      <div id='apellidos' className="col">
+                        <label htmlFor="floatingInput">Apellidos</label>
+                        <input type="text" pattern="^[A-Za-zÁ-ÿÑñ\s]+$" value={emp.apellidos} className="form-control my-2" placeholder="Apellidos" aria-label="Username" aria-describedby="basic-addon1" name="apellidos" onChange={handleChange} />
                       </div>
-                    </div>
-                    <div className="modal-footer">
-                      <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="submit" className="btn btn-warning" >Confirmar</button>
+                      <div id='telefono' className="col">
+                        <label htmlFor="floatingInput">Telefono</label>
+                        <input type="text" pattern='^[0-9]+$' value={emp.telefono} className="form-control my-2" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1" name="telefono" onChange={handleChange} />
+                      </div>
+                      <div id='email' className="col">
+                        <label htmlFor="floatingInput">Email</label>
+                        <input type="email" className="form-control my-2" value={emp.email} placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" name="email" onChange={handleChange} />
+                      </div>
+                      <div id='fechaIngreso' className="col mt-2">
+                        <label htmlFor="floatingInput">Fecha de ingreso</label>
+                        <input type="date" name="registro" value={emp.registro} id="" className="form-control my-2" onChange={handleChange} />
+                      </div>
                     </div>
                   </form>
+                </div>
+                <div className="modal-footer">
+                  <button id='cerrar' type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                  <button id='crear' type="submit" className="btn btn-warning" >Confirmar</button>
                 </div>
               </div>
             </div>
@@ -192,15 +326,15 @@ export default function Empleados() {
 
         <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row">
           {empleados.map((empleado) => (
-            <div className="col my-2" key={empleado.id_user}>
+            <div id='empleado' className="col my-2" key={empleado.id_user}>
               <div className="card p-2">
                 <div className="card-body">
                   <h3 className="card-title">{empleado.user_nom} {empleado.user_apels}</h3>
                 </div>
               </div>
               <div className="d-flex">
-                <button type="button" className="btn btn-warning ms-2 w-50" data-bs-toggle="modal" data-bs-target="#Gestionar" onClick={() => OpenEditModal(empleado)}><i className="bi bi-plus-circle"></i> Gestionar</button>
-                <button type="button" className="btn btn-danger ms-2 w-50" onClick={() => eliminarEmpleado(empleado.id_user)}> <i className="bi bi-trash"></i> Eliminar </button>
+                <button id='gestionar' type="button" className="btn btn-warning ms-2 w-50" data-bs-toggle="modal" data-bs-target="#Gestionar" onClick={() => OpenEditModal(empleado)}><i className="bi bi-plus-circle"></i> Gestionar</button>
+                <button id='eliminar' type="button" className="btn btn-danger ms-2 w-50" onClick={() => eliminarEmpleado(empleado.id_user)}> <i className="bi bi-trash"></i> Eliminar </button>
               </div>
             </div>
           ))}
@@ -248,6 +382,7 @@ export default function Empleados() {
             </div>
           </div>
         </div>
+        <a href="#" className='text-end text-secondary text-decoration-none'><small id='fin' className='' onClick={() => { activateTuto() }}>Ver tutorial nuevamente</small></a>
       </div>
     </div>
   )
