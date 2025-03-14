@@ -1,10 +1,107 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { driver } from 'driver.js'
+import "driver.js/dist/driver.css"
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Clientes() {
+    const driverObj = driver({
+        showProgress: true,
+        nextBtnText: 'Siguiente',
+        prevBtnText: 'Anterior',
+        doneBtnText: 'Finalizar',
+        steps: [
+            {
+                element: '#clientes',
+                popover: {
+                    title: 'Clientes',
+                    description: 'Bienvenido a la sección de Clientes, aqui encontraras una serie de estadísticas que te ayudaran a tomar decisiones informadas en tu negocio.',
+                }
+            },
+            {
+                element: '#tablaClientes',
+                popover: {
+                    title: 'Tabla de Clientes',
+                    description: 'Aqui podras ver todos los clientes.',
+                }
+            },
+            {
+                element:'#eliminar',
+                popover: {
+                    title: 'Eliminar cliente',
+                    description: 'Pulsa sobre el boton para eliminar un cliente',
+                }
+            },
+            {
+                element: '#estado',
+                popover: {
+                    title: 'Filtrar clientes por estado',
+                    description: 'Aquí podrás filtrar los clientes por estado',
+                    onNextClick: () => {
+                        document.querySelector('#estado')?.click();
+                        setTimeout(() => {
+                            driverObj.moveNext();
+                        }, 200);
+                    }
+                }
+            },
+            {
+                element: '#activos',
+                popover: {
+                    title: 'Filtrar ventas activas',
+                    description: 'Aquí podrás filtrar los clientes activos',
+                }
+            },
+            {
+                element: '#inactivos',
+                popover: {
+                    title: 'Filtrar ventas eliminadas',
+                    description: 'Aquí podrás filtrar los clientes inactivos',
+                }
+            },
+            {
+                element: '#todos',
+                popover: {
+                    title: 'Filtrar todas las ventas',
+                    description: 'Aquí podrás filtrar todos los clientes',
+                    onNextClick: () => {
+                        document.querySelector('#estado')?.click();
+                        setTimeout(() => {
+                            driverObj.moveNext();
+                        }, 200);
+                    }
+                }
+            },
+            {
+                element: '#buscar',
+                popover: {
+                    title: 'Buscar cliente',
+                    description: 'Pulsa sobre el boton para buscar un cliente',
+                }
+            }
+        ]
+    });
+    const handleTuto = async () => {
+        const tuto = localStorage.getItem('needClientesTuto');
+        if (tuto == null) {
+            driverObj.drive();
+            localStorage.setItem('needClientesTuto', false);
+        }
+        else if (tuto == true) {
+            driverObj.drive();
+        }
+    };
+
+    const activateTuto = () => { 
+        driverObj.drive();
+    }
+
+    handleTuto();
+
+
+
     const [clientes, setClientes] = useState([]);
     const [searchTerm, setSearchTerms] = useState('');
     const [isDataUpdated, setIsDataUpdated] = useState(false);
@@ -115,7 +212,7 @@ export default function Clientes() {
                 <h1 className="col-12 col-sm-6">Clientes</h1>
                 <div className="col-12 col-sm-6 position-relative">
                     <div className="row">
-                        <div className="col">
+                        <div className="col" id='buscar'>
                             <div className="input-group">
                                 <input
                                     type="search"
@@ -130,18 +227,18 @@ export default function Clientes() {
                         <div className="col">
                             {/* Dropdown para filtrar por estado */}
                             <div className="dropdown">
-                                <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id= 'estado'>
                                     Estado
                                 </button>
                                 <ul className="dropdown-menu">
                                     <li>
-                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(1)}>Activos</button>
+                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(1)} id= 'activos'>Activos</button>
                                     </li>
                                     <li>
-                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(0)}>Inactivos</button>
+                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(0)} id= 'inactivos'>Inactivos</button>
                                     </li>
                                     <li>
-                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(null)}>Todos</button>
+                                        <button className='btn w-100' onClick={() => filtrarClientesPorEstado(null)} id= 'todos'>Todos</button>
                                     </li>
                                 </ul>
                             </div>
@@ -150,7 +247,7 @@ export default function Clientes() {
                 </div>
             </div>
 
-            <div className="table-responsive">
+            <div className="table-responsive" id='tablaClientes'>
                 <table className="table table-striped mt-5">
                     <thead>
                         <tr>
@@ -174,7 +271,7 @@ export default function Clientes() {
                                 </td>
                                 <td>
                                     {cliente.user_estado === 1
-                                        ? <button type="button" className="btn btn-danger" onClick={() => eliminarCliente(cliente.id_user)} ><i className="bi bi-trash"></i></button>
+                                        ? <button type="button" className="btn btn-danger" onClick={() => eliminarCliente(cliente.id_user)} id='eliminar' ><i className="bi bi-trash"></i></button>
                                         : <button type="button" className="btn btn-success" onClick={() => restaurarCliente(cliente.id_user)} ><i className="bi bi-arrow-counterclockwise"></i></button>}
                                 </td>
                             </tr>
@@ -199,6 +296,9 @@ export default function Clientes() {
                     </li>
                 </ul>
             </nav>
+            <div className="col-12 text-end mb-5">
+                <a href="#" className='text-end text-secondary text-decoration-none'><small id='fin' className='' onClick={() => { activateTuto() }}>Ver tutorial nuevamente</small></a>
+            </div>
         </div>
     )
 }
