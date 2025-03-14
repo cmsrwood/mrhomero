@@ -2,9 +2,118 @@ import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import NavegacionAdmin from '../../navigation/NavegacionAdmin';
 import axios from 'axios';
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
+
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400";
 
 export default function Inventario() {
+  const driverObj = driver({
+    showProgress: true,
+    nextBtnText: 'Siguiente',
+    prevBtnText: 'Anterior',
+    doneBtnText: 'Finalizar',
+    steps: [
+      {
+        element: '#inventario',
+        popover: {
+          title: 'Inventario',
+          description: 'Bienvenido a la sección de Inventario, aqui encontraras cada uno de los ingredientes en stock ',
+        }
+      },
+      {
+        element: '#añadir',
+        popover: {
+          title: 'Añadir ingrediente',
+          description: 'Pulsa sobre el boton para crear un nuevo ingrediente',
+          onNextClick: () => {
+            document.querySelector('#añadir')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#añadirIng',
+         popover: {
+          title: 'Añadir ingrediente',
+          description: 'Pulsa sobre el boton para crear un nuevo ingrediente',
+          onNextClick: () => {
+            document.querySelector('#añadir')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#tablaInventario',
+        popover: {
+          title: 'Inventario',
+          description: 'Aqui podras ver todos los ingredientes en stock',
+        }
+      },
+      
+      {
+        element: '#editar',
+        popover: {
+          title: 'Editar ingrediente',
+          description: 'Pulsa sobre el boton para editar un ingrediente',
+          onNextClick: () => {
+            document.querySelector('#editar')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#editarIng',
+        popover: {
+          title: 'Editar ingrediente',
+          description: 'Aqui podras editar un ingrediente',
+          onNextClick: () => {
+            document.querySelector('#editar')?.click();
+            setTimeout(() => {
+              driverObj.moveNext();
+            }, 200);
+          }
+        }
+      },
+      {
+        element: '#eliminar',
+        popover: {
+          title: 'Eliminar ingrediente',
+          description: 'Pulsa sobre el boton para eliminar un ingrediente',
+        }
+      },
+      {
+        element: '#bajostock',
+        popover: {
+          title: 'Bajo stock',
+          description: 'Aqui podras ver los ingredientes con bajo stock',
+        }
+      }
+    ]
+    
+  });
+  const handleTuto = async () => {
+   const tuto = localStorage.getItem('needInventarioTuto');
+   if (tuto == null) {
+      driverObj.drive();
+      localStorage.setItem('needInventarioTuto', false);
+    }
+    else if (tuto == true) {
+      driverObj.drive();
+    }
+  };
+  const activateTuto = () => { 
+    driverObj.drive();
+  }
+
+  handleTuto();
+
 
   // Traer los datos de la base de datos
   const [inventario, setInventario] = useState([]);
@@ -191,14 +300,14 @@ export default function Inventario() {
         <div className="col-12 col-sm-9 ">
           <div className="d-flex justify-content-between mb-5">
             <h1>Inventario</h1>
-            <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalCrearProducto"><i className="bi bi-plus"></i>Añadir</button>
+            <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalCrearProducto" id='añadir'><i className="bi bi-plus"></i>Añadir</button>
             <div className="modal fade" id="ModalCrearProducto" tabIndex="-1" aria-hidden="true">
               <div className="modal-dialog">
-                <div className="modal-content">
+                <div className="modal-content" id='añadirIng'>
                   <form onSubmit={handleSubmit}>
                     <div className="modal-header">
                       <h1 className="modal-title fs-5">Añadir producto</h1>
-                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
                     </div>
                     <div className="modal-body">
                       <div className="row p-3">
@@ -251,7 +360,7 @@ export default function Inventario() {
             </div>
           </div>
           <div className="table-responsive scrollbar">
-            <table className="table table-striped table-scrollbar table-hover">
+            <table className="table table-striped table-scrollbar table-hover" id='tablaInventario'>
               <thead>
                 <tr>
                   <th scope="col">ID</th>
@@ -280,8 +389,8 @@ export default function Inventario() {
                     <td className={ingrediente.inv_cantidad < ingrediente.inv_cantidad_min ? 'text-danger' : 'text-success'}>{ingrediente.inv_cantidad < ingrediente.inv_cantidad_min ? 'Stock bajo' : 'Suficiente'}</td>
                     <td className=''>
                       <div className="d-flex justify-content-betwee">
-                        <button type="button" className="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#ModalEditProducto" onClick={() => openEditModal(ingrediente)}><i className="bi bi-pencil"></i></button>
-                        <button type="button" className="btn btn-danger" onClick={() => eliminarInventario(ingrediente.id_producto_inv)}><i className="bi bi-trash"></i></button>
+                        <button type="button" className="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#ModalEditProducto" onClick={() => openEditModal(ingrediente)} id='editar'><i className="bi bi-pencil"></i></button>
+                        <button type="button" className="btn btn-danger" onClick={() => eliminarInventario(ingrediente.id_producto_inv)} id='eliminar'><i className="bi bi-trash"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -291,7 +400,7 @@ export default function Inventario() {
           </div>
           <p>Total de ingredientes: {inventario.length}</p>
         </div>
-        <div className="col-10 col-sm-3 ">
+        <div className="col-10 col-sm-3 " id='bajostock'>
           <h2 className='pb-5'>Bajo stock ({bajoStockIngredientes.length})</h2>
           <div className="row g-3 scrollbar">
             {bajoStockIngredientes.map((ingrediente) => (
@@ -312,7 +421,7 @@ export default function Inventario() {
       </div>
       <div className="modal fade" id="ModalEditProducto" tabIndex="-1" aria-labelledby="ModalEditProductoLabel" aria-hidden="true">
         <div className="modal-dialog">
-          <div className="modal-content">
+          <div className="modal-content" id='editarIng'>
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="ModalEditProductoLabel">Editar producto</h1>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -366,6 +475,9 @@ export default function Inventario() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="col-12 text-end mb-5">
+        <a href="#" className='text-end text-secondary text-decoration-none'><small id='fin' className='' onClick={() => { activateTuto() }}>Ver tutorial nuevamente</small></a>
       </div>
     </div >
   );
