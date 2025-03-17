@@ -3,9 +3,82 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import moment from 'moment'
+import { driver } from 'driver.js'
+import "driver.js/dist/driver.css"
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4400"
 
 export default function RecompensasObtenidas() {
+    const driverObj = driver({
+        showProgress: true,
+        nextBtnText: 'Siguiente',
+        prevBtnText: 'Anterior',
+        doneBtnText: 'Finalizar',
+        steps: [
+            {
+                element: '#recompensasObtenidas',
+                popover: {
+                    title: 'Recompensas obtenidas',
+                    description: 'En esta sección se muestran todas las recompensas obtenidas por los clientes.',
+                },
+            },
+            {
+                element: '#recompensa',
+                popover: {
+                    title: 'Recompensas',
+                    description: 'En esta sección se muestra la recompensa a validar.',
+                },
+            },
+
+            {
+                element: '#validar',
+                popover: {
+                    title: 'Validar recompensa',
+                    description: 'Usa el boton para validar la recompensa.',
+                    onNextClick: () => {
+                        document.querySelector('#validar')?.click();
+                        setTimeout(() => {
+                            driverObj.moveNext();
+                        }, 200);
+                    }
+                },
+            },
+            {
+                element: '#validarCodigo',
+                popover: {
+                    title: 'Validar codigo',
+                    description: 'Ingresa el codigo para validar la recompensa.',
+                    onNextClick: () => {
+                        document.querySelector('#cerrar')?.click();
+                        setTimeout(() => {
+                            driverObj.moveNext();
+                        }, 200);
+                    }
+                }
+            },
+            {
+                element: '#tutorial',
+                popover: {
+                    title: 'Tutorial',
+                    description: 'Pulsa sobre el boton para ver el tutorial.',
+                }
+            }
+            
+        ]
+    });
+    const handleTuto = async () => {
+        const tuto = localStorage.getItem('needRecompensasObtenidasTuto');
+        if (tuto == null) {
+            driverObj.drive();
+            localStorage.setItem('needRecompensasObtenidasTuto', false);
+        }
+        else if (tuto == true) {
+            driverObj.drive();
+        }
+    };
+    const activateTuto = () => { 
+        driverObj.drive();
+    }
+    handleTuto();
 
     const [isDataUpdated, setIsDataUpdated] = useState(false);
 
@@ -116,7 +189,7 @@ export default function RecompensasObtenidas() {
             </div>
             <div className="row mt-2 g-5 scrollbar">
                 {recompensasObtenidasFiltradas.map((recompensaObtenida) => (
-                    <div className="col-12 border my-2 p-5" key={recompensaObtenida.id_recomp_obt}>
+                    <div className="col-12 border my-2 p-5" id='recompensa' key={recompensaObtenida.id_recomp_obt}>
                         <div className="row align-items-center">
                             <div className="col-2">
                                 <img src={`${recompensas.find(recompensa => recompensa.id_recomp == recompensaObtenida.id_recomp).recomp_foto}`} className='rounded border img-fluid w-100' alt="" />
@@ -128,7 +201,7 @@ export default function RecompensasObtenidas() {
                                 <p className=''>{moment(recompensaObtenida.fecha_reclamo).format('DD/MM/YYYY HH:mm')}</p>
                             </div>
                             <div className={`col-4 text-center`}>
-                                <button type="button" className="btn btn-warning" data-bs-toggle="modal" onClick={() => mostrarModal(recompensaObtenida)} data-bs-target={`#modalValidar`}>
+                                <button type="button" className="btn btn-warning" data-bs-toggle="modal" onClick={() => mostrarModal(recompensaObtenida)} data-bs-target={`#modalValidar`} id= 'validar'>
                                     Validar recompensa
                                 </button>
                             </div>
@@ -139,7 +212,7 @@ export default function RecompensasObtenidas() {
             {/* Modal validar */}
             <div className="modal" id='modalValidar' tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
-                    <div className="modal-content">
+                    <div className="modal-content" id='validarCodigo'>
                         <form onSubmit={(e) => validarRecompensa(e, recompensaAValidar.id_recomp_obt)}>
                             <div className="modal-body">
                                 <h5 className="modal-title" id="exampleModalLabel">Validar recompensa</h5>
@@ -149,12 +222,15 @@ export default function RecompensasObtenidas() {
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" id= 'cerrar'>Close</button>
                                 <button type="submit" className="btn btn-success">Validar recompensa</button>
                             </div>
                         </form>
                     </div>
                 </div>
+            </div>
+            <div className="col-12 text-end mb-5" >
+                <a href="#" className='text-end text-secondary text-decoration-none'><small id='tutorial' className='' onClick={() => { activateTuto() }}>Ver tutorial nuevamente</small></a>
             </div>
         </div>
     )

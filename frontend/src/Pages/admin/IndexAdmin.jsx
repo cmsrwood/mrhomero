@@ -33,7 +33,7 @@ export default function IndexAdmin() {
         element: '#funciones',
         popover: {
           title: 'Funciones',
-          description: 'En esta sección podrá observar las funciones más realizadas por ',
+          description: 'En esta sección podrás observar las funciones más realizadas por ',
         }
       }, {
         element: '#vistas',
@@ -53,7 +53,7 @@ export default function IndexAdmin() {
         element: '#resenas',
         popover: {
           title: 'Reseñas',
-          description: 'Aquí podrá observar las reseñas al restaurante',
+          description: 'Aquí podrás observar las reseñas al restaurante',
           onNextClick: () => {
             document.querySelector('#resenas')?.click();
             setTimeout(() => {
@@ -79,7 +79,7 @@ export default function IndexAdmin() {
         element: '#fin',
         popover: {
           title: 'Fin del tutorial',
-          description: 'Usando este boton podrá observar el tutorial nuevamente'
+          description: 'Usando este boton podrás observar el tutorial nuevamente'
         }
       }
     ]

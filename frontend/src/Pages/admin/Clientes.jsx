@@ -24,7 +24,7 @@ export default function Clientes() {
                 element: '#tablaClientes',
                 popover: {
                     title: 'Tabla de Clientes',
-                    description: 'Aqui podras ver todos los clientes.',
+                    description: 'Aqui podrás ver todos los clientes.',
                 }
             },
             {
