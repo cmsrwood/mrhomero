@@ -1,9 +1,0 @@
-node_modules
-dist
-.env
-/src/uploads/*.png
-/src/uploads/*.jpg
-/src/uploads/*.jpeg
-/src/uploads/*.gif
-/src/uploads/*.svg
-/src/uploads/*.webp
