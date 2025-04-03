@@ -3,6 +3,7 @@ import img from '/logo.png'
 import { Link } from "react-router-dom";
 import googlePlay from '../../src/assets/img/googlePlay.png'
 import appStore from '../../src/assets/img/appStore.png'
+import moment from "moment";
 
 export default function Footer() {
     return (
@@ -58,7 +59,7 @@ export default function Footer() {
                 <div className="row">
                     <div className="col border-top pt-2 text-center">
                         <p>
-                            Mr. Homero © 2024. Todos los derechos reservados.
+                            Mr. Homero © {moment().format('YYYY')}. Todos los derechos reservados.
                         </p>
                     </div>
                 </div>
