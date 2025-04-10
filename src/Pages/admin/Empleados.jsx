@@ -107,6 +107,7 @@ export default function Empleados() {
       telefono: empleado.user_tel,
       email: empleado.user_email,
       registro: empleado.user_fecha_registro,
+      emp_foto: empleado.user_foto
     });
   };
   const eliminarEmpleado = async (id) => {
