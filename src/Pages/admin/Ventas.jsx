@@ -62,7 +62,6 @@ export default function Ventas() {
       );
     }
     );
-    console.log(ventasFiltradas)
 
   const eliminaVenta = async (id) => {
     try {
