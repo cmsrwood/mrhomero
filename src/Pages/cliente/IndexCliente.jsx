@@ -114,7 +114,7 @@ export default function IndexCliente() {
 
       <div className="container my-5">
         <h2 className='text-center fw-bold my-5'>Productos más comprados</h2>
-        {productosMasVendidos.length === 0 ? <h2 className='text-center my-5 fs-5'>No hay productos vendidos</h2> :
+        {productosMasVendidos.length <= 0 ? <h2 className='text-center my-5 fs-5'>No hay productos vendidos</h2> :
           <div className='row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mb-5'>
             {productosMasVendidos.map((producto, index) => {
               return (
@@ -144,7 +144,7 @@ export default function IndexCliente() {
 
       <div className="container my-5">
         <h2 className='text-center fw-bold my-5'>Segun los productos que has comprado</h2>
-        {productosMasComprados.length === 0 ? <h2 className='text-center my-5 fs-5'>Aún no has comprado productos</h2> :
+        {productosMasComprados.length <= 0 ? <h2 className='text-center my-5 fs-5'>Aún no has comprado productos</h2> :
 
           <div className='row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4'>
             {productosMasComprados.map((producto, index) => {
