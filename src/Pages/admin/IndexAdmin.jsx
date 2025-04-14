@@ -169,25 +169,24 @@ export default function IndexAdmin() {
       </div>
       <div className='container border border-2 border-secondary p-3 mb-2' id='funciones'>
         <h3 className='m-3'>Bienvenido {admin.user_nom} {admin.user_apels}</h3>
-        <p className='m-3'>Estas son algunas de las funciones más utilizadas por tí</p>
+        <p className='m-3'>Estas son algunas de las funciones disponibles</p>
         <div className='row aling items-center m-2'>
           <div className='col'>
             <h5>Ventas</h5>
-            <Link className='d-block mx-1'>Analisis de ventas</Link>
-            <Link className='d-block mx-1'>Gestion de ventas</Link>
-            <Link className='d-block mx-1'>Pedidos</Link>
+            <Link to='/admin/dashboard' className='d-block mx-1 text-decoration-none w-50'>Analisis de ventas</Link>
+            <Link to='/admin/ventas' className='d-block mx-1 text-decoration-none w-50'>Gestion de ventas</Link>
+            <Link to='/admin/pedidos' className='d-block mx-1 text-decoration-none w-50'>Pedidos</Link>
           </div>
           <div className='col'>
-            <h5>Inventario</h5>
-            <Link className='d-block mx-1'>Prueba</Link>
-            <Link className='d-block mx-1'>Prueba</Link>
-            <Link className='d-block mx-1'>Prueba</Link>
+            <h5>Recompensas</h5>
+            <Link to='/admin/recompensas' className='d-block mx-1 text-decoration-none w-50'>Recompensas</Link>
+            <Link to='/admin/recompensasObtenidas' className='d-block mx-1 text-decoration-none w-50'>Recompensas obtenidas</Link>
           </div>
           <div className='col'>
-            <h5>Compras</h5>
-            <Link className='d-block mx-1'>Prueba</Link>
-            <Link className='d-block mx-1'>Prueba</Link>
-            <Link className='d-block mx-1'>Prueba</Link>
+            <h5>Gestion de usuarios</h5>
+            <Link to='/admin/clientes' className='d-block mx-1 text-decoration-none w-50'>Clientes</Link>
+            <Link to='/admin/empleados' className='d-block mx-1 text-decoration-none w-50'>Empleados</Link>
+            <Link to='/admin/proveedores' className='d-block mx-1 text-decoration-none w-50'>Proveedores</Link>
           </div>
         </div>
       </div>
